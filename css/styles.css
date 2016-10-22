@@ -1,0 +1,42 @@
+/* ============================================================
+   Project:
+   Author:  Nathan T. Baker
+   Created:
+   Notes:   I did this while in Nashville Software School.
+   ============================================================ */
+
+/* ===GLOBAL=== */
+
+.container, header, footer {
+}
+
+body {
+  background-color: #eee;
+  margin: 0;
+}
+
+#logo {
+  width: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: white;
+  padding: 20px 30px 30px 30px;
+}
+
+/* ===PRIMARY=== */
+/* ===Stats=== */
+
+.statbox {
+  background-color: #eee;
+  height: 160px;
+  border-radius: 15px;
+  margin: 15px 0;
+  padding: 15px;
+
+}
+
+/* ===SIDEBAR=== */
+/* ===FOOTER=== */
