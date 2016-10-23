@@ -9,43 +9,51 @@
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <header>
         <!-- Logo/tagline/social share icons -->
         <div class="row">
-          <div class="col-md-1">
+          <div class="col-md-1 text-center">
             <img id="logo" src="images/BGGstats.png" alt="Board Game Geek Stats">
           </div>
-          <div class="col-md-7">
-            Tagline
+          <div class="col-md-9">
+            <div id="tagline">User Input</div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2 social">
             Social Share icons
           </div>
         </div>
-        <!-- Username input -->
-        <div class="row">
-          User input
-        </div>
       </header>
+    </div>
+    <div class="container-fluid main">
       <!-- Stats -->
       <div class="row">
 
           <div class="col-lg-8 col-md-9">
             <div class="statbox">
-              Stat 1
+              <div class="statlabel">Games Published Per Year</div>
+              ...
             </div>
           </div>
 
           <div class="col-lg-2 col-md-3 col-xs-6">
             <div class="statbox">
-              Stat 2
+              <div class="kpi">3,365</div>
+              <div class="statlabel kpi-label">Games Published Last Year (2015)</div>
+
             </div>
           </div>
 
           <div class="col-lg-2 col-md-3 col-xs-6">
             <div class="statbox">
-              Stat 3
+              <div class="statlabel">The Hotness</div>
+                <ol>
+                  <li><a href="#">Not Alone</a></li>
+                  <li><a href="#">Mechs vs. Minions</a></li>
+                  <li><a href="#">Terraforming Mars</a></li>
+                  <li><a href="#">A Feast for Odin</a></li>
+                  <li><a href="#">Conan</a></li>
+                </ol>
             </div>
           </div>
 
@@ -54,24 +62,39 @@
 
           <div class="col-md-4 col-sm-6">
             <div class="statbox">
-              Stat 4
+              <div class="statlabel">Top 10</div>
+              ...
             </div>
           </div>
 
-          <div class="col-md-4 col-sm-6">
-            <div class="statbox">
-              Stat 5
-            </div>
-          </div>
+          <!-- Stats appear right on small screens -->
+          <div class="clearfix visible-xs-block"></div>
 
           <div class="col-md-4 col-sm-6">
             <div class="statbox">
-              Stat 6
+              <div class="statlabel">Stat 3</div>
+              ...
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-xs-6">
+            <div class="statbox">
+              <div class="statlabel">Average Collection Size</div>
+              ...
+            </div>
+          </div>
+
+           <div class="col-lg-2 col-md-3 col-xs-6">
+            <div class="statbox">
+              <div class="statlabel">Average Collection Size</div>
+              ...
             </div>
           </div>
 
       </div>
-      <footer>
+
+    </div>
+    <footer>
         <div class="row">
           <!-- Email Sign-Up -->
           <div class="col-ex-12">
@@ -85,8 +108,7 @@
           </div>
         </div>
       </footer>
-    </div>
 
-    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>
