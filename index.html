@@ -1,30 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>BGG Stats - Board Game Stats</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
   </head>
   <body>
-    <div class="container-fluid">
+
       <header>
         <!-- Logo/tagline/social share icons -->
         <div class="row">
-          <div class="col-md-1 text-center">
+
+          <div class="col-sm-12 col-md-1 col-lg-1 logo-wrapper">
             <img id="logo" src="images/BGGstats.png" alt="Board Game Geek Stats">
           </div>
-          <div class="col-md-9">
-            <div id="tagline">User Input</div>
+
+          <!-- Search -->
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <input type="text" class="form-control text-center" id="input" placeholder="BoardGameGeek Username">
           </div>
-          <div class="col-md-2 social">
-            Social Share icons
+
+          <div class="col-sm-2 col-md-2 col-lg-2">
+            <button type="button" class="btn btn-secondary btn-lg btn-block">View Stats</button>
           </div>
+
+          <!-- Tabs -->
+          <div class="col-sm-5 col-md-4 col-sm-10 col-xs-10 col-lg-4">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Industry Stats</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Your Stats</a>
+               </li>
+            </ul>
+          </div>
+
+          <!-- Settings -->
+          <div class="col-xs-2 col-sm-1 col-md-1  text-right">
+            <a href="#"><img id="settings" src="images/settings.svg" alt="settings"/></a>
+          </div>
+
         </div>
       </header>
-    </div>
     <div class="container-fluid main">
       <!-- Stats -->
       <div class="row">
@@ -98,7 +122,7 @@
         <div class="row">
           <!-- Email Sign-Up -->
           <div class="col-ex-12">
-            <p>Want updates when new stats are added? Submit your email address.</p>
+            <p>social share icons / Want updates when new stats are added? Submit your email address.</p>
           </div>
         </div>
         <!-- Footer Text -->
@@ -110,5 +134,9 @@
       </footer>
 
     <script type="text/javascript" src="js/main.js"></script>
+    <!-- Google Sign in -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
   </body>
 </html>
