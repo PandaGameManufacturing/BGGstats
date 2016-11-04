@@ -4,7 +4,7 @@
    Created:
    Notes:   I did this while in Nashville Software School. 4e6679
    ============================================================ */
-/* ===GLOBAL=== */
+/* === GLOBAL === */
 body {
   background-color: #eee;
   margin: 0;
@@ -14,19 +14,20 @@ body {
   background-color: white;
   padding: 15px 30px 20px 30px; }
 
-/* ===Header=== */
+/* === Headers === */
 header {
   background-color: #eee;
   padding: 25px 25px 0 30px;
   margin: 0px; }
 
-#settings {
-  padding: 8px 0; }
+h2 {
+  padding: 0;
+  margin: 0;
+  display: inline;
+  font-size: 1em;
+  font-family: helvetica, arial;
+  font-weight: 100; }
 
-/*On medium*/
-@media screen and (max-width: 992px) {
-  #settings {
-    margin-top: 10px; } }
 #logo {
   height: 65px;
   margin: -8px 0 15px 0;
@@ -90,7 +91,6 @@ header {
 /* Small devices (tablets, 768px and up) */
 /*@media (min-width: @screen-sm-min) { ... }*/
 /* Medium devices (desktops, 992px and up) */
-/*@media (min-width: @screen-md-min) { ... }*/
 /* Large devices (large desktops, 1200px and up) */
 /*@media (min-width: @screen-lg-min) { ... }*/
 /* Large devices (large desktops, 1200px and up) */
@@ -126,6 +126,100 @@ header {
   border-radius: 10px !important; }
 
 /* ===Stats=== */
+/* === Stats: Shelf === */
+@media screen and (min-width: 768px) {
+  .shelf-bottom {
+    margin: 0px;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+    float: none;
+    background: url("../images/shelf/shelf-middle.png"); }
+
+  .shelf-bottom:before {
+    position: absolute;
+    content: '';
+    left: 23px;
+    right: 20px;
+    bottom: 0;
+    top: 0;
+    background-color: #ccc;
+    border-radius: 50% /20px;
+    box-shadow: #aaa 0 5px 10px;
+    clip: rect(20px, auto, 50px, 0); }
+
+  .shelf-left {
+    margin: 0 10px 0 0;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    float: none;
+    background: url("../images/shelf/shelf-left.png") left no-repeat; }
+
+  .shelf-right {
+    margin: 0 10px 0 0;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    float: none;
+    background: url("../images/shelf/shelf-right.png") right no-repeat; }
+
+  .gravity {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    bottom: 50px; }
+
+  .shelf-img {
+    margin: 0 7px;
+    max-width: 175px;
+    min-width: 120px;
+    background-color: #222;
+    box-shadow: -8px 15px 20px #bbb; }
+
+  .fire-wrapper {
+    position: relative;
+    max-width: 175px;
+    min-width: 120px; }
+
+  .fire-wrapper .fire {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    color: #FFF; }
+
+  .fire-wrapper .fire {
+    display: block;
+    background: url("../images/fire.gif"); }
+
+  .shelf-shadowed {
+    margin: 0 7px;
+    position: relative;
+    display: inline-block;
+    vertical-align: bottom;
+    float: none; }
+
+  .shelf-shadowed::before {
+    margin: 0 7px;
+    width: 10px;
+    height: 100%;
+    background-color: #605852;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: -10px;
+    -webkit-transform: skew(0, 45deg);
+    -moz-transform: skew(0, 45deg);
+    -o-transform: skew(0, 45deg);
+    -ms-transform: skew(0, 45deg); } }
 .statbox {
   min-height: 300px;
   margin: 0;
@@ -146,74 +240,50 @@ ol {
   line-height: 1.4em;
   padding-top: 5px; }
 
-.shelf-bottom {
-  margin: 0px;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  vertical-align: bottom;
-  float: none;
-  background: url("../images/shelf-middle.png"); }
-
-.shelf-left {
-  margin: 0 10px 0 0;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  float: none;
-  background: url("../images/shelf-left.png") left no-repeat; }
-
-.shelf-right {
-  margin: 0 10px 0 0;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  float: none;
-  background: url("../images/shelf-right.png") right no-repeat; }
-
-.gravity {
-  position: absolute;
-  left: 50%;
-  margin-left: -50px;
-  bottom: 50px; }
-
-.shelf-img {
-  margin: 0 8px;
-  width: 150px;
-  background-color: #222; }
-
-.shelf-shadowed {
-  margin: 0 8px;
-  position: relative;
-  display: inline-block;
-  vertical-align: bottom;
-  float: none; }
-
-.shelf-shadowed::before {
-  margin: 0 8px;
-  width: 10px;
-  height: 100%;
-  background-color: grey;
-  content: '';
-  display: block;
-  position: absolute;
-  top: 5px;
-  right: -10px;
-  -webkit-transform: skew(0, 45deg);
-  -moz-transform: skew(0, 45deg);
-  -o-transform: skew(0, 45deg);
-  -ms-transform: skew(0, 45deg); }
-
 /* ===Labels=== */
 .label-title {
   font-family: verdana, sans-serif;
-  font-size: 2em;
-  margin: 0;
-  color: #333; }
+  font-size: 1.7em;
+  margin: 5px 0;
+  color: #333;
+  padding: 7px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  background: #eee; }
 
 /* ===FOOTER=== */
 footer {
   padding: 20px 45px; }
+
+/* === Icons === */
+.help {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  /* For IE8 and earlier */
+  height: 25px;
+  margin: 0 0 5px 5px; }
+
+#settings {
+  padding: 8px 0; }
+
+/*On medium*/
+@media screen and (max-width: 992px) {
+  #settings {
+    margin-top: 10px; } }
+/* === Animations: Fire === */
+.fire-wrapper {
+  position: relative;
+  max-width: 175px;
+  min-width: 120px; }
+
+.fire-wrapper .fire {
+  margin-left: 7px;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  background: url("../images/fire.gif") repeat-x bottom right;
+  background-size: 80% 75px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  /* For IE8 and earlier */ }

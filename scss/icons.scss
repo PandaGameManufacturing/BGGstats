@@ -1,0 +1,19 @@
+/* === Icons === */
+
+.help {
+  opacity: 0.3;
+  filter: alpha(opacity=30); /* For IE8 and earlier */
+  height: 25px;
+  margin: 0 0 5px 5px;
+}
+
+#settings {
+  padding: 8px 0;
+}
+
+/*On medium*/
+@media screen and (max-width: 992px) {
+  #settings {
+    margin-top: 10px;
+  }
+}

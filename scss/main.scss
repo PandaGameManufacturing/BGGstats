@@ -1,3 +1,5 @@
+
+
 $bgcolor: #eee;
 
 /* ============================================================
@@ -7,7 +9,7 @@ $bgcolor: #eee;
    Notes:   I did this while in Nashville Software School. 4e6679
    ============================================================ */
 
-/* ===GLOBAL=== */
+/* === GLOBAL === */
 
 body {
   background-color: #eee;
@@ -20,7 +22,7 @@ body {
   padding: 15px 30px 20px 30px;
 }
 
-/* ===Header=== */
+/* === Headers === */
 
 header {
   background-color: $bgcolor;
@@ -28,15 +30,14 @@ header {
   margin: 0px;
 }
 
-#settings {
-  padding: 8px 0;
-}
+h2 {
+  padding: 0;
+  margin: 0;
+  display: inline;
+  font-size: 1em;
+  font-family: helvetica, arial;
+  font-weight: 100;
 
-/*On medium*/
-@media screen and (max-width: 992px) {
-  #settings {
-    margin-top: 10px;
-  }
 }
 
 #logo {
@@ -131,14 +132,12 @@ header {
 /*@media (min-width: @screen-sm-min) { ... }*/
 
 /* Medium devices (desktops, 992px and up) */
-/*@media (min-width: @screen-md-min) { ... }*/
+
 
 /* Large devices (large desktops, 1200px and up) */
 /*@media (min-width: @screen-lg-min) { ... }*/
 
 /* Large devices (large desktops, 1200px and up) */
-
-
 
 
 
@@ -196,6 +195,7 @@ header {
 }
 
 /* ===Stats=== */
+@import 'stats-shelf';
 
 .statbox {
   min-height: 300px;
@@ -225,89 +225,25 @@ li {
   padding-top: 5px;
 }
 
-// Shelf
-
-.shelf {
-
-}
-
-.shelf-bottom {
-  margin: 0px;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  vertical-align: bottom;
-  float: none;
-  background: url("../images/shelf-middle.png");
-}
-
-.shelf-left {
-  margin: 0 10px 0 0;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  float: none;
-  background: url("../images/shelf-left.png") left no-repeat;
-}
-
-.shelf-right {
-  margin: 0 10px 0 0;
-  height: 20px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-  float: none;
-  background: url("../images/shelf-right.png") right no-repeat;
-}
-
-.gravity {
-  position: absolute;
-  left: 50%;
-  margin-left: -50px;
-  bottom: 50px;
-}
-
-.shelf-img {
-  margin: 0 8px;
-  width: 150px;
-  background-color: #222;
-}
-.shelf-shadowed {
-    margin: 0 8px;
-    position: relative;
-    display: inline-block;
-    vertical-align: bottom;
-    float: none;
-}
-.shelf-shadowed::before {
-    margin: 0 8px;
-    width: 10px;
-    height: 100%;
-    background-color: grey;
-    content:'';
-    display: block;
-    position: absolute;
-    top: 5px;
-    right: -10px;
-    -webkit-transform: skew(0, 45deg);
-    -moz-transform: skew(0, 45deg);
-    -o-transform: skew(0, 45deg);
-    -ms-transform: skew(0, 45deg);
-}
-
 /* ===Labels=== */
 
 .label-title {
   font-family: verdana, sans-serif;
-  font-size: 2em;
-  margin: 0;
+  font-size: 1.7em;
+  margin: 5px 0;
   color: #333;
+  padding: 7px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  background: $bgcolor;
 }
+
 
 /* ===FOOTER=== */
 
 footer {
   padding: 20px 45px;
 }
+
+@import 'icons';
+@import 'fire';
