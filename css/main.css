@@ -1,0 +1,162 @@
+/* ============================================================
+   Project:
+   Author:  Nathan T. Baker
+   Created:
+   Notes:   I did this while in Nashville Software School. 4e6679
+   ============================================================ */
+/* ===GLOBAL=== */
+body {
+  background-color: #eee;
+  margin: 0;
+  min-width: 400px; }
+
+.main {
+  background-color: white;
+  padding: 15px 30px 20px 30px; }
+
+/* ===Header=== */
+header {
+  background-color: #eee;
+  padding: 25px 25px 0 30px;
+  margin: 0px; }
+
+#settings {
+  padding: 8px 0; }
+
+/*On medium*/
+@media screen and (max-width: 992px) {
+  #settings {
+    margin-top: 10px; } }
+#logo {
+  height: 65px;
+  margin: -8px 0 15px 0;
+  padding: 0; }
+
+/*On medium*/
+@media screen and (max-width: 992px) {
+  .logo-wrapper {
+    text-align: center; } }
+/*On medium*/
+@media screen and (max-width: 992px) {
+  #logo {
+    height: 65px;
+    margin: 5px 0 20px 0; } }
+.social {
+  text-align: right;
+  color: grey; }
+
+#input {
+  height: 50px;
+  font-size: 1.5em;
+  padding: 0;
+  font-weight: 300;
+  margin: 0; }
+
+/*On medium*/
+@media screen and (max-width: 992px) {
+  #input {
+    font-size: 1em;
+    font-weight: 500;
+    padding: 0; }
+
+  .btn-secondary {
+    font-size: .9em;
+    font-weight: 500;
+    text-align: center; } }
+/*On small*/
+@media screen and (max-width: 768px) {
+  #input {
+    border-radius: 8px 8px 0 0;
+    font-size: 1.5em;
+    font-weight: 300;
+    padding: 0; }
+
+  .btn-secondary {
+    border-radius: 0 0 8px 8px;
+    font-size: 1.2em;
+    font-weight: 500; } }
+.nav-link {
+  background-color: #ccc;
+  height: 48px; }
+
+.nav-tabs {
+  padding: 0;
+  border-bottom: 0;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: 300;
+  margin: 25px 0 0 0; }
+
+/* Small devices (tablets, 768px and up) */
+/*@media (min-width: @screen-sm-min) { ... }*/
+/* Medium devices (desktops, 992px and up) */
+/*@media (min-width: @screen-md-min) { ... }*/
+/* Large devices (large desktops, 1200px and up) */
+/*@media (min-width: @screen-lg-min) { ... }*/
+/* Large devices (large desktops, 1200px and up) */
+.nav-tabs a,
+.nav-tabs a:focus,
+.nav-tabs a:click {
+  color: #555555;
+  background-color: #eee;
+  border-bottom: 0; }
+
+.nav-tabs .active, .nav-tabs .active:visited {
+  background-color: white; }
+
+.nav-tabs li {
+  padding: 0 4px;
+  margin: 0; }
+
+.nav-tabs li a {
+  color: #333;
+  padding-top: 8px; }
+
+/* === Search === */
+.btn {
+  height: 50px; }
+
+.btn-secondary {
+  background-color: #b2cfe2; }
+
+/* === Login Button === */
+.abcRioButton {
+  width: 100% !important;
+  background-color: #eee !important;
+  border-radius: 10px !important; }
+
+/* ===Stats=== */
+.statbox {
+  background-color: #eee;
+  min-height: 150px;
+  border-radius: 10px;
+  margin: 15px 0;
+  padding: 10px 15px 15px 15px;
+  box-shadow: 2px 2px 2px #bbb; }
+
+ol {
+  margin: 0;
+  padding: 10px 0 0 15px; }
+
+.statlabel {
+  text-transform: uppercase;
+  font-family: verdana, sans-serif;
+  font-weight: bold;
+  font-size: .8em;
+  color: #787c88; }
+
+.kpi-label {
+  text-align: center; }
+
+.kpi {
+  font-size: 3.5em;
+  color: #3382c4;
+  text-align: center;
+  font-weight: lighter;
+  line-height: 1.4em;
+  padding-top: 5px; }
+
+/* ===SIDEBAR=== */
+/* ===FOOTER=== */
+footer {
+  padding: 20px 45px; }
