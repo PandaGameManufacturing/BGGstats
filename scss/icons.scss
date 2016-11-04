@@ -1,10 +1,10 @@
 /* === Icons === */
 
-.help {
-  opacity: 0.3;
-  filter: alpha(opacity=30); /* For IE8 and earlier */
-  height: 25px;
-  margin: 0 0 5px 5px;
+.glyphicon-search {
+  color: $bgcolor;
+  font-size: 2em;
+  position: absolute;
+  margin: 10px;
 }
 
 #settings {
@@ -16,4 +16,11 @@
   #settings {
     margin-top: 10px;
   }
+}
+
+.help {
+  opacity: 0.3;
+  filter: alpha(opacity=30); /* For IE8 and earlier */
+  height: 25px;
+  margin: 5px 0 0 10px;
 }

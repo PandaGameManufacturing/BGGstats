@@ -61,7 +61,6 @@ h2 {
   }
 }
 
-
 .logo-wrapper {
 
 }
@@ -194,14 +193,6 @@ h2 {
   border-radius: 10px !important;
 }
 
-/* ===Stats=== */
-@import 'stats-shelf';
-
-.statbox {
-  min-height: 300px;
-  margin: 0;
-  padding: 0 10px;
-}
 
 ol {
   margin: 0;
@@ -212,38 +203,13 @@ li {
 
 }
 
-.kpi-label {
-  text-align: center;
-}
-
-.kpi {
-  font-size: 3.5em;
-  color: #3382c4;
-  text-align: center;
-  font-weight: lighter;
-  line-height: 1.4em;
-  padding-top: 5px;
-}
-
-/* ===Labels=== */
-
-.label-title {
-  font-family: verdana, sans-serif;
-  font-size: 1.7em;
-  margin: 5px 0;
-  color: #333;
-  padding: 7px 14px;
-  border-radius: 8px;
-  display: inline-block;
-  background: $bgcolor;
-}
-
 
 /* ===FOOTER=== */
 
 footer {
   padding: 20px 45px;
 }
-
+@import 'stats';
+@import 'stats-shelf';
 @import 'icons';
 @import 'fire';

@@ -125,7 +125,45 @@ h2 {
   background-color: #eee !important;
   border-radius: 10px !important; }
 
-/* ===Stats=== */
+ol {
+  margin: 0;
+  padding: 10px 0 0 15px; }
+
+/* ===FOOTER=== */
+footer {
+  padding: 20px 45px; }
+
+/* === Stats === */
+.statbox {
+  min-height: 300px;
+  margin: 0;
+  padding: 0 10px; }
+
+/* === Stat: Titles === */
+.label-title {
+  font-family: verdana, sans-serif;
+  font-size: 1.7em;
+  margin: 10px 0;
+  color: #333;
+  padding: 7px 12px 7px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  background: #eee; }
+
+.label-kpi {
+  font-size: 1.3em; }
+
+.kpi {
+  font-size: 4.4em;
+  line-height: 1.2em;
+  padding-top: 20px;
+  color: #3382c4;
+  text-align: center;
+  font-weight: lighter; }
+
+.kpi-small {
+  font-size: 3.7em; }
+
 /* === Stats: Shelf === */
 @media screen and (min-width: 768px) {
   .shelf-bottom {
@@ -175,39 +213,21 @@ h2 {
     bottom: 50px; }
 
   .shelf-img {
-    margin: 0 7px;
-    max-width: 175px;
-    min-width: 120px;
+    margin: 0 8px;
+    max-width: 160px;
+    min-width: 130px;
     background-color: #222;
     box-shadow: -8px 15px 20px #bbb; }
 
-  .fire-wrapper {
-    position: relative;
-    max-width: 175px;
-    min-width: 120px; }
-
-  .fire-wrapper .fire {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    color: #FFF; }
-
-  .fire-wrapper .fire {
-    display: block;
-    background: url("../images/fire.gif"); }
-
   .shelf-shadowed {
-    margin: 0 7px;
+    margin: 0 8px;
     position: relative;
     display: inline-block;
     vertical-align: bottom;
     float: none; }
 
   .shelf-shadowed::before {
-    margin: 0 7px;
+    margin: 0 8px;
     width: 10px;
     height: 100%;
     background-color: #605852;
@@ -220,48 +240,42 @@ h2 {
     -moz-transform: skew(0, 45deg);
     -o-transform: skew(0, 45deg);
     -ms-transform: skew(0, 45deg); } }
-.statbox {
-  min-height: 300px;
-  margin: 0;
-  padding: 0 10px; }
+.shelf-table {
+  text-align: left;
+  margin: 25px 0px 0px 25px;
+  width: 96%; }
 
-ol {
-  margin: 0;
-  padding: 10px 0 0 15px; }
+.shelf-table td {
+  width: 20%; }
 
-.kpi-label {
-  text-align: center; }
+.shelf-header {
+  color: #333; }
 
-.kpi {
-  font-size: 3.5em;
-  color: #3382c4;
-  text-align: center;
-  font-weight: lighter;
-  line-height: 1.4em;
-  padding-top: 5px; }
+.fire-wrapper {
+  position: relative;
+  max-width: 160px;
+  min-width: 130px;
+  margin: 0 8px; }
 
-/* ===Labels=== */
-.label-title {
-  font-family: verdana, sans-serif;
-  font-size: 1.7em;
-  margin: 5px 0;
-  color: #333;
-  padding: 7px 14px;
-  border-radius: 8px;
-  display: inline-block;
-  background: #eee; }
+.fire-wrapper .fire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  color: #FFF; }
 
-/* ===FOOTER=== */
-footer {
-  padding: 20px 45px; }
+.fire-wrapper .fire {
+  display: block;
+  background: url("../images/fire.gif"); }
 
 /* === Icons === */
-.help {
-  opacity: 0.3;
-  filter: alpha(opacity=30);
-  /* For IE8 and earlier */
-  height: 25px;
-  margin: 0 0 5px 5px; }
+.glyphicon-search {
+  color: #eee;
+  font-size: 2em;
+  position: absolute;
+  margin: 10px; }
 
 #settings {
   padding: 8px 0; }
@@ -270,14 +284,20 @@ footer {
 @media screen and (max-width: 992px) {
   #settings {
     margin-top: 10px; } }
+.help {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  /* For IE8 and earlier */
+  height: 25px;
+  margin: 5px 0 0 10px; }
+
 /* === Animations: Fire === */
 .fire-wrapper {
   position: relative;
-  max-width: 175px;
-  min-width: 120px; }
+  max-width: 160px;
+  min-width: 130px; }
 
 .fire-wrapper .fire {
-  margin-left: 7px;
   position: absolute;
   display: block;
   top: 0;
