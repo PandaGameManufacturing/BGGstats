@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/main.min.css">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 
@@ -24,16 +24,17 @@
           </div>
 
           <!-- Search -->
-          <div class="col-sm-4 col-md-4 col-lg-4">
+          <div class="col-sm-6 col-md-6 col-lg-6">
             <input type="text" class="form-control text-center" id="input" placeholder="BoardGameGeek Username">
           </div>
 
-          <div class="col-sm-2 col-md-2 col-lg-2">
+     <!--      <div class="col-sm-2 col-md-2 col-lg-2">
             <button type="button" class="btn btn-secondary btn-lg btn-block">View Stats</button>
-          </div>
+          </div> -->
+
 
           <!-- Tabs -->
-          <div class="col-sm-5 col-md-4 col-sm-10 col-xs-10 col-lg-4">
+          <div class="col-xs-10 col-sm-10 col-sm-5 col-md-4">
             <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a class="nav-link active" href="#">Industry Stats</a>
@@ -45,9 +46,12 @@
           </div>
 
           <!-- Settings -->
-          <div class="col-xs-2 col-sm-1 col-md-1  text-right">
-            <a href="#"><img id="settings" src="images/settings.svg" alt="settings"/></a>
+          <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 text-right">
+            <a href="#"><img id="settings" src="images/icons/settings.svg" alt="settings"/></a>
           </div>
+
+
+
 
         </div>
       </header>
@@ -55,9 +59,55 @@
       <!-- Stats -->
       <div class="row">
 
+
+
+
+
+       <div class="col-sm-6 col-md-12 col-lg-10">
+            <div class="statbox">
+
+              <div class="label-title">
+                <h2>The Hotness</h2>
+                <a><img class="help" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+              </div>
+
+                <div class="shelf text-center">
+
+                  <div class="shelf-shadowed fire-wrapper">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic2891964_t.jpg">
+                    <div class="fire"></div>
+                  </div>
+
+                  <div class="shelf-shadowed">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3146943_t.png">
+                  </div>
+
+                  <div class="shelf-shadowed">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3122349_t.jpg">
+                  </div>
+
+                  <div class="shelf-shadowed">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3002143_t.png">
+                  </div>
+
+                  <div class="shelf-shadowed">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3184103_t.jpg">
+                  </div>
+
+                  <!-- Wooden Shelf -->
+                  <div class="shelf-bottom">
+                    <div class="shelf-left">
+                      <div class="shelf-right"></div>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+          </div>
+
           <div class="col-lg-8 col-md-9">
             <div class="statbox">
-              <div class="statlabel">Games Published Per Year</div>
+              <h2 class="label-title">Games Published Per Year</h2>
               ...
             </div>
           </div>
@@ -65,7 +115,7 @@
           <div class="col-lg-2 col-md-3 col-xs-6">
             <div class="statbox">
               <div class="kpi">3,365</div>
-              <div class="statlabel kpi-label">Games Published Last Year (2015)</div>
+              <h2 class="label-title">Games Published Last Year (2015)</h2>
 
             </div>
           </div>
@@ -135,9 +185,9 @@
         </div>
       </footer>
 
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
     <!-- Google Sign in -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
 
 
   </body>

@@ -1,0 +1,19 @@
+/* === Animations: Fire === */
+
+.fire-wrapper {
+    position: relative;
+    max-width: 175px;
+    min-width: 120px;
+}
+
+.fire-wrapper .fire {
+    margin-left: 7px;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    background: url("../images/fire.gif") repeat-x bottom right;
+    background-size: 80% 75px;
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
