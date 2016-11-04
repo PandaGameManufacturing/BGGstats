@@ -46,6 +46,12 @@ h2 {
   text-align: right;
   color: grey; }
 
+.glyphicon-search {
+  color: #eee;
+  font-size: 2em;
+  position: absolute;
+  margin: 10px; }
+
 #input {
   height: 50px;
   font-size: 1.5em;
