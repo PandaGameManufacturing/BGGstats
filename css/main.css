@@ -172,7 +172,8 @@ ol {
 
 .shelf-img {
   width: 150px;
-  margin: 0 15px; }
+  margin: 0 15px;
+  background-color: #222; }
 
 .shadowed {
   position: relative;
