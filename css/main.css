@@ -135,14 +135,6 @@ ol {
   margin: 0;
   padding: 10px 0 0 15px; }
 
-.statlabel {
-  font-family: verdana, sans-serif;
-  border-bottom: 3px #eee solid;
-  font-size: 2em;
-  margin: 0;
-  margin: 0 0 20px 0;
-  color: #787c88; }
-
 .kpi-label {
   text-align: center; }
 
@@ -155,7 +147,7 @@ ol {
   padding-top: 5px; }
 
 .shelf-bottom {
-  margin: 0 10px;
+  margin: 0px;
   height: 20px;
   width: 100%;
   position: relative;
@@ -164,6 +156,24 @@ ol {
   float: none;
   background: url("../images/shelf-middle.png"); }
 
+.shelf-left {
+  margin: 0 10px 0 0;
+  height: 20px;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  float: none;
+  background: url("../images/shelf-left.png") left no-repeat; }
+
+.shelf-right {
+  margin: 0 10px 0 0;
+  height: 20px;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  float: none;
+  background: url("../images/shelf-right.png") right no-repeat; }
+
 .gravity {
   position: absolute;
   left: 50%;
@@ -171,33 +181,39 @@ ol {
   bottom: 50px; }
 
 .shelf-img {
+  margin: 0 8px;
   width: 150px;
-  margin: 0 15px;
   background-color: #222; }
 
-.shadowed {
+.shelf-shadowed {
+  margin: 0 8px;
   position: relative;
-  margin: 0 10px;
   display: inline-block;
   vertical-align: bottom;
   float: none; }
 
-.shadowed::before {
-  margin: 0 15px;
-  width: 20px;
-  height: 99%;
+.shelf-shadowed::before {
+  margin: 0 8px;
+  width: 10px;
+  height: 100%;
   background-color: grey;
   content: '';
   display: block;
   position: absolute;
-  top: 10px;
-  right: -20px;
+  top: 5px;
+  right: -10px;
   -webkit-transform: skew(0, 45deg);
   -moz-transform: skew(0, 45deg);
   -o-transform: skew(0, 45deg);
   -ms-transform: skew(0, 45deg); }
 
-/* ===SIDEBAR=== */
+/* ===Labels=== */
+.label-title {
+  font-family: verdana, sans-serif;
+  font-size: 2em;
+  margin: 0;
+  color: #333; }
+
 /* ===FOOTER=== */
 footer {
   padding: 20px 45px; }
