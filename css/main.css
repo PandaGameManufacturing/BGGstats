@@ -127,22 +127,20 @@ header {
 
 /* ===Stats=== */
 .statbox {
-  background-color: #eee;
-  min-height: 150px;
-  border-radius: 10px;
-  margin: 15px 0;
-  padding: 10px 15px 15px 15px;
-  box-shadow: 2px 2px 2px #bbb; }
+  min-height: 300px;
+  margin: 0;
+  padding: 0 10px; }
 
 ol {
   margin: 0;
   padding: 10px 0 0 15px; }
 
 .statlabel {
-  text-transform: uppercase;
   font-family: verdana, sans-serif;
-  font-weight: bold;
-  font-size: .8em;
+  border-bottom: 3px #eee solid;
+  font-size: 2em;
+  margin: 0;
+  margin: 0 0 20px 0;
   color: #787c88; }
 
 .kpi-label {
@@ -155,6 +153,48 @@ ol {
   font-weight: lighter;
   line-height: 1.4em;
   padding-top: 5px; }
+
+.shelf-bottom {
+  margin: 0 10px;
+  height: 20px;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  float: none;
+  background: url("../images/shelf-middle.png"); }
+
+.gravity {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  bottom: 50px; }
+
+.shelf-img {
+  width: 150px;
+  margin: 0 15px; }
+
+.shadowed {
+  position: relative;
+  margin: 0 10px;
+  display: inline-block;
+  vertical-align: bottom;
+  float: none; }
+
+.shadowed::before {
+  margin: 0 15px;
+  width: 20px;
+  height: 99%;
+  background-color: grey;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: -20px;
+  -webkit-transform: skew(0, 45deg);
+  -moz-transform: skew(0, 45deg);
+  -o-transform: skew(0, 45deg);
+  -ms-transform: skew(0, 45deg); }
 
 /* ===SIDEBAR=== */
 /* ===FOOTER=== */
