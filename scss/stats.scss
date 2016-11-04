@@ -1,0 +1,39 @@
+/* === Stats === */
+
+.statbox {
+  min-height: 300px;
+  margin: 0;
+  padding: 0 10px;
+  // background-color: pink;
+}
+
+/* === Stat: Titles === */
+
+.label-title {
+  font-family: verdana, sans-serif;
+  font-size: 1.7em;
+  margin: 10px 0;
+  color: #333;
+  padding: 7px 12px 7px 14px;
+  border-radius: 8px;
+  display: inline-block;
+  background: $bgcolor;
+}
+
+.label-kpi {
+  font-size: 1.3em;
+}
+
+.kpi {
+  font-size: 4.4em;
+  line-height: 1.2em;
+  padding-top: 20px;
+  color: #3382c4;
+  text-align: center;
+  font-weight: lighter;
+}
+
+.kpi-small {
+  font-size: 3.7em;
+}
+
