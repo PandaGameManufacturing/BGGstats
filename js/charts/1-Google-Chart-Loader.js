@@ -147,35 +147,3 @@ google.a.c.load=function(a,c,d){if(google.a.c.S)google.a.c.U(function(){google.a
 (google.a.c.ea=!1,google.a.c.zb(google.a.c.i.prefix+"/"+a+"/loader.js",window.document,f)):f();else{if(!google.a.c.ea)throw Error("google.charts.load() cannot be called more than once with version 44 or earlier.");google.a.c.ea=!1;google.a.c.fd(a,c);google.a.c.log("google.charts.load version "+a);window.google=window.google||{};google.visualization=google.visualization||{};google.visualization.ModulePath=google.a.c.i.prefix;google.visualization.CssPath=google.a.c.i.css_prefix.replace($a,google.a.c.i.prefix).replace(bb,
 google.a.c.I);google.a.c.window=window;google.a.c.Ec=document;var h=c.packages;h&&0!==h.length||(h=["default"]);google.a.c.U(c.callback);google.a.c.Uc(h,function(){google.a.c.Xc(h,g)})}}};google.a.c.kd=function(a){if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a);else{var c=window.onload;window.onload=function(d){c&&c(d);a()}}};google.a.c.Jb=document&&document.readyState===K;google.a.c.kd(function(){google.a.c.Jb=!0;google.a.c.Na()});
 google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a.c.Ba=[];google.a.c.U=function(a){a&&google.a.c.Ba.push(a);google.a.c.S||google.a.c.Na()};google.a.c.xc=function(){var a=google.a.c.Ba;for(google.a.c.Ba=[];0<a.length;)a.shift()()};google.a.c.Qa=function(a,c){google.a.c.cd(a,c)};if(Z.Ea(Xa))throw Error("Google Charts loader.js can only be loaded once.");google.a.load=function(){var a=0;"visualization"===arguments[a]&&a++;var c="current";Z.h(arguments[a])&&(c=arguments[a],a++);var d={};arguments.length>a&&(d=arguments[a],a++);var e=void 0;arguments.length>a&&(e=arguments[a]);google.a.c.load(c,d,e)};google.a.U=function(a){google.a.c.U(a)};google.a.Qa=function(a,c){google.a.c.Qa(a,c)};Z.ya(Xa,google.a.load);Z.ya("google.charts.setOnLoadCallback",google.a.U);Z.ya("google.charts.packageLoadedCallback",google.a.Qa); })();
-/**********************\
-|  Top 10              |
-\**********************/
-
-     google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable ([
-            ['Year', 'Game 1', 'Game 2'],
-            ['2013',  1000,      400],
-            ['2014',  1170,      460],
-            ['2015',  660,       1120],
-            ['2016',  1030,      540]
-          ]);
-
-        var options = {
-          colors: ['#e0440e', '#000', '#111', '#222', '#333', '#444', '#555', '#666', '#777', '#888'],
-          legend: 'none',
-          hAxis: { minValue: 0, maxValue: 9 },
-          curveType: 'function',
-          pointSize: 0,
-          chartArea: { width: "100%", height: "auto"},
-          vAxis:{
-           baselineColor: '#fff',
-           gridlineColor: '#fff',
-           textPosition: 'none'
-          }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('top10'));
-        chart.draw(data, options);
-    }
