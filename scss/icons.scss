@@ -1,7 +1,7 @@
 /* === Icons === */
 
 .glyphicon-search {
-  color: $bgcolor;
+  color: $bgborder;
   font-size: 2em;
   position: absolute;
   margin: 10px;
@@ -22,5 +22,5 @@
   opacity: 0.3;
   filter: alpha(opacity=30); /* For IE8 and earlier */
   height: 25px;
-  margin: 5px 0 0 10px;
+  margin: 1px 0 0 10px;
 }
