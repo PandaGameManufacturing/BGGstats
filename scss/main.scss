@@ -1,6 +1,6 @@
-
-
-$bgcolor: #eee;
+$bgcolor: #f9f9f9;
+$bgborder: #dddddd;
+$shadow: #605852;
 
 /* ============================================================
    Project:
@@ -12,7 +12,7 @@ $bgcolor: #eee;
 /* === GLOBAL === */
 
 body {
-  background-color: #eee;
+  background-color: $bgcolor;
   margin: 0;
   min-width: 400px;
 }
@@ -28,16 +28,20 @@ header {
   background-color: $bgcolor;
   padding: 25px 25px 0 30px;
   margin: 0px;
+  background: -moz-linear-gradient(top, $bgcolor 0%, $bgcolor 30%, #ededed 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $bgcolor 0%,$bgcolor 30%,#ededed 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $bgcolor 0%,$bgcolor 30%, #ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='#a0d8ef',GradientType=0 ); /* IE6-9 */
 }
+
 
 h2 {
   padding: 0;
   margin: 0;
-  display: inline;
+  display: inline-block;
   font-size: 1em;
   font-family: helvetica, arial;
   font-weight: 100;
-
 }
 
 #logo {
@@ -211,5 +215,7 @@ footer {
 }
 @import 'stats';
 @import 'stats-shelf';
+@import 'stats-tables';
+
 @import 'icons';
 @import 'fire';
