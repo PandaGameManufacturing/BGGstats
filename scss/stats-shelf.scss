@@ -141,18 +141,35 @@
   width: 96%;
 }
 
+.shelf-table tr:first-child {
+  // overflow: hidden;
+  // white-space: nowrap;
+  // // text-overflow: ellipsis;
+  // word-break: break-all;
+}
+
+
+
+// .truncate {
+//   width: 200px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
 .number {
   background-color: #888;
   border-radius: 50%;
-  width: 23px;
-  height: 23px;
+  width: 28px;
+  height: 28px;
   color: white;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em;
+  line-height: 1em;
   font-weight: 300;
   display: inline-block;
-  margin-right: 3px;
-  margin-bottom: 5px;
+  margin: 0 5px 0 0;
+  padding: 7px 0 0 0;
 }
 
 .number-hot {

@@ -1,26 +1,12 @@
 /**********************\
 |  1. Dependencies     |
 \**********************/
-var thing = function () {
-    "use strict";
-    return 4;
-};
 
-console.log(thing);
 
 /**********************\
 |  2. Data             |
 \**********************/
 
-var thing;
-
-  for (var i = 0; i < 3; i++){
-    console.log("do thing");
-    var thing = "that's what";
-
-  }
-
-  var thing = "hi";
 
 
 /**********************\
@@ -33,11 +19,5 @@ var thing;
 \**********************/
 
 /**********************\
-|  5. Third Party JS   |
+|  5. Charts JS   |
 \**********************/
-
-
-// Google Sign in
-// $.getScript("https://apis.google.com/js/platform.js", function(){
-//    alert("Script loaded but not necessarily executed.");
-// });
