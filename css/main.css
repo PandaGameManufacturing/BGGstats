@@ -175,12 +175,13 @@ footer {
   color: #333;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
-  background: #e1e7f2;
+  background: #f9f9f9;
   border: 1px #dddddd solid;
-  display: block-inline;
+  display: block;
   text-align: left;
   z-index: 2;
-  position: relative; }
+  position: relative;
+  width: 100%; }
 
 .label-title strong {
   font-weight: 600;
@@ -235,11 +236,11 @@ footer {
 .number {
   background-color: #888;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
   color: white;
   text-align: center;
-  font-size: 1em;
+  font-size: .9em;
   line-height: 1em;
   font-weight: 300;
   margin: 0 5px 0 0;
@@ -247,34 +248,34 @@ footer {
   display: inline-block; }
 
 .n1 {
-  background-color: #bc1c1c; }
+  background-color: red; }
 
 .n2 {
-  background-color: #5DA5DA; }
+  background-color: #D62896; }
 
 .n3 {
-  background-color: #FAA43A; }
+  background-color: #B728A1; }
 
 .n4 {
-  background-color: #60BD68; }
+  background-color: #9928AC; }
 
 .n5 {
-  background-color: #F17CB0; }
+  background-color: #7A28B7; }
 
 .n6 {
-  background-color: #B2912F; }
+  background-color: #5C29C2; }
 
 .n7 {
-  background-color: #70dde5; }
+  background-color: #554FC4; }
 
 .n8 {
-  background-color: #B276B2; }
+  background-color: #4F75C7; }
 
 .n9 {
-  background-color: #DECF3F; }
+  background-color: #499BC9; }
 
 .n10 {
-  background-color: #827964; }
+  background-color: #43C1CC; }
 
 /* === Stats: Shelf === */
 .shelf-bottom {
@@ -386,15 +387,18 @@ footer {
   margin: 15px 0px 0px 25px;
   width: 96%; }
 
+.shelf-header.td {
+  width: 20%; }
+
 .table {
-  margin-bottom: 20px; }
+  margin-bottom: 15px; }
 
 /* === Charts === */
 #top10 {
   position: top left;
   width: 116%;
   height: 475px;
-  margin-top: -66px;
+  margin-top: -55px;
   margin-left: -40px;
   z-index: 1;
   position: relative; }
@@ -412,8 +416,8 @@ footer {
 .top10-text {
   font-weight: 400;
   font-size: 1.2em;
-  line-height: 1.2em;
-  margin: 0 0 5px 5px;
+  line-height: 1.4em;
+  margin: 0 0 4px 5px;
   vertical-align: middle;
   width: 85%;
   display: inline-block;
