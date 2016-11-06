@@ -213,9 +213,11 @@ li {
 footer {
   padding: 20px 45px;
 }
-@import 'stats';
-@import 'stats-shelf';
-@import 'stats-tables';
 
 @import 'icons';
-@import 'fire';
+
+@import 'charts/stats';
+@import 'charts/numbers';
+@import 'charts/shelf';
+@import 'charts/tables';
+@import 'charts/top10';

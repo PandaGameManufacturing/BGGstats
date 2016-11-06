@@ -113,7 +113,7 @@
   .shelf-img {
   min-width: 90px;
   max-width: 140px;
-}
+  }
 }
 
 // Shelf on mobile
@@ -126,7 +126,7 @@
     visibility: hidden;
   }
   .shelf-img {
-  background-color: white;
+  // background-color: white;
   box-shadow: none;
   max-width: 120px;
   max-height: 120px;
@@ -141,55 +141,3 @@
   width: 96%;
 }
 
-.shelf-table tr:first-child {
-  // overflow: hidden;
-  // white-space: nowrap;
-  // // text-overflow: ellipsis;
-  // word-break: break-all;
-}
-
-
-
-// .truncate {
-//   width: 200px;
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
-
-.number {
-  background-color: #888;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  color: white;
-  text-align: center;
-  font-size: 1em;
-  line-height: 1em;
-  font-weight: 300;
-  display: inline-block;
-  margin: 0 5px 0 0;
-  padding: 7px 0 0 0;
-}
-
-.number-hot {
-  background-color: #bc1c1c;
-}
-
-// .fire-wrapper {
-//     position: relative;
-//     margin: 0 8px;
-// }
-// .fire-wrapper .fire {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     display: none;
-//     color: #FFF;
-// }
-// .fire-wrapper .fire {
-//   display: block;
-//   background: url("../images/fire.gif");
-// }
