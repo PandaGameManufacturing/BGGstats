@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.min.css">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-
+    <script type="text/javascript" src="js/charts.min.js"></script>
   </head>
   <body>
 
@@ -25,20 +25,20 @@
 
 
           <!-- Search -->
-<!--           <div class="col-sm-6 col-md-6 col-lg-6">
+          <div class="col-sm-6 col-md-6 col-lg-6">
 
             <input type="text" class="form-control text-center" id="input" placeholder=" BoardGameGeek Username">
             <span class="glyphicon glyphicon-search"></span>
 
-          </div> -->
+          </div>
 
-     <!--      <div class="col-sm-2 col-md-2 col-lg-2">
+<!--           <div class="col-sm-2 col-md-2 col-lg-2">
             <button type="button" class="btn btn-secondary btn-lg btn-block">View Stats</button>
-          </div> -->
-
+          </div>
+ -->
 
           <!-- Tabs -->
-<!--           <div class="col-xs-10 col-sm-10 col-sm-5 col-md-4">
+          <div class="col-xs-10 col-sm-10 col-sm-5 col-md-4">
             <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a class="nav-link active" href="#">Industry Stats</a>
@@ -47,13 +47,13 @@
                 <a class="nav-link" href="#">Your Stats</a>
                </li>
             </ul>
-          </div> -->
+          </div>
 
           <!-- Settings -->
- <!--          <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 pull-right">
+          <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 pull-right">
             <a href="#"><img id="settings" src="images/icons/settings.svg" alt="settings"/></a>
           </div>
- -->
+
 
         </div>
       </header>
@@ -61,20 +61,36 @@
       <!-- Stats -->
       <div class="row">
 
-
-       <div class="col-sm-12 col-md-12 col-lg-12">
+      <!-- The Hotness -->
+       <div class="col-sm-12 col-md-12 col-lg-3">
             <div class="statbox">
 
               <div class="label-title">
-                <h2>The Hotness</h2>
+                <h2><strong>The Hotness</strong> Right Now</h2>
                 <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
               </div>
 
+
+
+
+                  <table class="table-top10">
+                      <tr><th><div class="number n1">1</div><div class="top10-text">Terraforming Mars</div></th></tr>
+                      <tr><th><div class="number">2</div><div class="top10-text">A Feast for Odin</div></th></tr>
+                      <tr><th><div class="number">3</div><div class="top10-text">Arkham Horror: The Card Game</div></th></tr>
+                      <tr><th><div class="number">4</div><div class="top10-text">SeaFall</div></th></tr>
+                      <tr><th><div class="number">5</div><div class="top10-text">Mechs vs. Minions</div></th></tr>
+                  </table>
+        </div>
+
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-9">
+          <div class="statbox">
+
+
                 <div class="shelf text-center">
 
-                  <div class="shelf-shadowed fire-wrapper">
-                    <img class="shelf-img hot-image" src="https://cf.geekdo-images.com/images/pic2891964_t.jpg">
-                    <div class="fire"></div>
+                  <div class="shelf-shadowed">
+                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic2891964_t.jpg">
                   </div>
 
                   <div class="shelf-shadowed">
@@ -100,42 +116,70 @@
                     </div>
                   </div>
 
-                  <!-- Top 5 Hotness Stats  -->
-                  <table class="table table-striped shelf-table">
-                    <thead>
-                      <tr class="shelf-header">
-                          <th class="number-text"><div class="number number-hot">1</div> Terraforming Mars</th>
-                          <th><div class="number">2</div> A Feast for Odin</th>
-                          <th><div class="number">3</div> Arkham Horror: The Card Game</th>
-                          <th><div class="number">4</div> SeaFall</th>
-                          <th><div class="number">5</div> Mechs vs. Minions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1-5 Players</td>
-                        <td>2-4 Players</td>
-                        <td>2-4 Players</td>
-                        <td>3-4 Players</td>
-                        <td>2 Players</td>
-                      </tr>
-                      <tr>
-                        <td>90-120 Minutes</td>
-                        <td>10-20 Minutes</td>
-                        <td>60-120 Minutes</td>
-                        <td>10-20 Minutes</td>
-                        <td>60-75 Minutes</td>
-                      </tr>
-                      <tr>
-                        <td>In the 2400s, mankind begins to terraform the planet Mars. Giant corporations...</td>
-                        <td>Using the central board in A Feast for Odin, players have to hunt, gather basic...</td>
-                        <td>Description from the publisher: Something evil stirs in Arkham, and only you can...</td>
-                        <td>SeaFall is a 4X-inspired game (without player elimination/extermination)...</td>
-                        <td>Mechs vs. Minions is a cooperative tabletop campaign for 2-4 players. Set...</td>
-                      </tr>
-                    </tbody>
-                  </table>
 
+<table class="table shelf-table">
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+                </div>
+            </div>
+          </div>
+
+            <!-- Top 10  -->
+            <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="statbox">
+                            <div class="label-title">
+                <h2><strong>Top 10</strong> Board Games of 2016</h2>
+                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+              </div>
+
+
+                  <div class="col-sm-12 col-md-7 col-lg-8">
+
+                    <!-- Line Chart -->
+                   <div id="top10"></div>
+
+                  </div>
+
+                  <!-- Table -->
+                  <div class="col-sm-12 col-md-5 col-lg-4">
+
+
+                     <table class="table-top10">
+                      <tr><th><div class="number n1">1</div><div class="top10-text">Pandemic Legacy: Season 1</div></th></tr>
+                      <tr><th><div class="number n2">2</div><div class="top10-text">Through the Ages: A New Story of Civilization</div></th></tr>
+                      <tr><th><div class="number n3">3</div><div class="top10-text">Twilight Struggle</div></th></tr>
+                      <tr><th><div class="number n4">4</div><div class="top10-text">Terra Mystica</div></th></tr>
+                      <tr><th><div class="number n5">5</div><div class="top10-text">Caverna: The Cave Farmers</div></th></tr>
+                      <tr><th><div class="number n6">6</div><div class="top10-text">Star Wars: Rebellion<img class="arrow-up" src="images/icons/arrow-up.png"/></div></th></tr>
+                      <tr><th><div class="number n7">7</div><div class="top10-text">Puerto Rico</div></th></tr>
+                      <tr><th><div class="number n8">8</div><div class="top10-text">7 Wonders Duel</div></th></tr>
+                      <tr><th><div class="number n9">9</div><div class="top10-text">The Castles of Burgundy</div></th></tr>
+                      <tr><th><div class="number n10">10</div><div class="top10-text">Agricola</div></th></tr>
+                  </table>
+                  </div>
+
+<!-- <th><div class="number">5</div> Mechs vs. Minions</th> -->
 
                 </div>
             </div>
@@ -239,6 +283,7 @@
         </div>
       </footer>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/main.min.js"></script>
     <!-- Google Sign in -->
     <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
