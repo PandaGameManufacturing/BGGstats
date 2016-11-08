@@ -1,26 +1,40 @@
-$n1: red;
-$n2: #D62896;
-$n3: #B728A1;
-$n4: #9928AC;
-$n5: #7A28B7;
-$n6: #5C29C2;
-$n7: #554FC4;
-$n8: #4F75C7;
-$n9: #499BC9;
+$n1:  red;
+$n2:  #D62896;
+$n3:  #B728A1;
+$n4:  #9928AC;
+$n5:  #7A28B7;
+$n6:  #5C29C2;
+$n7:  #554FC4;
+$n8:  #4F75C7;
+$n9:  #499BC9;
 $n10: #43C1CC;
+
+// Standard List with Red as first item
 
 ol {
   counter-reset:li; /* Initiate a counter */
   margin: 0;
   padding: 0;
+  z-index: 3;
+  position: relative;
+}
+
+ol a:link, ol a:visited {
+ text-decoration: none;
+ color: #333;
+}
+
+ol a:hover {
+ text-decoration: none;
+ color: $n9;
 }
 
 ol > li {
   font-weight: 400;
   font-size: 1.2em;
   line-height: 1.2em;
-  margin:0 0 6px 2em;
-  padding: 3px 8px;
+  margin: 0 0 6px 2em;
+  padding: 4px 8px;
   vertical-align: middle;
   text-overflow: ellipsis;
   position:relative;
@@ -35,42 +49,29 @@ ol > li:before {
   content:counter(li); /* Use the counter as content */
   counter-increment:li; /* Increment the counter by 1 */
   position:absolute;
-  top: 1px;
-  left: -2em;
+  // styling for number
+  top: 2px;
+  left: -2.1em;
   background-color: #888;
   border-radius: 50%;
   width: 26px;
   height: 26px;
   color: white;
   text-align: center;
-  font-size: .8em;
+  font-size: .75em;
   line-height: 1em;
   font-weight: 300;
-  padding: 7px 0 0 0;
+  padding: 7.25px .5px 0 0;
 }
 
-.number {
-  background-color: #888;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  color: white;
-  text-align: center;
-  font-size: .9em;
-  line-height: 1em;
-  font-weight: 300;
-  margin: -2px 5px -2px 0;
-  padding: 7px 0 0 0;
-  display: inline-block;
-}
+// .Color List has a gradient of colors
 
-.n1 { background-color: $n1; }
-.n2 { background-color: $n2; }
-.n3 { background-color: $n3; }
-.n4 { background-color: $n4; }
-.n5 { background-color: $n5; }
-.n6 { background-color: $n6; }
-.n7 { background-color: $n7; }
-.n8 { background-color: $n8; }
-.n9 { background-color: $n9; }
-.n10 { background-color: $n10; }
+ol.color-list > li:nth-child(2):before { background-color: $n2; }
+ol.color-list > li:nth-child(3):before { background-color: $n3; }
+ol.color-list > li:nth-child(4):before { background-color: $n4; }
+ol.color-list > li:nth-child(5):before { background-color: $n5; }
+ol.color-list > li:nth-child(6):before { background-color: $n6; }
+ol.color-list > li:nth-child(7):before { background-color: $n7; }
+ol.color-list > li:nth-child(8):before { background-color: $n8; }
+ol.color-list > li:nth-child(9):before { background-color: $n9; }
+ol.color-list > li:nth-child(10):before { background-color: $n10; padding: 7.5px 1px 0 0;}

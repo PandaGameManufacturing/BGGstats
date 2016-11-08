@@ -54,6 +54,6 @@ console.log("Data Functions:", dataFunctions);
 dataFunctions.hotness()
 .then( data => {
   getData.hotness = JSON.parse(data).slice(0,5);
-  toHTML(getData.hotness, "shelf-12");
+  createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12");
   console.log("getData.hotness:", getData.hotness);
 }, error => { console.log("dataFunctions.hotness error", error); });
