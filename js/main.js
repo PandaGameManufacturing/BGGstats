@@ -34,7 +34,6 @@ let dataFunctions = [],
 
 // getData.hotness returns an object of data, etc.
 
-
 for (var prop in apiCalls) {
   // console.log("apiCalls." + prop + " = " + apiCalls[prop]);
 
@@ -59,11 +58,9 @@ console.log("Data Functions:", dataFunctions);
 dataFunctions.hotness()
 .then( data => {
   getData.hotness = JSON.parse(data).slice(0,5);
+  toHTML(getData.hotness, "shelf-12");
   console.log("getData.hotness:", getData.hotness);
-}, error => {
-  console.log("error:", error);
-});
-
+}, error => { console.log("dataFunctions.hotness error", error); });
 
 
 /**********************\
@@ -74,6 +71,29 @@ dataFunctions.hotness()
 /**********************\
 | 4. DOM Interactions  |
 \**********************/
+
+function toHTML (data, chartType) {
+
+    let htmlString = "",
+        shelf12 = "";
+
+    switch(chartType) {
+      case "shelf-12":
+          shelf12 = data[0].name;
+          console.log("you printed a shelf with:", data);
+          break;
+      case "other":
+            console.log("test");
+          break;
+      default:
+          console.log("test");
+  }
+
+  htmlString =
+    shelf12;
+
+  $("#main").prepend(htmlString);
+}
 
 /**********************\
 |  5. Charts JS   |
