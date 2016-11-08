@@ -96,7 +96,6 @@ dataFunctions.hotness()
 
     console.log("getData:", getData);
 
-
     createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12");
 
 }, error => { console.log("dataFunctions.hotness error", error); });

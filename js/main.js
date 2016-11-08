@@ -100,7 +100,6 @@ dataFunctions.hotness()
 
     console.log("getData:", getData);
 
-
     createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12");
 
 }, error => { console.log("dataFunctions.hotness error", error); });
@@ -142,7 +141,8 @@ function createChart (title, data, chartType) {
 
         // Configure first row of info
         for (let i = 0; i < data.length; i++) {
-          top5info1 += `<td>Published: ${data[i].yearPublished}</td>`;
+          let string = data[i].gameId;
+          top5info1 += `<td>Published: ${string}</td>`;
         }
 
         // Configure second row of info
