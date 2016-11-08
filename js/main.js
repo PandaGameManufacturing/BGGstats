@@ -80,9 +80,8 @@ function toHTML (data, chartType) {
 
     switch(chartType) {
       case "shelf-12":
-          shelf12 = `
-
-        ${rowStart}
+          shelf12 += `${rowStart}`;
+          shelf12 += `
 
        <div class="col-sm-12 col-md-12 col-lg-3">
             <div class="statbox">
@@ -92,13 +91,16 @@ function toHTML (data, chartType) {
                 <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
               </div>
 
-                  <table class="table-top10">
-                      <tr><th><div class="number n1">1</div><div class="top10-text">${data[0].name}</div></th></tr>
-                      <tr><th><div class="number">2</div><div class="top10-text">${data[1].name}</div></th></tr>
-                      <tr><th><div class="number">3</div><div class="top10-text">${data[2].name}</div></th></tr>
-                      <tr><th><div class="number">4</div><div class="top10-text">${data[3].name}</div></th></tr>
-                      <tr><th><div class="number">5</div><div class="top10-text">${data[4].name}</div></th></tr>
-                  </table>
+                  <ol>`;
+
+                // // /loop over list items
+                for (let i = 0; i < data.length; i++) {
+                  shelf12 += `<li>${data[i].name}</li>`;
+                  }
+
+          shelf12 += `
+
+                  </ol>
            </div>
 
         </div>
@@ -106,27 +108,52 @@ function toHTML (data, chartType) {
           <div class="statbox">
 
 
-                <div class="shelf text-center">
+                <div class="shelf text-center">`;
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[0].thumbnail}">
-                  </div>
+                // /loop over shelf items
+                for (let i = 0; i < data.length; i++) {
+                  shelf12 += `
+                    <div class="shelf-shadowed">
+                      <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/" alt="${data[i].name}">
+                        <img class="shelf-img" src="${data[i].thumbnail}">
+                      </a>
+                    </div>
+                  `;
+                }
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[1].thumbnail}">
-                  </div>
+                // shelf12 += `
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[2].thumbnail}">
-                  </div>
+                //   <div class="shelf-shadowed">
+                //     <a href="https://boardgamegeek.com/boardgame/${data[0].gameId}/" alt="${data[0].name}">
+                //       <img class="shelf-img" src="${data[0].thumbnail}">
+                //     </a>
+                //   </div>
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[3].thumbnail}">
-                  </div>
+                //   <div class="shelf-shadowed">
+                //     <a href="https://boardgamegeek.com/boardgame/${data[1].gameId}/" alt="${data[1].name}">
+                //       <img class="shelf-img" src="${data[1].thumbnail}">
+                //     </a>
+                //   </div>
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[4].thumbnail}">
-                  </div>
+                //   <div class="shelf-shadowed">
+                //     <a href="https://boardgamegeek.com/boardgame/${data[2].gameId}/" alt="${data[2].name}">
+                //       <img class="shelf-img" src="${data[2].thumbnail}">
+                //     </a>
+                //   </div>
+
+                //   <div class="shelf-shadowed">
+                //     <a href="https://boardgamegeek.com/boardgame/${data[3].gameId}/" alt="${data[3].name}">
+                //       <img class="shelf-img" src="${data[3].thumbnail}">
+                //     </a>
+                //   </div>
+
+                //   <div class="shelf-shadowed">
+                //     <a href="https://boardgamegeek.com/boardgame/${data[4].gameId}/" alt="${data[4].name}">
+                //       <img class="shelf-img" src="${data[4].thumbnail}">
+                //     </a>
+                //   </div>`;
+
+                shelf12 += `
 
                   <!-- Wooden Shelf -->
                   <div class="shelf-bottom">
