@@ -24,11 +24,11 @@ function toHTML (data, chartType) {
               </div>
 
                   <table class="table-top10">
-                      <tr><th><div class="number n1">1</div><div class="top10-text">Terraforming Mars</div></th></tr>
-                      <tr><th><div class="number">2</div><div class="top10-text">A Feast for Odin</div></th></tr>
-                      <tr><th><div class="number">3</div><div class="top10-text">Arkham Horror: The Card Game</div></th></tr>
-                      <tr><th><div class="number">4</div><div class="top10-text">SeaFall</div></th></tr>
-                      <tr><th><div class="number">5</div><div class="top10-text">Mechs vs. Minions</div></th></tr>
+                      <tr><th><div class="number n1">1</div><div class="top10-text">${data[0].name}</div></th></tr>
+                      <tr><th><div class="number">2</div><div class="top10-text">${data[1].name}</div></th></tr>
+                      <tr><th><div class="number">3</div><div class="top10-text">${data[2].name}</div></th></tr>
+                      <tr><th><div class="number">4</div><div class="top10-text">${data[3].name}</div></th></tr>
+                      <tr><th><div class="number">5</div><div class="top10-text">${data[4].name}</div></th></tr>
                   </table>
            </div>
 
@@ -40,23 +40,23 @@ function toHTML (data, chartType) {
                 <div class="shelf text-center">
 
                   <div class="shelf-shadowed">
-                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic2891964_t.jpg">
+                    <img class="shelf-img" src="${data[0].thumbnail}">
                   </div>
 
                   <div class="shelf-shadowed">
-                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3146943_t.png">
+                    <img class="shelf-img" src="${data[1].thumbnail}">
                   </div>
 
                   <div class="shelf-shadowed">
-                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3122349_t.jpg">
+                    <img class="shelf-img" src="${data[2].thumbnail}">
                   </div>
 
                   <div class="shelf-shadowed">
-                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3002143_t.png">
+                    <img class="shelf-img" src="${data[3].thumbnail}">
                   </div>
 
                   <div class="shelf-shadowed">
-                    <img class="shelf-img" src="https://cf.geekdo-images.com/images/pic3184103_t.jpg">
+                    <img class="shelf-img" src="${data[4].thumbnail}">
                   </div>
 
                   <!-- Wooden Shelf -->
@@ -71,20 +71,11 @@ function toHTML (data, chartType) {
                     </thead>
                     <tbody>
                       <tr>
-
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
+                        <td>${data[0].yearPublished}</td>
+                        <td>${data[1].yearPublished}</td>
+                        <td>${data[2].yearPublished}</td>
+                        <td>${data[3].yearPublished}</td>
+                        <td>${data[4].yearPublished}</td>
                       </tr>
                     </tbody>
                   </table>
