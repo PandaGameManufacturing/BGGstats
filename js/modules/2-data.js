@@ -1,21 +1,37 @@
+// SPEED TESTS
+
+// http://bgg-json.azurewebsites.net/hot         40ms
+// http://bgg-api.herokuapp.com/api/v1/hotness   50ms
+// https://www.boardgamegeek.com/xmlapi2/hot    700ms
+
+// http://bgg-json.azurewebsites.net/collection/nathantbaker 50ms
+// https://boardgamegeek.com/xmlapi2/collection?username=nathantbaker 80ms
+
 
 /**********************\
 |  2. Data             |
 \**********************/
 
-let getData = {},
-    dataFunctions = [],
+let dataFunctions = [],
     apiCalls = {
-      "hotness": "http://bgg-api.herokuapp.com/api/v1/hot"
+      "hotness": "http://bgg-json.azurewebsites.net/hot" // Strathmeyer API
+    },
+    getData = {
+      "hotness": {
+      // {
+      // gameId :167791
+      // name: "Terraforming Mars"
+      // rank: 1
+      // thumbnail: "//cf.geekdo-images.com/images/pic2891964_t.jpg"
+      // yearPublished: 2016
+      // }, etc
+      }
     };
 
 // getData.hotness returns an object of data, etc.
 
-
-
-
 for (var prop in apiCalls) {
-  console.log("apiCalls." + prop + " = " + apiCalls[prop]);
+  // console.log("apiCalls." + prop + " = " + apiCalls[prop]);
 
   dataFunctions[prop] = (function (prop) { // iife allows prop to not have closure in loop
     return function () {
@@ -35,16 +51,10 @@ for (var prop in apiCalls) {
 
 console.log("Data Functions:", dataFunctions);
 
-// do something after all promises complete. fails if all don't return
-Promise.all([dataFunctions.hotness()])
-.then( arrayOfData => {
-  parseData(arrayOfData);
-  console.log("Array Of Data:", arrayOfData);
+dataFunctions.hotness()
+.then( data => {
+  getData.hotness = JSON.parse(data).slice(0,5);
+  console.log("getData.hotness:", getData.hotness);
+}, error => {
+  console.log("error:", error);
 });
-
-function parseData(arrayOfData) {
-  let hotnessArray = arrayOfData[0].items.item.splice(0,5);
-  console.log("hotnessArray:", hotnessArray);
-  }
-
-  // toHTML(getData.hotness); // will take (stat, chartType) as paramaters
