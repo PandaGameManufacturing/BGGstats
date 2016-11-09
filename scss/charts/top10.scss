@@ -3,54 +3,16 @@
 #top10 {
   position: top left;
   width: 116%;
-  height: 480px;
-  margin-top: -60px;
-  margin-left: -75x;
-  z-index: 1;
+  height: 475px;
+  margin-top: -70px;
   position: relative;
 }
-
-.table, .table-top10 {
-  z-index: 3;
-  position: relative;
-  // background: white;
-}
-
-.table-top10 .number {
-  margin: 5px 5px 5px 0;
-}
-
-.table-top10 {
-  font-weight: 100;
-}
-
-.top10-text {
-  font-weight: 400;
-  font-size: 1.2em;
-  line-height: 1.4em;
-  margin: 0 0 4px 5px;
-  vertical-align: middle;
-  width: 85%;
-  display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-// Top 10 on mobile
 
 @media screen and (max-width: 990px) {
   #top10 {
     width: 110%;
     height: 400px;
     margin-left: -40px;
-  }
-
-  .top10-text {
-    text-overflow: inherit;
-    text-overflow: initial;
-    text-overflow: unset;
-    display: inline-block;
   }
 }
 

@@ -4,9 +4,14 @@
 
 // SPEED TESTS
 
+// Hotness List
 // http://bgg-json.azurewebsites.net/hot         40ms
 // http://bgg-api.herokuapp.com/api/v1/hotness   50ms
 // https://www.boardgamegeek.com/xmlapi2/hot    700ms
+
+// Item Details
+// http://bgg-api.herokuapp.com/api/v1/thing?id=167791  40ms
+// https://boardgamegeek.com/xmlapi2/thing?id=167791    80ms
 
 // http://bgg-json.azurewebsites.net/collection/nathantbaker 50ms
 // https://boardgamegeek.com/xmlapi2/collection?username=nathantbaker 80ms
@@ -34,33 +39,76 @@ let dataFunctions = [],
 
 // getData.hotness returns an object of data, etc.
 
-for (var prop in apiCalls) {
-  // console.log("apiCalls." + prop + " = " + apiCalls[prop]);
+let createDataFunctions = function (calls) { //pass it an object with an array of API calls to make
 
-  dataFunctions[prop] = (function (prop) { // iife allows prop to not have closure in loop
-    return function () {
-      return new Promise((resolve, reject) => {
-        $.ajax({
-          url: apiCalls[prop]
-        }).done(data => {
-          resolve(data);
-        }).fail(error => {
-          reject(error);
+  for (var prop in calls) {
+
+    dataFunctions[prop] = (function (prop) { // iife allows prop to not have closure in loop
+      return function () {
+        return new Promise((resolve, reject) => {
+          $.ajax({
+            url: calls[prop]
+          }).done(data => {
+            resolve(data);
+          }).fail(error => {
+            reject(error);
+          });
         });
-      });
-    };
-  })(prop);
+      };
+    })(prop);
 
-}
+  }
+
+};
+
+createDataFunctions(apiCalls);
 
 console.log("Data Functions:", dataFunctions);
 
 dataFunctions.hotness()
 .then( data => {
   getData.hotness = JSON.parse(data).slice(0,5);
-  toHTML(getData.hotness, "shelf-12");
+  return getData;
   console.log("getData.hotness:", getData.hotness);
+}, error => { console.log("dataFunctions.hotness error", error); })
+.then( data => {
+
+    let tempApiCalls = {};
+
+    for (let i = 0; i < getData.hotness.length; i++) {
+      let url = `http://bgg-api.herokuapp.com/api/v1/thing?id=${getData.hotness[i].gameId}`;
+      let functionName = `_${getData.hotness[i].gameId}`;
+      tempApiCalls[functionName] = url;
+    }
+    console.log("tempApiCalls:", tempApiCalls);
+
+    createDataFunctions(tempApiCalls);
+    console.log("dataFunctions:", dataFunctions);
+
+    let thing = dataFunctions._167791();
+    console.log("thing:", thing);
+
+    // Retrieve data for item calls and push to the getData object
+    for (prop in tempApiCalls) {
+        // console.log("obj." + prop + " = " + obj[prop]);
+      let i = prop;
+      dataFunctions[i]()
+        .then( data => {
+          getData[i] = data.items.item[0];
+        }, error => { console.log("Error getting items for Hotness List", error); });
+    }
+
+    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12", data);
+
+
+    console.log("getData:", getData);
+
+
+
+
 }, error => { console.log("dataFunctions.hotness error", error); });
+
+
 
 
 /**********************\
@@ -72,89 +120,101 @@ dataFunctions.hotness()
 | 4. DOM Interactions  |
 \**********************/
 
-function toHTML (data, chartType) {
+function createChart (title, data, chartType, allData) {
 
-    let htmlString = "", shelf12 = "";
-
-    let rowStart = "<div class='row'>";
+    // Snippets all charts use
+    let htmlString = "",
+        shelf12 = "",
+        rowStart = "<div class='row'>",
+        rowEnd = "<div class='row'>";
 
     switch(chartType) {
+
+      // Chart Type: SHELF-12
       case "shelf-12":
-          shelf12 = `
 
-        ${rowStart}
+      let top5list = "", top5info1 = "", top5info2 = "";
 
-       <div class="col-sm-12 col-md-12 col-lg-3">
+        // Configure Top 5 List on left
+        for (let i = 0; i < data.length; i++) {
+          top5list += `
+          <li>
+            <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">${data[i].name}</a>
+          </li>
+        `;}
+
+        // Configure first row of info
+        for (let i = 0; i < data.length; i++) {
+          let string = data[i].gameId;
+          top5info1 += `<td>Published: ${string}</td>`;
+        }
+
+        // Configure second row of info
+        for (let i = 0; i < data.length; i++) {
+          top5info2 += `<td>Published: ${data[i].yearPublished}</td>`;
+        }
+
+        shelf12 += `
+         ${rowStart}
+            <div class="col-sm-12 col-md-12 col-lg-3">
+              <div class="statbox">
+
+                <div class="label-title">
+                  <h2>${title}</h2>
+                  <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+                </div>
+
+                    <ol>
+                      ${top5list}
+                    </ol>
+             </div>
+
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-9">
             <div class="statbox">
 
-              <div class="label-title">
-                <h2><strong>The Hotness</strong> Right Now</h2>
-                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
-              </div>
 
-                  <table class="table-top10">
-                      <tr><th><div class="number n1">1</div><div class="top10-text">${data[0].name}</div></th></tr>
-                      <tr><th><div class="number">2</div><div class="top10-text">${data[1].name}</div></th></tr>
-                      <tr><th><div class="number">3</div><div class="top10-text">${data[2].name}</div></th></tr>
-                      <tr><th><div class="number">4</div><div class="top10-text">${data[3].name}</div></th></tr>
-                      <tr><th><div class="number">5</div><div class="top10-text">${data[4].name}</div></th></tr>
-                  </table>
-           </div>
+                  <div class="shelf text-center">
 
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-9">
-          <div class="statbox">
+                  `;
+
+                  // /loop over shelf items
+                  for (let i = 0; i < data.length; i++) {
+                    shelf12 += `
+                      <div class="shelf-shadowed">
+                        <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
+                          <img class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
+                        </a>
+                      </div>
+                    `;
+                  }
 
 
-                <div class="shelf text-center">
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[0].thumbnail}">
-                  </div>
+                  shelf12 += `
 
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[1].thumbnail}">
-                  </div>
-
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[2].thumbnail}">
-                  </div>
-
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[3].thumbnail}">
-                  </div>
-
-                  <div class="shelf-shadowed">
-                    <img class="shelf-img" src="${data[4].thumbnail}">
-                  </div>
-
-                  <!-- Wooden Shelf -->
-                  <div class="shelf-bottom">
-                    <div class="shelf-left">
-                      <div class="shelf-right"></div>
+                    <!-- Wooden Shelf -->
+                    <div class="shelf-bottom">
+                      <div class="shelf-left">
+                        <div class="shelf-right"></div>
+                      </div>
                     </div>
+
+                    <!-- Table of Info -->
+                    <table class="table shelf-table">
+                      </thead>
+                      <tbody>
+                        <!-- <tr>${top5info1}</tr> -->
+                        <tr>${top5info2}</tr>
+                      </tbody>
+                    </table>
+
                   </div>
-
-                  <!-- Table of Info -->
-                  <table class="table shelf-table">
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>${data[0].yearPublished}</td>
-                        <td>${data[1].yearPublished}</td>
-                        <td>${data[2].yearPublished}</td>
-                        <td>${data[3].yearPublished}</td>
-                        <td>${data[4].yearPublished}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
+              </div>
             </div>
-          </div>
 
-          `;
-          console.log("you printed a shelf with:", data);
+            `;
+
           break;
       case "other":
             console.log("test");
@@ -164,11 +224,30 @@ function toHTML (data, chartType) {
   }
 
   // Set order of stats
-  htmlString =
-    shelf12;
+  htmlString = shelf12;
 
   $("#main").prepend(htmlString);
+
+console.log("allData",allData);
+console.log("allData._167791", allData._167791);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**********************\
 |  5. Charts JS   |
