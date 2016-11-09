@@ -204,7 +204,7 @@ function createChart (title, data, chartType, allData) {
                     <table class="table shelf-table">
                       </thead>
                       <tbody>
-                        <tr>${top5info1}</tr>
+                        <!-- <tr>${top5info1}</tr> -->
                         <tr>${top5info2}</tr>
                       </tbody>
                     </table>
