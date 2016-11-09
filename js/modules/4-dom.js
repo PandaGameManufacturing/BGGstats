@@ -3,7 +3,7 @@
 | 4. DOM Interactions  |
 \**********************/
 
-function createChart (title, data, chartType) {
+function createChart (title, data, chartType, allData) {
 
     // Snippets all charts use
     let htmlString = "",
@@ -110,4 +110,23 @@ function createChart (title, data, chartType) {
   htmlString = shelf12;
 
   $("#main").prepend(htmlString);
+
+console.log("allData",allData);
+console.log("allData._167791", allData._167791);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -64,9 +64,10 @@ console.log("Data Functions:", dataFunctions);
 dataFunctions.hotness()
 .then( data => {
   getData.hotness = JSON.parse(data).slice(0,5);
+  return getData;
   console.log("getData.hotness:", getData.hotness);
 }, error => { console.log("dataFunctions.hotness error", error); })
-.then( () => {
+.then( data => {
 
     let tempApiCalls = {};
 
@@ -89,14 +90,17 @@ dataFunctions.hotness()
       let i = prop;
       dataFunctions[i]()
         .then( data => {
-          getData[i] = data;
-          console.log("data:", data);
+          getData[i] = data.items.item[0];
         }, error => { console.log("Error getting items for Hotness List", error); });
     }
 
+    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12", data);
+
+
     console.log("getData:", getData);
 
-    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12");
+
+
 
 }, error => { console.log("dataFunctions.hotness error", error); });
 

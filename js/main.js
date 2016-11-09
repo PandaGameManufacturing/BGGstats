@@ -68,9 +68,10 @@ console.log("Data Functions:", dataFunctions);
 dataFunctions.hotness()
 .then( data => {
   getData.hotness = JSON.parse(data).slice(0,5);
+  return getData;
   console.log("getData.hotness:", getData.hotness);
 }, error => { console.log("dataFunctions.hotness error", error); })
-.then( () => {
+.then( data => {
 
     let tempApiCalls = {};
 
@@ -93,14 +94,17 @@ dataFunctions.hotness()
       let i = prop;
       dataFunctions[i]()
         .then( data => {
-          getData[i] = data;
-          console.log("data:", data);
+          getData[i] = data.items.item[0];
         }, error => { console.log("Error getting items for Hotness List", error); });
     }
 
+    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12", data);
+
+
     console.log("getData:", getData);
 
-    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12");
+
+
 
 }, error => { console.log("dataFunctions.hotness error", error); });
 
@@ -116,7 +120,7 @@ dataFunctions.hotness()
 | 4. DOM Interactions  |
 \**********************/
 
-function createChart (title, data, chartType) {
+function createChart (title, data, chartType, allData) {
 
     // Snippets all charts use
     let htmlString = "",
@@ -223,7 +227,27 @@ function createChart (title, data, chartType) {
   htmlString = shelf12;
 
   $("#main").prepend(htmlString);
+
+console.log("allData",allData);
+console.log("allData._167791", allData._167791);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**********************\
 |  5. Charts JS   |
