@@ -109,7 +109,7 @@ dataFunctions.hotness()
 }, error => { console.log("dataFunctions.hotness error", error); });
 
 
-
+console.log("hi");
 
 /**********************\
 |  3. App Modules      |

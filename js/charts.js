@@ -151,6 +151,21 @@ google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a
 |  Top 10              |
 \**********************/
 
+// color scheme
+let
+    n1  = "#26BB5D",
+    n2  = "#259E7C",
+    n3  = "#24819B",
+    n4  = "#2364BA",
+    n5  = "#2347D9",
+    n6  = "#503FC1",
+    n7  = "#7E37A9",
+    n8  = "#AB2F91",
+    n9  = "#D9277A",
+    n10 = "#D9274B",
+    x1  = "#ccc",
+    x2  = "#eee";
+
 google.charts.load("current", {packages:["corechart"]});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
@@ -193,7 +208,7 @@ function drawChart() {
   ]);
 
   var options = {
-    colors: ['#e0440e', "#D62896", "#B728A1", "#9928AC", "#7A28B7", "#5C29C2", "#554FC4", "#4F75C7", "#499BC9", "#43C1CC", '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee', '#ccc', '#eee'],
+    colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
     legend: 'none',
     curveType: 'function',
     pointSize: 0,
