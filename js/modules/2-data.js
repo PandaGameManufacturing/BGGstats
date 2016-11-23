@@ -94,7 +94,7 @@ dataFunctions.hotness()
         }, error => { console.log("Error getting items for Hotness List", error); });
     }
 
-    createChart("<strong>The Hotness</strong> Right Now", getData.hotness, "shelf-12", data);
+    createChart("The Hotness", getData.hotness, "shelf-12", data);
 
 
     console.log("getData:", getData);
