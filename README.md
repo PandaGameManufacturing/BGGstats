@@ -1,13 +1,24 @@
-# BGGstats.com
+## How to Run This App
 
-BGGstats.com displays charts about the board game industry, and provides insights on your own collection.
+In the root folder, run `npm install`.
 
-See production code on [github.io](https://nathantbaker.github.io/BGGstats/) and eventually at [BGGdata.com](http://bggdata.com).
+This will download dependencies, open [http://localhost:9966/webpack-dev-server/](http://localhost:9966/webpack-dev-server/) where the app will load in a few seconds, and boot up `webpack-dev-server` for you.
 
-BGGstats.com pulls in board game stats using the [BoardGameGeek](https://www.boardgamegeek.com/) API.
+## Developement Environment
+This app uses [Webpack](https://webpack.github.io/) to modularize code and automate tasks. NPM scripts are configured in the `package.json` file. They are being used so you can easily access commands of local node modules without having to install anything globally. Webpack is being configured in `webpack.config.js`.
 
-## API and API Wrappers being used
+### Webpack Dev Server
+In this project, the Webpack Dev Server is configured to live-reload changes you make. It creates the latest version of the app on the fly, even though it does **not** compile code.
+* **`npm start`** Start Webpack Dev Server and be send to the URL where the app loads
+* **`npm stop`** Stop Webpack Dev Server
+* **`npm restart`** Stop and then start Webpack Dev Server
 
-1. [The Board Game Geek XML API 2](https://boardgamegeek.com/wiki/page/BGG_XML_API2)
-1. [bgg-json by Erv Walter](https://github.com/ervwalter/bgg-json)
-1. [BGG Strathmeyer API](https://boardgamegeek.com/thread/1139853/ajax-ready-bgg-api-any-web-programmers-out-there) which is a caching proxy for the BGG API that returns JSON.
+### Compile Code
+* **`npm run compile`** Compile once to see changes live reload in Webpack Dev Server
+* **`npm run watch`** Compile continuously to see changes live reload in Webpack Dev Server
+
+### Linting
+`jshint` runs in the background and will halt watch functionality until code is lint free. You can supress specific errors across the project in the `js/.jshintrc` file.
+
+### Production
+If you're deploying your app, read the `PRODUCTION-README` in the  `dist` folder. `npm run build` sends the right production assets to the dist folder, but you'll still need to change a few lines of code here and there with this current configuration.

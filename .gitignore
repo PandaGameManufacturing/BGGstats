@@ -1,3 +1,7 @@
 .DS_Store
-lib/.sass-cache
-lib/node_modules
+node_modules
+npm-debug.log
+# dist folder exceptions:
+dist/*
+!dist/css/bundle.css
+!PRODUCTION-README.md
