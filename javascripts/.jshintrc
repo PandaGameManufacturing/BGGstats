@@ -1,0 +1,14 @@
+{
+  "strict": "global",
+  "esversion": 6,
+  "globals": {
+    "$": true,
+    "console": true,
+    "alert": true,
+    "document": true,
+    "alert": true,
+    "google": true,
+    "window": true,
+    "setTimeout": true
+  }
+}

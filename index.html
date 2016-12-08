@@ -1,200 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- Development index.html in root. Production index.html in dist folder -->
+<html>
   <head>
     <title>BGG Stats - Track Board Games on the Rise</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/charts.js"></script>
   </head>
   <body>
+    <header>
+      <!-- Logo/tagline/social share icons  -->
+      <div class="row">
 
-      <header>
-        <!-- Logo/tagline/social share icons  -->
-        <div class="row">
-
-          <div class="col-sm-12 col-md-1 col-lg-1 logo-wrapper">
-            <img id="logo" src="images/BGGstats.png" alt="Board Game Geek Stats">
-          </div>
+        <div class="col-sm-12 col-md-1 col-lg-1 logo-wrapper">
+          <img id="logo" src="/dist/images/BGGstats.png" alt="Board Game Geek Stats">
+        </div>
 
 
-          <!-- Search -->
+        <!-- Search -->
 <!--           <div class="col-sm-6 col-md-6 col-lg-6">
 
-            <input type="text" class="form-control text-center" id="input" placeholder=" BoardGameGeek Username">
-            <span class="glyphicon glyphicon-search"></span>
-
-          </div>
- -->
-<!--           <div class="col-sm-2 col-md-2 col-lg-2">
-            <button type="button" class="btn btn-secondary btn-lg btn-block">View Stats</button>
-          </div>
- -->
-
-          <!-- Tabs -->
-          <div class="col-xs-10 col-sm-10 col-sm-5 col-md-4">
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Board Games on the Rise</a>
-              </li>
-<!--               <li class="nav-item">
-                <a class="nav-link" href="#">Your Stats</a>
-               </li> -->
-            </ul>
-          </div>
-
-          <!-- Settings -->
-<!--           <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 pull-right">
-            <a href="#"><img id="settings" src="images/icons/settings.svg" alt="settings"/></a>
-          </div>
- -->
+          <input type="text" class="form-control text-center" id="input" placeholder=" BoardGameGeek Username">
+          <span class="glyphicon glyphicon-search"></span>
 
         </div>
-      </header>
-    <div class="container-fluid" id="main">
-        <div class="row">
+-->
+<!--           <div class="col-sm-2 col-md-2 col-lg-2">
+          <button type="button" class="btn btn-secondary btn-lg btn-block">View Stats</button>
+        </div>
+-->
 
-            <!-- Top 10  -->
-            <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="statbox">
-                            <div class="label-title">
-                <h2>Top 10</h2>
-                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
-              </div>
+        <!-- Tabs -->
+        <div class="col-xs-10 col-sm-10 col-sm-5 col-md-4">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Board Games on the Rise</a>
+            </li>
+          </ul>
+        </div>
 
+      </div>
+    </header>
+  <div class="container-fluid" id="main">
+      <div class="row">
 
-                  <div class="col-sm-12 col-md-7 col-lg-8">
+          <!-- Top 10  -->
+          <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="statbox">
+                          <div class="label-title">
+              <h2>Top 10</h2>
+              <a><img class="help pull-right" src="/dist/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+            </div>
 
-                    <!-- Line Chart -->
-                   <div id="top10"></div>
+                <div class="col-sm-12 col-md-7 col-lg-8">
 
-                  </div>
-
-                  <!-- Table -->
-                  <div class="col-sm-12 col-md-5 col-lg-4">
-                    <ol class="color-list">
-                      <li>Pandemic Legacy: Season 1</li>
-                      <li>Through the Ages: A New Story of Civilization</li>
-                      <li>Twilight Struggle</li>
-                      <li>Terra Mystica</li>
-                      <li>Caverna: The Cave Farmers</li>
-                      <li>Star Wars: Rebellion</li>
-                      <li>Puerto Rico</li>
-                      <li>7 Wonders Duel</li>
-                      <li>The Castles of Burgundy</li>
-                      <li>Agricola</li>
-                   </ol>
-                  </div>
-
-<!-- <th><div class="number">5</div> Mechs vs. Minions</th> -->
+                  <!-- Line Chart -->
+                 <div id="top10"></div>
 
                 </div>
-            </div>
-          </div>
-<!--
-          <div class="col-lg-2 col-md-3 col-xs-6">
-            <div class="statbox">
 
-              <div class="kpi">3,092</div>
-              <div class="label-title label-kpi">
-                <h2>Games Published in <strong>2016</strong></h2>
-                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+                <!-- Table -->
+                <div class="col-sm-12 col-md-5 col-lg-4">
+                  <ol class="color-list">
+                    <li>Pandemic Legacy: Season 1</li>
+                    <li>Through the Ages: A New Story of Civilization</li>
+                    <li>Twilight Struggle</li>
+                    <li>Terra Mystica</li>
+                    <li>Caverna: The Cave Farmers</li>
+                    <li>Star Wars: Rebellion</li>
+                    <li>Puerto Rico</li>
+                    <li>7 Wonders Duel</li>
+                    <li>The Castles of Burgundy</li>
+                    <li>Agricola</li>
+                 </ol>
+                </div>
+
               </div>
-
-              <div class="kpi">3,371</div>
-              <div class="label-title label-kpi">
-                <h2>Games Published in <strong>2015</strong></h2>
-                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
-              </div>
-
-              <div class="kpi kpi-small">86,000</div>
-              <div class="label-title label-kpi">
-                <h2>Total Games Published</h2>
-                <a><img class="help pull-right" src="images/icons/help.svg" alt="What is The Hotness Stat?"></a>
-              </div>
-
-            </div>
           </div>
- -->
- <!--          <div class="col-lg-8 col-md-9">
-            <div class="statbox">
-              <h2 class="label-title">Games Published Per Year</h2>
-              ...
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-3 col-xs-6">
-            <div class="statbox">
-              <div class="kpi">3,365</div>
-              <h2 class="label-title">Games Published Last Year (2015)</h2>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-3 col-xs-6">
-            <div class="statbox">
-              <div class="statlabel">The Hotness</div>
-                <ol>
-                  <li><a href="#">Not Alone</a></li>
-                  <li><a href="#">Mechs vs. Minions</a></li>
-                  <li><a href="#">Terraforming Mars</a></li>
-                  <li><a href="#">A Feast for Odin</a></li>
-                  <li><a href="#">Conan</a></li>
-                </ol>
-            </div>
-          </div>
- -->
-          <!-- Stats appear right on small screens -->
-<!--           <div class="clearfix visible-xs-block"></div>
-
-          <div class="col-md-4 col-sm-6">
-            <div class="statbox">
-              <div class="statlabel">Top 10</div>
-              ...
-            </div>
-          </div> -->
-
-          <!-- Stats appear right on small screens -->
-<!--           <div class="clearfix visible-xs-block"></div>
-
-          <div class="col-md-4 col-sm-6">
-            <div class="statbox">
-              <div class="statlabel">Stat 3</div>
-              ...
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-3 col-xs-6">
-            <div class="statbox">
-              <div class="statlabel">Average Collection Size</div>
-              ...
-            </div>
-          </div>
-
-           <div class="col-lg-2 col-md-3 col-xs-6">
-            <div class="statbox">
-              <div class="statlabel">Average Collection Size</div>
-              ...
-            </div>
-          </div> -->
-
         </div>
-    </div>
+
+      </div>
+  </div>
+
     <footer class="text-center">
-
-        <!-- Footer Text -->
-        <div class="row">
-          <div class="col-ex-12">
-            <p>Website by <a href="http://nathantbaker.com">Nathan T. Baker</a></p>
-          </div>
+      <!-- Footer Text -->
+      <div class="row">
+        <div class="col-ex-12">
+          <p>Website by <a href="http://nathantbaker.com">Nathan T. Baker</a></p>
         </div>
-      </footer>
+      </div>
+    </footer>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-
+    <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
   </body>
 </html>
