@@ -1,7 +1,5 @@
 'use strict';
 
-console.log("  - favicon loads");
-
 // Loading a base64 favicon from a javascript file so:
 //  1. It doesn't take an extra server request, and
 //  2. Browsers can still cache it

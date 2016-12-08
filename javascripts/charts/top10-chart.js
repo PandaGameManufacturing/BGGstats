@@ -1,7 +1,5 @@
 "use strict";
 
-console.log("  - top 10 chart loads");
-
 require("../../third-party-js/jquery-local");
 require("../../third-party-js/google-charts-loader");
 
