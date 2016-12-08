@@ -9,6 +9,7 @@
     "alert": true,
     "google": true,
     "window": true,
-    "setTimeout": true
+    "setTimeout": true,
+    "XMLHttpRequest": true
   }
 }
