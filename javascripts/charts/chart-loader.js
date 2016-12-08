@@ -1,7 +1,5 @@
 'use strict';
 
-console.log("--- chart loader loads");
-
 // Requires
 require("./hotness-chart");
 require("./published-chart");

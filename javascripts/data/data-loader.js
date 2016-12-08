@@ -1,7 +1,5 @@
 "use strict";
 
-console.log("--- data loader loads");
-
 // BGG API Data
 require("./bgg-api/game-details-call");
 require("./bgg-api/hotness-call");
