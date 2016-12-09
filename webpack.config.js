@@ -7,6 +7,7 @@ module.exports = {
     filename: "bundle.js"
   },
   module: {
+    exprContextCritical: false,
     preLoaders:[
       { test: /\.json$/, loader: 'json'},
       {
