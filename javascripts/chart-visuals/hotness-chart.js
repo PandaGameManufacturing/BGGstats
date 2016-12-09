@@ -2,7 +2,7 @@
 
 let $ = require("../../third-party-js/jquery-local");
 
-let hotnessChart = (title, data) => {
+let hotnessChart = (title, data, slot) => {
   console.log("Data needed for hotness chart", data);
 
   // Setting up variables
@@ -128,7 +128,7 @@ let hotnessChart = (title, data) => {
 
       `;
 
-  $("#main").prepend(shelf);
+  $(`#${slot}`).html(shelf);
 
 };
 

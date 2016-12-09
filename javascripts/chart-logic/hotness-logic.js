@@ -6,7 +6,7 @@ let getData = require("../data/data-loader"),
     arrayOfPromises = [],
     data = {};
 
-let hotnessLogic = () => {
+let hotnessLogic = slot => {
   getData.hotness.then( result => {                             // get hotness data
     data = JSON.parse(result).slice(0,5);                       // push first five results to data.hotness
     for (let i = 0; i < 5; i++) {                               // iterate over the top 5
@@ -24,7 +24,7 @@ let hotnessLogic = () => {
         arrayOfPromises[3],
         arrayOfPromises[4]
       ]).then(values => {
-      createChart.hotness("The Hotness", data); // create chart after all API calls resolve
+      createChart.hotness("The Hotness", data, slot); // create chart after all API calls resolve
     }, reason => {
       console.log("hotness API calls didn't resolve", reason);
     });
