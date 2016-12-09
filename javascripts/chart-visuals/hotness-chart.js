@@ -1,6 +1,6 @@
 "use strict";
 
-let $ = require("../../third-party-js/jquery-local");
+let $ = require("../../node_modules/jquery/src/jquery.js");
 
 let hotnessChart = (title, data, slot) => {
   console.log("Data needed for hotness chart", data);
@@ -81,7 +81,7 @@ let hotnessChart = (title, data, slot) => {
       <div class="statbox">
         <div class="label-title">
           <h2>${title}</h2>
-          <a><img class="help pull-right" src="/dist/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
         </div>
           <ol>
             ${top5list}

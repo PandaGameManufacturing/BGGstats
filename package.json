@@ -15,7 +15,7 @@
     "restart": "pkill -f webpack-dev-server; webpack-dev-server --inline --port 9966",
     "compile": "webpack",
     "watch": "webpack --watch",
-    "build": "npm-sass ./sass/style.scss > ./dist/css/style.css && NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html",
+    "build": "npm-sass ./sass/style.scss > ./dist/css/style.css && NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html && cp -r images dist/images",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nathan T. Baker",

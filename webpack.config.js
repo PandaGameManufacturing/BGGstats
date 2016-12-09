@@ -20,11 +20,5 @@ module.exports = {
         loaders: ["style", "css", "sass"]
       }
     ]
-  },
-  resolve: {
-    alias: {
-      // used when requiring jquery in modules
-      'jquery-path': '../node_modules/jquery/src/jquery.js'
-    }
   }
 };

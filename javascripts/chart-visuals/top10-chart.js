@@ -1,6 +1,6 @@
 "use strict";
 
-require("../../third-party-js/jquery-local");
+let $ = require("../../node_modules/jquery/src/jquery.js");
 require("../../third-party-js/google-charts-loader");
 
  // <div class="row">
