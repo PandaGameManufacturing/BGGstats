@@ -8,6 +8,7 @@ module.exports = {
   },
   module: {
     preLoaders:[
+      { test: /\.json$/, loader: 'json'},
       {
         test: /\.js$/,
         include: /javascripts/,
@@ -18,7 +19,11 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
-      }
+      },
+      { test: /\.md$/, loader: "html!markdown" }
     ]
+  },
+  node: {
+    fs: "empty"
   }
 };
