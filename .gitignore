@@ -2,6 +2,7 @@
 node_modules
 npm-debug.log
 # dist folder exceptions:
+
 dist/*
 !dist/css/bundle.css
 !PRODUCTION-README.md
