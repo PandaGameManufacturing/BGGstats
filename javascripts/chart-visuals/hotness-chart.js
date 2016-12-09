@@ -23,7 +23,17 @@ let hotnessChart = (title, data) => {
 
     top5list += `
         <li><a href="${item1Link}/">${data[0].name}</a></li>
-        <p>${description}</p>
+
+        <table class="table table-hover">
+          <tr>
+            <td><strong>Game Description</strong></td>
+            <td>${data[0].yearPublished}</td>
+          </tr>
+          <tr>
+            <td colspan="2">${description}</td>
+          </tr>
+        </table>
+
       `;
 
 
@@ -52,7 +62,10 @@ let hotnessChart = (title, data) => {
 
       // Configure third row of info
       for (let i = 0; i < data.length; i++) {
-        gameDetails3 += `<td>Published: ${data[i].yearPublished}</td>`;
+        let timeMin = data[i].details.minplaytime[0].$.value,
+            timeMax = data[i].details.maxplaytime[0].$.value,
+            time = `${timeMin}-${timeMax} minutes`;
+        gameDetails3 += `<td>${time}</td>`;
       }
 
 
