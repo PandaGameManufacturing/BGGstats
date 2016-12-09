@@ -2,16 +2,15 @@
 
 #top10 {
   position: top left;
-  width: 116%;
-  height: 475px;
+  width: 117.5%;
+  height: 490px;
   margin-top: -70px;
   position: relative;
 }
 
-@media screen and (max-width: 990px) {
+@media screen and (max-width: 1100px) {
   #top10 {
-    width: 110%;
-    height: 400px;
+    width: 118%;
     margin-left: -40px;
   }
 }
