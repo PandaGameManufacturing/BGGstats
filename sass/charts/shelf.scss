@@ -26,7 +26,7 @@ $shadow: #888;
   display: inline-block;
   vertical-align: bottom;
   float: none;
-  background: url("/dist/images/shelf/shelf-middle.png");
+  background: url("/images/shelf/shelf-middle.png");
 }
 
 .shelf-left {
@@ -36,7 +36,7 @@ $shadow: #888;
   position: relative;
   display: inline-block;
   float: none;
-  background: url("/dist/images/shelf/shelf-left.png") left no-repeat;
+  background: url("/images/shelf/shelf-left.png") left no-repeat;
 }
 
 .shelf-right {
@@ -46,7 +46,7 @@ $shadow: #888;
   position: relative;
   display: inline-block;
   float: none;
-  background: url("/dist/images/shelf/shelf-right.png") right no-repeat;
+  background: url("/images/shelf/shelf-right.png") right no-repeat;
 }
 
 
