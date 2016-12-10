@@ -1,5 +1,4 @@
 module.exports = {
-
   entry: "./javascripts/user-inputs.js",
   output: {
     path: "./dist",
@@ -7,7 +6,9 @@ module.exports = {
     filename: "bundle.js"
   },
   module: {
+    exprContextCritical: false,
     preLoaders:[
+      { test: /\.json$/, loader: 'json'},
       {
         test: /\.js$/,
         include: /javascripts/,
@@ -18,7 +19,11 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
-      }
+      },
+      { test: /\.md$/, loader: "html!markdown" }
     ]
+  },
+  node: {
+    fs: "empty"
   }
 };
