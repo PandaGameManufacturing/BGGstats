@@ -1,5 +1,4 @@
 module.exports = {
-
   entry: "./javascripts/user-inputs.js",
   output: {
     path: "./dist",

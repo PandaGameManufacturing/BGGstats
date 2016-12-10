@@ -3,8 +3,6 @@
 let $ = require("../../node_modules/jquery/src/jquery.js");
 
 let hotnessChart = (title, data, slot) => {
-  console.log("Data needed for hotness chart", data);
-
   // Setting up variables
   let shelf = "", top5list = "", gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
