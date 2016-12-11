@@ -10,7 +10,8 @@
   "scripts": {
     "postinstall": "open http://localhost:9966/webpack-dev-server/ && cp node_modules/bootstrap/dist/css/bootstrap.min.css dist/css/bootstrap.min.css && webpack-dev-server --inline --port 9966",
     "prestart": "open http://localhost:9966/webpack-dev-server/",
-    "start": "webpack-dev-server --inline --port 9966",
+    "start": "node server.js"
+  },
     "stop": "pkill -f webpack-dev-server",
     "restart": "pkill -f webpack-dev-server; webpack-dev-server --inline --port 9966",
     "compile": "webpack",
