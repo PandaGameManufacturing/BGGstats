@@ -1,7 +1,7 @@
 module.exports = {
   entry: "./javascripts/user-inputs.js",
   output: {
-    path: "./dist",
+    path: "./public",
     publicPath: "http://localhost:9966/webpack-dev-server/",
     filename: "bundle.js"
   },
