@@ -3,7 +3,6 @@
 // requires
 require("./assets/asset-loader");
 require("../sass/style.scss");
-require("./crawler/crawler-loader");
 require("./chart-visuals/chart-visuals-loader");
 let loadChart = require("./chart-logic/chart-logic-loader");
 
