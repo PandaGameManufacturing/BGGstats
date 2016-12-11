@@ -8,15 +8,7 @@
     "url": "https://github.com/nathantbaker/webpack-template"
   },
   "scripts": {
-    "postinstall": "open http://localhost:9966/webpack-dev-server/ && cp node_modules/bootstrap/dist/css/bootstrap.min.css dist/css/bootstrap.min.css && webpack-dev-server --inline --port 9966",
-    "prestart": "open http://localhost:9966/webpack-dev-server/",
-    "start": "node server.js",
-    "stop": "pkill -f webpack-dev-server",
-    "restart": "pkill -f webpack-dev-server; webpack-dev-server --inline --port 9966",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "build": "npm-sass ./sass/style.scss > ./dist/css/style.css && NODE_ENV=production node node_modules/.bin/webpack && cp index.html dist/index.html && cp -r images dist/images",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "author": "Nathan T. Baker",
   "license": "ISC",
