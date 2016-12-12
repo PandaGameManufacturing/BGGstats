@@ -1,17 +1,15 @@
 "use strict";
-let $ = require("../../node_modules/jquery/src/jquery.js");
 
 function pushToGameRank(rankObject) {
+
   return new Promise(function(resolve, reject) {
-    $.ajax ({
-      url: 'https://bggstats-2de27.firebaseio.com/GameRank.json',
-      type: 'POST',
-      data: JSON.stringify(rankObject),
-      dataType: 'json'
-    }).done(function(data){
+    var req = new XMLHttpRequest();
+    req.open('POST', 'https://bggstats-2de27.firebaseio.com/GameRank.json');
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify(rankObject));
+  }).done(function(data){
       console.log("data sent:", data);
     });
-  });
 }
 
 module.exports = pushToGameRank;
