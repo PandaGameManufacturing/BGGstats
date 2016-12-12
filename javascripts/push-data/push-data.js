@@ -1,14 +1,14 @@
 "use strict";
 let http = require('https');
 
-function pushToGameRank(rankObject) {
+function pushData(dataObject, collectionPath) {
 
-  let postData = JSON.stringify(rankObject);
+  let postData = JSON.stringify(dataObject);
   console.log("data as JSON:", postData);
 
   let options = {
     hostname: process.env.firebasePostDomain,
-    path: '/GameRank.json',
+    path: collectionPath,
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,4 +38,4 @@ function pushToGameRank(rankObject) {
 
 }
 
-module.exports = pushToGameRank;
+module.exports = pushData;
