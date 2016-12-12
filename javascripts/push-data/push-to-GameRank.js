@@ -1,26 +1,41 @@
-"use strict"
+"use strict";
 
 function pushToGameRank(rankObject) {
-  console.log("pushToGameRank function runs")
-  let http = require('http')
 
-  let jsonString = JSON.stringify(rankObject)
-  console.log("stringified rankObject", jsonString)
+  let postData = querystring.stringify(rankObject);
+  console.log("data as JSON:", postData);
 
-  console.log("auth domain", process.env.firebaseAuthDomain)
+  let options = {
+    hostname: process.env.firebaseDatabaseURL,
+    port: 80,
+    path: '/GameRank.json',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
 
-  var request = new http.ClientRequest({
-      hostname: process.env.firebaseAuthDomain,
-      port: 80,
-      path: "/GameRank.json",
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-          "Content-Length": Buffer.byteLength(jsonString)
-      }
-  })
+  let req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
 
-  request.end(jsonString)
+  req.on('error', (e) => {
+    console.log(`problem with request: ${e.message}`);
+  });
+
+  // write data to request body
+  req.write(postData);
+  req.end();
+
 }
 
-module.exports = pushToGameRank
+module.exports = pushToGameRank;
