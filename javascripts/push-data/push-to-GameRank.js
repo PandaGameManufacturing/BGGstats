@@ -14,7 +14,7 @@ function pushToGameRank(rankObject) {
       method: "POST",
       headers: {
           "Content-Type": "application/json",
-          "Content-Length": Buffer.byteLength(body)
+          "Content-Length": Buffer.byteLength(jsonString)
       }
   })
 
