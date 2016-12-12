@@ -7,7 +7,7 @@ function pushToGameRank(rankObject) {
   console.log("data as JSON:", postData);
 
   let options = {
-    hostname: process.env.firebaseAuthDomain,
+    hostname: process.env.firebasePostDomain,
     port: 80,
     path: '/GameRank.json',
     method: 'POST',
