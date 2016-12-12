@@ -7,7 +7,7 @@ function pushToGameRank(rankObject) {
   console.log("data as JSON:", postData);
 
   let options = {
-    hostname: 'https://bggstats-2de27.firebaseio.com',
+    hostname: 'bggstats-2de27.firebaseio.com',
     port: 80,
     path: '/GameRank.json',
     method: 'POST',
