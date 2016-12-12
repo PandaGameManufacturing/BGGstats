@@ -1,5 +1,5 @@
 "use strict";
-let $ = require("jquery");
+let $ = require("../../node_modules/jquery/src/jquery.js");
 
 function pushToGameRank(rankObject) {
   return new Promise(function(resolve, reject) {
