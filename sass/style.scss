@@ -19,10 +19,14 @@ $shadow: #888;
 /* === GLOBAL === */
 
 body {
-  background-color: $bgcolor;
+  background-color: white;
   margin: 0;
   min-width: 400px;
 }
+
+// .container {
+//   max-width: 1600px;
+// }
 
 #slot1, #slot2, #slot3, #slot4, #slot5, #slot6 {
   background-color: white;
@@ -35,6 +39,7 @@ header {
   background-color: $bgcolor;
   padding: 25px 25px 0 30px;
   margin: 0px;
+  width: 100%;
   background: -moz-linear-gradient(top, $bgcolor 0%, $bgcolor 30%, #ededed 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, $bgcolor 0%,$bgcolor 30%,#ededed 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, $bgcolor 0%,$bgcolor 30%, #ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -219,4 +224,6 @@ li {
 
 footer {
   padding: 20px 45px;
+  background-color: #e6e6e6;
+  box-shadow: 0px 500px 0px 500px #e6e6e6;
 }

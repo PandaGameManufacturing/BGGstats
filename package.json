@@ -8,7 +8,8 @@
     "url": "https://github.com/nathantbaker/webpack-template"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "npm-sass ./sass/style.scss > ./public/css/style.css && cp -r images public/images"
   },
   "author": "Nathan T. Baker",
   "license": "ISC",

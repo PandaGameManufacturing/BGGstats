@@ -13,21 +13,17 @@ let hotnessChart = (title, data, slot) => {
   \**********************/
 
   // item 1 description
-  let truncateLength = 250,
+  let truncateLength = 260,
       item1Link = `https://boardgamegeek.com/boardgame/${data[0].gameId}`,
       descriptionData = String(data[0].details.description).substring(0, truncateLength),
-      description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
+      description = `<a href="${item1Link}">${descriptionData}...</a>`;
 
   // item 1 html
   top5list += `
-    <li><a href="${item1Link}/">${data[0].name}</a></li>
+    <li><a href="${item1Link}/"><strong>About ${data[0].name}</strong</a></li>
     <table class="table table-hover">
       <tr>
-        <td><strong>Game Description</strong></td>
-        <td class="text-right">${data[0].yearPublished}</td>
-      </tr>
-      <tr>
-        <td colspan="2">${description}</td>
+        <td><strong>${data[0].yearPublished}</strong> - ${description}</td>
       </tr>
     </table>
   `;
