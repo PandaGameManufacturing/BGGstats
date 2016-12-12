@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^bggstats.com [NC]
+RewriteRule ^(.*)$ http://www.bggstats.com/$1 [L,R=301]
