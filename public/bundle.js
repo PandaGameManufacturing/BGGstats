@@ -12437,7 +12437,7 @@
 	let getData = __webpack_require__(117);
 
 	let gameDetails = function(id) {
-	  return getData(`http://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
+	  return getData(`https://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
 	};
 
 	module.exports = gameDetails;
@@ -12486,7 +12486,7 @@
 
 	"use strict";
 	let getData = __webpack_require__(117);
-	let getHotness = getData('http://bgg-json.azurewebsites.net/hot');
+	let getHotness = getData('https://bgg-json.azurewebsites.net/hot');
 	module.exports = getHotness;
 
 /***/ },
