@@ -1,7 +1,7 @@
 'use strict';
 /*jshint loopfunc: true */
 
-let getData = require("../data/data-loader"),
+let getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader"),
     arrayOfPromises = [],
     data = {};
