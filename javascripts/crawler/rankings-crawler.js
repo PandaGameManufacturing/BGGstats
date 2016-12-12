@@ -25,7 +25,7 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
 
         // push up data to firebase
         console.log("You built an object:", rankObject);
-        database.pushRankData(rankObject);
+        database.pushData(rankObject, "/GameRank.json");
     });
 
 crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {
