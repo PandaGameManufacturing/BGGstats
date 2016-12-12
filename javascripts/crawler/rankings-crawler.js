@@ -24,7 +24,7 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
         rankObject.Year = 2016;
 
         // push up data to firebase
-        console.log("You fetched a resource!");
+        console.log("You built an object:", rankObject);
         database.pushRankData(rankObject);
     });
 
