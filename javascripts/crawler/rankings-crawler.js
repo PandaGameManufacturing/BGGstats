@@ -2,6 +2,7 @@
 console.log("I'm the rankings crawler");
 
 let database = require("../push-data/push-data-loader"),
+    getDate = require("../assets/get-date"),
     Crawler = require("simplecrawler"),
     rankObject = {
       Name: null,
@@ -15,17 +16,8 @@ let database = require("../push-data/push-data-loader"),
       CrawlSnapShot: null
     };
 
-// Function to convert milliseconds time to YYYYMMDD
-Date.prototype.yyyymmdd = function() {
-  var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
-  var dd = this.getDate().toString();
-  return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
-};
-
-// Grab today's date
-  var date = new Date();
-  var todayString = date.yyyymmdd();
-  console.log("todayString:", todayString);
+// pull YYYYMMDD date
+let timestamp = getDate();
 
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
@@ -34,10 +26,12 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
         // push data to rankObject
         rankObject.Name = "test name";
         rankObject.Year = 2016;
+        rankObject.CrawlDate = timestamp;
 
         // push up data to firebase
         console.log("You built an object:", rankObject);
-        database.pushData(rankObject, `/GameRank/${todayString}.json`);
+        database.pushData(rankObject, `/GameRank/${timestamp}.json`);
+        // push object within a collection that's the YYYYMMDD
     });
 
 crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {

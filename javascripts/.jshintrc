@@ -10,6 +10,7 @@
     "google": true,
     "window": true,
     "setTimeout": true,
-    "XMLHttpRequest": true
+    "XMLHttpRequest": true,
+    "module": true
   }
 }
