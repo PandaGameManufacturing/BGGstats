@@ -17,9 +17,11 @@ let database = require("../push-data/push-data-loader"),
     };
 
 // gather dates
-data.CrawlSnapShot = new Date();  // milliseconds since 1970
+let date = new Date();
+data.CrawlSnapShot = date.toTimeString();  // milliseconds since 1970
 data.CrawlDate = getPrettyDate(); // Calculate YYYYMMDD
-data.Year = data.CrawlSnapShot.getFullYear(); // grab YYYY
+data.Year = date.getFullYear(); // grab YYYY
+console.log("data.CrawlSnapShot:", data.CrawlSnapShot);
 
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
