@@ -1,16 +1,24 @@
-"use strict";
+"use strict"
 
 function pushToGameRank(rankObject) {
-  console.log("pushToGameRank function runs");
-  console.log("Object in function:", rankObject);
+  console.log("pushToGameRank function runs")
+  let http = require('http')
 
-  var req = new XMLHttpRequest();
-  req.open('POST', 'https://bggstats-2de27.firebaseio.com/GameRank.json');
-  req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  let jsonString = JSON.stringify(rankObject)
+  console.log("stringified rankObject", jsonString)
 
-  // send request
-  req.send(JSON.stringify(rankObject));
-  console.log("request should have been sent on the line above");
+  var request = new http.ClientRequest({
+      hostname: process.env.firebaseAuthDomain,
+      port: 80,
+      path: "https://bggstats-2de27.firebaseio.com/GameRank.json",
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(body)
+      }
+  })
+
+  request.end(jsonString)
 }
 
-module.exports = pushToGameRank;
+module.exports = pushToGameRank
