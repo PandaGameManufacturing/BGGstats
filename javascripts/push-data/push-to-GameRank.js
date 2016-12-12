@@ -1,5 +1,5 @@
 "use strict";
-let http = require('http');
+let http = require('https');
 
 function pushToGameRank(rankObject) {
 
