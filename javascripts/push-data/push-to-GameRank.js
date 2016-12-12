@@ -10,7 +10,7 @@ function pushToGameRank(rankObject) {
   console.log("auth domain", process.env.firebaseAuthDomain)
 
   var request = new http.ClientRequest({
-      hostname: process.env.firebaseAuthDomain,
+      hostname: 'https://bggstats-2de27.firebaseio.com',
       port: 80,
       path: "/GameRank.json",
       method: "POST",
