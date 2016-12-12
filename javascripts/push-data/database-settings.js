@@ -1,6 +1,6 @@
 "use strict";
 
-let firebase = require('../../node_modules/firebase/firebase.js');
+let firebase = require('../../node_modules/firebase');
 
 let config = {
   apiKey: process.env.firebaseApiKey,
