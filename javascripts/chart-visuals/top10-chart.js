@@ -1,6 +1,6 @@
 "use strict";
 
-let $ = require("../../node_modules/jquery/src/jquery.js");
+let $ = require("jquery");
 
 let top10Chart = (title, slot) => {
 
