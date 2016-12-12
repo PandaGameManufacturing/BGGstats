@@ -10,18 +10,18 @@ let database = require("../push-data/push-data-loader"),
       Rank: null,
       Top10: null,
       Top100: null,
-      Bottom5: null,
-      Year: null,
+      CrawlYear: null,
       CrawlDate: null,
+      CrawlMoment: null,
       CrawlSnapShot: null
     };
 
 // gather dates
 let date = new Date();
-data.CrawlSnapShot = date.toTimeString();  // milliseconds since 1970
+data.CrawlSnapShot = date.toTimeString();  // Human readable date format
+data.CrawlMoment = date;  // ISO 8601 format
 data.CrawlDate = getPrettyDate(); // Calculate YYYYMMDD
-data.Year = date.getFullYear(); // grab YYYY
-console.log("data.CrawlSnapShot:", data.CrawlSnapShot);
+data.CrawlYear = date.getFullYear(); // grab YYYY
 
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
