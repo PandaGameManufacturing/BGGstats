@@ -15,6 +15,18 @@ let database = require("../push-data/push-data-loader"),
       CrawlSnapShot: null
     };
 
+// Function to convert milliseconds time to YYYYMMDD
+Date.prototype.yyyymmdd = function() {
+  var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+  var dd = this.getDate().toString();
+  return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
+};
+
+// Grab today's date
+  var date = new Date();
+  var todayString = date.yyyymmdd();
+  console.log("todayString:", todayString);
+
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
         console.log("You fetched a resource!");
@@ -25,7 +37,7 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
 
         // push up data to firebase
         console.log("You built an object:", rankObject);
-        database.pushData(rankObject, "/GameRank.json");
+        database.pushData(rankObject, `/GameRank/${todayString}.json`);
     });
 
 crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {
