@@ -12208,7 +12208,7 @@
 	      <div class="statbox">
 	                      <div class="label-title">
 	          <h2>${title}</h2>
-	          <a><img class="help pull-right" src="/public/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
 	        </div>
 
 	            <div class="col-sm-12 col-md-7 col-lg-8">
@@ -12437,7 +12437,7 @@
 	let getData = __webpack_require__(117);
 
 	let gameDetails = function(id) {
-	  return getData(`http://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
+	  return getData(`https://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
 	};
 
 	module.exports = gameDetails;
@@ -12486,7 +12486,7 @@
 
 	"use strict";
 	let getData = __webpack_require__(117);
-	let getHotness = getData('http://bgg-json.azurewebsites.net/hot');
+	let getHotness = getData('https://bgg-json.azurewebsites.net/hot');
 	module.exports = getHotness;
 
 /***/ },

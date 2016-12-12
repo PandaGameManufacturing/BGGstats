@@ -1,8 +1,7 @@
 module.exports = {
-  entry: "./javascripts/user-inputs.js",
+  entry: "html!./index.html",
   output: {
     path: "./public",
-    publicPath: "http://localhost:9966/webpack-dev-server/",
     filename: "bundle.js"
   },
   module: {
@@ -20,7 +19,8 @@ module.exports = {
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
       },
-      { test: /\.md$/, loader: "html!markdown" }
+      { test: /\.md$/, loader: "html!markdown" },
+      { test: /\.ejs$/, loader: 'ejs-loader?variable=data' }
     ]
   },
   node: {
