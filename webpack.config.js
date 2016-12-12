@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "html!./development-index.html",
+  entry: "./javascripts/user-inputs.js",
   output: {
     path: "./public",
     filename: "bundle.js"
