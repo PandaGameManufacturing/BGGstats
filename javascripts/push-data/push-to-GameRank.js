@@ -2,7 +2,7 @@
 
 function pushToGameRank(rankObject) {
 
-  let postData = querystring.stringify(rankObject);
+  let postData = JSON.stringify(rankObject);
   console.log("data as JSON:", postData);
 
   let options = {
