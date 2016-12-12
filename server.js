@@ -1,6 +1,5 @@
 var crawler = require('./javascripts/crawler/crawler-loader');
 var express = require('express');
-let firebase = require('firebase');
 var app = express();
 
 // set the port of our application
@@ -23,11 +22,3 @@ app.get('/', function(req, res) {
 app.listen(port, function() {
 	console.log('Our app is running on http://localhost:' + port);
 });
-
-let config = {
-  apiKey: process.env.firebaseApiKey,
-  authDomain: process.env.firebaseAuthDomain,
-  databaseURL: process.env.firebaseDatabaseURL
-};
-
-firebase.initializeApp(config);
