@@ -5,7 +5,6 @@
 $shadow: #888;
 
 .shelf-table {
-
   width: 90%;
   padding: 0;
   margin: 0 5%;
@@ -77,14 +76,14 @@ $shadow: #888;
     float: none;
 }
 .shelf-shadowed::before {
-    width: 10px;
+    width: 8px;
     height: 100%;
     background-color: $shadow;
     content:'';
     display: block;
     position: absolute;
-    top: 5px;
-    right: -10px;
+    top: 4px;
+    right: -8px;
     -webkit-transform: skew(0, 45deg);
     -moz-transform: skew(0, 45deg);
     -o-transform: skew(0, 45deg);
@@ -96,41 +95,20 @@ $shadow: #888;
 // Shelf Image Spacing
 
 .shelf-img, .shelf-shadowed, .shelf-shadowed::before{
-  margin: 0 12px -5px 12px;
+  margin: 0 5px -5px 5px;
 }
 
 .shelf-img {
   background-color: #222;
-  min-width: 120px;
-  max-width: 140px;
-  max-height: 160px;
+  min-width: 110px;
+  max-width: 125px;
+  max-height: 140px;
   box-shadow: -8px 15px 20px #bbb;
   margin-bottom: 0;
 }
 
 
-@media screen and (max-width: 1300px) {
-  .shelf-img, .shelf-shadowed, .shelf-shadowed::before {
-  margin: 0 8px -5px 8px;
-}
-  .shelf-img {
-  min-width: 115px;
-  max-width: 150px;
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  .shelf-img, .shelf-shadowed, .shelf-shadowed::before {
-  margin: 0 6px -5px 6px;
-  }
-  .shelf-img {
-  min-width: 90px;
-  max-width: 120px;
-  }
-}
-
 // Shelf on mobile
-
 @media screen and (max-width: 900px) {
   .shelf-img, .shelf-shadowed, .shelf-shadowed::before {
   margin: 0 8px -5px 8px;

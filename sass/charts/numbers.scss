@@ -32,22 +32,23 @@ ol a:hover {
 
 ol > li {
   font-weight: 400;
-  font-size: 1.2em;
+  font-size: 1.1em;
   line-height: 1.2em;
-  margin: 0 0 6px 2em;
-  padding: 4px 8px;
+  margin: 0 0 6px 0;
+  padding: 5px 18px;
   vertical-align: middle;
-  text-overflow: ellipsis;
   position:relative;
   list-style:none;
+  white-space: nowrap;
 }
 
 .shelf ol > li {
   text-align: left;
   display: inline-block;
-  margin: 0 20px 0 20px;
-  width: 140px;
+  width: 145px;
   vertical-align: text-top;
+  margin-bottom: 5px;
+  white-space: normal;
 }
 
 ol > li:first-child:before {
@@ -67,10 +68,11 @@ ol > li:before {
   height: 26px;
   color: white;
   text-align: center;
-  font-size: .75em;
-  line-height: 1em;
+  font-size: .9em;
+  line-height: 1.05em;
   font-weight: 300;
-  padding: 7.25px .5px 0 0;
+  padding: 6px 0 0 0;
+  margin-left: 15px;
 }
 
 // .Color List has a gradient of colors
@@ -83,4 +85,4 @@ ol.color-list > li:nth-child(6):before { background-color: $n6; }
 ol.color-list > li:nth-child(7):before { background-color: $n7; }
 ol.color-list > li:nth-child(8):before { background-color: $n8; }
 ol.color-list > li:nth-child(9):before { background-color: $n9; }
-ol.color-list > li:nth-child(10):before { background-color: $n10; padding: 7.5px 1px 0 0;}
+ol.color-list > li:nth-child(10):before { background-color: $n10; padding: 6px 3px 0 0; }
