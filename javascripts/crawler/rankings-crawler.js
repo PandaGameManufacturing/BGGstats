@@ -10,18 +10,18 @@ let database = require("../push-data/push-data-loader"),
       Rank: null,
       Top10: null,
       Top100: null,
-      CrawlYear: null,
-      CrawlDate: null,
-      CrawlMoment: null,
-      CrawlSnapShot: null
+      CrawlYear: null,      // YYYY as number
+      CrawlDate: null,      // YYYYMMDD as string
+      CrawlMoment: null,    // ISO 8601 format
+      CrawlSnapShot: null   // full army-time date and time
     };
 
 // gather dates
 let date = new Date();
-data.CrawlSnapShot = date.toTimeString();  // Human readable date format
-data.CrawlMoment = date;  // ISO 8601 format
-data.CrawlDate = getPrettyDate(); // Calculate YYYYMMDD
-data.CrawlYear = date.getFullYear(); // grab YYYY
+data.CrawlSnapShot = date.toTimeString();
+data.CrawlMoment = date;
+data.CrawlDate = getPrettyDate();
+data.CrawlYear = date.getFullYear();
 
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
@@ -29,7 +29,6 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
 
         // push data to data
         data.Name = "test name";
-        data.Year = 2016;
 
         // push up data to firebase
         console.log("You built an object:", data);
