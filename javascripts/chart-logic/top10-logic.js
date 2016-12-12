@@ -1,7 +1,7 @@
 'use strict';
 
 require("../../third-party-js/google-charts-loader");
-let $ = require("jquery"),
+let $ = require("../../node_modules/jquery/src/jquery.js"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
