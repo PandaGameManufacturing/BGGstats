@@ -1,7 +1,4 @@
 .DS_Store
-node_modules/*
-!node_modules/cheerio
-!node_modules/simplecrawler
 npm-debug.log
 
 # Logs
