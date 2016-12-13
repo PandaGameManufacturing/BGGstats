@@ -2,26 +2,17 @@
 console.log("I'm the rankings crawler");
 
 let database = require("../push-data/push-data-loader"),
-    getPrettyDate = require("../assets/get-date"),
+    addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
     data = {
       Name: null,
       BggId: null,
       Rank: null,
       Top10: null,
-      Top100: null,
-      CrawlYear: null,      // YYYY as number
-      CrawlDate: null,      // YYYYMMDD as string
-      CrawlMoment: null,    // ISO 8601 format
-      CrawlSnapShot: null   // full army-time date and time
+      Top100: null
     };
 
-// gather dates
-let date = new Date();
-data.CrawlSnapShot = date.toTimeString();
-data.CrawlMoment = date;
-data.CrawlDate = getPrettyDate();
-data.CrawlYear = date.getFullYear();
+addCrawlTimes(data); // add crawl time in different formats to object
 
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
     .on("fetchcomplete", function () {
@@ -32,8 +23,10 @@ let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
 
         // push up data to firebase
         console.log("You built an object:", data);
-        database.pushData(data, `/GameRank/${data.CrawlDate}.json`);
+
         // push object within a collection that's the YYYYMMDD
+        database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+
     });
 
 crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {
