@@ -1,7 +1,7 @@
 /*
   Module Dependencies
 */
-var htmlparser = require('../node_modules/htmlparser2');
+var htmlparser = require('../node_modules/htmlparser2/lib/index.js');
 
 /*
   Parser
