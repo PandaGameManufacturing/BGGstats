@@ -6,6 +6,7 @@ node_modules/*
 !node_modules/simplecrawler
 !node_modules/express
 !node_modules/jquery
+!node_modules/node-sass
 
 npm-debug.log
 
