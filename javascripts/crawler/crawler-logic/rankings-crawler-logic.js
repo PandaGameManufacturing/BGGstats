@@ -7,9 +7,9 @@ let database = require("../../push-data/push-data-loader"),
     cheerio = require("cheerio"),
     data = {};
 
-let rankingsCrawlerLogic = function(gameTarget, url) {
+let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
 
-  // set url
+  // set url to crawl
   let crawl = Crawler(`${url}`)
     .on("fetchcomplete", function () { console.log("You fetched a resource!"); });
 
@@ -17,20 +17,22 @@ let rankingsCrawlerLogic = function(gameTarget, url) {
     console.log("I just received %s (%d bytes)", queueItem.url, responseBuffer.length);
     console.log("It was a resource of type %s", response.headers['content-type']);
 
-    // push data to a temporary object
-    data.Name = Crawler.getGameName(responseBuffer, queueItem, gameTarget);     // name
-    let BggUrl = Crawler.getGameId(responseBuffer, queueItem, gameTarget);      // bgg id
-    data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
-    data.Rank = gameTarget;                                                     // rank
-    if (gameTarget <= 10) { data.Top10 = true;} else {data.Top10 = false;}      // top 10 boolean
-    if (gameTarget <= 100) { data.Top100 = true;} else {data.Top100 = false;}   // top 100 boolean
-    addCrawlTimes(data);                                                        // crawl time data
+    // loop over the games on the page
+    for (let i = gameStart; i <= gameEnd; i++) {
 
-    // console log out data about to be pushed
-    console.log("You built an object:", data);
+      // push data to a temporary object
+      data.Name = Crawler.getGameName(responseBuffer, queueItem, i);     // name
+      let BggUrl = Crawler.getGameId(responseBuffer, queueItem, i);      // bgg id
+      data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
+      data.Rank = i;                                                     // rank
+      if (i <= 10) { data.Top10 = true;} else {data.Top10 = false;}      // top 10 boolean
+      if (i <= 100) { data.Top100 = true;} else {data.Top100 = false;}   // top 100 boolean
+      addCrawlTimes(data);                                                        // crawl time data
 
-    // push object within a collection that's the YYYYMMDD
-    database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+      // push object within a collection that's the YYYYMMDD
+      database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+
+    }
 
   });
 
