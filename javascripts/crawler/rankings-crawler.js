@@ -4,7 +4,7 @@ console.log("I'm the rankings crawler");
 let database = require("../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
-    cheerio = require("cheerio"),
+    cheerio = require("../../node_modules/cheerio/index.js"),
     data = {
       BggId: null,
     };
@@ -45,9 +45,3 @@ Crawler.getGameName = function(buffer, queueItem, gameNumber) {
 
 // start crawl
 crawl.start();
-
-// 1 1 + 0
-// 2 3 + 1
-// 3 5 + 2
-// 4 7 + 3
-// 5 9 + 4
