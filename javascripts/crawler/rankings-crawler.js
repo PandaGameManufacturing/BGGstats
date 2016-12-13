@@ -4,12 +4,12 @@ console.log("I'm the rankings crawler");
 let database = require("../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
-    cheerio = require("cheerio"),
+    cheerio = require("./cheerio/lib/cheerio.js"),
     data = {
       BggId: null,
     };
 
-let gameTarget = 23;
+let gameTarget = 18;
 
 // set url
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
