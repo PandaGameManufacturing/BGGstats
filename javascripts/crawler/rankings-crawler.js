@@ -3,10 +3,11 @@
 let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
     cron = require("node-cron");
 
-cron.schedule('5 * * * * *', function(){
-  let counter = 5;
-  console.log(`It's been ${counter} seconds`);
-  counter += 5;
+let counter = 2;
+
+cron.schedule('2 * * * *', function(){
+  console.log(`It's been ${counter} minutes`);
+  counter += 2;
 });
 
 // let baseURL = "http://boardgamegeek.com/browse/boardgame";
