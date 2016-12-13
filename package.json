@@ -13,7 +13,7 @@
   },
   "author": "Nathan T. Baker",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "bootstrap": "^3.3.7",
     "cheerio": "^0.22.0",
     "cors-anywhere": "^0.4.0",
