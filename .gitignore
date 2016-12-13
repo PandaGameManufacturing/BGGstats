@@ -1,7 +1,12 @@
 .DS_Store
 
 npm-debug.log
-node_modules
+
+
+node_modules/*
+#ignore all node modules except:
+!node_modules/simplecrawler
+
 # Logs
 logs
 *.log
