@@ -11,6 +11,9 @@ let database = require("../push-data/push-data-loader"),
 
 let gameTarget = 18;
 
+let absolute_path = __dirname;
+console.log("absolute_path:", absolute_path);
+
 // set url
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
   .on("fetchcomplete", function () { console.log("You fetched a resource!"); });
