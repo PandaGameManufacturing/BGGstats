@@ -4,7 +4,7 @@ console.log("I'm the rankings crawler");
 let database = require("../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
-    cheerio = require("../../node_modules/cheerio/index.js"),
+    cheerio = require("../../node_modules/cheerio/lib/cheerio.js"),
     data = {
       BggId: null,
     };
