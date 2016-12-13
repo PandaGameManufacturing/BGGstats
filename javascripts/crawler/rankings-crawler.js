@@ -5,14 +5,9 @@ let database = require("../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio"),
-    data = {
-      BggId: null,
-    };
+    data = {};
 
-let gameTarget = 18;
-
-let absolute_path = __dirname;
-console.log("absolute_path:", absolute_path);
+let gameTarget = 7;
 
 // set url
 let crawl = Crawler("http://boardgamegeek.com/browse/boardgame")
@@ -24,6 +19,8 @@ crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {
 
   // push data to a temporary object
   data.Name = Crawler.getGameName(responseBuffer, queueItem, gameTarget);     // name
+  let BggUrl = Crawler.getGameId(responseBuffer, queueItem, gameTarget);      // bgg id
+  data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
   data.Rank = gameTarget;                                                     // rank
   if (gameTarget <= 10) { data.Top10 = true;} else {data.Top10 = false;}      // top 10 boolean
   if (gameTarget <= 100) { data.Top100 = true;} else {data.Top100 = false;}   // top 100 boolean
@@ -40,10 +37,16 @@ crawl.on("fetchcomplete", function(queueItem, responseBuffer, response) {
 // crawl settings
 crawl.maxDepth = 1;
 
-// functions for targeting the data I want
+// function for targeting game name
 Crawler.getGameName = function(buffer, queueItem, gameNumber) {
   let $ = cheerio.load(buffer.toString("utf8"));
   return $(`#results_objectname${gameNumber}`).find('a').text();
+  };
+
+// function for targeting game id
+Crawler.getGameId = function(buffer, queueItem, gameNumber) {
+  let $ = cheerio.load(buffer.toString("utf8"));
+  return $(`#results_objectname${gameNumber}`).find('a').attr("href");
   };
 
 // start crawl
