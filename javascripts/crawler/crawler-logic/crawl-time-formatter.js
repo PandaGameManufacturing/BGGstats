@@ -1,6 +1,6 @@
 "use strict";
 
-let getPrettyDate = require("../assets/get-date");
+let getPrettyDate = require("../../assets/get-date");
 
  // CRAWL TIME FORMATS
   // CrawlYear         YYYY as number
