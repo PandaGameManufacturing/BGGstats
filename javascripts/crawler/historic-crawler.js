@@ -2,7 +2,7 @@
 
 let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic");
 
-let baseURL = "http://www.bggstats.com/public/2016_11_22/";
+let baseURL = "http://www.bggstats.com/2016_11_22/";
 
 let pg1config  = { "gameStart":   1, "gameEnd":  100, "url": `${baseURL}1.html`         },
     pg2config  = { "gameStart": 101, "gameEnd":  200, "url": `${baseURL}2.html`  },
