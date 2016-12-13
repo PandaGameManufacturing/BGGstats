@@ -21,22 +21,34 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
     // loop over the games on the page 201-300, or 501-600, etc
     for (let i = gameStart; i <= gameEnd; i++) {
 
-      // push data to a temporary object
       let data = {};
-      let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
-      data.Name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter);     // name
-      resultsCounter++; // BGG id for 100 results on page
-      data.Rank = i;                                                                  // rank
-      if (i <= 10) { data.Top10 = true;} else {data.Top10 = false;}                   // top 10 boolean
-      if (i <= 100) { data.Top100 = true;} else {data.Top100 = false;}                // top 100 boolean
-      addCrawlTimes(data);                                                            // crawl time data
 
-      // call this at the end so getGameId has time to do it's thing
-      data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
+      var promise = new Promise(function(resolve, reject) {
+        // do a thing, possibly async, then…
 
-      // push object within a collection that's the YYYYMMDD
-      // database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
-      database.pushData(data, `/GameRank/20161122.json`);
+        // push data to a temporary object
+        let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
+        data.Name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter);     // name
+        resultsCounter++; // BGG id for 100 results on page
+        data.Rank = i;                                                                  // rank
+        if (i <= 10) { data.Top10 = true;} else {data.Top10 = false;}                   // top 10 boolean
+        if (i <= 100) { data.Top100 = true;} else {data.Top100 = false;}                // top 100 boolean
+        addCrawlTimes(data);                                                            // crawl time data
+
+      });
+
+      promise.then(function(result) {
+
+        data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
+
+        // push object within a collection that's the YYYYMMDD
+        // database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+        console.log("data I'm pushing up:", data);
+        database.pushData(data, "/GameRank/20161122.json");
+
+      }, function(err) {
+        console.log(err); // Error: "It broke"
+      });
 
     }
   });
