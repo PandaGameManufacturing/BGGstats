@@ -3,9 +3,7 @@
 npm-debug.log
 
 
-node_modules/*
-#ignore all node modules except:
-!node_modules/simplecrawler
+node_modules
 
 # Logs
 logs
