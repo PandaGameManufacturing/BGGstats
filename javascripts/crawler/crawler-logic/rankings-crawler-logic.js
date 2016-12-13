@@ -24,13 +24,15 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
       // push data to a temporary object
       let data = {};
       let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
-      data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
       data.Name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter);     // name
       resultsCounter++; // BGG id for 100 results on page
       data.Rank = i;                                                                  // rank
       if (i <= 10) { data.Top10 = true;} else {data.Top10 = false;}                   // top 10 boolean
       if (i <= 100) { data.Top100 = true;} else {data.Top100 = false;}                // top 100 boolean
       addCrawlTimes(data);                                                            // crawl time data
+
+      // call this at the end so getGameId has time to do it's thing
+      data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
 
       // push object within a collection that's the YYYYMMDD
       // database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
