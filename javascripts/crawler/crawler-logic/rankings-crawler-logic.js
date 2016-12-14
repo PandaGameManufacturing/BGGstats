@@ -1,5 +1,4 @@
 "use strict";
-console.log("I'm the rankings crawler");
 
 let database = require("../../database-settings/database-settings"),
     push = require("../../push-data/push-data-loader"),
@@ -34,8 +33,7 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
       addCrawlTimes(data);                                                            // crawl time data
 
       // push object within a collection that's the YYYYMMDD
-      // database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
-      push.pushData(data, `/GameRank/test.json`);
+      push.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
 
     }
   });

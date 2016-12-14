@@ -2,9 +2,8 @@
 let http = require('https');
 
 function pushData(dataObject, collectionPath) {
-
+  console.log("Pushing up game", dataObject.Rank);
   let postData = JSON.stringify(dataObject);
-  console.log("data as JSON:", postData);
 
   let options = {
     hostname: process.env.firebasePostDomain,
