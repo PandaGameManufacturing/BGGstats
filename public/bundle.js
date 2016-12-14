@@ -10750,11 +10750,10 @@
 
 	'use strict';
 
-	__webpack_require__(23);
 	let $ = __webpack_require__(13),
+	    chartLoader = __webpack_require__(37),
 	    getData = __webpack_require__(6),
 	    createChart = __webpack_require__(15);
-
 
 	let top10Logic = slot => {
 
@@ -10926,8 +10925,58 @@
 	module.exports = top10Logic;
 
 /***/ },
-/* 23 */
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */
 /***/ function(module, exports) {
+
+	"use strict";
+
+	let getDate = function() {
+	  Date.prototype.yyyymmdd = function() {
+	    let mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+	    let dd = this.getDate().toString();
+	    return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
+	  };
+	    let date = new Date();
+	    return date.yyyymmdd();
+	};
+
+	module.exports = getDate;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/* jshint ignore:start */
+
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-2726397-31', 'auto');
+	ga('send', 'pageview');
+
+	/* jshint ignore:end */
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	/* jshint ignore:start */
 
 	(function (){ var aa="\n//# sourceURL=",ba='<script type="text/javascript" src="',b="American Samoa",ca="Antigua and Barbuda",k="Bolivia",p="Bosna i Hercegovina",q="Botswana",da="British Virgin Islands",ea="Cayman Islands",fa="Christmas Island",ga="Falkland Islands",r="Ghana",ha="Guin\u00e9e \u00e9quatoriale",ia="Guyane fran\u00e7aise",t="Honduras",u="Indonesia",v="Itoophiyaa",ja="Kalaallit Nunaat",w="Kiribati",ka="LocaleNameConstants",la="Luxembourg",ma="Madagascar",na="Marshall Islands",x="Micronesia",oa="Moldova, Republica",
 	pa="Nederlandse Antillen",qa="New Zealand",y="Nigeria",ra="Norfolk Island",sa="Northern Mariana Islands",ta="Nouvelle-Cal\u00e9donie",z="Papua New Guinea",ua="Paraguay",va="Philippines",wa="Polyn\u00e9sie fran\u00e7aise",xa="Puerto Rico",za="Rep\u00fablica Dominicana",A="Rwanda",Aa="Rywvaneth Unys",Ba="R\u00e9publique centrafricaine",Ca="R\u00e9publique d\u00e9mocratique du Congo",Da="Saint Kitts and Nevis",Ea="Saint Vincent and the Grenadines",Fa="Saint-Pierre-et-Miquelon",Ga="Serbia and Montenegro",
@@ -11079,49 +11128,7 @@
 	google.a.c.I);google.a.c.window=window;google.a.c.Ec=document;var h=c.packages;h&&0!==h.length||(h=["default"]);google.a.c.U(c.callback);google.a.c.Uc(h,function(){google.a.c.Xc(h,g)})}}};google.a.c.kd=function(a){if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a);else{var c=window.onload;window.onload=function(d){c&&c(d);a()}}};google.a.c.Jb=document&&document.readyState===K;google.a.c.kd(function(){google.a.c.Jb=!0;google.a.c.Na()});
 	google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a.c.Ba=[];google.a.c.U=function(a){a&&google.a.c.Ba.push(a);google.a.c.S||google.a.c.Na()};google.a.c.xc=function(){var a=google.a.c.Ba;for(google.a.c.Ba=[];0<a.length;)a.shift()()};google.a.c.Qa=function(a,c){google.a.c.cd(a,c)};if(Z.Ea(Xa))throw Error("Google Charts loader.js can only be loaded once.");google.a.load=function(){var a=0;"visualization"===arguments[a]&&a++;var c="current";Z.h(arguments[a])&&(c=arguments[a],a++);var d={};arguments.length>a&&(d=arguments[a],a++);var e=void 0;arguments.length>a&&(e=arguments[a]);google.a.c.load(c,d,e)};google.a.U=function(a){google.a.c.U(a)};google.a.Qa=function(a,c){google.a.c.Qa(a,c)};Z.ya(Xa,google.a.load);Z.ya("google.charts.setOnLoadCallback",google.a.U);Z.ya("google.charts.packageLoadedCallback",google.a.Qa); })();
 
-/***/ },
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	let getDate = function() {
-	  Date.prototype.yyyymmdd = function() {
-	    let mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
-	    let dd = this.getDate().toString();
-	    return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
-	  };
-	    let date = new Date();
-	    return date.yyyymmdd();
-	};
-
-	module.exports = getDate;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-	ga('create', 'UA-2726397-31', 'auto');
-	ga('send', 'pageview');
-
+	/* jshint ignore:end */
 
 /***/ }
 /******/ ]);

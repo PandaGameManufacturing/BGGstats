@@ -1,10 +1,9 @@
 'use strict';
 
-require("../../third-party-js/google-charts-loader");
 let $ = require("jquery"),
+    chartLoader = require("../assets/google-charts-loader"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
-
 
 let top10Logic = slot => {
 
