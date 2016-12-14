@@ -1,11 +1,11 @@
 {
   "name": "module-name",
   "version": "0.1.1",
-  "description": "Nathan T. Baker's configuration for Webpack",
+  "description": "BGGstats.com: Track board game rankings",
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nathantbaker/webpack-template"
+    "url": "https://github.com/nathantbaker/BGGstats"
   },
   "scripts": {
     "start": "node server.js",
