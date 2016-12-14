@@ -5,10 +5,12 @@ let $ = require("jquery"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
-getData.top10(20161213).then(function(data) {
-   console.log("test data:", data);
-  }, function(reason) {
-  console.log("Couldn't get top10 data from database:", reason);
+getData.top10().then( data => {
+  let dataObject = JSON.parse(data); // Parse JSON to a javascript Object
+
+   console.log("test data:", dataObject);
+  }, error => {
+  console.log("Couldn't get top10 data from database:", error);
 });
 
 let top10Logic = slot => {

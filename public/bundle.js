@@ -252,18 +252,24 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	console.log("load top10 call");
 
 	// requires
-	let getData = __webpack_require__(8);
+	let getData = __webpack_require__(8),
+	    getToday = __webpack_require__(35);
 
-	let options = "?Top10=true";
+	// URL config
+	let baseURL    = "https://bggstats-2de27.firebaseio.com/",
+	    collection = "GameRank",
+	    tag        = "Top10Tag",
+	    today      = getToday(),
+	    tagValue   = `${today}_Top10_true`;
 
-	let getCrawlTop10 = function(date) {
-	  return getData(`https://bggstats-2de27.firebaseio.com/GameRank/${date}.json${options}`);
+	// tagValue is a custom tag that lets me pull down using two queries
+	// it's workaround since you can't use ?orderBy= twice in a firebase query
+
+	let getCrawlTop10 = () => {
+	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${tagValue}%22`);
 	};
-
-
 
 	module.exports = getCrawlTop10;
 
@@ -10748,10 +10754,12 @@
 	    getData = __webpack_require__(6),
 	    createChart = __webpack_require__(15);
 
-	getData.top10(20161213).then(function(data) {
-	   console.log("test data:", data);
-	  }, function(reason) {
-	  console.log("Couldn't get top10 data from database:", reason);
+	getData.top10().then( data => {
+	  let dataObject = JSON.parse(data); // Parse JSON to a javascript Object
+
+	   console.log("test data:", dataObject);
+	  }, error => {
+	  console.log("Couldn't get top10 data from database:", error);
 	});
 
 	let top10Logic = slot => {
@@ -11008,6 +11016,35 @@
 	(google.a.c.ea=!1,google.a.c.zb(google.a.c.i.prefix+"/"+a+"/loader.js",window.document,f)):f();else{if(!google.a.c.ea)throw Error("google.charts.load() cannot be called more than once with version 44 or earlier.");google.a.c.ea=!1;google.a.c.fd(a,c);google.a.c.log("google.charts.load version "+a);window.google=window.google||{};google.visualization=google.visualization||{};google.visualization.ModulePath=google.a.c.i.prefix;google.visualization.CssPath=google.a.c.i.css_prefix.replace($a,google.a.c.i.prefix).replace(bb,
 	google.a.c.I);google.a.c.window=window;google.a.c.Ec=document;var h=c.packages;h&&0!==h.length||(h=["default"]);google.a.c.U(c.callback);google.a.c.Uc(h,function(){google.a.c.Xc(h,g)})}}};google.a.c.kd=function(a){if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a);else{var c=window.onload;window.onload=function(d){c&&c(d);a()}}};google.a.c.Jb=document&&document.readyState===K;google.a.c.kd(function(){google.a.c.Jb=!0;google.a.c.Na()});
 	google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a.c.Ba=[];google.a.c.U=function(a){a&&google.a.c.Ba.push(a);google.a.c.S||google.a.c.Na()};google.a.c.xc=function(){var a=google.a.c.Ba;for(google.a.c.Ba=[];0<a.length;)a.shift()()};google.a.c.Qa=function(a,c){google.a.c.cd(a,c)};if(Z.Ea(Xa))throw Error("Google Charts loader.js can only be loaded once.");google.a.load=function(){var a=0;"visualization"===arguments[a]&&a++;var c="current";Z.h(arguments[a])&&(c=arguments[a],a++);var d={};arguments.length>a&&(d=arguments[a],a++);var e=void 0;arguments.length>a&&(e=arguments[a]);google.a.c.load(c,d,e)};google.a.U=function(a){google.a.c.U(a)};google.a.Qa=function(a,c){google.a.c.Qa(a,c)};Z.ya(Xa,google.a.load);Z.ya("google.charts.setOnLoadCallback",google.a.U);Z.ya("google.charts.packageLoadedCallback",google.a.Qa); })();
+
+/***/ },
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	let getDate = function() {
+	  Date.prototype.yyyymmdd = function() {
+	    let mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+	    let dd = this.getDate().toString();
+	    return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
+	  };
+	    let date = new Date();
+	    return date.yyyymmdd();
+	};
+
+	module.exports = getDate;
 
 /***/ }
 /******/ ]);
