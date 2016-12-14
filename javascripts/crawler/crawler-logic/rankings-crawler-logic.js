@@ -1,7 +1,7 @@
 "use strict";
 console.log("I'm the rankings crawler");
 
-let database = require("../../push-data/push-data-loader"),
+let database = require("../../database-settings/database-settings"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio");
