@@ -4,6 +4,8 @@ let $ = require("jquery");
 
 let top10Chart = (title, slot) => {
 
+
+
   let snippets = `
     <div class="row">
 

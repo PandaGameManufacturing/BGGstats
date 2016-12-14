@@ -26,8 +26,12 @@ let top10Logic = slot => {
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
+
+    // These titles are for building graph and what appears on hovers.
+    // HTML list loaded via chart-visuals/top10-chart.js
+
     let data = google.visualization.arrayToDataTable ([
-      ['Year', '<a href="#">Pandemic Legacy: Season 1</a>',                     // 1
+      ['Year', 'Pandemic Legacy: Season 1',                     // 1
                'Through the Ages: A New Story of Civilization', // 2
                'Twilight Struggle',                             // 3
                'Terra Mystica',                                 // 4
