@@ -2,9 +2,8 @@
 
 let $ = require("jquery");
 
-let top10Chart = (title, slot) => {
-
-
+let drawTop10List = (title, crawlerData, slot) => {
+  console.log("crawlerData in drawTop10List:", crawlerData);
 
   let snippets = `
     <div class="row">
@@ -50,6 +49,6 @@ let top10Chart = (title, slot) => {
 
 };
 
-module.exports = top10Chart;
+module.exports = drawTop10List;
 
 
