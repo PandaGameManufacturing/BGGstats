@@ -31,17 +31,18 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
       data.Rank = i;                                                                  // rank
       if (i <= 10) {
         data.Top10 = true; // top 10 boolean
-        data.Top10Tag = `CrawlYMD_Top10_true`; // top10 tag to pull down top10 with a date in one call
+        data.Top10Tag = `${data.CrawlYMD}_Top10_true`; // top10 tag to pull down top10 with a date in one call
       } else {
         data.Top10 = false;
-        data.Top10Tag = `CrawlYMD_Top10_false`;
+        data.Top10Tag = `${data.CrawlYMD}_Top10_false`;
+
       }
       if (i <= 100) {
         data.Top100 = true; // top 100 boolean
-        data.Top100Tag = `CrawlYMD_Top100_true`; // top100 tag to pull down top100 with a date in one call
+        data.Top100Tag = `${data.CrawlYMD}_Top100_true`; // top100 tag to pull down top100 with a date in one call
       } else {
         data.Top100 = false;
-        data.Top100Tag = `CrawlYMD_Top100_false`;
+        data.Top100Tag = `${data.CrawlYMD}_Top100_false`;
       }
 
       // push object within a collection that's the YYYYMMDD
