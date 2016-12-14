@@ -2,6 +2,7 @@
 console.log("I'm the rankings crawler");
 
 let database = require("../../database-settings/database-settings"),
+    push = require("../../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio");
@@ -34,7 +35,7 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
 
       // push object within a collection that's the YYYYMMDD
       // database.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
-      database.pushData(data, `/GameRank/test.json`);
+      push.pushData(data, `/GameRank/test.json`);
 
     }
   });
