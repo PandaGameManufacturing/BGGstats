@@ -33,7 +33,8 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
       addCrawlTimes(data);                                                            // crawl time data
 
       // push object within a collection that's the YYYYMMDD
-      push.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+      // push.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
+      push.pushData(data, `/GameRank.json`);
 
     }
   });

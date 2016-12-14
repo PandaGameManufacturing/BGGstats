@@ -17,7 +17,7 @@ let pg1config  = { "gameStart":   1, "gameEnd":  100, "url": `${baseURL}`       
     pg10config = { "gameStart": 901, "gameEnd": 1000, "url": `${baseURL}/page/10` };
 
 // run this crawl at 00:05 every day
-cron.schedule('5 0 * * *', () => {
+// cron.schedule('5 0 * * *', () => {
   console.log(":: Rankings Crawler Booting Up ::");
   rankingsCrawler(pg1config.gameStart,  pg1config.gameEnd,  pg1config.url);  // crawl page 1
   rankingsCrawler(pg2config.gameStart,  pg2config.gameEnd,  pg2config.url);  // crawl page 2
@@ -29,4 +29,4 @@ cron.schedule('5 0 * * *', () => {
   rankingsCrawler(pg8config.gameStart,  pg8config.gameEnd,  pg8config.url);  // crawl page 8
   rankingsCrawler(pg9config.gameStart,  pg9config.gameEnd,  pg9config.url);  // crawl page 9
   rankingsCrawler(pg10config.gameStart, pg10config.gameEnd, pg10config.url); // crawl page 10
-});
+// });

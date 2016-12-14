@@ -5,6 +5,12 @@ let $ = require("jquery"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
+getData.top10(20161213).then(function(data) {
+   console.log("test data:", data);
+  }, function(reason) {
+  console.log("Couldn't get top10 data from database:", reason);
+});
+
 let top10Logic = slot => {
   createChart.top10("Top 10", slot);
 
