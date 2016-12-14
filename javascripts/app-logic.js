@@ -2,7 +2,6 @@
 
 // requires
 require("./assets/asset-loader");
-require("./chart-visuals/chart-visuals-loader");
 let loadChart = require("./chart-logic/chart-logic-loader");
 
 loadChart.hotness("slot1");

@@ -1,7 +1,7 @@
 'use strict';
 
 require("../../third-party-js/google-charts-loader");
-let $ = require("../../node_modules/jquery/src/jquery.js"),
+let $ = require("jquery"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
@@ -27,7 +27,7 @@ let top10Logic = slot => {
 
   function drawChart() {
     let data = google.visualization.arrayToDataTable ([
-      ['Year', 'Pandemic Legacy: Season 1',                     // 1
+      ['Year', '<a href="#">Pandemic Legacy: Season 1</a>',                     // 1
                'Through the Ages: A New Story of Civilization', // 2
                'Twilight Struggle',                             // 3
                'Terra Mystica',                                 // 4
