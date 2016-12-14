@@ -10679,7 +10679,15 @@
 	let $ = __webpack_require__(13);
 
 	let drawTop10List = (title, crawlerData, slot) => {
-	  console.log("crawlerData in drawTop10List:", crawlerData);
+
+	  // build top 10 list
+	  let top10html = "",
+	      d = crawlerData;
+
+	  // loop over array of objects
+	  for (let i = 0; i < crawlerData.length; i++) {
+	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${d[i].BggId}/">${d[i].Name}<a/></li>`;
+	  }
 
 	  let snippets = `
 	    <div class="row">
@@ -10702,16 +10710,7 @@
 	            <!-- Table -->
 	            <div class="col-sm-12 col-md-5 col-lg-4">
 	              <ol class="color-list">
-	                <li>Pandemic Legacy: Season 1</li>
-	                <li>Through the Ages: A New Story of Civilization</li>
-	                <li>Twilight Struggle</li>
-	                <li>Terra Mystica</li>
-	                <li>Caverna: The Cave Farmers</li>
-	                <li>Star Wars: Rebellion</li>
-	                <li>Puerto Rico</li>
-	                <li>7 Wonders Duel</li>
-	                <li>The Castles of Burgundy</li>
-	                <li>Agricola</li>
+	                ${top10html}
 	             </ol>
 	            </div>
 
@@ -10758,12 +10757,28 @@
 
 	  // pull top 10 data from database
 	  getData.top10().then( databaseData => {
-	    let crawlerData = JSON.parse(databaseData); // parse JSON to a javascript Object
+	    let parsedData = JSON.parse(databaseData); // parse JSON to a javascript Object
+
+	      // convert data from unsorted object of objects to sorted array in object
+	      let crawlerData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+	        // iterate over object of object
+	        for (let prop in parsedData) {
+
+	          // check the rank (1 to 10)
+	          let rank = parsedData[prop].Rank;
+
+	          // whatever the rank, push the object to that index in the prettyData array
+	          let index = crawlerData.indexOf(rank);
+	            if (index !== -1) {
+	                crawlerData[index] = parsedData[prop];
+	            }
+	        }
 
 	      // Create html for google chart to be injected into and build list of the game names
 	      createChart.top10("Top 10", crawlerData, slot);
 
-	      let // color scheme
+	      let // color scheme for line chart
 	      n1  = "#26BB5D",
 	      n2  = "#259E7C",
 	      n3  = "#24819B",
@@ -10856,7 +10871,7 @@
 	          chart1 = "waiting";
 	        setTimeout(function(){
 	          drawChart();chart1 = "done";
-	        },1000); // only resize every second
+	        },500); // resize line chart every half second if user changes width of page
 	        }
 	        });
 	      }

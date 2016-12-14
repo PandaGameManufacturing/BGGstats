@@ -10,12 +10,28 @@ let top10Logic = slot => {
 
   // pull top 10 data from database
   getData.top10().then( databaseData => {
-    let crawlerData = JSON.parse(databaseData); // parse JSON to a javascript Object
+    let parsedData = JSON.parse(databaseData); // parse JSON to a javascript Object
+
+      // convert data from unsorted object of objects to sorted array in object
+      let crawlerData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        // iterate over object of object
+        for (let prop in parsedData) {
+
+          // check the rank (1 to 10)
+          let rank = parsedData[prop].Rank;
+
+          // whatever the rank, push the object to that index in the prettyData array
+          let index = crawlerData.indexOf(rank);
+            if (index !== -1) {
+                crawlerData[index] = parsedData[prop];
+            }
+        }
 
       // Create html for google chart to be injected into and build list of the game names
       createChart.top10("Top 10", crawlerData, slot);
 
-      let // color scheme
+      let // color scheme for line chart
       n1  = "#26BB5D",
       n2  = "#259E7C",
       n3  = "#24819B",
@@ -108,7 +124,7 @@ let top10Logic = slot => {
           chart1 = "waiting";
         setTimeout(function(){
           drawChart();chart1 = "done";
-        },1000); // only resize every second
+        },500); // resize line chart every half second if user changes width of page
         }
         });
       }
