@@ -1,12 +1,13 @@
-<!-- Development index.html in root. Production index.html in dist folder -->
+<!-- Development index.html in root. Production index.ejs in public folder -->
 <html>
   <head>
-    <title>BGG Stats - Track Board Games on the Rise</title>
+    <title>BGGstats.com - Board Game Rankings Tracker</title>
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="description" content="Track which new board games deserve your attention among the thousands of games published each year by visualizing BoardGameGeek rankings data.">
+    <meta name="author" content="Nathan T. Baker
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    ">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/public/css/bundle.css">
   </head>
   <body>
@@ -46,10 +47,20 @@
     <div class="container" id="slot1"></div>
     <div class="container" id="slot2"></div>
 
-    <footer class="text-center">
+    <footer>
       <!-- Footer Text -->
       <div class="row">
-        <div class="col-ex-12">
+        <div class="col-xs-4">
+          <h2>About BGGstats</h2>
+          <p>Track which new board games deserve your attention among the thousands of games that are published each year. Board game rankings are sourced from <a href="http://boardgamegeek.com/">BoardGameGeek.com</a>.</p>
+        </div>
+        <div class="col-xs-4">
+        </div>
+        <div class="col-xs-4">
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-xs-12">
           <p>Website by <a href="http://nathantbaker.com">Nathan T. Baker</a></p>
         </div>
       </div>
