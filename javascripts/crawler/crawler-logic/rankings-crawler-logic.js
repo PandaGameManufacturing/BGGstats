@@ -23,14 +23,26 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
 
       // push data to a temporary object
       let data = {};
+      addCrawlTimes(data);                                                            // crawl time data
       let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
       data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
       data.Name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter);     // name
       resultsCounter++; // BGG id for 100 results on page
       data.Rank = i;                                                                  // rank
-      if (i <= 10) { data.Top10 = true;} else {data.Top10 = false;}                   // top 10 boolean
-      if (i <= 100) { data.Top100 = true;} else {data.Top100 = false;}                // top 100 boolean
-      addCrawlTimes(data);                                                            // crawl time data
+      if (i <= 10) {
+        data.Top10 = true; // top 10 boolean
+        data.Top10Tag = `CrawlYMD_Top10_true`; // top10 tag to pull down top10 with a date in one call
+      } else {
+        data.Top10 = false;
+        data.Top10Tag = `CrawlYMD_Top10_false`;
+      }
+      if (i <= 100) {
+        data.Top100 = true; // top 100 boolean
+        data.Top100Tag = `CrawlYMD_Top100_true`; // top100 tag to pull down top100 with a date in one call
+      } else {
+        data.Top100 = false;
+        data.Top100Tag = `CrawlYMD_Top100_false`;
+      }
 
       // push object within a collection that's the YYYYMMDD
       // push.pushData(data, `/GameRank/${data.CrawlYMD}.json`);
