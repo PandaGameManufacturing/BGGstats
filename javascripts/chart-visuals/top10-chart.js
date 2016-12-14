@@ -2,9 +2,16 @@
 
 let $ = require("jquery");
 
-let top10Chart = (title, slot) => {
+let drawTop10List = (title, crawlerData, slot) => {
 
+  // build top 10 list
+  let top10html = "",
+      d = crawlerData;
 
+  // loop over array of objects
+  for (let i = 0; i < crawlerData.length; i++) {
+    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${d[i].BggId}/">${d[i].Name}<a/></li>`;
+  }
 
   let snippets = `
     <div class="row">
@@ -27,16 +34,7 @@ let top10Chart = (title, slot) => {
             <!-- Table -->
             <div class="col-sm-12 col-md-5 col-lg-4">
               <ol class="color-list">
-                <li>Pandemic Legacy: Season 1</li>
-                <li>Through the Ages: A New Story of Civilization</li>
-                <li>Twilight Struggle</li>
-                <li>Terra Mystica</li>
-                <li>Caverna: The Cave Farmers</li>
-                <li>Star Wars: Rebellion</li>
-                <li>Puerto Rico</li>
-                <li>7 Wonders Duel</li>
-                <li>The Castles of Burgundy</li>
-                <li>Agricola</li>
+                ${top10html}
              </ol>
             </div>
 
@@ -50,6 +48,6 @@ let top10Chart = (title, slot) => {
 
 };
 
-module.exports = top10Chart;
+module.exports = drawTop10List;
 
 
