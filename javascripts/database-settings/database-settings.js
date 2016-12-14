@@ -1,5 +1,7 @@
 "use strict";
 
+console.log("firebase settings running");
+
 let firebase = require("firebase");
 
 // var firebase = require('./app');
@@ -13,3 +15,4 @@ let config = {
 };
 
 firebase.initializeApp(config);
+console.log("database config:", config);
