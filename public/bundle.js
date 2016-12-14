@@ -69,6 +69,7 @@
 	"use strict";
 
 	__webpack_require__(3);
+	__webpack_require__(36);
 
 /***/ },
 /* 3 */
@@ -10813,6 +10814,30 @@
 	          //      ['2016',       1,       7]
 	          //    ]
 
+	          // 1. Pandemic Legacy: Season 1
+	          // 2. Through the Ages: A New Story of Civilization
+	          // 3. Twilight Struggle
+	          // 4. Terra Mystica
+	          // 5. Star Wars: Rebellion
+	          // 6. Caverna: The Cave Farmers
+	          // 7. Scythe
+	          // 8. 7 Wonders Duel
+	          // 9. Puerto Rico
+	          // 10. The Castles of Burgundy
+
+	          // to do
+
+	          // get current number of games
+	          // clear 2016 array
+	          // build new 2016 array.
+	          // iterate over all current names against new names and set current rank or 11 for each slot
+	          // track names that aren't already on the list
+	          // for each untracked name
+	          // push new name to end of array 1
+	          // push rank of 11 to the end of the other arrays
+	          // add current rank of that game to the end of 2016 array
+	          // add current rank of that game to the end of last array
+
 	          ['Year', 'Pandemic Legacy: Season 1',                     // 1
 	                   'Through the Ages: A New Story of Civilization', // 2
 	                   'Twilight Struggle',                             // 3
@@ -10846,7 +10871,9 @@
 	          ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
 	          ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
 	          ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
-	          ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
+	          ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  11, 11],
+
+	          // this last row helps lines ellegantly crop off the canvas
 	          ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
 	        ]);
 
@@ -11080,6 +11107,21 @@
 	};
 
 	module.exports = getDate;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-2726397-31', 'auto');
+	ga('send', 'pageview');
+
 
 /***/ }
 /******/ ]);
