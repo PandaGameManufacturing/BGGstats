@@ -31,6 +31,7 @@ let baseURL = "http://boardgamegeek.com/browse/boardgame";
 //   rankingsCrawler(pg10config.gameStart, pg10config.gameEnd, pg10config.url); // crawl page 10
 // // });
 
+
 let pg4config  = { "gameStart": 301, "gameEnd":  400, "url": `${baseURL}/page/4`  };
 
 // run this crawl at 00:05 every day
