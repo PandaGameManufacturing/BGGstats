@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "npm-sass ./sass/style.scss > ./public/css/style.css && cp -r images public/images"
+    "build": "npm-sass ./sass/style.scss > ./public/css/style.css && cp -r images public"
   },
   "author": "Nathan T. Baker",
   "license": "ISC",
