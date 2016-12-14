@@ -21,7 +21,7 @@ let drawTop10List = (title, crawlerData, slot) => {
       <div class="statbox">
                       <div class="label-title">
           <h2>${title}</h2>
-          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
         </div>
 
             <div class="col-sm-12 col-md-7 col-lg-8">
@@ -34,7 +34,9 @@ let drawTop10List = (title, crawlerData, slot) => {
             <!-- Table -->
             <div class="col-sm-12 col-md-5 col-lg-4">
               <ol class="color-list">
+
                 ${top10html}
+
              </ol>
             </div>
 

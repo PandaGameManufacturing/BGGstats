@@ -53,7 +53,17 @@ let top10Logic = slot => {
         // These titles are for building graph and what appears on hovers.
         // HTML list loaded via chart-visuals/top10-chart.js
 
+
         let chartData = google.visualization.arrayToDataTable ([
+
+          // chartData is an array of arrays. Example:
+
+          //    [
+          //      ['year', 'game1', 'game2'],
+          //      ['2015',       2,       6],
+          //      ['2016',       1,       7]
+          //    ]
+
           ['Year', 'Pandemic Legacy: Season 1',                     // 1
                    'Through the Ages: A New Story of Civilization', // 2
                    'Twilight Struggle',                             // 3

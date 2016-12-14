@@ -10697,7 +10697,7 @@
 	      <div class="statbox">
 	                      <div class="label-title">
 	          <h2>${title}</h2>
-	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	        </div>
 
 	            <div class="col-sm-12 col-md-7 col-lg-8">
@@ -10710,7 +10710,9 @@
 	            <!-- Table -->
 	            <div class="col-sm-12 col-md-5 col-lg-4">
 	              <ol class="color-list">
+
 	                ${top10html}
+
 	             </ol>
 	            </div>
 
@@ -10800,7 +10802,17 @@
 	        // These titles are for building graph and what appears on hovers.
 	        // HTML list loaded via chart-visuals/top10-chart.js
 
+
 	        let chartData = google.visualization.arrayToDataTable ([
+
+	          // chartData is an array of arrays. Example:
+
+	          //    [
+	          //      ['year', 'game1', 'game2'],
+	          //      ['2015',       2,       6],
+	          //      ['2016',       1,       7]
+	          //    ]
+
 	          ['Year', 'Pandemic Legacy: Season 1',                     // 1
 	                   'Through the Ages: A New Story of Civilization', // 2
 	                   'Twilight Struggle',                             // 3
