@@ -11113,13 +11113,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {"use strict";
 
-	console.log("firebase settings running");
-
 	let firebase = __webpack_require__(29);
-
-	// var firebase = require('./app');
-	// require('./auth');
-	// require('./database');
 
 	let config = {
 	  apiKey: process.env.firebaseApiKey,
@@ -11128,7 +11122,6 @@
 	};
 
 	firebase.initializeApp(config);
-	console.log("database config:", config);
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
 
 /***/ },
