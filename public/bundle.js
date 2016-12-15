@@ -10933,7 +10933,7 @@
 	    ////// crunch the numbers so we know the biggest movers
 
 	    // make new objects with flatter data
-	    let today = {}, compare = {}, ids = {}, movement = [];
+	    let today = {}, compare = {}, ids = {}, year = {}, movement = [];
 
 	    // push today's names and ranks to new objects
 	    for (let prop in data.today) {
@@ -10943,6 +10943,8 @@
 	      today[todayName] = todayRank;
 	      // add key "game":bggId to ids object
 	      ids[todayName] = data.today[prop].BggId;
+	      // add key "game":year to year object
+	      year[todayName] = data.today[prop].Year;
 	    }
 
 	    // push compare dates's names and ranks to new objects
@@ -10965,8 +10967,10 @@
 	          // push change in movement to the movement array
 	          let object = {};
 	          object.name = todayName;
-	          object.bgg = ids[todayName];
 	          object.movement = compareRank - todayRank;
+	          object.bgg = ids[todayName];
+	          object.year = year[todayName];
+
 	          movement.push(object);
 	        }
 	      }
@@ -10981,7 +10985,7 @@
 	      return 0;
 	    });
 
-	    // keep the top ten movements and bottom 5 movers
+	    // pull top ten movements and bottom 5 movers
 	    let top10 = movement.slice(0, 10);
 	    console.log("top10:", top10);
 	    let lastIndex = movement.length;
@@ -10989,11 +10993,13 @@
 	    let bottom5 = movement.slice(lastIndex - 5, lastIndex);
 	    console.log("bottom5:", bottom5);
 
-	    console.log("movement:", movement);
-	    // console.log("today:", today);
-	    // console.log("compare:", compare);
+	    // combine top 10 and bottom 5 into 1 array
+	    let prettyArray = top10.concat(bottom5);
+	    console.log("prettyArray:", prettyArray);
 
-	    // data.today-KZ21WpB_6h9CWTIfoyM = [object Object]
+
+
+
 
 	    // return formatted data
 	    return data;
