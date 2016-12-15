@@ -7,17 +7,30 @@ let $ = require("jquery"),
 
 let rankLogic = slot => {
 
-  // make two calls to the database
+  // make two calls to the database to get two sets of rankings data
   Promise.all([
     getData.ranks.today(),
     getData.ranks.compareDate()
   ]).then(values => {
-    // once we have the data, push it to an object
+    // parse data
     let data = {};
     data.today = JSON.parse(values[0]);
     data.compare = JSON.parse(values[1]);
-    console.log("data:", data);
-  });
+
+    // crunch the numbers so we know the biggest movers
+
+
+
+    // return formatted data
+    return data;
+  }).then(function(data){
+    // now make a third call to get details of the biggest mover
+    console.log("get some more data, but I have this", data);
+
+    //build chart with this data
+    createChart.rank("Biggest Movers", data, slot);
+
+});
 
 };
 

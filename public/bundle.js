@@ -10791,9 +10791,63 @@
 
 /***/ },
 /* 21 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+
+	let $ = __webpack_require__(19);
+
+	let drawRankChart = (title, crawlerData, slot) => {
+
+	  // build top 10 list
+	  let top10html = "",
+	      d = crawlerData;
+
+	  // loop over array of objects
+	  for (let i = 0; i < crawlerData.length; i++) {
+	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${d[i].BggId}/">${d[i].Name}<a/></li>`;
+	  }
+
+	  let snippets = `
+	    <div class="row">
+
+	      <!-- Top 10  -->
+	      <div class="col-sm-12 col-md-12 col-lg-12">
+	      <div class="statbox">
+	                      <div class="label-title">
+	          <h2>${title}</h2>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+	        </div>
+
+	            <div class="col-sm-12 col-md-7 col-lg-8">
+
+
+
+	            </div>
+
+	            <!-- Table -->
+	            <div class="col-sm-12 col-md-5 col-lg-4">
+	              <ol class="color-list">
+
+	                ${top10html}
+
+	             </ol>
+	            </div>
+
+	          </div>
+	      </div>
+	    </div>
+
+	  `;
+
+	  $(`#${slot}`).html(snippets);
+
+	};
+
+	module.exports = drawRankChart;
+
+
+
 
 /***/ },
 /* 22 */
@@ -10875,17 +10929,30 @@
 
 	let rankLogic = slot => {
 
-	  // make two calls to the database
+	  // make two calls to the database to get two sets of rankings data
 	  Promise.all([
 	    getData.ranks.today(),
 	    getData.ranks.compareDate()
 	  ]).then(values => {
-	    // once we have the data, push it to an object
+	    // parse data
 	    let data = {};
 	    data.today = JSON.parse(values[0]);
 	    data.compare = JSON.parse(values[1]);
-	    console.log("data:", data);
-	  });
+
+	    // crunch the numbers so we know the biggest movers
+
+
+
+	    // return formatted data
+	    return data;
+	  }).then(function(data){
+	    // now make a third call to get details of the biggest mover
+	    console.log("get some more data, but I have this", data);
+
+	    //build chart with this data
+	    createChart.rank("Biggest Movers", data, slot);
+
+	});
 
 	};
 
