@@ -9,6 +9,9 @@ let details = require("./bgg-api/game-details-call"),
     published = require("./crawler-data/games-published-call"),
     top10 = require("./crawler-data/top10-call"),
 
+    // Local Data
+    historic = require("./local-data/historical-top-10"),
+
     // Board Game Prices API Calls
     price = require("./prices-api/lowest-price-call");
 
@@ -18,5 +21,6 @@ module.exports = {
   ranks,
   published,
   top10,
+  historic,
   price
 };

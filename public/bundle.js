@@ -164,6 +164,9 @@
 	    published = __webpack_require__(11),
 	    top10 = __webpack_require__(12),
 
+	    // Local Data
+	    historic = __webpack_require__(38),
+
 	    // Board Game Prices API Calls
 	    price = __webpack_require__(14);
 
@@ -173,6 +176,7 @@
 	  ranks,
 	  published,
 	  top10,
+	  historic,
 	  price
 	};
 
@@ -10777,6 +10781,85 @@
 	            }
 	        }
 
+	      // /**********************\
+	      // |                      |
+	      // |  combine historic    |
+	      // |  data with new data  |
+	      // |                      |
+	      // \**********************/
+
+	      // /////  1. prep data
+
+	      // let oldData = getData.historic,
+	      //     newData = crawlerData,
+	      //     _2016array = oldData[8];
+	      // console.log("new data:", newData);
+
+	      // // clear 2016 array
+	      // _2016array = ["2016"];
+	      // console.log("old data:", oldData);
+
+	      // /////  2. check if games already with historic data
+	      // /////     need to be updated to include 2016 data
+
+	      // // iterate over names of games with historical data
+	      // for (let i = 1; i < oldData[0].length; i++) {
+	      //   // is this game name anywhere in the new data?
+	      //   let targetGame = oldData[0][i];
+	      //   // console.log("old data:", targetGame);
+
+	      //   for (let i = 0; i < newData.length; i++) {
+	      //     let checkGame = newData[i].Name;
+	      //     // console.log("checkGame:", checkGame);
+
+	      //     if (targetGame === checkGame) {
+	      //       // if match, push current rank to 2016 array
+	      //       // console.log("match between " + targetGame + " and " + checkGame);
+	      //       _2016array.push(newData[i].Rank);
+	      //     }
+	      //   }
+	      //   // if there's note already a number for the index, push 11 to 2016 array
+	      //   if (!_2016array[i]) { _2016array.push(11); }
+	      // }
+
+	      // /////  3. add games without historical data to arrays
+
+	      // // iterate over games without historical data
+	      // for (let i = 0; i < newData.length; i++) {
+	      //   let targetGame = newData[i].Name;
+	      //   let oldNames = oldData[0];
+	      //   // console.log("target Game in loop 2:", targetGame);
+
+	      //   // if game isn't already in historical data
+	      //   if (!oldNames.includes(targetGame)) {
+	      //     console.log(targetGame + " needs to be added.");
+	      //     console.log("targetGame:", targetGame);
+	      //     // push new name to end of array 1
+	      //     oldData[0].push(targetGame);
+	      //     // push rank of 11 to the end of the other arrays
+	      //     oldData[1].push(11);
+	      //     oldData[2].push(11);
+	      //     oldData[3].push(11);
+	      //     oldData[4].push(11);
+	      //     oldData[5].push(11);
+	      //     oldData[6].push(11);
+	      //     oldData[7].push(11);
+	      //     // add current rank of that game to the end of 2016 array
+	      //     oldData[8].push(newData[i].Rank);
+	      //     // add current rank of that game to the end of last array
+	      //     // oldData[9].push(newData[i].Rank);
+	      //   }
+	      // }
+
+	      // // make array 9 a copy of array 8 execpt first index is "" not "2016"
+	      // oldData[9] = Object.create(oldData[8]);
+	      // oldData[9][0] = "";
+
+	      // // TO DO: switch games 1-10 to correct order? or try just switching colors
+
+	      // let allData = oldData;
+
+
 	      // Create html for google chart to be injected into and build list of the game names
 	      createChart.top10("Top 10", crawlerData, slot);
 
@@ -10799,82 +10882,8 @@
 
 	      function drawChart() {
 
-	        // These titles are for building graph and what appears on hovers.
-	        // HTML list loaded via chart-visuals/top10-chart.js
-
-
-	        let chartData = google.visualization.arrayToDataTable ([
-
-	          // chartData is an array of arrays. Example:
-
-	          //    [
-	          //      ['year', 'game1', 'game2'],
-	          //      ['2015',       2,       6],
-	          //      ['2016',       1,       7]
-	          //    ]
-
-	          // 1. Pandemic Legacy: Season 1
-	          // 2. Through the Ages: A New Story of Civilization
-	          // 3. Twilight Struggle
-	          // 4. Terra Mystica
-	          // 5. Star Wars: Rebellion
-	          // 6. Caverna: The Cave Farmers
-	          // 7. Scythe
-	          // 8. 7 Wonders Duel
-	          // 9. Puerto Rico
-	          // 10. The Castles of Burgundy
-
-	          // to do
-
-	          // get current number of games
-	          // clear 2016 array
-	          // build new 2016 array.
-	          // iterate over all current names against new names and set current rank or 11 for each slot
-	          // track names that aren't already on the list
-	          // for each untracked name
-	          // push new name to end of array 1
-	          // push rank of 11 to the end of the other arrays
-	          // add current rank of that game to the end of 2016 array
-	          // add current rank of that game to the end of last array
-
-	          ['Year', 'Pandemic Legacy: Season 1',                     // 1
-	                   'Through the Ages: A New Story of Civilization', // 2
-	                   'Twilight Struggle',                             // 3
-	                   'Terra Mystica',                                 // 4
-	                   'Caverna: The Cave Farmers',                     // 5
-	                   'Star Wars: Rebellion',                          // 6
-	                   'Puerto Rico',                                   // 7
-	                   '7 Wonders Duel',                                // 8
-	                   'The Castles of Burgundy',                       // 9
-	                   'Agricola',                                     // 10
-
-	                   'Power Grid',                                   // 11
-	                   'Tigris & Euphrates',                           // 12
-	                   'Dominion',                                     // 13
-	                   'El Grande',                                    // 14
-	                   'Caylus',                                       // 15
-	                   'Race for the Galaxy',                          // 16
-	                   'Le Havre',                                     // 17
-	                   'Dominion: Intrigue',                           // 18
-	                   'Brass',                                        // 19
-	                   'Eclipse',                                      // 20
-	                   'Android: Netrunner',                           // 21
-	                   'Mage Knight Board Game',                       // 22
-	                   'Through the Ages: A Story of Civilization'     // 23
-	          ],
-	           //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
-	          ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
-	          ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
-	          ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
-	          ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
-	          ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
-	          ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
-	          ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
-	          ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  11, 11],
-
-	          // this last row helps lines ellegantly crop off the canvas
-	          ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
-	        ]);
+	        let chartData = google.visualization.arrayToDataTable (getData.historic);
+	        console.log("allData in function", allData);
 
 	        let options = {
 	          colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
@@ -10895,23 +10904,23 @@
 	          }
 	        };
 
+	        // display chart in id "top10"
 	        let chart = new google.visualization.LineChart(document.getElementById('top10'));
 
 	        // draw google chart
 	        chart.draw(chartData, options);
 
-	        // crawlerData
-
+	        // resize line chart if user changes width of page
 	        let chart1 = "done";
-
 	        $(window).resize(function() {
-	          if(chart1=="done"){
+	          if(chart1=="done") {
 	          chart1 = "waiting";
-	        setTimeout(function(){
+	        setTimeout( ()=> {
 	          drawChart();chart1 = "done";
-	        },500); // resize line chart every half second if user changes width of page
+	        },500); // delay in milliseconds
 	        }
 	        });
+
 	      }
 
 	      // error if can't get top 10 data from database
@@ -11129,6 +11138,64 @@
 	google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a.c.Ba=[];google.a.c.U=function(a){a&&google.a.c.Ba.push(a);google.a.c.S||google.a.c.Na()};google.a.c.xc=function(){var a=google.a.c.Ba;for(google.a.c.Ba=[];0<a.length;)a.shift()()};google.a.c.Qa=function(a,c){google.a.c.cd(a,c)};if(Z.Ea(Xa))throw Error("Google Charts loader.js can only be loaded once.");google.a.load=function(){var a=0;"visualization"===arguments[a]&&a++;var c="current";Z.h(arguments[a])&&(c=arguments[a],a++);var d={};arguments.length>a&&(d=arguments[a],a++);var e=void 0;arguments.length>a&&(e=arguments[a]);google.a.c.load(c,d,e)};google.a.U=function(a){google.a.c.U(a)};google.a.Qa=function(a,c){google.a.c.Qa(a,c)};Z.ya(Xa,google.a.load);Z.ya("google.charts.setOnLoadCallback",google.a.U);Z.ya("google.charts.packageLoadedCallback",google.a.Qa); })();
 
 	/* jshint ignore:end */
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	 // chartData is an array of arrays. Example:
+
+	          //    [
+	          //      ['year', 'game1', 'game2'],
+	          //      ['2015',       2,       6],
+	          //      ['2016',       1,       7]
+	          //    ]
+
+	let historicData = [
+
+	        // These titles are for building graph and what appears on hovers.
+	        // HTML list loaded via chart-visuals/top10-chart.js
+
+	  ['Year', 'Pandemic Legacy: Season 1',                     // 1
+	           'Through the Ages: A New Story of Civilization', // 2
+	           'Twilight Struggle',                             // 3
+	           'Terra Mystica',                                 // 4
+	           'Caverna: The Cave Farmers',                     // 5
+	           'Star Wars: Rebellion',                          // 6
+	           'Puerto Rico',                                   // 7
+	           '7 Wonders Duel',                                // 8
+	           'The Castles of Burgundy',                       // 9
+	           'Agricola',                                     // 10
+
+	           'Power Grid',                                   // 11
+	           'Tigris & Euphrates',                           // 12
+	           'Dominion',                                     // 13
+	           'El Grande',                                    // 14
+	           'Caylus',                                       // 15
+	           'Race for the Galaxy',                          // 16
+	           'Le Havre',                                     // 17
+	           'Dominion: Intrigue',                           // 18
+	           'Brass',                                        // 19
+	           'Eclipse',                                      // 20
+	           'Android: Netrunner',                           // 21
+	           'Mage Knight Board Game',                       // 22
+	           'Through the Ages: A Story of Civilization'     // 23
+	  ],
+	   //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
+	  ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
+	  ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
+	  ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
+	  ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
+	  ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
+	  ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
+	  ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
+	  ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
+	  ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
+	]
+
+	module.exports = historicData;
 
 /***/ }
 /******/ ]);

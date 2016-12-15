@@ -1,4 +1,3 @@
-var crawler = require('./javascripts/crawler/crawler-loader');
 var express = require('express');
 var app = express();
 
