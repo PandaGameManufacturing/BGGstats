@@ -10927,37 +10927,40 @@
 	    let data = {};
 	    data.today = JSON.parse(values[0]);
 	    data.compare = JSON.parse(values[1]);
+	    console.log("data:", data);
 
 	    ////// crunch the numbers so we know the biggest movers
 
 	    // make new objects with flatter data
-	    let today = {}, compare = {}, ids = {}, year = {}, movement = [];
+	    let today = {}, compare = {}, names = {}, year = {}, movement = [];
 
-	    // push today's names and ranks to new objects
+	    // push today's ids and ranks to new objects
 	    for (let prop in data.today) {
-	      let todayName = data.today[prop].Name;
+	      let todayId = data.today[prop].BggId;
 	      let todayRank = data.today[prop].Rank;
 	      // add key "game":rank to today object
-	      today[todayName] = todayRank;
+	      today[todayId] = todayRank;
 	      // add key "game":bggId to ids object
-	      ids[todayName] = data.today[prop].BggId;
+	      names[todayId] = data.today[prop].Name;
 	      // add key "game":year to year object
-	      year[todayName] = data.today[prop].BggYear;
+	      year[todayId] = data.today[prop].BggYear;
 	    }
 
-	    // push compare dates's names and ranks to new objects
+	    // push compare today's Ids and ranks to new objects
 	    for (let prop in data.compare) {
-	      let compareName = data.compare[prop].Name;
+	      let compareId = data.compare[prop].BggId;
 	      let compareRank = data.compare[prop].Rank;
-	      compare[compareName] = compareRank;
+	      compare[compareId] = compareRank;
 	    }
 
 	    // delete names that the have same rank or fell off the list from today object
 	    for (let prop in today) {
-	      let todayName = prop;
+	      // console.log("prop:", prop);
+	      let todayName = names[prop];
 	      let todayRank = today[prop];
-	      let compareRank = compare[todayName];
-	      let todayBggId = prop.BggId;
+	      let todayBggId = prop;
+	      let compareRank = compare[todayBggId];
+
 	      // exclude games that fell off the top 1000
 	      if (compareRank !== undefined) {
 	        // if a game's rank has changed, track it
@@ -10966,8 +10969,8 @@
 	          let object = {};
 	          object.name = todayName;
 	          object.movement = compareRank - todayRank;
-	          object.bgg = ids[todayName];
-	          object.year = year[todayName];
+	          object.bgg = prop;
+	          object.year = year[todayBggId];
 
 	          movement.push(object);
 	        }
@@ -10992,10 +10995,12 @@
 	    let prettyArray = top10.concat(bottom5);
 	    console.log("prettyArray:", prettyArray);
 
+
 	    // return formatted data
 	    return data;
 	  }).then(function(data){
 	    // now make a third call to get details of the biggest mover
+
 
 	    //build chart with this data
 	    createChart.rank("Biggest Movers", data, slot);
