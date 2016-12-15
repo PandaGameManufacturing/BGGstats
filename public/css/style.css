@@ -94,6 +94,22 @@
   white-space: nowrap;
   overflow: hidden; }
 
+.rankChart #rankDescription {
+  font-size: 1.2em;
+  color: grey;
+  text-align: center; }
+
+.rankChart #rankMovement {
+  background: url("/images/icons/arrow-up.png") no-repeat top left;
+  background-size: 50px;
+  color: #333;
+  height: 50px;
+  font-size: 4em;
+  font-weight: 300;
+  padding: 0 0 0 60px;
+  line-height: .9em;
+  margin: 10px 0 10px 10px; }
+
 ol {
   counter-reset: li;
   /* Initiate a counter */
@@ -101,6 +117,9 @@ ol {
   padding: 0;
   z-index: 3;
   position: relative; }
+
+.rankChart ol {
+  padding: 10px 0; }
 
 ol a:link, ol a:visited {
   text-decoration: none;
