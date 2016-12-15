@@ -10928,8 +10928,6 @@
 	    data.today = JSON.parse(values[0]);
 	    data.compare = JSON.parse(values[1]);
 
-	    console.log("data.today:", data.today);
-
 	    ////// crunch the numbers so we know the biggest movers
 
 	    // make new objects with flatter data
@@ -10944,7 +10942,7 @@
 	      // add key "game":bggId to ids object
 	      ids[todayName] = data.today[prop].BggId;
 	      // add key "game":year to year object
-	      year[todayName] = data.today[prop].Year;
+	      year[todayName] = data.today[prop].BggYear;
 	    }
 
 	    // push compare dates's names and ranks to new objects
@@ -10987,25 +10985,17 @@
 
 	    // pull top ten movements and bottom 5 movers
 	    let top10 = movement.slice(0, 10);
-	    console.log("top10:", top10);
 	    let lastIndex = movement.length;
-	    console.log("lastIndex:", lastIndex);
 	    let bottom5 = movement.slice(lastIndex - 5, lastIndex);
-	    console.log("bottom5:", bottom5);
 
 	    // combine top 10 and bottom 5 into 1 array
 	    let prettyArray = top10.concat(bottom5);
 	    console.log("prettyArray:", prettyArray);
 
-
-
-
-
 	    // return formatted data
 	    return data;
 	  }).then(function(data){
 	    // now make a third call to get details of the biggest mover
-	    console.log("get some more data, but I have this", data);
 
 	    //build chart with this data
 	    createChart.rank("Biggest Movers", data, slot);
