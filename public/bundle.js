@@ -59,8 +59,9 @@
 	__webpack_require__(2);
 	let loadChart = __webpack_require__(5);
 
-	loadChart.hotness("slot1");
-	loadChart.top10("slot2");
+	loadChart.hotness ("slot1");
+	loadChart.rank    ("slot2");
+	loadChart.top10   ("slot3");
 
 /***/ },
 /* 2 */
@@ -260,9 +261,34 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+
+	// requires
+	let getData = __webpack_require__(9),
+	    getToday = __webpack_require__(14);
+
+	// URL config
+	let baseURL      = "https://bggstats-2de27.firebaseio.com/",
+	    collection   = "GameRank",
+	    tag          = "CrawlYMD",
+	    today_       = getToday(),
+	    compareDate_ = 20161214;
+
+	// tagValue is a custom tag that lets me pull down using two queries
+	// it's workaround since you can't use ?orderBy= twice in a firebase query
+
+	let today = () => {
+	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
+	};
+
+	let compareDate = () => {
+	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${compareDate_}%22`);
+	};
+
+
+	module.exports = {today, compareDate};
 
 /***/ },
 /* 12 */
@@ -10838,9 +10864,32 @@
 
 /***/ },
 /* 24 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	let $ = __webpack_require__(19),
+	    chartLoader = __webpack_require__(26),
+	    getData = __webpack_require__(7),
+	    createChart = __webpack_require__(17);
+
+	let rankLogic = slot => {
+
+	  // make two calls to the database
+	  Promise.all([
+	    getData.ranks.today(),
+	    getData.ranks.compareDate()
+	  ]).then(values => {
+	    // once we have the data, push it to an object
+	    let data = {};
+	    data.today = JSON.parse(values[0]);
+	    data.compare = JSON.parse(values[1]);
+	    console.log("data:", data);
+	  });
+
+	};
+
+	module.exports = rankLogic;
 
 /***/ },
 /* 25 */
