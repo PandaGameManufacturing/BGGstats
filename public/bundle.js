@@ -10927,7 +10927,6 @@
 	    let data = {};
 	    data.today = JSON.parse(values[0]);
 	    data.compare = JSON.parse(values[1]);
-	    console.log("data:", data);
 
 	    ////// crunch the numbers so we know the biggest movers
 
@@ -10953,9 +10952,8 @@
 	      compare[compareId] = compareRank;
 	    }
 
-	    // delete names that the have same rank or fell off the list from today object
+	    // delete games that the have same rank or fell off the list from today object
 	    for (let prop in today) {
-	      // console.log("prop:", prop);
 	      let todayName = names[prop];
 	      let todayRank = today[prop];
 	      let todayBggId = prop;
@@ -10993,12 +10991,22 @@
 
 	    // combine top 10 and bottom 5 into 1 array
 	    let prettyArray = top10.concat(bottom5);
-	    console.log("prettyArray:", prettyArray);
-
 
 	    // return formatted data
-	    return data;
+	    return prettyArray;
+
 	  }).then(function(data){
+	    console.log("chart data:", data);
+
+	    let targetID = data[0].bgg;
+	    let BiggestMoverDetails = getData.details(targetID);
+
+	    BiggestMoverDetails.then(function(data) {
+	      console.log("BiggestMoverDetails:", data);
+	    }, function(error) {
+	      console.log("Error getting Biggest Mover Details", error);
+	      });
+
 	    // now make a third call to get details of the biggest mover
 
 
