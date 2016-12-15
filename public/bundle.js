@@ -57,7 +57,7 @@
 
 	// requires
 	__webpack_require__(2);
-	let loadChart = __webpack_require__(4);
+	let loadChart = __webpack_require__(5);
 
 	loadChart.hotness("slot1");
 	loadChart.top10("slot2");
@@ -69,7 +69,7 @@
 	"use strict";
 
 	__webpack_require__(3);
-	__webpack_require__(36);
+	__webpack_require__(4);
 
 /***/ },
 /* 3 */
@@ -92,15 +92,33 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/* jshint ignore:start */
+
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-2726397-31', 'auto');
+	ga('send', 'pageview');
+
+	/* jshint ignore:end */
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	// Requires
-	let hotness = __webpack_require__(5),
-	    published = __webpack_require__(20),
-	    rank = __webpack_require__(21),
-	    top10 = __webpack_require__(22);
+	let hotness = __webpack_require__(6),
+	    published = __webpack_require__(23),
+	    rank = __webpack_require__(24),
+	    top10 = __webpack_require__(25);
 
 	module.exports = {
 	  hotness,
@@ -110,14 +128,14 @@
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	/*jshint loopfunc: true */
 
-	let getData = __webpack_require__(6),
-	    createChart = __webpack_require__(15),
+	let getData = __webpack_require__(7),
+	    createChart = __webpack_require__(17),
 	    arrayOfPromises = [],
 	    data = {};
 
@@ -150,25 +168,25 @@
 	module.exports = hotnessLogic;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	    // BGG API Calls
-	let details = __webpack_require__(7),
-	    hotness = __webpack_require__(9),
+	let details = __webpack_require__(8),
+	    hotness = __webpack_require__(10),
 
 	    // Crawler Data
-	    ranks = __webpack_require__(10),
-	    published = __webpack_require__(11),
-	    top10 = __webpack_require__(12),
+	    ranks = __webpack_require__(11),
+	    published = __webpack_require__(12),
+	    top10 = __webpack_require__(13),
 
 	    // Local Data
-	    historic = __webpack_require__(38),
+	    historic = __webpack_require__(15),
 
 	    // Board Game Prices API Calls
-	    price = __webpack_require__(14);
+	    price = __webpack_require__(16);
 
 	module.exports = {
 	  details,
@@ -181,11 +199,11 @@
 	};
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(8);
+	let getData = __webpack_require__(9);
 
 	let gameDetails = function(id) {
 	  return getData(`https://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
@@ -194,7 +212,7 @@
 	module.exports = gameDetails;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -232,19 +250,13 @@
 	module.exports = getData;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(8);
+	let getData = __webpack_require__(9);
 	let getHotness = getData('https://bgg-json.azurewebsites.net/hot');
 	module.exports = getHotness;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	"use strict";
 
 /***/ },
 /* 11 */
@@ -254,13 +266,19 @@
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	// requires
-	let getData = __webpack_require__(8),
-	    getToday = __webpack_require__(35);
+	let getData = __webpack_require__(9),
+	    getToday = __webpack_require__(14);
 
 	// URL config
 	let baseURL    = "https://bggstats-2de27.firebaseio.com/",
@@ -279,7 +297,242 @@
 	module.exports = getCrawlTop10;
 
 /***/ },
-/* 13 */
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	let getDate = function() {
+	  Date.prototype.yyyymmdd = function() {
+	    let mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+	    let dd = this.getDate().toString();
+	    return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
+	  };
+	    let date = new Date();
+	    return date.yyyymmdd();
+	};
+
+	module.exports = getDate;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	 // chartData is an array of arrays. Example:
+
+	          //    [
+	          //      ['year', 'game1', 'game2'],
+	          //      ['2015',       2,       6],
+	          //      ['2016',       1,       7]
+	          //    ]
+
+	let historicData = [
+
+	        // These titles are for building graph and what appears on hovers.
+	        // HTML list loaded via chart-visuals/top10-chart.js
+
+	  ['Year', 'Pandemic Legacy: Season 1',                     // 1
+	           'Through the Ages: A New Story of Civilization', // 2
+	           'Twilight Struggle',                             // 3
+	           'Terra Mystica',                                 // 4
+	           'Caverna: The Cave Farmers',                     // 5
+	           'Star Wars: Rebellion',                          // 6
+	           'Puerto Rico',                                   // 7
+	           '7 Wonders Duel',                                // 8
+	           'The Castles of Burgundy',                       // 9
+	           'Agricola',                                     // 10
+
+	           'Power Grid',                                   // 11
+	           'Tigris & Euphrates',                           // 12
+	           'Dominion',                                     // 13
+	           'El Grande',                                    // 14
+	           'Caylus',                                       // 15
+	           'Race for the Galaxy',                          // 16
+	           'Le Havre',                                     // 17
+	           'Dominion: Intrigue',                           // 18
+	           'Brass',                                        // 19
+	           'Eclipse',                                      // 20
+	           'Android: Netrunner',                           // 21
+	           'Mage Knight Board Game',                       // 22
+	           'Through the Ages: A Story of Civilization'     // 23
+	  ],
+	   //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
+	  ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
+	  ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
+	  ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
+	  ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
+	  ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
+	  ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
+	  ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
+	  ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
+	  ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
+	];
+
+	module.exports = historicData;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// Requires
+	let hotness = __webpack_require__(18),
+	    published = __webpack_require__(20),
+	    rank = __webpack_require__(21),
+	    top10 = __webpack_require__(22);
+
+	module.exports = {
+	  hotness,
+	  published,
+	  rank,
+	  top10
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let $ = __webpack_require__(19);
+
+	let hotnessChart = (title, data, slot) => {
+	  // Setting up variables
+	  let shelf = "", top5list = "", gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
+
+	  /**********************\
+	  |                      |
+	  |  Info Box for Game 1
+	  |                      |
+	  \**********************/
+
+	  // item 1 description
+	  let truncateLength = 260,
+	      item1Link = `https://boardgamegeek.com/boardgame/${data[0].gameId}`,
+	      descriptionData = String(data[0].details.description).substring(0, truncateLength),
+	      description = `<a href="${item1Link}">${descriptionData}...</a>`;
+
+	  // item 1 html
+	  top5list += `
+	    <li><a href="${item1Link}/"><strong>About ${data[0].name}</strong</a></li>
+	    <table class="table table-hover">
+	      <tr>
+	        <td><strong>${data[0].yearPublished}</strong> - ${description}</td>
+	      </tr>
+	    </table>
+	  `;
+
+	  /**********************\
+	  |                      |
+	  |  Table Data
+	  |                      |
+	  \**********************/
+
+	  // titles in list form
+	    gameDetails1 += `<ol>`;
+	    for (let i = 0; i < data.length; i++) {
+	      gameDetails1 += `
+	         <li>
+	          <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
+	            ${data[i].name}
+	          </a>
+	        </li>
+	      `;
+	    }
+	    gameDetails1 += `</ol>`;
+
+	    // player count
+	    for (let i = 0; i < data.length; i++) {
+	      let playerCountMin = data[i].details.minplayers[0].$.value,
+	          playerCountMax = data[i].details.maxplayers[0].$.value,
+	          playerCount = `${playerCountMin}-${playerCountMax} players`;
+	          gameDetails2 += `<td>${playerCount}</td>`;
+	    }
+
+	    // playing time
+	    for (let i = 0; i < data.length; i++) {
+	      let timeMin = data[i].details.minplaytime[0].$.value,
+	          timeMax = data[i].details.maxplaytime[0].$.value,
+	          time = `${timeMin}-${timeMax} minutes`;
+	          gameDetails3 += `<td>${time}</td>`;
+	    }
+
+	  /**********************\
+	  |                      |
+	  |  Shelf Visuals
+	  |                      |
+	  \**********************/
+
+	  shelf += `
+	   <div class='row'>
+	    <div class="col-sm-12 col-md-12 col-lg-3">
+	      <div class="statbox">
+	        <div class="label-title">
+	          <h2>${title}</h2>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+	        </div>
+	          <ol>
+	            ${top5list}
+	          </ol>
+	     </div>
+	    </div>
+
+	    <div class="col-sm-12 col-md-12 col-lg-9">
+	      <div class="statbox">
+	        <div class="shelf text-center">
+	        `;
+
+	        // loop over shelf images
+	        for (let i = 0; i < data.length; i++) {
+	          shelf += `
+	            <div class="shelf-shadowed">
+	              <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
+	                <img class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
+	              </a>
+	            </div>
+	          `;
+	        }
+
+	        // wooden shelf
+	        shelf += `
+	          <div class="shelf-bottom">
+	            <div class="shelf-left">
+	              <div class="shelf-right"></div>
+	            </div>
+	          </div>
+
+	          <table class="table shelf-table">
+	            </thead>
+	            <tbody>
+	              <tr>${gameDetails1}</tr>
+	              <tr>${gameDetails2}</tr>
+	              <tr>${gameDetails3}</tr>
+	            </tbody>
+	          </table>
+
+	        </div>
+	      </div>
+	    </div>
+
+	      `;
+
+	  $(`#${slot}`).html(shelf);
+
+	};
+
+	module.exports = hotnessChart;
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10505,183 +10758,24 @@
 
 
 /***/ },
-/* 14 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// Requires
-	let hotness = __webpack_require__(16),
-	    published = __webpack_require__(17),
-	    rank = __webpack_require__(18),
-	    top10 = __webpack_require__(19);
-
-	module.exports = {
-	  hotness,
-	  published,
-	  rank,
-	  top10
-	};
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	let $ = __webpack_require__(13);
-
-	let hotnessChart = (title, data, slot) => {
-	  // Setting up variables
-	  let shelf = "", top5list = "", gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
-
-	  /**********************\
-	  |                      |
-	  |  Info Box for Game 1
-	  |                      |
-	  \**********************/
-
-	  // item 1 description
-	  let truncateLength = 260,
-	      item1Link = `https://boardgamegeek.com/boardgame/${data[0].gameId}`,
-	      descriptionData = String(data[0].details.description).substring(0, truncateLength),
-	      description = `<a href="${item1Link}">${descriptionData}...</a>`;
-
-	  // item 1 html
-	  top5list += `
-	    <li><a href="${item1Link}/"><strong>About ${data[0].name}</strong</a></li>
-	    <table class="table table-hover">
-	      <tr>
-	        <td><strong>${data[0].yearPublished}</strong> - ${description}</td>
-	      </tr>
-	    </table>
-	  `;
-
-	  /**********************\
-	  |                      |
-	  |  Table Data
-	  |                      |
-	  \**********************/
-
-	  // titles in list form
-	    gameDetails1 += `<ol>`;
-	    for (let i = 0; i < data.length; i++) {
-	      gameDetails1 += `
-	         <li>
-	          <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-	            ${data[i].name}
-	          </a>
-	        </li>
-	      `;
-	    }
-	    gameDetails1 += `</ol>`;
-
-	    // player count
-	    for (let i = 0; i < data.length; i++) {
-	      let playerCountMin = data[i].details.minplayers[0].$.value,
-	          playerCountMax = data[i].details.maxplayers[0].$.value,
-	          playerCount = `${playerCountMin}-${playerCountMax} players`;
-	          gameDetails2 += `<td>${playerCount}</td>`;
-	    }
-
-	    // playing time
-	    for (let i = 0; i < data.length; i++) {
-	      let timeMin = data[i].details.minplaytime[0].$.value,
-	          timeMax = data[i].details.maxplaytime[0].$.value,
-	          time = `${timeMin}-${timeMax} minutes`;
-	          gameDetails3 += `<td>${time}</td>`;
-	    }
-
-	  /**********************\
-	  |                      |
-	  |  Shelf Visuals
-	  |                      |
-	  \**********************/
-
-	  shelf += `
-	   <div class='row'>
-	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox">
-	        <div class="label-title">
-	          <h2>${title}</h2>
-	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
-	        </div>
-	          <ol>
-	            ${top5list}
-	          </ol>
-	     </div>
-	    </div>
-
-	    <div class="col-sm-12 col-md-12 col-lg-9">
-	      <div class="statbox">
-	        <div class="shelf text-center">
-	        `;
-
-	        // loop over shelf images
-	        for (let i = 0; i < data.length; i++) {
-	          shelf += `
-	            <div class="shelf-shadowed">
-	              <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-	                <img class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
-	              </a>
-	            </div>
-	          `;
-	        }
-
-	        // wooden shelf
-	        shelf += `
-	          <div class="shelf-bottom">
-	            <div class="shelf-left">
-	              <div class="shelf-right"></div>
-	            </div>
-	          </div>
-
-	          <table class="table shelf-table">
-	            </thead>
-	            <tbody>
-	              <tr>${gameDetails1}</tr>
-	              <tr>${gameDetails2}</tr>
-	              <tr>${gameDetails3}</tr>
-	            </tbody>
-	          </table>
-
-	        </div>
-	      </div>
-	    </div>
-
-	      `;
-
-	  $(`#${slot}`).html(shelf);
-
-	};
-
-	module.exports = hotnessChart;
-
-/***/ },
-/* 17 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 /***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-/***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	let $ = __webpack_require__(13);
+	let $ = __webpack_require__(19);
 
 	let drawTop10List = (title, crawlerData, slot) => {
 
@@ -10737,27 +10831,27 @@
 
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	let $ = __webpack_require__(13),
-	    chartLoader = __webpack_require__(37),
-	    getData = __webpack_require__(6),
-	    createChart = __webpack_require__(15);
+	let $ = __webpack_require__(19),
+	    chartLoader = __webpack_require__(26),
+	    getData = __webpack_require__(7),
+	    createChart = __webpack_require__(17);
 
 	let top10Logic = slot => {
 
@@ -10883,7 +10977,6 @@
 	      function drawChart() {
 
 	        let chartData = google.visualization.arrayToDataTable (getData.historic);
-	        console.log("allData in function", allData);
 
 	        let options = {
 	          colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
@@ -10934,55 +11027,7 @@
 	module.exports = top10Logic;
 
 /***/ },
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	let getDate = function() {
-	  Date.prototype.yyyymmdd = function() {
-	    let mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
-	    let dd = this.getDate().toString();
-	    return [this.getFullYear(), mm.length===2 ? '' : '0', mm, dd.length===2 ? '' : '0', dd].join('');
-	  };
-	    let date = new Date();
-	    return date.yyyymmdd();
-	};
-
-	module.exports = getDate;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/* jshint ignore:start */
-
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-	ga('create', 'UA-2726397-31', 'auto');
-	ga('send', 'pageview');
-
-	/* jshint ignore:end */
-
-/***/ },
-/* 37 */
+/* 26 */
 /***/ function(module, exports) {
 
 	/* jshint ignore:start */
@@ -11138,64 +11183,6 @@
 	google.a.c.Na=function(){!google.a.c.S&&google.a.c.Jb&&google.a.c.xc()};google.a.c.Ba=[];google.a.c.U=function(a){a&&google.a.c.Ba.push(a);google.a.c.S||google.a.c.Na()};google.a.c.xc=function(){var a=google.a.c.Ba;for(google.a.c.Ba=[];0<a.length;)a.shift()()};google.a.c.Qa=function(a,c){google.a.c.cd(a,c)};if(Z.Ea(Xa))throw Error("Google Charts loader.js can only be loaded once.");google.a.load=function(){var a=0;"visualization"===arguments[a]&&a++;var c="current";Z.h(arguments[a])&&(c=arguments[a],a++);var d={};arguments.length>a&&(d=arguments[a],a++);var e=void 0;arguments.length>a&&(e=arguments[a]);google.a.c.load(c,d,e)};google.a.U=function(a){google.a.c.U(a)};google.a.Qa=function(a,c){google.a.c.Qa(a,c)};Z.ya(Xa,google.a.load);Z.ya("google.charts.setOnLoadCallback",google.a.U);Z.ya("google.charts.packageLoadedCallback",google.a.Qa); })();
 
 	/* jshint ignore:end */
-
-/***/ },
-/* 38 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	 // chartData is an array of arrays. Example:
-
-	          //    [
-	          //      ['year', 'game1', 'game2'],
-	          //      ['2015',       2,       6],
-	          //      ['2016',       1,       7]
-	          //    ]
-
-	let historicData = [
-
-	        // These titles are for building graph and what appears on hovers.
-	        // HTML list loaded via chart-visuals/top10-chart.js
-
-	  ['Year', 'Pandemic Legacy: Season 1',                     // 1
-	           'Through the Ages: A New Story of Civilization', // 2
-	           'Twilight Struggle',                             // 3
-	           'Terra Mystica',                                 // 4
-	           'Caverna: The Cave Farmers',                     // 5
-	           'Star Wars: Rebellion',                          // 6
-	           'Puerto Rico',                                   // 7
-	           '7 Wonders Duel',                                // 8
-	           'The Castles of Burgundy',                       // 9
-	           'Agricola',                                     // 10
-
-	           'Power Grid',                                   // 11
-	           'Tigris & Euphrates',                           // 12
-	           'Dominion',                                     // 13
-	           'El Grande',                                    // 14
-	           'Caylus',                                       // 15
-	           'Race for the Galaxy',                          // 16
-	           'Le Havre',                                     // 17
-	           'Dominion: Intrigue',                           // 18
-	           'Brass',                                        // 19
-	           'Eclipse',                                      // 20
-	           'Android: Netrunner',                           // 21
-	           'Mage Knight Board Game',                       // 22
-	           'Through the Ages: A Story of Civilization'     // 23
-	  ],
-	   //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
-	  ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
-	  ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
-	  ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
-	  ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
-	  ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
-	  ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
-	  ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
-	  ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
-	  ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
-	]
-
-	module.exports = historicData;
 
 /***/ }
 /******/ ]);

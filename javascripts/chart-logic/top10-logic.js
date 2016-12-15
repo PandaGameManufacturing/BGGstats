@@ -129,7 +129,6 @@ let top10Logic = slot => {
       function drawChart() {
 
         let chartData = google.visualization.arrayToDataTable (getData.historic);
-        console.log("allData in function", allData);
 
         let options = {
           colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
