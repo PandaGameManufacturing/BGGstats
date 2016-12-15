@@ -20,40 +20,44 @@ let rankLogic = slot => {
     data.today = JSON.parse(values[0]);
     data.compare = JSON.parse(values[1]);
 
+    console.log("data.today:", data.today);
+
     ////// crunch the numbers so we know the biggest movers
 
     // make new objects with flatter data
-    let today = {}, compare = {}, movement = [];
+    let today = {}, compare = {}, ids = {}, movement = [];
 
     // push today's names and ranks to new objects
-    for (var prop in data.today) {
+    for (let prop in data.today) {
       let todayName = data.today[prop].Name;
       let todayRank = data.today[prop].Rank;
+      // add key "game":rank to today object
       today[todayName] = todayRank;
+      // add key "game":bggId to ids object
+      ids[todayName] = data.today[prop].BggId;
     }
 
     // push compare dates's names and ranks to new objects
-    for (var prop in data.compare) {
+    for (let prop in data.compare) {
       let compareName = data.compare[prop].Name;
       let compareRank = data.compare[prop].Rank;
       compare[compareName] = compareRank;
     }
 
     // delete names that the have same rank or fell off the list from today object
-    for (var prop in today) {
+    for (let prop in today) {
       let todayName = prop;
       let todayRank = today[prop];
       let compareRank = compare[todayName];
+      let todayBggId = prop.BggId;
       // exclude games that fell off the top 1000
       if (compareRank !== undefined) {
         // if a game's rank has changed, track it
         if (todayRank !== compareRank) {
-          let todayName = prop;
-          let todayRank = today[prop];
-          let compareRank = compare[todayName];
           // push change in movement to the movement array
           let object = {};
           object.name = todayName;
+          object.bgg = ids[todayName];
           object.movement = compareRank - todayRank;
           movement.push(object);
         }
@@ -70,7 +74,12 @@ let rankLogic = slot => {
     });
 
     // keep the top ten movements and bottom 5 movers
-
+    let top10 = movement.slice(0, 10);
+    console.log("top10:", top10);
+    let lastIndex = movement.length;
+    console.log("lastIndex:", lastIndex);
+    let bottom5 = movement.slice(lastIndex - 5, lastIndex);
+    console.log("bottom5:", bottom5);
 
     console.log("movement:", movement);
     // console.log("today:", today);
