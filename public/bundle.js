@@ -273,8 +273,7 @@
 	let baseURL      = "https://bggstats-2de27.firebaseio.com/",
 	    collection   = "GameRank",
 	    tag          = "CrawlYMD",
-	    today_       = getToday(),
-	    compareDate_ = 20161214;
+	    today_       = getToday();
 
 	// tagValue is a custom tag that lets me pull down using two queries
 	// it's workaround since you can't use ?orderBy= twice in a firebase query
@@ -283,7 +282,7 @@
 	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
 	};
 
-	let compareDate = () => {
+	let compareDate = compareDate_ => {
 	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${compareDate_}%22`);
 	};
 
@@ -10797,47 +10796,34 @@
 
 	let $ = __webpack_require__(19);
 
-	let drawRankChart = (title, crawlerData, slot) => {
-
-	  // build top 10 list
-	  let top10html = "",
-	      d = crawlerData;
-
-	  // loop over array of objects
-	  for (let i = 0; i < crawlerData.length; i++) {
-	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${d[i].BggId}/">${d[i].Name}<a/></li>`;
-	  }
+	let drawRankChart = (title, data, slot) => {
 
 	  let snippets = `
+	    <!-- Rank Chart  -->
 	    <div class="row">
-
-	      <!-- Top 10  -->
 	      <div class="col-sm-12 col-md-12 col-lg-12">
+
 	      <div class="statbox">
-	                      <div class="label-title">
+
+	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
 	        </div>
 
-	            <div class="col-sm-12 col-md-7 col-lg-8">
-
-
-
+	            <!-- Movement Chart -->
+	            <div class="col-lg-8">
+	              <p>movement chart</p>
 	            </div>
 
-	            <!-- Table -->
-	            <div class="col-sm-12 col-md-5 col-lg-4">
-	              <ol class="color-list">
-
-	                ${top10html}
-
-	             </ol>
+	            <!-- Details About Biggest Mover -->
+	            <div class="col-lg-4">
+	              <p>details about biggest mover</p>
 	            </div>
 
-	          </div>
+	        </div>
+
 	      </div>
 	    </div>
-
 	  `;
 
 	  $(`#${slot}`).html(snippets);
@@ -10929,19 +10915,76 @@
 
 	let rankLogic = slot => {
 
+	  // compare back 30 days logic
+	  let compareDate = 20161214;
+
 	  // make two calls to the database to get two sets of rankings data
 	  Promise.all([
 	    getData.ranks.today(),
-	    getData.ranks.compareDate()
+	    getData.ranks.compareDate(compareDate)
 	  ]).then(values => {
 	    // parse data
 	    let data = {};
 	    data.today = JSON.parse(values[0]);
 	    data.compare = JSON.parse(values[1]);
 
-	    // crunch the numbers so we know the biggest movers
+	    ////// crunch the numbers so we know the biggest movers
+
+	    // make new objects with flatter data
+	    let today = {}, compare = {}, movement = [];
+
+	    // push today's names and ranks to new objects
+	    for (var prop in data.today) {
+	      let todayName = data.today[prop].Name;
+	      let todayRank = data.today[prop].Rank;
+	      today[todayName] = todayRank;
+	    }
+
+	    // push compare dates's names and ranks to new objects
+	    for (var prop in data.compare) {
+	      let compareName = data.compare[prop].Name;
+	      let compareRank = data.compare[prop].Rank;
+	      compare[compareName] = compareRank;
+	    }
+
+	    // delete names that the have same rank or fell off the list from today object
+	    for (var prop in today) {
+	      let todayName = prop;
+	      let todayRank = today[prop];
+	      let compareRank = compare[todayName];
+	      // exclude games that fell off the top 1000
+	      if (compareRank !== undefined) {
+	        // if a game's rank has changed, track it
+	        if (todayRank !== compareRank) {
+	          let todayName = prop;
+	          let todayRank = today[prop];
+	          let compareRank = compare[todayName];
+	          // push change in movement to the movement array
+	          let object = {};
+	          object.name = todayName;
+	          object.movement = compareRank - todayRank;
+	          movement.push(object);
+	        }
+	      }
+	    }
+
+	    ///// massage movement array
+
+	    // sort movement array by movement
+	    movement.sort(function (a, b) {
+	      if (a.movement < b.movement) { return 1;  }
+	      if (a.movement > b.movement) { return -1; }
+	      return 0;
+	    });
+
+	    // keep the top ten movements and bottom 5 movers
 
 
+	    console.log("movement:", movement);
+	    // console.log("today:", today);
+	    // console.log("compare:", compare);
+
+	    // data.today-KZ21WpB_6h9CWTIfoyM = [object Object]
 
 	    // return formatted data
 	    return data;
