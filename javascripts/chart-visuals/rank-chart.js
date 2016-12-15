@@ -3,6 +3,7 @@
 let $ = require("jquery");
 
 let drawRankChart = (title, data, slot) => {
+  console.log("movement chart data:", data);
 
   let snippets = `
     <!-- Rank Chart  -->

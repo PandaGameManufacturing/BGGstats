@@ -87,23 +87,26 @@ let rankLogic = slot => {
     // return formatted data
     return prettyArray;
 
+    // now make a third api call to get details of the biggest mover
   }).then(function(data){
-    console.log("chart data:", data);
-
+    let latestData = data;
     let targetID = data[0].bgg;
     let BiggestMoverDetails = getData.details(targetID);
 
     BiggestMoverDetails.then(function(data) {
-      console.log("BiggestMoverDetails:", data);
+      let detailFor1 = JSON.parse(data);
+      latestData[0].details = detailFor1.items.item[0];
+
+    //build the chart once you have all the data
+    createChart.rank("Biggest Movers", latestData, slot);
+
     }, function(error) {
       console.log("Error getting Biggest Mover Details", error);
       });
 
-    // now make a third call to get details of the biggest mover
 
 
-    //build chart with this data
-    createChart.rank("Biggest Movers", data, slot);
+
 
 });
 
