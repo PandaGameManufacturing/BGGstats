@@ -10807,7 +10807,7 @@
 	  let item1ImageURL = data[0].details.thumbnail[0];
 	  let biggestMover = `<ol><li><strong><a href="${item1Link}/">${data[0].name}</a></strong></li></ol>`;
 
-	  let gameDetails1 = "", gameDetails2 = "", gameDetails3 = "", top10html = "";
+	  let gameDetails1 = "", gameDetails2 = "", gameDetails3 = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
 	  // year published
 	  gameDetails1 += data[0].details.yearpublished[0].$.value;
@@ -10829,10 +10829,41 @@
 	      descriptionData = String(data[0].details.description[0]).substring(0, truncateLength),
 	      description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
 
-	  // loop over array of objects
-	  for (let i = 0; i < data.length; i++) {
+	  // loop over top 10 titles
+	  for (let i = 0; i < 10; i++) {
 	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${data[i].bgg}/">${data[i].name}<a/></li>`;
 	  }
+
+	  // loop over top 10 status bars
+	  for (let i = 0; i < 10; i++) {
+	    let percent = (data[i].movement / data[0].movement) * 100; // build percent based on biggest movement
+	    top10status += `
+	      <div class="progress positive">
+	        <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
+	          <p>Up ${data[i].movement}</p>
+	        </div>
+	      </div>
+	    `;
+	  }
+
+	  // loop over bottom 5 titles
+	  for (let i = 10; i < 15; i++) {
+	    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${data[i].bgg}/">${data[i].name}<a/></li>`;
+	  }
+
+	  // loop over bottom 5 status bars
+	  for (let i = 10; i < 15; i++) {
+	    let percent = (data[i].movement / data[14].movement) * 100; // build percent based on biggest movement
+	    bottom5status += `
+	      <div class="progress negative">
+	        <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
+	          <p>Down ${data[i].movement}</p>
+	        </div>
+	      </div>
+	    `;
+	  }
+
+
 
 	  let snippets = `
 	<!-- Rank Chart  -->
@@ -10851,41 +10882,21 @@
 
 	                <div class="row">
 
-	                    <div class="col-sm-4">
-
-	                      negative
-
-
+	                    <div class="col-sm-2 bottom-wrapper">
+	                      ${bottom5status}
 	                    </div>
 
-	                    <div class="col-sm-4">
-
-	                      <ol class="color-list">
+	                    <div class="col-sm-5">
+	                      <ol>
 	                        ${top10html}
 	                     </ol>
-
+	                     <ol class="negative">
+	                       ${bottom5html}
+	                     </ol>
 	                    </div>
 
-	                    <div class="col-sm-4">
-
-
-
-	                      <div class="progress">
-	                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:90%">
-	                          <p>Up 14</p>
-	                        </div>
-	                      </div>
-
-	                      <div class="progress">
-	                        <div class="progress-bar progress-bar-success" role="progressbar" style="width:70%">
-	                          <p>Up 8</p>
-	                        </div>
-	                      </div>
-
-
-
-
-
+	                    <div class="col-sm-5 top-wrapper">
+	                      ${top10status}
 	                    </div>
 
 	                </div>
