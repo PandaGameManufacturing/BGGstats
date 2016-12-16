@@ -59,16 +59,16 @@ let drawRankChart = (title, data, slot) => {
   // loop over bottom 5 status bars
   for (let i = 10; i < 15; i++) {
     let percent = (data[i].movement / data[14].movement) * 100; // build percent based on biggest movement
+    let movementRawData = data[i].movement.toString();
+    let movement = movementRawData.replace(/\D+/g, ''); // remove everything execpt digits
     bottom5status += `
       <div class="progress negative">
         <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-          <p>Down ${data[i].movement}</p>
+          <p>Down ${movement}</p>
         </div>
       </div>
     `;
   }
-
-
 
   let snippets = `
 <!-- Rank Chart  -->
