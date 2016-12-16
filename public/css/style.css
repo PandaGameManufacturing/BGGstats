@@ -111,7 +111,10 @@
   margin: 10px 0 10px 10px; }
 
 .rankChart img {
-  margin-bottom: 20px; }
+  min-width: none;
+  max-width: none;
+  max-height: none;
+  margin-left: 10px; }
 
 .progress p {
   text-align: left;
@@ -148,6 +151,9 @@
 
 .bottom-wrapper {
   padding-top: 334px; }
+
+.rankChart .table .table-hover {
+  top-margin: 20px; }
 
 ol {
   counter-reset: li;
@@ -250,6 +256,32 @@ ol.color-list > li:nth-child(10):before {
   line-height: 1.1em;
   margin: 0 0 6px 0;
   padding: 4px 18px;
+  vertical-align: middle;
+  position: relative;
+  list-style: none;
+  white-space: nowrap; }
+
+.rankChart .big ol > li:before {
+  top: 2px;
+  left: -2.1em;
+  background-color: #888;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  color: white;
+  text-align: center;
+  font-size: .9em;
+  line-height: 1.05em;
+  font-weight: 300;
+  padding: 6px 0 0 0;
+  margin-left: 15px; }
+
+.rankChart .big ol > li {
+  font-weight: 400;
+  font-size: 1.1em;
+  line-height: 1.2em;
+  margin: 0 0 6px 0;
+  padding: 5px 18px;
   vertical-align: middle;
   position: relative;
   list-style: none;

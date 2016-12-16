@@ -113,6 +113,36 @@ ol.color-list > li:nth-child(10):before { background-color: $n10; }
   white-space: nowrap;
 }
 
+// rank cirlce
+.rankChart .big ol > li:before {
+  top: 2px;
+  left: -2.1em;
+  background-color: #888;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  color: white;
+  text-align: center;
+  font-size: .9em;
+  line-height: 1.05em;
+  font-weight: 300;
+  padding: 6px 0 0 0;
+  margin-left: 15px;
+}
+
+// rank titles
+.rankChart .big ol > li {
+  font-weight: 400;
+  font-size: 1.1em;
+  line-height: 1.2em;
+  margin: 0 0 6px 0;
+  padding: 5px 18px;
+  vertical-align: middle;
+  position:relative;
+  list-style:none;
+  white-space: nowrap;
+}
+
 .rankChart ol.negative > li:nth-child(1):before { background-color: #888; }
 .rankChart ol.negative > li:nth-child(2):before { background-color: #888; }
 .rankChart ol.negative > li:nth-child(3):before { background-color: #888; }
