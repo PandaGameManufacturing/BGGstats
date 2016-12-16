@@ -5,8 +5,6 @@ let $ = require("jquery");
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
 let drawRankChart = (title, data, slot) => {
-  console.log("movement chart data:", data);
-
   let item1Link = `https://boardgamegeek.com/boardgame/${data[0].bgg}`;
   let item1Rank = data[0].movement;
   let item1ImageURL = data[0].details.thumbnail[0];
