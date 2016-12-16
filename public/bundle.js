@@ -48,6 +48,8 @@
 
 	// Requires
 	__webpack_require__(1);
+	let $ = __webpack_require__(19);
+	let hotness = __webpack_require__(18);
 
 	// tooltip config
 	let tooltip = __webpack_require__(27);
@@ -64,6 +66,34 @@
 	};
 
 	tooltip(config);
+
+	// change game description on hotness list on hover
+	$(window).on('load', function(){
+	  $('#hotness-1').hover(function () {
+	    hotness.swapDescription(0);
+	     console.log("you hovered over game 1");
+	  });
+	  $('#hotness-2').hover(function () {
+	    hotness.swapDescription(1);
+	     console.log("you hovered over game 2");
+	  });
+	  $('#hotness-3').hover(function () {
+	     hotness.swapDescription(2);
+	     console.log("you hovered over game 3");
+	  });
+	  $('#hotness-4').hover(function () {
+	     hotness.swapDescription(3);
+	     console.log("you hovered over game 4");
+	  });
+	  $('#hotness-5').hover(function () {
+	     hotness.swapDescription(4);
+	     console.log("you hovered over game 5");
+
+	  });
+	});
+
+
+	hotness.swapDescription();
 
 /***/ },
 /* 1 */
@@ -175,7 +205,7 @@
 	        arrayOfPromises[3],
 	        arrayOfPromises[4]
 	      ]).then(values => {
-	      createChart.hotness("The Hotness", data, slot); // create chart after all API calls resolve
+	      createChart.hotness.hotnessChart("The Hotness", data, slot); // create chart after all API calls resolve
 	    }, reason => {
 	      console.log("hotness API calls didn't resolve", reason);
 	    });
@@ -447,9 +477,15 @@
 
 	let $ = __webpack_require__(19);
 
+	let globalData;
+
+	// Setting up variables
+	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
+
 	let hotnessChart = (title, data, slot) => {
-	  // Setting up variables
-	  let shelf = "", top5list = "", gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
+
+	  // save data so other function can use it
+	  globalData = data;
 
 	  /**********************\
 	  |                      |
@@ -457,21 +493,26 @@
 	  |                      |
 	  \**********************/
 
-	  // item 1 description
-	  let truncateLength = 260,
-	      item1Link = `https://boardgamegeek.com/boardgame/${data[0].gameId}`,
-	      descriptionData = String(data[0].details.description).substring(0, truncateLength),
-	      description = `<a href="${item1Link}">${descriptionData}...</a>`;
+	// create 5 descriptions so they can be swapped
+	for (let i = 0; i < 5; i++) {
+	   // item 1 description
+	  let truncateLength1 = 250,
+	      item1Link1 = `https://boardgamegeek.com/boardgame/${data[i].gameId}`,
+	      descriptionData1 = String(data[i].details.description).substring(0, truncateLength1),
+	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
 	  // item 1 html
-	  top5list += `
-	    <li><a href="${item1Link}/"><strong>About ${data[0].name}</strong</a></li>
+	  top5list[i] = `
+	    <li><a href="${item1Link1}/"><strong>About ${data[i].name}</strong</a></li>
 	    <table class="table table-hover">
 	      <tr>
-	        <td><strong>${data[0].yearPublished}</strong> - ${description}</td>
+	        <td><strong>${data[i].yearPublished}</strong> - ${description1}</td>
 	      </tr>
 	    </table>
 	  `;
+	}
+
+	console.log("top5list[0]:", top5list[0]);
 
 	  /**********************\
 	  |                      |
@@ -517,15 +558,17 @@
 	  shelf += `
 	   <div class='row'>
 	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox">
+	      <div class="statbox hotnessbox">
 	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img
+
 	              data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com"
-	          id="help-hotness" class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+
+	              class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
 	        </div>
-	          <ol>
-	            ${top5list}
+	          <ol id="hotness-inject">
+	            ${top5list[0]}
 	          </ol>
 	     </div>
 	    </div>
@@ -573,7 +616,12 @@
 
 	};
 
-	module.exports = hotnessChart;
+	let swapDescription = number => {
+	  $('#hotness-inject').html(top5list[number]);
+	};
+
+
+	module.exports = {hotnessChart, swapDescription};
 
 /***/ },
 /* 19 */
@@ -10893,7 +10941,9 @@
 	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a href="#"><img
+
 	            data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily."
+
 	          class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
 	        </div>
 
@@ -11027,7 +11077,9 @@
 	                      <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img
+
 	            data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily."
+
 	          class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	        </div>
 

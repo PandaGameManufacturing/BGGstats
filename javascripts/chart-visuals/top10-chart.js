@@ -22,7 +22,9 @@ let drawTop10List = (title, crawlerData, slot) => {
                       <div class="label-title">
           <h2>${title}</h2>
           <a><img
+
             data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily."
+
           class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
         </div>
 

@@ -28,6 +28,9 @@
   margin: 0;
   padding: 0; }
 
+.hotnessbox {
+  height: 300px; }
+
 /* === Stat: Titles === */
 .label-title {
   font-family: verdana, sans-serif;
@@ -151,9 +154,6 @@
 
 .bottom-wrapper {
   padding-top: 334px; }
-
-.rankChart .table .table-hover {
-  top-margin: 20px; }
 
 ol {
   counter-reset: li;
