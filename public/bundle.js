@@ -71,24 +71,18 @@
 	$(window).on('load', function(){
 	  $('#hotness-1').hover(function () {
 	    hotness.swapDescription(0);
-	     console.log("you hovered over game 1");
 	  });
 	  $('#hotness-2').hover(function () {
 	    hotness.swapDescription(1);
-	     console.log("you hovered over game 2");
 	  });
 	  $('#hotness-3').hover(function () {
 	     hotness.swapDescription(2);
-	     console.log("you hovered over game 3");
 	  });
 	  $('#hotness-4').hover(function () {
 	     hotness.swapDescription(3);
-	     console.log("you hovered over game 4");
 	  });
 	  $('#hotness-5').hover(function () {
 	     hotness.swapDescription(4);
-	     console.log("you hovered over game 5");
-
 	  });
 	});
 
@@ -327,6 +321,7 @@
 
 	let today = () => {
 	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
+	  console.log("url:", `${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
 	};
 
 	let compareDate = compareDate_ => {
@@ -511,8 +506,6 @@
 	    </table>
 	  `;
 	}
-
-	console.log("top5list[0]:", top5list[0]);
 
 	  /**********************\
 	  |                      |
@@ -10866,8 +10859,6 @@
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
 	let drawRankChart = (title, data, slot) => {
-	  console.log("movement chart data:", data);
-
 	  let item1Link = `https://boardgamegeek.com/boardgame/${data[0].bgg}`;
 	  let item1Rank = data[0].movement;
 	  let item1ImageURL = data[0].details.thumbnail[0];

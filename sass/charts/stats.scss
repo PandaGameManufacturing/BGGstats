@@ -149,7 +149,9 @@ $n10: #D9274B;
 }
 
 .positive {
-  margin: 10.1px 25px 0 -30px;
+  margin: 10.1px 20px 0 -10px;
+  position:relative;
+  z-index:5;
 }
 
 .positive .progress-bar {
