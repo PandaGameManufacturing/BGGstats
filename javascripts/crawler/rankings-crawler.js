@@ -1,10 +1,10 @@
 "use strict";
 
-let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
-    cron = require("node-cron");
+// requires
+let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic");
 
+// config options
 let baseURL = "http://boardgamegeek.com/browse/boardgame";
-
 let pg1config  = { "gameStart":   1, "gameEnd":  100, "url": `${baseURL}`         },
     pg2config  = { "gameStart": 101, "gameEnd":  200, "url": `${baseURL}/page/2`  },
     pg3config  = { "gameStart": 201, "gameEnd":  300, "url": `${baseURL}/page/3`  },
@@ -16,6 +16,7 @@ let pg1config  = { "gameStart":   1, "gameEnd":  100, "url": `${baseURL}`       
     pg9config  = { "gameStart": 801, "gameEnd":  900, "url": `${baseURL}/page/9`  },
     pg10config = { "gameStart": 901, "gameEnd": 1000, "url": `${baseURL}/page/10` };
 
+// run a crawler for each page
   console.log(":: Rankings Crawler Booting Up ::");
   rankingsCrawler(pg1config.gameStart,  pg1config.gameEnd,  pg1config.url);  // crawl page 1
   rankingsCrawler(pg2config.gameStart,  pg2config.gameEnd,  pg2config.url);  // crawl page 2

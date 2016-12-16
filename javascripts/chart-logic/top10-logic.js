@@ -9,8 +9,8 @@ let top10Logic = slot => {
 
   // pull top 10 data from database
   getData.top10().then( databaseData => {
-    let parsedData = JSON.parse(databaseData); // parse JSON to a javascript Object
 
+    let parsedData = JSON.parse(databaseData); // parse JSON to a javascript Object
       // convert data from unsorted object of objects to sorted array in object
       let crawlerData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -36,7 +36,8 @@ let top10Logic = slot => {
 
       // /////  1. prep data
 
-      // let oldData = getData.historic,
+      let oldData = getData.historic;
+      // console.log("oldData:", oldData);
       //     newData = crawlerData,
       //     _2016array = oldData[8];
       // console.log("new data:", newData);
@@ -126,9 +127,11 @@ let top10Logic = slot => {
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
 
+
       function drawChart() {
 
-        let chartData = google.visualization.arrayToDataTable (getData.historic);
+        let chartData = google.visualization.arrayToDataTable(oldData);
+
 
         let options = {
           colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],

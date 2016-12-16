@@ -94,6 +94,61 @@
   white-space: nowrap;
   overflow: hidden; }
 
+.rankChart #rankDescription {
+  font-size: 1.2em;
+  color: grey;
+  text-align: center; }
+
+.rankChart #rankMovement {
+  background: url("/images/icons/arrow-up.png") no-repeat top left;
+  background-size: 50px;
+  color: #333;
+  height: 50px;
+  font-size: 4em;
+  font-weight: 300;
+  padding: 0 0 0 60px;
+  line-height: .9em;
+  margin: 10px 0 10px 10px; }
+
+.rankChart img {
+  margin-bottom: 20px; }
+
+.progress p {
+  text-align: left;
+  padding-left: 8px;
+  color: white; }
+
+.progress {
+  background-color: white;
+  border-radius: none;
+  box-shadow: none; }
+
+.progress-bar {
+  border-radius: 4px; }
+
+.negative {
+  margin: 10.1px 0 0 0; }
+
+.negative .progress-bar {
+  background-color: #D9274B;
+  float: right; }
+
+.negative .progress-bar p {
+  text-align: right;
+  padding-right: 8px; }
+
+.positive {
+  margin: 10.1px 25px 0 -30px; }
+
+.positive .progress-bar {
+  background-color: #26BB5D; }
+
+.top-wrapper {
+  padding-top: 2px; }
+
+.bottom-wrapper {
+  padding-top: 334px; }
+
 ol {
   counter-reset: li;
   /* Initiate a counter */
@@ -101,6 +156,9 @@ ol {
   padding: 0;
   z-index: 3;
   position: relative; }
+
+.rankChart ol {
+  padding: 10px 0; }
 
 ol a:link, ol a:visited {
   text-decoration: none;
@@ -177,8 +235,40 @@ ol.color-list > li:nth-child(9):before {
   background-color: #D9277A; }
 
 ol.color-list > li:nth-child(10):before {
-  background-color: #D9274B;
-  padding: 6px 3px 0 0; }
+  background-color: #D9274B; }
+
+.rankChart ol > li:before {
+  width: 22px;
+  height: 22px;
+  line-height: .9em;
+  font-size: .8em;
+  padding: 6px 0 0 0; }
+
+.rankChart ol > li {
+  font-weight: 400;
+  font-size: 1.1em;
+  line-height: 1.1em;
+  margin: 0 0 6px 0;
+  padding: 4px 18px;
+  vertical-align: middle;
+  position: relative;
+  list-style: none;
+  white-space: nowrap; }
+
+.rankChart ol.negative > li:nth-child(1):before {
+  background-color: #888; }
+
+.rankChart ol.negative > li:nth-child(2):before {
+  background-color: #888; }
+
+.rankChart ol.negative > li:nth-child(3):before {
+  background-color: #888; }
+
+.rankChart ol.negative > li:nth-child(4):before {
+  background-color: #888; }
+
+.rankChart ol.negative > li:nth-child(5):before {
+  background-color: #D9274B; }
 
 /* === Stats: Shelf === */
 .shelf-table {
@@ -283,6 +373,11 @@ ol.color-list > li:nth-child(10):before {
 .table-hover {
   margin: 0;
   padding: 0; }
+
+.rankChart td {
+  width: auto;
+  padding: 0;
+  margin: 0; }
 
 /* === Charts === */
 #top10 {

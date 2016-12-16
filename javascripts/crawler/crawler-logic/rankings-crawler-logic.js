@@ -26,6 +26,8 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
       addCrawlTimes(data);                                                            // crawl time data
       let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
       data.BggId = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
+      let GameYear = Crawler.getGameYear(responseBuffer, queueItem, resultsCounter);  // bgg year
+      data.BggYear = GameYear.replace(/\D+/g, ''); // remove everything execpt digits
       data.Name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter);     // name
       resultsCounter++; // BGG id for 100 results on page
       data.Rank = i;                                                                  // rank
@@ -65,6 +67,12 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url) {
   Crawler.getGameId = function(buffer, queueItem, resultsNumber) {
     let $ = cheerio.load(buffer.toString("utf8"));
     return $(`#results_objectname${resultsNumber}`).find('a').attr("href");
+    };
+
+  // function for game year
+  Crawler.getGameYear = function(buffer, queueItem, resultsNumber) {
+    let $ = cheerio.load(buffer.toString("utf8"));
+    return $(`#results_objectname${resultsNumber}`).find('span').text();
     };
 
   // start crawl
