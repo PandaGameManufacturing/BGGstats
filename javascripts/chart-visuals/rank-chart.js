@@ -10,7 +10,7 @@ let drawRankChart = (title, data, slot) => {
   let item1Link = `https://boardgamegeek.com/boardgame/${data[0].bgg}`;
   let item1Rank = data[0].movement;
   let item1ImageURL = data[0].details.thumbnail[0];
-  let biggestMover = `<ol><li><strong><a href="${item1Link}/">${data[0].name}</a></strong></li></ol>`;
+  let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${data[0].name}</a></strong></li></ol>`;
 
   let gameDetails1 = "", gameDetails2 = "", gameDetails3 = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
@@ -30,7 +30,7 @@ let drawRankChart = (title, data, slot) => {
       gameDetails3 += `<td>${time}</td>`;
 
   // item 1 description
-  let truncateLength = 260,
+  let truncateLength = 350,
       descriptionData = String(data[0].details.description[0]).substring(0, truncateLength),
       description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
 
@@ -118,7 +118,16 @@ let drawRankChart = (title, data, slot) => {
               <div class="row">
 
                 <div class="col-sm-6">
-                  <a href="${item1Link}"><img src="${item1ImageURL}" alt="${data[0].name}"/></a>
+                  <div class="shelf-shadowed">
+                    <a href="${item1Link}">
+                      <img class="shelf-img" alt="${data[0].name}" title="${data[0].name}" src="${item1ImageURL}">
+                    </a>
+                  </div>
+
+
+
+
+                  </a>
                 </div>
 
                 <div class="col-sm-6">
@@ -131,6 +140,15 @@ let drawRankChart = (title, data, slot) => {
               </div>
 
               <div class="row">
+
+                <div class="shelf-bottom">
+                  <div class="shelf-left">
+                    <div class="shelf-right"></div>
+                  </div>
+               </div>
+
+               <br/><br/>
+
 
                 <table class="table table-hover">
 

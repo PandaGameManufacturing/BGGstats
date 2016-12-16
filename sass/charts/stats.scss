@@ -108,7 +108,10 @@ $n10: #D9274B;
 }
 
 .rankChart img {
-  margin-bottom: 20px;
+  min-width: none;
+  max-width: none;
+  max-height: none;
+  margin-left: 10px;
 }
 
 .progress p {
