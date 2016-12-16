@@ -75,7 +75,9 @@ let hotnessChart = (title, data, slot) => {
       <div class="statbox">
         <div class="label-title">
           <h2>${title}</h2>
-          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a><img
+              data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com"
+          id="help-hotness" class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
         </div>
           <ol>
             ${top5list}
@@ -93,7 +95,7 @@ let hotnessChart = (title, data, slot) => {
           shelf += `
             <div class="shelf-shadowed">
               <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-                <img class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
+                <img id="hotness-${i+1}" class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
               </a>
             </div>
           `;

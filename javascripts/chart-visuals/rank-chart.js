@@ -79,7 +79,9 @@ let drawRankChart = (title, data, slot) => {
 
         <div class="label-title">
           <h2>${title}</h2>
-          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          <a href="#"><img
+            data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily."
+          class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
         </div>
 
             <!-- Movement Chart -->
