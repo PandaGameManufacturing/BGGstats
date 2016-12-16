@@ -25,24 +25,18 @@ tooltip(config);
 $(window).on('load', function(){
   $('#hotness-1').hover(function () {
     hotness.swapDescription(0);
-     console.log("you hovered over game 1");
   });
   $('#hotness-2').hover(function () {
     hotness.swapDescription(1);
-     console.log("you hovered over game 2");
   });
   $('#hotness-3').hover(function () {
      hotness.swapDescription(2);
-     console.log("you hovered over game 3");
   });
   $('#hotness-4').hover(function () {
      hotness.swapDescription(3);
-     console.log("you hovered over game 4");
   });
   $('#hotness-5').hover(function () {
      hotness.swapDescription(4);
-     console.log("you hovered over game 5");
-
   });
 });
 

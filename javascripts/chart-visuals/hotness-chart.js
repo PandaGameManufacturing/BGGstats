@@ -37,8 +37,6 @@ for (let i = 0; i < 5; i++) {
   `;
 }
 
-console.log("top5list[0]:", top5list[0]);
-
   /**********************\
   |                      |
   |  Table Data

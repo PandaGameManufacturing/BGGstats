@@ -144,7 +144,9 @@
   padding-right: 8px; }
 
 .positive {
-  margin: 10.1px 25px 0 -30px; }
+  margin: 10.1px 20px 0 -10px;
+  position: relative;
+  z-index: 5; }
 
 .positive .progress-bar {
   background-color: #26BB5D; }
