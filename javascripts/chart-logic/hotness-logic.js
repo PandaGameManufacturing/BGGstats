@@ -24,7 +24,7 @@ let hotnessLogic = slot => {
         arrayOfPromises[3],
         arrayOfPromises[4]
       ]).then(values => {
-      createChart.hotness("The Hotness", data, slot); // create chart after all API calls resolve
+      createChart.hotness.hotnessChart("The Hotness", data, slot); // create chart after all API calls resolve
     }, reason => {
       console.log("hotness API calls didn't resolve", reason);
     });

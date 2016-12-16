@@ -2,9 +2,15 @@
 
 let $ = require("jquery");
 
+let globalData;
+
+// Setting up variables
+  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
+
 let hotnessChart = (title, data, slot) => {
-  // Setting up variables
-  let shelf = "", top5list = "", gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
+
+  // save data so other function can use it
+  globalData = data;
 
   /**********************\
   |                      |
@@ -12,21 +18,26 @@ let hotnessChart = (title, data, slot) => {
   |                      |
   \**********************/
 
-  // item 1 description
-  let truncateLength = 260,
-      item1Link = `https://boardgamegeek.com/boardgame/${data[0].gameId}`,
-      descriptionData = String(data[0].details.description).substring(0, truncateLength),
-      description = `<a href="${item1Link}">${descriptionData}...</a>`;
+// create 5 descriptions so they can be swapped
+for (let i = 0; i < 5; i++) {
+   // item 1 description
+  let truncateLength1 = 250,
+      item1Link1 = `https://boardgamegeek.com/boardgame/${data[i].gameId}`,
+      descriptionData1 = String(data[i].details.description).substring(0, truncateLength1),
+      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
   // item 1 html
-  top5list += `
-    <li><a href="${item1Link}/"><strong>About ${data[0].name}</strong</a></li>
+  top5list[i] = `
+    <li><a href="${item1Link1}/"><strong>About ${data[i].name}</strong</a></li>
     <table class="table table-hover">
       <tr>
-        <td><strong>${data[0].yearPublished}</strong> - ${description}</td>
+        <td><strong>${data[i].yearPublished}</strong> - ${description1}</td>
       </tr>
     </table>
   `;
+}
+
+console.log("top5list[0]:", top5list[0]);
 
   /**********************\
   |                      |
@@ -72,13 +83,17 @@ let hotnessChart = (title, data, slot) => {
   shelf += `
    <div class='row'>
     <div class="col-sm-12 col-md-12 col-lg-3">
-      <div class="statbox">
+      <div class="statbox hotnessbox">
         <div class="label-title">
           <h2>${title}</h2>
-          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a><img
+
+              data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com"
+
+              class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
         </div>
-          <ol>
-            ${top5list}
+          <ol id="hotness-inject">
+            ${top5list[0]}
           </ol>
      </div>
     </div>
@@ -93,7 +108,7 @@ let hotnessChart = (title, data, slot) => {
           shelf += `
             <div class="shelf-shadowed">
               <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-                <img class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
+                <img id="hotness-${i+1}" class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
               </a>
             </div>
           `;
@@ -126,4 +141,9 @@ let hotnessChart = (title, data, slot) => {
 
 };
 
-module.exports = hotnessChart;
+let swapDescription = number => {
+  $('#hotness-inject').html(top5list[number]);
+};
+
+
+module.exports = {hotnessChart, swapDescription};

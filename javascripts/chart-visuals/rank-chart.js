@@ -59,16 +59,16 @@ let drawRankChart = (title, data, slot) => {
   // loop over bottom 5 status bars
   for (let i = 10; i < 15; i++) {
     let percent = (data[i].movement / data[14].movement) * 100; // build percent based on biggest movement
+    let movementRawData = data[i].movement.toString();
+    let movement = movementRawData.replace(/\D+/g, ''); // remove everything execpt digits
     bottom5status += `
       <div class="progress negative">
         <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-          <p>Down ${data[i].movement}</p>
+          <p>Down ${movement}</p>
         </div>
       </div>
     `;
   }
-
-
 
   let snippets = `
 <!-- Rank Chart  -->
@@ -79,7 +79,11 @@ let drawRankChart = (title, data, slot) => {
 
         <div class="label-title">
           <h2>${title}</h2>
-          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          <a href="#"><img
+
+            data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily."
+
+          class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
         </div>
 
             <!-- Movement Chart -->
