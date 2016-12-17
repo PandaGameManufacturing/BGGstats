@@ -99,6 +99,7 @@ let rankLogic = slot => {
 
     //build the chart once you have all the data
     createChart.rank("Biggest Movers", latestData, slot);
+    console.log("latestData:", latestData);
 
     }, function(error) {
       console.log("Error getting Biggest Mover Details", error);

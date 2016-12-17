@@ -15,7 +15,6 @@ let baseURL      = "https://bggstats-2de27.firebaseio.com/",
 
 let today = () => {
   return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
-  console.log("url:", `${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
 };
 
 let compareDate = compareDate_ => {
