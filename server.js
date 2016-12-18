@@ -1,5 +1,4 @@
-let css = require("!style-loader!css-loader!sass-loader!./sass/style.scss"),
-    express = require('express'),
+let  express = require('express'),
     app = express();
 
 // set the port of our application
