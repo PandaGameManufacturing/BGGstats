@@ -73,15 +73,11 @@ let drawRankChart = (title, data, slot) => {
     <div class="row rankChart">
       <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <div class="statbox">
+      <div class="statbox" data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily.">
 
         <div class="label-title">
           <h2>${title}</h2>
-          <a href="#"><img
-
-            data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily."
-
-          class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
         </div>
 
             <!-- Movement Chart -->

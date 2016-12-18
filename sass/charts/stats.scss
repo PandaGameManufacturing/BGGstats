@@ -1,5 +1,5 @@
-$bgborder: #dddddd;
-$bgcolor: #f9f9f9;
+$bgcolor: #ededed;
+$bgcolorDarker: #D9D9D9;
 $n1:  #26BB5D;
 $n10: #D9274B;
 
@@ -24,7 +24,7 @@ $n10: #D9274B;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
   background: $bgcolor;
-  border: 1px $bgborder solid;
+  border: 1px $bgcolorDarker solid;
   display: block;
   text-align: left;
   z-index: 4;

@@ -6,7 +6,8 @@
 @import 'charts/tables';
 @import 'charts/top10';
 
-$bgcolor: #f9f9f9;
+$bgcolor: #ededed;
+$bgcolorDarker: #D9D9D9;
 $shadow: #888;
 
 /* ============================================================
@@ -24,6 +25,12 @@ body {
   min-width: 400px;
 }
 
+h1 {
+  font-size: 1em;
+  font-weight: 300;
+  margin: 0;
+}
+
 // .container {
 //   max-width: 1600px;
 // }
@@ -35,15 +42,15 @@ body {
 
 /* === Headers === */
 
-header {
+header, footer {
   background-color: $bgcolor;
   padding: 25px 25px 0 30px;
   margin: 0px;
   width: 100%;
-  background: -moz-linear-gradient(top, $bgcolor 0%, $bgcolor 30%, #ededed 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, $bgcolor 0%,$bgcolor 30%,#ededed 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, $bgcolor 0%,$bgcolor 30%, #ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='#a0d8ef',GradientType=0 ); /* IE6-9 */
+  background: -moz-linear-gradient(top, $bgcolor 0%, $bgcolor 30%, $bgcolorDarker 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $bgcolor 0%,$bgcolor 30%,$bgcolorDarker 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $bgcolor 0%,$bgcolor 30%, $bgcolorDarker 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='$bgcolorDarker',GradientType=0 ); /* IE6-9 */
 }
 
 
@@ -233,6 +240,4 @@ li {
 
 footer {
   padding: 20px 45px;
-  background-color: #e6e6e6;
-  box-shadow: 0px 500px 0px 500px #e6e6e6;
 }

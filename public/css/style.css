@@ -39,8 +39,8 @@
   color: black;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px #dddddd solid;
+  background: #ededed;
+  border: 1px #D9D9D9 solid;
   display: block;
   text-align: left;
   z-index: 4;
@@ -447,23 +447,28 @@ body {
   margin: 0;
   min-width: 400px; }
 
+h1 {
+  font-size: 1em;
+  font-weight: 300;
+  margin: 0; }
+
 #slot1, #slot2, #slot3, #slot4, #slot5, #slot6 {
   background-color: white;
   padding: 15px 30px 20px 30px; }
 
 /* === Headers === */
-header {
-  background-color: #f9f9f9;
+header, footer {
+  background-color: #ededed;
   padding: 25px 25px 0 30px;
   margin: 0px;
   width: 100%;
-  background: -moz-linear-gradient(top, #f9f9f9 0%, #f9f9f9 30%, #ededed 100%);
+  background: -moz-linear-gradient(top, #ededed 0%, #ededed 30%, #D9D9D9 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #f9f9f9 0%, #f9f9f9 30%, #ededed 100%);
+  background: -webkit-linear-gradient(top, #ededed 0%, #ededed 30%, #D9D9D9 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #f9f9f9 0%, #f9f9f9 30%, #ededed 100%);
+  background: linear-gradient(to bottom, #ededed 0%, #ededed 30%, #D9D9D9 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='#a0d8ef',GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='$bgcolorDarker',GradientType=0 );
   /* IE6-9 */ }
 
 h2 {
@@ -587,6 +592,4 @@ ol {
 
 /* ===FOOTER=== */
 footer {
-  padding: 20px 45px;
-  background-color: #e6e6e6;
-  box-shadow: 0px 500px 0px 500px #e6e6e6; }
+  padding: 20px 45px; }
