@@ -457,11 +457,8 @@ h1 {
   padding: 15px 30px 20px 30px; }
 
 /* === Headers === */
-header, footer {
+header {
   background-color: #ededed;
-  padding: 25px 25px 0 30px;
-  margin: 0px;
-  width: 100%;
   background: -moz-linear-gradient(top, #ededed 0%, #ededed 30%, #D9D9D9 100%);
   /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #ededed 0%, #ededed 30%, #D9D9D9 100%);
@@ -471,26 +468,57 @@ header, footer {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$bgcolor', endColorstr='$bgcolorDarker',GradientType=0 );
   /* IE6-9 */ }
 
+footer {
+  background-color: #555;
+  padding: 10px 45px 10px 90px;
+  color: #aaa;
+  font-size: 1.1em;
+  font-weight: 300;
+  letter-spacing: 1px; }
+
+footer p {
+  padding-top: 8px; }
+
+footer a, footer a:visited {
+  color: #b5d0e3; }
+
+footer a:hover {
+  color: white; }
+
+header {
+  padding: 20px 0 0 0;
+  margin: 0px;
+  width: 100%; }
+
+.pre-footer {
+  background-color: #dee8ef; }
+
 h2 {
   padding: 0;
   margin: 0;
   display: inline-block;
   font-size: 1em;
-  font-family: helvetica, arial;
-  font-weight: 100; }
+  color: #444;
+  font-family: helvetica, arial; }
 
-footer h2 {
-  padding: 10px 0;
+.pre-footer h2 {
+  padding: 30px 0 10px 0;
   margin: 0;
   display: inline-block;
   font-size: 2em;
   font-family: helvetica, arial;
-  font-weight: 100; }
+  font-weight: 100;
+  color: #555; }
 
 #logo {
   height: 65px;
   margin: -8px 0 15px 0;
   padding: 0; }
+
+#big-logo {
+  width: 175px;
+  margin: 0;
+  padding: 30px; }
 
 /*On medium*/
 @media screen and (max-width: 992px) {
@@ -590,6 +618,11 @@ ol {
   margin: 0;
   padding: 10px 0 0 15px; }
 
+#bio-small {
+  display: inline;
+  float: left;
+  padding: 0 10px 0 0;
+  margin: 0;
+  height: 35px; }
+
 /* ===FOOTER=== */
-footer {
-  padding: 20px 45px; }
