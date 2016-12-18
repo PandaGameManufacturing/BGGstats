@@ -1,5 +1,6 @@
-var express = require('express');
-var app = express();
+let css = require("!style-loader!css-loader!sass-loader!./sass/style.scss"),
+    express = require('express'),
+    app = express();
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
