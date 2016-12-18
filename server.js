@@ -1,4 +1,4 @@
-let css = require("!style-loader!css-loader!sass-loader!../sass/style.scss"),
+let css = require("!style-loader!css-loader!sass-loader!./sass/style.scss"),
     express = require('express'),
     app = express();
 
