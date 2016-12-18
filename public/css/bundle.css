@@ -1,4 +1,4 @@
-/* bootstrap 3.3.7*/
-@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-/* primary styles */
+/* version 3.3.7*/
+@import './bootstrap.min.css';
+/* In style.css delete first import for production*/
 @import './style.css';
