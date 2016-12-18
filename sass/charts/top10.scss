@@ -2,10 +2,25 @@
 
 #top10 {
   position: top left;
-  width: 117.5%;
-  height: 480px;
-  margin-top: -60px;
+  width: 118%;
+  height: 470px;
+  margin-top: -55px;
+  margin-left: -40px;
+  z-index: 1;
   position: relative;
+}
+
+.top10-text {
+  font-weight: 400;
+  font-size: 1.2em;
+  line-height: 1.2em;
+  margin: 0 0 5px 5px;
+  vertical-align: middle;
+  width: 85%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 1200px) {
