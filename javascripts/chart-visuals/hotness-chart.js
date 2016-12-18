@@ -81,14 +81,10 @@ for (let i = 0; i < 5; i++) {
   shelf += `
    <div class='row'>
     <div class="col-sm-12 col-md-12 col-lg-3">
-      <div class="statbox hotnessbox">
+      <div class="statbox hotnessbox" data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com">
         <div class="label-title">
           <h2>${title}</h2>
-          <a><img
-
-              data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com"
-
-              class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
         </div>
           <ol id="hotness-inject">
             ${top5list[0]}

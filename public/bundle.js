@@ -56,12 +56,12 @@
 	let config  = {
 	  showDelay: 0,
 	  style: {
-	    'padding': 10,
-	    'border-radius': 5,
+	    'padding': '10 10 10 15',
+	    'border-radius': '5',
 	    'background-color': '#444',
 	    'color': 'white',
 	    'font-size': '1.1em',
-	    'width': '300px',
+	    'max-width': '500px'
 	  }
 	};
 
@@ -550,14 +550,10 @@
 	  shelf += `
 	   <div class='row'>
 	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox hotnessbox">
+	      <div class="statbox hotnessbox" data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com">
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <a><img
-
-	              data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com"
-
-	              class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
 	        </div>
 	          <ol id="hotness-inject">
 	            ${top5list[0]}
@@ -10926,15 +10922,11 @@
 	    <div class="row rankChart">
 	      <div class="col-sm-12 col-md-12 col-lg-12">
 
-	      <div class="statbox">
+	      <div class="statbox" data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily.">
 
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <a href="#"><img
-
-	            data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily."
-
-	          class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+	          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
 	        </div>
 
 	            <!-- Movement Chart -->
@@ -11063,14 +11055,10 @@
 
 	      <!-- Top 10  -->
 	      <div class="col-sm-12 col-md-12 col-lg-12">
-	      <div class="statbox">
+	      <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
 	                      <div class="label-title">
 	          <h2>${title}</h2>
-	          <a><img
-
-	            data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily."
-
-	          class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
+	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	        </div>
 
 	            <div class="col-sm-12 col-md-7 col-lg-8">
