@@ -26,4 +26,5 @@ build/Release
 
 # Users Environment Variables
 .lock-wscript
-images
+images/*
+!public/images
