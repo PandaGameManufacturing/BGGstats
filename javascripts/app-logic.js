@@ -1,8 +1,7 @@
 'use strict';
 
 // requires
-let css = require("!style-loader!css-loader!sass-loader!../sass/style.scss"),
-    assets = require("./assets/asset-loader"),
+let assets = require("./assets/asset-loader"),
     loadChart = require("./chart-logic/chart-logic-loader");
 
 loadChart.hotness ("slot1");
