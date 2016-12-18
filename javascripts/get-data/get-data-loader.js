@@ -13,7 +13,10 @@ let details = require("./bgg-api/game-details-call"),
     historic = require("./local-data/historical-top-10"),
 
     // Board Game Prices API Calls
-    price = require("./prices-api/lowest-price-call");
+    price = require("./prices-api/lowest-price-call"),
+
+    // Data Template
+    template = require("./data-template");
 
 module.exports = {
   details,

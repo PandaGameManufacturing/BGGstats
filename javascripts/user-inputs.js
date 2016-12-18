@@ -5,23 +5,6 @@ require("./app-logic");
 let $ = require("jquery");
 let hotness = require("./chart-visuals/hotness-chart");
 
-// tooltip config
-let tooltip = require('tooltip');
-let config  = {
-  showDelay: 0,
-  style: {
-    'padding': '10 10 10 15',
-    'margin': '15px 0 0 0',
-    'border-radius': '5',
-    'background-color': '#444',
-    'color': 'white',
-    'font-size': '1.1em',
-    'max-width': '500px',
-    'border-radius': '10px'
-  }
-};
-
-tooltip(config);
 
 // change game description on hotness list on hover
 $(window).on('load', function(){
@@ -44,3 +27,20 @@ $(window).on('load', function(){
 
 
 hotness.swapDescription();
+
+// tooltip config
+let tooltip = require('tooltip');
+let config  = {
+  showDelay: 0,
+  style: {
+    'padding': '10 10 10 15',
+    'margin': '15px 0 0 0',
+    'background-color': '#444',
+    'color': 'white',
+    'font-size': '1.1em',
+    'max-width': '500px',
+    'border-radius': '10px'
+  }
+};
+
+tooltip(config);
