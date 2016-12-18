@@ -11,11 +11,13 @@ let config  = {
   showDelay: 0,
   style: {
     'padding': '10 10 10 15',
+    'margin': '15px 0 0 0',
     'border-radius': '5',
     'background-color': '#444',
     'color': 'white',
     'font-size': '1.1em',
-    'max-width': '500px'
+    'max-width': '500px',
+    'border-radius': '10px'
   }
 };
 
