@@ -75,7 +75,7 @@
 	hotness.swapDescription();
 
 	// tooltip config
-	let tooltip = __webpack_require__(28);
+	let tooltip = __webpack_require__(237);
 	let config  = {
 	  showDelay: 0,
 	  style: {
@@ -104,7 +104,6 @@
 	loadChart.hotness ("slot1");
 	loadChart.rank    ("slot2");
 	loadChart.top10   ("slot3");
-
 
 /***/ },
 /* 2 */
@@ -186,6 +185,7 @@
 	let hotnessLogic = slot => {
 	  getData.hotness.then( result => {                             // get hotness data
 	    data = JSON.parse(result).slice(0,5);                       // push first five results to data.hotness
+	    console.log("game data:", data);
 	    for (let i = 0; i < 5; i++) {                               // iterate over the top 5
 	      let bggId = data[i].gameId;
 	      let arrayItem = getData.details(bggId).then( result => {  // get more game details for each game
@@ -252,8 +252,11 @@
 	"use strict";
 	let getData = __webpack_require__(9);
 
+	let options = `&stats=1`;
+	// "stats" adds ratings and weight info
+
 	let gameDetails = function(id) {
-	  return getData(`https://bgg-api.herokuapp.com/api/v1/thing?id=${id}`);
+	  return getData(`https://bgg-api.herokuapp.com/api/v1/thing?id=${id}${options}`);
 	};
 
 	module.exports = gameDetails;
@@ -301,8 +304,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(9);
-	let getHotness = getData('https://bgg-json.azurewebsites.net/hot');
+	let getData = __webpack_require__(9),
+	    getHotness = getData('https://bgg-json.azurewebsites.net/hot');
 	module.exports = getHotness;
 
 /***/ },
@@ -331,7 +334,6 @@
 	let compareDate = compareDate_ => {
 	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${compareDate_}%22`);
 	};
-
 
 	module.exports = {today, compareDate};
 
@@ -457,12 +459,371 @@
 
 	"use strict";
 
-	let Charts = 2;
-	let Games = 2;
-	let Rankings = 2;
-	let GamesPublished = 2;
-	let BGG = 2;
-	let Users = 2;
+	/**********************\
+	|                      |
+	|        Charts        |
+	|                      |
+	\**********************/
+
+	let Charts = {
+	  charts: {
+	    hotness: [304, 34343, 12324, 12434, 22343],
+	    top10: {
+	     games: [304, 34343, 12324, 12434, 22343, 304, 34343, 12324, 12434, 22343],
+	     data: [
+	        ['Year', 'Pandemic Legacy: Season 1',                     // 1
+	                 'Through the Ages: A New Story of Civilization', // 2
+	                 'Twilight Struggle',                             // 3
+	                 'Terra Mystica',                                 // 4
+	                 'Caverna: The Cave Farmers',                     // 5
+	                 'Star Wars: Rebellion',                          // 6
+	                 'Puerto Rico',                                   // 7
+	                 '7 Wonders Duel',                                // 8
+	                 'The Castles of Burgundy',                       // 9
+	                 'Agricola',                                     // 10
+
+	                 'Power Grid',                                   // 11
+	                 'Tigris & Euphrates',                           // 12
+	                 'Dominion',                                     // 13
+	                 'El Grande',                                    // 14
+	                 'Caylus',                                       // 15
+	                 'Race for the Galaxy',                          // 16
+	                 'Le Havre',                                     // 17
+	                 'Dominion: Intrigue',                           // 18
+	                 'Brass',                                        // 19
+	                 'Eclipse',                                      // 20
+	                 'Android: Netrunner',                           // 21
+	                 'Mage Knight Board Game',                       // 22
+	                 'Through the Ages: A Story of Civilization'     // 23
+	        ],
+	         //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
+	        ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
+	        ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
+	        ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
+	        ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
+	        ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
+	        ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
+	        ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
+	        ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
+	        ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
+	      ],
+	    },
+	    movement: {
+	      positive: [304, 34343, 12324, 12434, 22343, 304, 34343, 12324, 12434, 22343],
+	      negative: [1232, 34343, 12324, 12434, 22343]
+	    }
+	  },
+	  games: {
+	    "345": {
+	      bggID: 345,
+	      movementDay: -1,
+	      movementWeek: 17
+	    },
+	    "43666": {
+	      bggID: 43666,
+	      movementDay: 3,
+	      movementWeek: 5
+	    }
+	  },
+
+	  // time formats
+	  timeYMD: "20161217",
+	  timeISO: "2016-12-17T09:02:16.973Z",
+	  timeLocal: "03:02:16 GMT-0600 (CST)",
+	  timeMilliseconds: 1481965336973,
+	  timeYear: 2016,
+	};
+
+	/**********************\
+	|                      |
+	|        Games         |
+	|                      |
+	\**********************/
+
+	let Games = {
+	  bggID: {
+	    // avilable one day with crawling
+	    weight: 2.3,
+	    weightVotes: 461,
+	    ratingGeek: 8.056,
+	    ratingAverage: 8.2931,
+	    ratingDeviation: 1.3131,
+	    ratingVotes: 8320,
+	    // calculated with server logic
+	    movementDay: -1,
+	    movementWeek: 17,
+	    movementMonth: null,
+	    movementYear: null,
+
+	    // via bgg API call
+	    name: "Eurorails",
+	    yearPublished: "1990",
+	    thumbnail: "//cf.geekdo-images.com/images/pic3122349_t.jpg",
+	    description: "Something evil stirs in Arkham...",
+	    image: "//cf.geekdo-images.com/images/pic3122349.jpg",
+	    publishers: [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    arists:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    designers:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    expansions:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    gameFamilies:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    gameMechanics:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    gameCategories:  [
+	      {
+	        name: "Kingdom Death: Monster – Gorm Expansion",
+	        bggID: "135036"
+	      },
+	      {
+	        name: "Kingdom Death: Monster – Green Knight Armor Expansion",
+	        bggID: "195317"
+	      }
+	    ],
+	    maxPlayers: "6",
+	    maxPlayTime: "60",
+	    minAge: "17",
+	    minPlayers: "1",
+	    minPlayTime: "30",
+	    playingTime: "60",
+	    pollPlayerCount: {
+	      description:"User Suggested Number of Players",
+	      totalvotes: 112,
+	      playerCount: {
+	        1: {
+	          best: 15,
+	          recommended: 19,
+	          notRecommended: 3
+	        },
+	        2: {
+	          best: 2,
+	          recommended: 5,
+	          notRecommended: 3
+	        }
+	      }
+	    },
+	    pollPlayerAge: {
+	      description:"User Suggested Player Age",
+	      totalvotes: 12,
+	      age: {
+	        2: 0,
+	        3: 0,
+	        4: 0,
+	        5: 0,
+	        6: 0,
+	        8: 0,
+	        10: 3,
+	        12: 3,
+	        14: 5,
+	        16: 1,
+	        18: 0,
+	        21: 0
+	      }
+	    },
+	    pollLanguageDependence: {
+	      description:"Language Dependence",
+	      levelDescriptions: [
+	        "No necessary in-game text",
+	        "Some necessary text - easily memorized or small crib sheet",
+	        "Moderate in-game text - needs crib sheet or paste ups",
+	        "Extensive use of text - massive conversion needed to be playable",
+	        "Unplayable in another language"
+	      ],
+	      totalvotes: "9",
+	      level: {
+	        1: 0,
+	        2: 2,
+	        3: 7,
+	        4: 0,
+	        5: 0
+	      }
+	    },
+	    // stuff also in Rankings table
+	    bggID: "157",
+	    rank: 883,
+	    // top games
+	    top10: false,
+	    top100: false,
+	    top1000: true,
+	    top10000: true,
+	    // percentile
+	    percentile: 4,
+	    percentile1: true,
+	    percentile5: true,
+	    percentile10: true,
+	    percentile25: true,
+	    percentile50: true,
+	    percentile75: true,
+	    // time tags
+	    time_bggID: "20161217_game_157",
+	    time_top10: "20161217_top10_true",
+	    time_top100: "20161217_top100_false",
+	    time_top1000: "20161217_top1000_false",
+	    time_top10000: "20161217_top10000_false",
+	    time_percentile1: "20161217_time_percentile1_false",
+	    time_percentile5: "20161217_time_percentile5_false",
+	    time_percentile10: "20161217_time_percentile10_false",
+	    time_percentile25: "20161217_time_percentile25_false",
+	    time_percentile50: "20161217_time_percentile50_false",
+	    time_percentile75: "20161217_time_percentile75_false",
+	    // time formats
+	    timeYMD: "20161217",
+	    timeISO: "2016-12-17T09:02:16.973Z",
+	    timeLocal: "03:02:16 GMT-0600 (CST)",
+	    timeMilliseconds: 1481965336973,
+	    timeYear: 2016,
+	  }
+	};
+
+	/**********************\
+	|                      |
+	|      Rankings        |
+	|                      |
+	\**********************/
+
+	let Rankings = {
+	  bggID: "157",
+	  rank: 883,
+	  // top games
+	  top10: false,
+	  top100: false,
+	  top1000: true,
+	  top10000: true,
+	  // percentile
+	  percentile: 4,
+	  percentile1: true,
+	  percentile5: true,
+	  percentile10: true,
+	  percentile25: true,
+	  percentile50: true,
+	  percentile75: true,
+	  // time tags
+	  time_bggID: "20161217_game_157",
+	  time_top10: "20161217_top10_true",
+	  time_top100: "20161217_top100_false",
+	  time_top1000: "20161217_top1000_false",
+	  time_top10000: "20161217_top10000_false",
+	  time_percentile1: "20161217_time_percentile1_false",
+	  time_percentile5: "20161217_time_percentile5_false",
+	  time_percentile10: "20161217_time_percentile10_false",
+	  time_percentile25: "20161217_time_percentile25_false",
+	  time_percentile50: "20161217_time_percentile50_false",
+	  time_percentile75: "20161217_time_percentile75_false",
+	  // time formats
+	  timeYMD: "20161217",
+	  timeISO: "2016-12-17T09:02:16.973Z",
+	  timeLocal: "03:02:16 GMT-0600 (CST)",
+	  timeMilliseconds: 1481965336973,
+	  timeYear: 2016,
+	};
+
+	/**********************\
+	|                      |
+	|   Games Published    |
+	|                      |
+	\**********************/
+
+	let GamesPublished = {
+	  2016: 12432,
+	  2015: 34423,
+	  // time formats
+	  timeYMD: "20161217",
+	  timeISO: "2016-12-17T09:02:16.973Z",
+	  timeLocal: "03:02:16 GMT-0600 (CST)",
+	  timeMilliseconds: 1481965336973,
+	  timeYear: 2016,
+	};
+
+	/**********************\
+	|                      |
+	|         BGG          |
+	|                      |
+	\**********************/
+
+	let BGG = {
+	  totalRankedGames: 13030,
+	  totalTrackedGames: 87712,
+	  // time formats
+	  timeYMD: "20161217",
+	  timeISO: "2016-12-17T09:02:16.973Z",
+	  timeLocal: "03:02:16 GMT-0600 (CST)",
+	  timeMilliseconds: 1481965336973,
+	  timeYear: 2016,
+	};
+
+	/**********************\
+	|                      |
+	|        Users         |
+	|                      |
+	\**********************/
+
+	let Users = {
+	  userID: "9238471ujnn2i3n3io4",
+	  chartOrder: ["movement", "hotness"],
+	  bggUsername: "nathantbaker",
+	  name: "Nate",
+	  emial: "nathantbaker@gmail.com",
+	    // time formats
+	  timeYMD: "20161217",
+	  timeISO: "2016-12-17T09:02:16.973Z",
+	  timeLocal: "03:02:16 GMT-0600 (CST)",
+	  timeMilliseconds: 1481965336973,
+	  timeYear: 2016,
+
+	};
+
+	let BggCall = {"items":{"$":{"termsofuse":"http://boardgamegeek.com/xmlapi/termsofuse"},"item":[{"$":{"type":"boardgame","id":"127023"},"thumbnail":["//cf.geekdo-images.com/images/pic1431241_t.jpg"],"image":["//cf.geekdo-images.com/images/pic1431241.jpg"],"name":[{"$":{"type":"primary","sortindex":"1","value":"Kemet"}}],"description":["In Kemet, players each deploy the troops of an Egyptian tribe and use the mystical powers of the gods of ancient Egypt &ndash; along with their powerful armies &ndash; to score points in glorious battles or through invasion of rich territories. A game is typically played to 8 or 10 victory points, which may be accrued through winning attacks, controlling temples, controlling fully-developed pyramids, sacrificing to the gods, and wielding particular magical powers.&#10;&#10;The conquest for the land of Kemet takes place over two phases: Day and Night. During the day, choose an action amongst the nine possible choices provided by your player mat and perform it immediately. Once every player has taken five actions, night falls, with players gathering Prayer Points from their temples, drawing Divine Intervention cards, and determining the turn order before the start of the new day.&#10;&#10;As the game progresses, they can use Prayer Points to acquire power tiles. Some of these enroll magical creatures and have them join their troops. In addition to intimidating enemies, these creatures provide special powers!&#10;&#10;Detailed miniature components represent the combat units and the supernatural creatures that are summoned to enhance them. Combat is resolved through cards chosen from a diminishing six-card hand and enhanced by bonuses.&#10;&#10;Play By Forum&#10;&#10;     Kemet PBF #1&#10;&#10;&#10;&#10;&#10;"],"yearpublished":[{"$":{"value":"2012"}}],"minplayers":[{"$":{"value":"2"}}],"maxplayers":[{"$":{"value":"5"}}],"poll":[{"$":{"name":"suggested_numplayers","title":"User Suggested Number of Players","totalvotes":"137"},"results":[{"$":{"numplayers":"1"},"result":[{"$":{"value":"Best","numvotes":"0"}},{"$":{"value":"Recommended","numvotes":"0"}},{"$":{"value":"Not Recommended","numvotes":"71"}}]},{"$":{"numplayers":"2"},"result":[{"$":{"value":"Best","numvotes":"5"}},{"$":{"value":"Recommended","numvotes":"47"}},{"$":{"value":"Not Recommended","numvotes":"52"}}]},{"$":{"numplayers":"3"},"result":[{"$":{"value":"Best","numvotes":"26"}},{"$":{"value":"Recommended","numvotes":"75"}},{"$":{"value":"Not Recommended","numvotes":"4"}}]},{"$":{"numplayers":"4"},"result":[{"$":{"value":"Best","numvotes":"63"}},{"$":{"value":"Recommended","numvotes":"48"}},{"$":{"value":"Not Recommended","numvotes":"2"}}]},{"$":{"numplayers":"5"},"result":[{"$":{"value":"Best","numvotes":"70"}},{"$":{"value":"Recommended","numvotes":"30"}},{"$":{"value":"Not Recommended","numvotes":"12"}}]},{"$":{"numplayers":"5+"},"result":[{"$":{"value":"Best","numvotes":"0"}},{"$":{"value":"Recommended","numvotes":"1"}},{"$":{"value":"Not Recommended","numvotes":"56"}}]}]},{"$":{"name":"suggested_playerage","title":"User Suggested Player Age","totalvotes":"27"},"results":[{"result":[{"$":{"value":"2","numvotes":"0"}},{"$":{"value":"3","numvotes":"0"}},{"$":{"value":"4","numvotes":"0"}},{"$":{"value":"5","numvotes":"0"}},{"$":{"value":"6","numvotes":"0"}},{"$":{"value":"8","numvotes":"5"}},{"$":{"value":"10","numvotes":"6"}},{"$":{"value":"12","numvotes":"12"}},{"$":{"value":"14","numvotes":"4"}},{"$":{"value":"16","numvotes":"0"}},{"$":{"value":"18","numvotes":"0"}},{"$":{"value":"21 and up","numvotes":"0"}}]}]},{"$":{"name":"language_dependence","title":"Language Dependence","totalvotes":"34"},"results":[{"result":[{"$":{"level":"16","value":"No necessary in-game text","numvotes":"24"}},{"$":{"level":"17","value":"Some necessary text - easily memorized or small crib sheet","numvotes":"10"}},{"$":{"level":"18","value":"Moderate in-game text - needs crib sheet or paste ups","numvotes":"0"}},{"$":{"level":"19","value":"Extensive use of text - massive conversion needed to be playable","numvotes":"0"}},{"$":{"level":"20","value":"Unplayable in another language","numvotes":"0"}}]}]}],"playingtime":[{"$":{"value":"120"}}],"minplaytime":[{"$":{"value":"90"}}],"maxplaytime":[{"$":{"value":"120"}}],"minage":[{"$":{"value":"13"}}],"link":[{"$":{"type":"boardgamecategory","id":"1050","value":"Ancient"}},{"$":{"type":"boardgamecategory","id":"1046","value":"Fighting"}},{"$":{"type":"boardgamecategory","id":"1047","value":"Miniatures"}},{"$":{"type":"boardgamecategory","id":"1082","value":"Mythology"}},{"$":{"type":"boardgamemechanic","id":"2001","value":"Action Point Allowance System"}},{"$":{"type":"boardgamemechanic","id":"2080","value":"Area Control / Area Influence"}},{"$":{"type":"boardgamemechanic","id":"2046","value":"Area Movement"}},{"$":{"type":"boardgamemechanic","id":"2018","value":"Campaign / Battle Card Driven"}},{"$":{"type":"boardgamemechanic","id":"2041","value":"Card Drafting"}},{"$":{"type":"boardgamefamily","id":"6471","value":"Country: Egypt"}},{"$":{"type":"boardgamefamily","id":"13265","value":"Desert Theme"}},{"$":{"type":"boardgamefamily","id":"5615","value":"Monsters"}},{"$":{"type":"boardgameexpansion","id":"146781","value":"C3K: Creatures Crossover Cyclades/Kemet"}},{"$":{"type":"boardgameexpansion","id":"207149","value":"Kemet: Dice Tower Promo 2016"}},{"$":{"type":"boardgameexpansion","id":"190744","value":"Kemet: New Power Tiles"}},{"$":{"type":"boardgameexpansion","id":"190743","value":"Kemet: Skills and Black Power Tile For Ta-Seti"}},{"$":{"type":"boardgameexpansion","id":"161842","value":"Kemet: Ta-Seti"}},{"$":{"type":"boardgamedesigner","id":"10395","value":"Jacques Bariot"}},{"$":{"type":"boardgamedesigner","id":"10393","value":"Guillaume Montiage"}},{"$":{"type":"boardgameartist","id":"30958","value":"Dimitri Bielak"}},{"$":{"type":"boardgameartist","id":"46405","value":"Emile Denis"}},{"$":{"type":"boardgameartist","id":"12935","value":"Nicolas Fructus"}},{"$":{"type":"boardgamepublisher","id":"5400","value":"Matagot"}},{"$":{"type":"boardgamepublisher","id":"157","value":"Asmodee"}},{"$":{"type":"boardgamepublisher","id":"15889","value":"Asterion Press"}},{"$":{"type":"boardgamepublisher","id":"15605","value":"Galápagos Jogos"}},{"$":{"type":"boardgamepublisher","id":"39","value":"Pegasus Spiele"}},{"$":{"type":"boardgamepublisher","id":"7466","value":"REBEL.pl"}}],"statistics":[{"$":{"page":"1"},"ratings":[{"usersrated":[{"$":{"value":"8320"}}],"average":[{"$":{"value":"7.77561"}}],"bayesaverage":[{"$":{"value":"7.53636"}}],"ranks":[{"rank":[{"$":{"type":"subtype","id":"1","name":"boardgame","friendlyname":"Board Game Rank","value":"67","bayesaverage":"7.53636"}},{"$":{"type":"family","id":"5497","name":"strategygames","friendlyname":"Strategy Game Rank","value":"49","bayesaverage":"7.56723"}}]}],"stddev":[{"$":{"value":"1.3131"}}],"median":[{"$":{"value":"0"}}],"owned":[{"$":{"value":"10272"}}],"trading":[{"$":{"value":"128"}}],"wanting":[{"$":{"value":"1151"}}],"wishing":[{"$":{"value":"4443"}}],"numcomments":[{"$":{"value":"1499"}}],"numweights":[{"$":{"value":"461"}}],"averageweight":[{"$":{"value":"2.9761"}}]}]}]}]}};
 
 	console.log("Data Template", {
 	  "Charts": Charts,
@@ -470,7 +831,8 @@
 	  "Rankings": Rankings,
 	  "GamesPublished": GamesPublished,
 	  "BGG": BGG,
-	  "Users": Users
+	  "Users": Users,
+	  "BggCall": BggCall
 	});
 
 /***/ },
@@ -11593,4274 +11955,20 @@
 	module.exports = top10Logic;
 
 /***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var throttle  = __webpack_require__(29)
-	var targetFn  = __webpack_require__(30)
-	var configure = __webpack_require__(83)
-
-	var mouseenter = __webpack_require__(89)
-	var mouseleave = __webpack_require__(92)
-
-	var contains = __webpack_require__(93)
-
-	var TOOLTIP = function(cfg){
-
-		var config = configure(cfg)
-		var target = targetFn(config)
-		var root   = config.target
-		var t      = config.throttle
-
-		//make the target && protection since it might be destroyed by that time
-	    var onMouseOver = throttle(function(eventTarget){
-	        target && target.set(eventTarget)
-	    }, t)
-
-	    var onMouseOut = throttle(function(eventTarget){
-
-	        target && target.hold()
-	        setTimeout(function(){
-	            if (target && target.onHold()){
-	                target.set(null)
-	            }
-	        }, t)
-
-	    }, t)
-
-	    var removeMouseEnter = mouseenter(root, config.selector, onMouseOver)
-	    var removeMouseLeave = mouseleave(root, config.selector, onMouseOut)
-
-	    var onMouseMove = throttle(function(){
-	        var currentTarget = target.getCurrentTarget()
-
-	        if (currentTarget && !contains(document.documentElement, currentTarget)){
-	            target.set(null)
-	        }
-	    }, 200)
-
-	    root.addEventListener('mousemove', onMouseMove)
-
-	    return {
-	        destroy: function(){
-
-	        	target.destroy()
-
-	            removeMouseEnter()
-	            removeMouseLeave()
-	            root.removeEventListener('mousemove', onMouseMove)
-
-				root   = null
-				target = null
-				config = null
-	        }
-	    }
-	}
-
-	module.exports = TOOLTIP
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(fn, delay, scope) {
-	    var timeoutId = -1
-	    var self
-	    var args
-
-	    if (delay === undefined){
-	        delay = 0
-	    }
-
-	    if (delay < 0){
-	        return fn
-	    }
-
-	    return function () {
-
-	        self = scope || this
-	        args = arguments
-
-	        if (timeoutId !== -1) {
-	            //the function was called once again in the delay interval
-	        } else {
-	            timeoutId = setTimeout(function () {
-	                fn.apply(self, args)
-
-	                self = null
-	                timeoutId = -1
-	            }, delay)
-	        }
-
-	    }
-
-	}
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Region = __webpack_require__(31)
-
-	var assign = __webpack_require__(46);
-	var escape = __webpack_require__(47)
-
-	var setStyle         = __webpack_require__(48)
-	var toOffset         = __webpack_require__(78)
-	var parseAsStyle     = __webpack_require__(79)
-	var tooltipElement   = __webpack_require__(80)
-	var preparePositions = __webpack_require__(81)
-	var mapObject        = __webpack_require__(82)
-
-	function emptyObject(obj){
-	    return mapObject(obj, function(){
-	        return ''
-	    })
-	}
-
-	module.exports = function(config){
-
-	    var prevStyle
-
-	    function showTooltip(target){
-
-	        var tooltip = target.getAttribute(config.attrName)
-
-	        var el = tooltipElement(config)
-	        el.innerHTML = config.escape? escape(tooltip): tooltip
-
-	        var positions    = config.alignPositions
-	        var elRegion     = Region.from(el)
-	        var targetRegion = Region.from(target)
-
-	        var attrPosition = target.getAttribute(config.attrName + '-positions')
-	        var attrStyle    = target.getAttribute(config.attrName + '-style')
-
-	        var style = assign({}, prevStyle, config.style)
-
-	        if (attrStyle){
-	            attrStyle = parseAsStyle(attrStyle)
-	            prevStyle = emptyObject(attrStyle)
-
-	            assign(style, attrStyle)
-	        }
-
-	        if (attrPosition){
-	            positions = preparePositions(attrPosition.split(';'))
-	        }
-
-	        var res = elRegion.alignTo(targetRegion, positions, {
-	            offset: toOffset(config.offset, positions),
-	            constrain: true
-	        })
-
-	        var scrollTop = document.body.scrollTop || 0
-	        var scrollLeft = document.body.scrollLeft || 0
-
-	        setStyle(el, style, config.visibleStyle, {
-	            top : elRegion.top + scrollTop,
-	            left: elRegion.left + scrollLeft
-	        })
-	    }
-
-	    function clearTooltip(){
-	        setStyle(
-	            tooltipElement(config),
-	            config.hiddenStyle
-	        )
-	    }
-
-	    var currentTarget
-
-	    var withTarget = (function(){
-
-	        var prevId
-
-	        return function(target){
-
-	            if (target != currentTarget){
-	                if (prevId){
-	                    clearTimeout(prevId)
-	                    prevId = null
-	                }
-
-	                if (target){
-
-	                    if (config.showDelay){
-
-	                        prevId = setTimeout(function(){
-	                            prevId = null
-	                            showTooltip(target)
-	                        }, config.showDelay)
-	                    } else {
-	                        showTooltip(target)
-	                    }
-
-	                } else {
-	                    clearTooltip()
-	                }
-	            }
-
-	            currentTarget = target
-	        }
-	    })()
-
-	    var setter = (function(){
-	        var lastValue
-	        var PREV_ID
-
-	        return function setter(value){
-
-	            if (value == lastValue){
-	                return
-	            }
-
-	            lastValue = value
-
-	            if (config.hideOnChange){
-
-	                if (PREV_ID || value){
-
-	                    if (PREV_ID){
-	                        clearTimeout(PREV_ID)
-	                    }
-
-	                    PREV_ID = setTimeout(function(){
-	                        PREV_ID = null
-	                        withTarget(lastValue)
-	                    }, config.hideOnChangeDelay)
-	                }
-
-	                value = null
-	            }
-
-	            withTarget(value)
-	        }
-
-	    })()
-
-	    var HOLD = false
-
-	    return {
-
-	        destroy: function(){
-	            tooltipElement.destroy(config)
-	        },
-
-	        hold: function() {
-	            HOLD = true
-	        },
-
-	        onHold: function() {
-	            return HOLD
-	        },
-
-	        set: function(value){
-	            HOLD = false
-	            setter(value)
-	        },
-
-	        getCurrentTarget: function(){
-	            return currentTarget
-	        }
-	    }
-
-	}
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Region = __webpack_require__(32)
-
-	__webpack_require__(42)
-	__webpack_require__(43)
-
-	var COMPUTE_ALIGN_REGION = __webpack_require__(44)
-
-	/**
-	 * region-align module exposes methods for aligning {@link Element} and {@link Region} instances
-	 *
-	 * The #alignTo method aligns this to the target element/region using the specified positions. See #alignTo for a graphical example.
-	 *
-	 *
-	 *      var div = Element.select('div.first')
-	 *
-	 *      div.alignTo(Element.select('body') , 'br-br')
-	 *
-	 *      //aligns the div to be in the bottom-right corner of the body
-	 *
-	 * Other useful methods
-	 *
-	 *  * {@link #alignRegions} - aligns a given source region to a target region
-	 *  * {@link #COMPUTE_ALIGN_REGION} - given a source region and a target region, and alignment positions, returns a clone of the source region, but aligned to satisfy the given alignments
-	 */
-
-
-	/**
-	 * Aligns sourceRegion to targetRegion. It modifies the sourceRegion in order to perform the correct alignment.
-	 * See #COMPUTE_ALIGN_REGION for details and examples.
-	 *
-	 * This method calls #COMPUTE_ALIGN_REGION passing to it all its arguments. The #COMPUTE_ALIGN_REGION method returns a region that is properly aligned.
-	 * If this returned region position/size differs from sourceRegion, then the sourceRegion is modified to be an exact copy of the aligned region.
-	 *
-	 * @inheritdoc #COMPUTE_ALIGN_REGION
-	 * @return {String} the position used for alignment
-	 */
-	Region.alignRegions = function(sourceRegion, targetRegion, positions, config){
-
-	    var result        = COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config)
-	    var alignedRegion = result.region
-
-	    if ( !alignedRegion.equals(sourceRegion) ) {
-	        sourceRegion.setRegion(alignedRegion)
-	    }
-
-	    return result.position
-
-	}
-
-	    /**
-	     *
-	     * The #alignTo method aligns this to the given target region, using the specified alignment position(s).
-	     * You can also specify a constrain for the alignment.
-	     *
-	     * Example
-	     *
-	     *      BIG
-	     *      ________________________
-	     *      |  _______              |
-	     *      | |       |             |
-	     *      | |   A   |             |
-	     *      | |       |      _____  |
-	     *      | |_______|     |     | |
-	     *      |               |  B  | |
-	     *      |               |     | |
-	     *      |_______________|_____|_|
-	     *
-	     * Assume the *BIG* outside rectangle is our constrain region, and you want to align the *A* rectangle
-	     * to the *B* rectangle. Ideally, you'll want their tops to be aligned, and *A* to be placed at the right side of *B*
-	     *
-	     *
-	     *      //so we would align them using
-	     *
-	     *      A.alignTo(B, 'tl-tr', { constrain: BIG })
-	     *
-	     * But this would result in
-	     *
-	     *       BIG
-	     *      ________________________
-	     *      |                       |
-	     *      |                       |
-	     *      |                       |
-	     *      |                _____ _|_____
-	     *      |               |     | .     |
-	     *      |               |  B  | . A   |
-	     *      |               |     | .     |
-	     *      |_______________|_____|_._____|
-	     *
-	     *
-	     * Which is not what we want. So we specify an array of options to try
-	     *
-	     *      A.alignTo(B, ['tl-tr', 'tr-tl'], { constrain: BIG })
-	     *
-	     * So by this we mean: try to align A(top,left) with B(top,right) and stick to the BIG constrain. If this is not possible,
-	     * try the next option: align A(top,right) with B(top,left)
-	     *
-	     * So this is what we end up with
-	     *
-	     *      BIG
-	     *      ________________________
-	     *      |                       |
-	     *      |                       |
-	     *      |                       |
-	     *      |        _______ _____  |
-	     *      |       |       |     | |
-	     *      |       |   A   |  B  | |
-	     *      |       |       |     | |
-	     *      |_______|_______|_____|_|
-	     *
-	     *
-	     * Which is a lot better!
-	     *
-	     * @param {Element/Region} target The target to which to align this alignable.
-	     *
-	     * @param {String[]/String} positions The positions for the alignment.
-	     *
-	     * Example:
-	     *
-	     *      'br-tl'
-	     *      ['br-tl','br-tr','cx-tc']
-	     *
-	     * This method will try to align using the first position. But if there is a constrain region, that position might not satisfy the constrain.
-	     * If this is the case, the next positions will be tried. If one of them satifies the constrain, it will be used for aligning and it will be returned from this method.
-	     *
-	     * If no position matches the contrain, the one with the largest intersection of the source region with the constrain will be used, and this alignable will be resized to fit the constrain region.
-	     *
-	     * @param {Object} config A config object with other configuration for this method
-	     *
-	     * @param {Array[]/Object[]/Object} config.offset The offset to use for aligning. If more that one offset is specified, then offset at a given index is used with the position at the same index.
-	     *
-	     * An offset can have the following form:
-	     *
-	     *      [left_offset, top_offset]
-	     *      {left: left_offset, top: top_offset}
-	     *      {x: left_offset, y: top_offset}
-	     *
-	     * You can pass one offset or an array of offsets. In case you pass just one offset,
-	     * it cannot have the array form, so you cannot call
-	     *
-	     *      this.alignTo(target, positions, [10, 20])
-	     *
-	     * If you do, it will not be considered. Instead, please use
-	     *
-	     *      this.alignTo(target, positions, {x: 10, y: 20})
-	     *
-	     * Or
-	     *
-	     *      this.alignTo(target, positions, [[10, 20]] )
-	     *
-	     * @param {Boolean/Element/Region} config.constrain If boolean, target will be constrained to the document region, otherwise,
-	     * getRegion will be called on this argument to determine the region we need to constrain to.
-	     *
-	     * @param {Boolean/Object} config.sync Either boolean or an object with {width, height}. If it is boolean,
-	     * both width and height will be synced. If directions are specified, will only sync the direction which is specified as true
-	     *
-	     * @return {String}
-	     *
-	     */
-	Region.prototype.alignTo = function(target, positions, config){
-
-	    config = config || {}
-
-	    var sourceRegion = this
-	    var targetRegion = Region.from(target)
-
-	    var result = COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config)
-	    var resultRegion = result.region
-
-	    if (!resultRegion.equalsSize(sourceRegion)){
-	        this.setSize(resultRegion.getSize())
-	    }
-	    if (!resultRegion.equalsPosition(sourceRegion)){
-	        this.setPosition(resultRegion.getPosition(), { absolute: !!config.absolute })
-	    }
-
-	    return result.position
-	}
-
-	module.exports = Region
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(33)
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var hasOwn    = __webpack_require__(34)
-	var newify    = __webpack_require__(35)
-
-	var assign      = __webpack_require__(37);
-	var EventEmitter = __webpack_require__(38).EventEmitter
-
-	var inherits = __webpack_require__(39)
-	var VALIDATE = __webpack_require__(40)
-
-	var objectToString = Object.prototype.toString
-
-	var isObject = function(value){
-	    return objectToString.apply(value) === '[object Object]'
-	}
-
-	function copyList(source, target, list){
-	    if (source){
-	        list.forEach(function(key){
-	            if (hasOwn(source, key)){
-	                target[key] = source[key]
-	            }
-	        })
-	    }
-
-	    return target
-	}
-
-	/**
-	 * @class Region
-	 *
-	 * The Region is an abstraction that allows the developer to refer to rectangles on the screen,
-	 * and move them around, make diffs and unions, detect intersections, compute areas, etc.
-	 *
-	 * ## Creating a region
-	 *      var region = require('region')({
-	 *          top  : 10,
-	 *          left : 10,
-	 *          bottom: 100,
-	 *          right : 100
-	 *      })
-	 *      //this region is a square, 90x90, starting from (10,10) to (100,100)
-	 *
-	 *      var second = require('region')({ top: 10, left: 100, right: 200, bottom: 60})
-	 *      var union  = region.getUnion(second)
-	 *
-	 *      //the "union" region is a union between "region" and "second"
-	 */
-
-	var POINT_POSITIONS = {
-	        cy: 'YCenter',
-	        cx: 'XCenter',
-	        t : 'Top',
-	        tc: 'TopCenter',
-	        tl: 'TopLeft',
-	        tr: 'TopRight',
-	        b : 'Bottom',
-	        bc: 'BottomCenter',
-	        bl: 'BottomLeft',
-	        br: 'BottomRight',
-	        l : 'Left',
-	        lc: 'LeftCenter',
-	        r : 'Right',
-	        rc: 'RightCenter',
-	        c : 'Center'
-	    }
-
-	/**
-	 * @constructor
-	 *
-	 * Construct a new Region.
-	 *
-	 * Example:
-	 *
-	 *      var r = new Region({ top: 10, left: 20, bottom: 100, right: 200 })
-	 *
-	 *      //or, the same, but with numbers (can be used with new or without)
-	 *
-	 *      r = Region(10, 200, 100, 20)
-	 *
-	 *      //or, with width and height
-	 *
-	 *      r = Region({ top: 10, left: 20, width: 180, height: 90})
-	 *
-	 * @param {Number|Object} top The top pixel position, or an object with top, left, bottom, right properties. If an object is passed,
-	 * instead of having bottom and right, it can have width and height.
-	 *
-	 * @param {Number} right The right pixel position
-	 * @param {Number} bottom The bottom pixel position
-	 * @param {Number} left The left pixel position
-	 *
-	 * @return {Region} this
-	 */
-	var REGION = function(top, right, bottom, left){
-
-	    if (!(this instanceof REGION)){
-	        return newify(REGION, arguments)
-	    }
-
-	    EventEmitter.call(this)
-
-	    if (isObject(top)){
-	        copyList(top, this, ['top','right','bottom','left'])
-
-	        if (top.bottom == null && top.height != null){
-	            this.bottom = this.top + top.height
-	        }
-	        if (top.right == null && top.width != null){
-	            this.right = this.left + top.width
-	        }
-
-	        if (top.emitChangeEvents){
-	            this.emitChangeEvents = top.emitChangeEvents
-	        }
-	    } else {
-	        this.top    = top
-	        this.right  = right
-	        this.bottom = bottom
-	        this.left   = left
-	    }
-
-	    this[0] = this.left
-	    this[1] = this.top
-
-	    VALIDATE(this)
-	}
-
-	inherits(REGION, EventEmitter)
-
-	assign(REGION.prototype, {
-
-	    /**
-	     * @cfg {Boolean} emitChangeEvents If this is set to true, the region
-	     * will emit 'changesize' and 'changeposition' whenever the size or the position changs
-	     */
-	    emitChangeEvents: false,
-
-	    /**
-	     * Returns this region, or a clone of this region
-	     * @param  {Boolean} [clone] If true, this method will return a clone of this region
-	     * @return {Region}       This region, or a clone of this
-	     */
-	    getRegion: function(clone){
-	        return clone?
-	                    this.clone():
-	                    this
-	    },
-
-	    /**
-	     * Sets the properties of this region to those of the given region
-	     * @param {Region/Object} reg The region or object to use for setting properties of this region
-	     * @return {Region} this
-	     */
-	    setRegion: function(reg){
-
-	        if (reg instanceof REGION){
-	            this.set(reg.get())
-	        } else {
-	            this.set(reg)
-	        }
-
-	        return this
-	    },
-
-	    /**
-	     * Returns true if this region is valid, false otherwise
-	     *
-	     * @param  {Region} region The region to check
-	     * @return {Boolean}        True, if the region is valid, false otherwise.
-	     * A region is valid if
-	     *  * left <= right  &&
-	     *  * top  <= bottom
-	     */
-	    validate: function(){
-	        return REGION.validate(this)
-	    },
-
-	    _before: function(){
-	        if (this.emitChangeEvents){
-	            return copyList(this, {}, ['left','top','bottom','right'])
-	        }
-	    },
-
-	    _after: function(before){
-	        if (this.emitChangeEvents){
-
-	            if(this.top != before.top || this.left != before.left) {
-	                this.emitPositionChange()
-	            }
-
-	            if(this.right != before.right || this.bottom != before.bottom) {
-	                this.emitSizeChange()
-	            }
-	        }
-	    },
-
-	    notifyPositionChange: function(){
-	        this.emit('changeposition', this)
-	    },
-
-	    emitPositionChange: function(){
-	        this.notifyPositionChange()
-	    },
-
-	    notifySizeChange: function(){
-	        this.emit('changesize', this)
-	    },
-
-	    emitSizeChange: function(){
-	        this.notifySizeChange()
-	    },
-
-	    /**
-	     * Add the given amounts to each specified side. Example
-	     *
-	     *      region.add({
-	     *          top: 50,    //add 50 px to the top side
-	     *          bottom: -100    //substract 100 px from the bottom side
-	     *      })
-	     *
-	     * @param {Object} directions
-	     * @param {Number} [directions.top]
-	     * @param {Number} [directions.left]
-	     * @param {Number} [directions.bottom]
-	     * @param {Number} [directions.right]
-	     *
-	     * @return {Region} this
-	     */
-	    add: function(directions){
-
-	        var before = this._before()
-	        var direction
-
-	        for (direction in directions) if ( hasOwn(directions, direction) ) {
-	            this[direction] += directions[direction]
-	        }
-
-	        this[0] = this.left
-	        this[1] = this.top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * The same as {@link #add}, but substracts the given values
-	     * @param {Object} directions
-	     * @param {Number} [directions.top]
-	     * @param {Number} [directions.left]
-	     * @param {Number} [directions.bottom]
-	     * @param {Number} [directions.right]
-	     *
-	     * @return {Region} this
-	     */
-	    substract: function(directions){
-
-	        var before = this._before()
-	        var direction
-
-	        for (direction in directions) if (hasOwn(directions, direction) ) {
-	            this[direction] -= directions[direction]
-	        }
-
-	        this[0] = this.left
-	        this[1] = this.top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Retrieves the size of the region.
-	     * @return {Object} An object with {width, height}, corresponding to the width and height of the region
-	     */
-	    getSize: function(){
-	        return {
-	            width  : this.width,
-	            height : this.height
-	        }
-	    },
-
-	    /**
-	     * Move the region to the given position and keeps the region width and height.
-	     *
-	     * @param {Object} position An object with {top, left} properties. The values in {top,left} are used to move the region by the given amounts.
-	     * @param {Number} [position.left]
-	     * @param {Number} [position.top]
-	     *
-	     * @return {Region} this
-	     */
-	    setPosition: function(position){
-	        var width  = this.width
-	        var height = this.height
-
-	        if (position.left != undefined){
-	            position.right  = position.left + width
-	        }
-
-	        if (position.top != undefined){
-	            position.bottom = position.top  + height
-	        }
-
-	        return this.set(position)
-	    },
-
-	    /**
-	     * Sets both the height and the width of this region to the given size.
-	     *
-	     * @param {Number} size The new size for the region
-	     * @return {Region} this
-	     */
-	    setSize: function(size){
-	        if (size.height != undefined && size.width != undefined){
-	            return this.set({
-	                right  : this.left + size.width,
-	                bottom : this.top  + size.height
-	            })
-	        }
-
-	        if (size.width != undefined){
-	            this.setWidth(size.width)
-	        }
-
-	        if (size.height != undefined){
-	            this.setHeight(size.height)
-	        }
-
-	        return this
-	    },
-
-
-
-	    /**
-	     * @chainable
-	     *
-	     * Sets the width of this region
-	     * @param {Number} width The new width for this region
-	     * @return {Region} this
-	     */
-	    setWidth: function(width){
-	        return this.set({
-	            right: this.left + width
-	        })
-	    },
-
-	    /**
-	     * @chainable
-	     *
-	     * Sets the height of this region
-	     * @param {Number} height The new height for this region
-	     * @return {Region} this
-	     */
-	    setHeight: function(height){
-	        return this.set({
-	            bottom: this.top + height
-	        })
-	    },
-
-	    /**
-	     * Sets the given properties on this region
-	     *
-	     * @param {Object} directions an object containing top, left, and EITHER bottom, right OR width, height
-	     * @param {Number} [directions.top]
-	     * @param {Number} [directions.left]
-	     *
-	     * @param {Number} [directions.bottom]
-	     * @param {Number} [directions.right]
-	     *
-	     * @param {Number} [directions.width]
-	     * @param {Number} [directions.height]
-	     *
-	     *
-	     * @return {Region} this
-	     */
-	    set: function(directions){
-	        var before = this._before()
-
-	        copyList(directions, this, ['left','top','bottom','right'])
-
-	        if (directions.bottom == null && directions.height != null){
-	            this.bottom = this.top + directions.height
-	        }
-	        if (directions.right == null && directions.width != null){
-	            this.right = this.left + directions.width
-	        }
-
-	        this[0] = this.left
-	        this[1] = this.top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Retrieves the given property from this region. If no property is given, return an object
-	     * with {left, top, right, bottom}
-	     *
-	     * @param {String} [dir] the property to retrieve from this region
-	     * @return {Number/Object}
-	     */
-	    get: function(dir){
-	        return dir? this[dir]:
-	                    copyList(this, {}, ['left','right','top','bottom'])
-	    },
-
-	    /**
-	     * Shifts this region to either top, or left or both.
-	     * Shift is similar to {@link #add} by the fact that it adds the given dimensions to top/left sides, but also adds the given dimensions
-	     * to bottom and right
-	     *
-	     * @param {Object} directions
-	     * @param {Number} [directions.top]
-	     * @param {Number} [directions.left]
-	     *
-	     * @return {Region} this
-	     */
-	    shift: function(directions){
-
-	        var before = this._before()
-
-	        if (directions.top){
-	            this.top    += directions.top
-	            this.bottom += directions.top
-	        }
-
-	        if (directions.left){
-	            this.left  += directions.left
-	            this.right += directions.left
-	        }
-
-	        this[0] = this.left
-	        this[1] = this.top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Same as {@link #shift}, but substracts the given values
-	     * @chainable
-	     *
-	     * @param {Object} directions
-	     * @param {Number} [directions.top]
-	     * @param {Number} [directions.left]
-	     *
-	     * @return {Region} this
-	     */
-	    unshift: function(directions){
-
-	        if (directions.top){
-	            directions.top *= -1
-	        }
-
-	        if (directions.left){
-	            directions.left *= -1
-	        }
-
-	        return this.shift(directions)
-	    },
-
-	    /**
-	     * Compare this region and the given region. Return true if they have all the same size and position
-	     * @param  {Region} region The region to compare with
-	     * @return {Boolean}       True if this and region have same size and position
-	     */
-	    equals: function(region){
-	        return this.equalsPosition(region) && this.equalsSize(region)
-	    },
-
-	    /**
-	     * Returns true if this region has the same bottom,right properties as the given region
-	     * @param  {Region/Object} size The region to compare against
-	     * @return {Boolean}       true if this region is the same size as the given size
-	     */
-	    equalsSize: function(size){
-	        var isInstance = size instanceof REGION
-
-	        var s = {
-	            width: size.width == null && isInstance?
-	                    size.getWidth():
-	                    size.width,
-
-	            height: size.height == null && isInstance?
-	                    size.getHeight():
-	                    size.height
-	        }
-	        return this.getWidth() == s.width && this.getHeight() == s.height
-	    },
-
-	    /**
-	     * Returns true if this region has the same top,left properties as the given region
-	     * @param  {Region} region The region to compare against
-	     * @return {Boolean}       true if this.top == region.top and this.left == region.left
-	     */
-	    equalsPosition: function(region){
-	        return this.top == region.top && this.left == region.left
-	    },
-
-	    /**
-	     * Adds the given ammount to the left side of this region
-	     * @param {Number} left The ammount to add
-	     * @return {Region} this
-	     */
-	    addLeft: function(left){
-	        var before = this._before()
-
-	        this.left = this[0] = this.left + left
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Adds the given ammount to the top side of this region
-	     * @param {Number} top The ammount to add
-	     * @return {Region} this
-	     */
-	    addTop: function(top){
-	        var before = this._before()
-
-	        this.top = this[1] = this.top + top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Adds the given ammount to the bottom side of this region
-	     * @param {Number} bottom The ammount to add
-	     * @return {Region} this
-	     */
-	    addBottom: function(bottom){
-	        var before = this._before()
-
-	        this.bottom += bottom
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Adds the given ammount to the right side of this region
-	     * @param {Number} right The ammount to add
-	     * @return {Region} this
-	     */
-	    addRight: function(right){
-	        var before = this._before()
-
-	        this.right += right
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Minimize the top side.
-	     * @return {Region} this
-	     */
-	    minTop: function(){
-	        return this.expand({top: 1})
-	    },
-	    /**
-	     * Minimize the bottom side.
-	     * @return {Region} this
-	     */
-	    maxBottom: function(){
-	        return this.expand({bottom: 1})
-	    },
-	    /**
-	     * Minimize the left side.
-	     * @return {Region} this
-	     */
-	    minLeft: function(){
-	        return this.expand({left: 1})
-	    },
-	    /**
-	     * Maximize the right side.
-	     * @return {Region} this
-	     */
-	    maxRight: function(){
-	        return this.expand({right: 1})
-	    },
-
-	    /**
-	     * Expands this region to the dimensions of the given region, or the document region, if no region is expanded.
-	     * But only expand the given sides (any of the four can be expanded).
-	     *
-	     * @param {Object} directions
-	     * @param {Boolean} [directions.top]
-	     * @param {Boolean} [directions.bottom]
-	     * @param {Boolean} [directions.left]
-	     * @param {Boolean} [directions.right]
-	     *
-	     * @param {Region} [region] the region to expand to, defaults to the document region
-	     * @return {Region} this region
-	     */
-	    expand: function(directions, region){
-	        var docRegion = region || REGION.getDocRegion()
-	        var list      = []
-	        var direction
-	        var before = this._before()
-
-	        for (direction in directions) if ( hasOwn(directions, direction) ) {
-	            list.push(direction)
-	        }
-
-	        copyList(docRegion, this, list)
-
-	        this[0] = this.left
-	        this[1] = this.top
-
-	        this._after(before)
-
-	        return this
-	    },
-
-	    /**
-	     * Returns a clone of this region
-	     * @return {Region} A new region, with the same position and dimension as this region
-	     */
-	    clone: function(){
-	        return new REGION({
-	                    top    : this.top,
-	                    left   : this.left,
-	                    right  : this.right,
-	                    bottom : this.bottom
-	                })
-	    },
-
-	    /**
-	     * Returns true if this region contains the given point
-	     * @param {Number/Object} x the x coordinate of the point
-	     * @param {Number} [y] the y coordinate of the point
-	     *
-	     * @return {Boolean} true if this region constains the given point, false otherwise
-	     */
-	    containsPoint: function(x, y){
-	        if (arguments.length == 1){
-	            y = x.y
-	            x = x.x
-	        }
-
-	        return this.left <= x  &&
-	               x <= this.right &&
-	               this.top <= y   &&
-	               y <= this.bottom
-	    },
-
-	    /**
-	     *
-	     * @param region
-	     *
-	     * @return {Boolean} true if this region contains the given region, false otherwise
-	     */
-	    containsRegion: function(region){
-	        return this.containsPoint(region.left, region.top)    &&
-	               this.containsPoint(region.right, region.bottom)
-	    },
-
-	    /**
-	     * Returns an object with the difference for {top, bottom} positions betwen this and the given region,
-	     *
-	     * See {@link #diff}
-	     * @param  {Region} region The region to use for diff
-	     * @return {Object}        {top,bottom}
-	     */
-	    diffHeight: function(region){
-	        return this.diff(region, {top: true, bottom: true})
-	    },
-
-	    /**
-	     * Returns an object with the difference for {left, right} positions betwen this and the given region,
-	     *
-	     * See {@link #diff}
-	     * @param  {Region} region The region to use for diff
-	     * @return {Object}        {left,right}
-	     */
-	    diffWidth: function(region){
-	        return this.diff(region, {left: true, right: true})
-	    },
-
-	    /**
-	     * Returns an object with the difference in sizes for the given directions, between this and region
-	     *
-	     * @param  {Region} region     The region to use for diff
-	     * @param  {Object} directions An object with the directions to diff. Can have any of the following keys:
-	     *  * left
-	     *  * right
-	     *  * top
-	     *  * bottom
-	     *
-	     * @return {Object} and object with the same keys as the directions object, but the values being the
-	     * differences between this region and the given region
-	     */
-	    diff: function(region, directions){
-	        var result = {}
-	        var dirName
-
-	        for (dirName in directions) if ( hasOwn(directions, dirName) ) {
-	            result[dirName] = this[dirName] - region[dirName]
-	        }
-
-	        return result
-	    },
-
-	    /**
-	     * Returns the position, in {left,top} properties, of this region
-	     *
-	     * @return {Object} {left,top}
-	     */
-	    getPosition: function(){
-	        return {
-	            left: this.left,
-	            top : this.top
-	        }
-	    },
-
-	    /**
-	     * Returns the point at the given position from this region.
-	     *
-	     * @param {String} position Any of:
-	     *
-	     *  * 'cx' - See {@link #getPointXCenter}
-	     *  * 'cy' - See {@link #getPointYCenter}
-	     *  * 'b'  - See {@link #getPointBottom}
-	     *  * 'bc' - See {@link #getPointBottomCenter}
-	     *  * 'l'  - See {@link #getPointLeft}F
-	     *  * 'lc' - See {@link #getPointLeftCenter}
-	     *  * 't'  - See {@link #getPointTop}
-	     *  * 'tc' - See {@link #getPointTopCenter}
-	     *  * 'r'  - See {@link #getPointRight}
-	     *  * 'rc' - See {@link #getPointRightCenter}
-	     *  * 'c'  - See {@link #getPointCenter}
-	     *  * 'tl' - See {@link #getPointTopLeft}
-	     *  * 'bl' - See {@link #getPointBottomLeft}
-	     *  * 'br' - See {@link #getPointBottomRight}
-	     *  * 'tr' - See {@link #getPointTopRight}
-	     *
-	     * @param {Boolean} asLeftTop
-	     *
-	     * @return {Object} either an object with {x,y} or {left,top} if asLeftTop is true
-	     */
-	    getPoint: function(position, asLeftTop){
-
-	        //<debug>
-	        if (!POINT_POSITIONS[position]) {
-	            console.warn('The position ', position, ' could not be found! Available options are tl, bl, tr, br, l, r, t, b.');
-	        }
-	        //</debug>
-
-	        var method = 'getPoint' + POINT_POSITIONS[position],
-	            result = this[method]()
-
-	        if (asLeftTop){
-	            return {
-	                left : result.x,
-	                top  : result.y
-	            }
-	        }
-
-	        return result
-	    },
-
-	    /**
-	     * Returns a point with x = null and y being the middle of the left region segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointYCenter: function(){
-	        return { x: null, y: this.top + this.getHeight() / 2 }
-	    },
-
-	    /**
-	     * Returns a point with y = null and x being the middle of the top region segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointXCenter: function(){
-	        return { x: this.left + this.getWidth() / 2, y: null }
-	    },
-
-	    /**
-	     * Returns a point with x = null and y the region top position on the y axis
-	     * @return {Object} {x,y}
-	     */
-	    getPointTop: function(){
-	        return { x: null, y: this.top }
-	    },
-
-	    /**
-	     * Returns a point that is the middle point of the region top segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointTopCenter: function(){
-	        return { x: this.left + this.getWidth() / 2, y: this.top }
-	    },
-
-	    /**
-	     * Returns a point that is the top-left point of the region
-	     * @return {Object} {x,y}
-	     */
-	    getPointTopLeft: function(){
-	        return { x: this.left, y: this.top}
-	    },
-
-	    /**
-	     * Returns a point that is the top-right point of the region
-	     * @return {Object} {x,y}
-	     */
-	    getPointTopRight: function(){
-	        return { x: this.right, y: this.top}
-	    },
-
-	    /**
-	     * Returns a point with x = null and y the region bottom position on the y axis
-	     * @return {Object} {x,y}
-	     */
-	    getPointBottom: function(){
-	        return { x: null, y: this.bottom }
-	    },
-
-	    /**
-	     * Returns a point that is the middle point of the region bottom segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointBottomCenter: function(){
-	        return { x: this.left + this.getWidth() / 2, y: this.bottom }
-	    },
-
-	    /**
-	     * Returns a point that is the bottom-left point of the region
-	     * @return {Object} {x,y}
-	     */
-	    getPointBottomLeft: function(){
-	        return { x: this.left, y: this.bottom}
-	    },
-
-	    /**
-	     * Returns a point that is the bottom-right point of the region
-	     * @return {Object} {x,y}
-	     */
-	    getPointBottomRight: function(){
-	        return { x: this.right, y: this.bottom}
-	    },
-
-	    /**
-	     * Returns a point with y = null and x the region left position on the x axis
-	     * @return {Object} {x,y}
-	     */
-	    getPointLeft: function(){
-	        return { x: this.left, y: null }
-	    },
-
-	    /**
-	     * Returns a point that is the middle point of the region left segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointLeftCenter: function(){
-	        return { x: this.left, y: this.top + this.getHeight() / 2 }
-	    },
-
-	    /**
-	     * Returns a point with y = null and x the region right position on the x axis
-	     * @return {Object} {x,y}
-	     */
-	    getPointRight: function(){
-	        return { x: this.right, y: null }
-	    },
-
-	    /**
-	     * Returns a point that is the middle point of the region right segment
-	     * @return {Object} {x,y}
-	     */
-	    getPointRightCenter: function(){
-	        return { x: this.right, y: this.top + this.getHeight() / 2 }
-	    },
-
-	    /**
-	     * Returns a point that is the center of the region
-	     * @return {Object} {x,y}
-	     */
-	    getPointCenter: function(){
-	        return { x: this.left + this.getWidth() / 2, y: this.top + this.getHeight() / 2 }
-	    },
-
-	    /**
-	     * @return {Number} returns the height of the region
-	     */
-	    getHeight: function(){
-	        return this.bottom - this.top
-	    },
-
-	    /**
-	     * @return {Number} returns the width of the region
-	     */
-	    getWidth: function(){
-	        return this.right - this.left
-	    },
-
-	    /**
-	     * @return {Number} returns the top property of the region
-	     */
-	    getTop: function(){
-	        return this.top
-	    },
-
-	    /**
-	     * @return {Number} returns the left property of the region
-	     */
-	    getLeft: function(){
-	        return this.left
-	    },
-
-	    /**
-	     * @return {Number} returns the bottom property of the region
-	     */
-	    getBottom: function(){
-	        return this.bottom
-	    },
-
-	    /**
-	     * @return {Number} returns the right property of the region
-	     */
-	    getRight: function(){
-	        return this.right
-	    },
-
-	    /**
-	     * Returns the area of the region
-	     * @return {Number} the computed area
-	     */
-	    getArea: function(){
-	        return this.getWidth() * this.getHeight()
-	    },
-
-	    constrainTo: function(contrain){
-	        var intersect = this.getIntersection(contrain)
-	        var shift
-
-	        if (!intersect || !intersect.equals(this)){
-
-	            var contrainWidth  = contrain.getWidth(),
-	                contrainHeight = contrain.getHeight()
-
-	            if (this.getWidth() > contrainWidth){
-	                this.left = contrain.left
-	                this.setWidth(contrainWidth)
-	            }
-
-	            if (this.getHeight() > contrainHeight){
-	                this.top = contrain.top
-	                this.setHeight(contrainHeight)
-	            }
-
-	            shift = {}
-
-	            if (this.right > contrain.right){
-	                shift.left = contrain.right - this.right
-	            }
-
-	            if (this.bottom > contrain.bottom){
-	                shift.top = contrain.bottom - this.bottom
-	            }
-
-	            if (this.left < contrain.left){
-	                shift.left = contrain.left - this.left
-	            }
-
-	            if (this.top < contrain.top){
-	                shift.top = contrain.top - this.top
-	            }
-
-	            this.shift(shift)
-
-	            return true
-	        }
-
-	        return false
-	    },
-
-	    __IS_REGION: true
-
-	    /**
-	     * @property {Number} top
-	     */
-
-	    /**
-	     * @property {Number} right
-	     */
-
-	    /**
-	     * @property {Number} bottom
-	     */
-
-	    /**
-	     * @property {Number} left
-	     */
-
-	    /**
-	     * @property {Number} [0] the top property
-	     */
-
-	    /**
-	     * @property {Number} [1] the left property
-	     */
-
-	    /**
-	     * @method getIntersection
-	     * Returns a region that is the intersection of this region and the given region
-	     * @param  {Region} region The region to intersect with
-	     * @return {Region}        The intersection region
-	     */
-
-	    /**
-	     * @method getUnion
-	     * Returns a region that is the union of this region with the given region
-	     * @param  {Region} region  The region to make union with
-	     * @return {Region}        The union region. The smallest region that contains both this and the given region.
-	     */
-
-	})
-
-	Object.defineProperties(REGION.prototype, {
-	    width: {
-	        get: function(){
-	            return this.getWidth()
-	        },
-	        set: function(width){
-	            return this.setWidth(width)
-	        }
-	    },
-	    height: {
-	        get: function(){
-	            return this.getHeight()
-	        },
-	        set: function(height){
-	            return this.setHeight(height)
-	        }
-	    }
-	})
-
-	__webpack_require__(41)(REGION)
-
-	module.exports = REGION
-
-/***/ },
-/* 34 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	var hasOwn = Object.prototype.hasOwnProperty
-
-	function curry(fn, n){
-
-	    if (typeof n !== 'number'){
-	        n = fn.length
-	    }
-
-	    function getCurryClosure(prevArgs){
-
-	        function curryClosure() {
-
-	            var len  = arguments.length
-	            var args = [].concat(prevArgs)
-
-	            if (len){
-	                args.push.apply(args, arguments)
-	            }
-
-	            if (args.length < n){
-	                return getCurryClosure(args)
-	            }
-
-	            return fn.apply(this, args)
-	        }
-
-	        return curryClosure
-	    }
-
-	    return getCurryClosure([])
-	}
-
-
-	module.exports = curry(function(object, property){
-	    return hasOwn.call(object, property)
-	})
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var getInstantiatorFunction = __webpack_require__(36)
-
-	module.exports = function(fn, args){
-		return getInstantiatorFunction(args.length)(fn, args)
-	}
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = function(){
-
-	    'use strict';
-
-	    var fns = {}
-
-	    return function(len){
-
-	        if ( ! fns [len ] ) {
-
-	            var args = []
-	            var i    = 0
-
-	            for (; i < len; i++ ) {
-	                args.push( 'a[' + i + ']')
-	            }
-
-	            fns[len] = new Function(
-	                            'c',
-	                            'a',
-	                            'return new c(' + args.join(',') + ')'
-	                        )
-	        }
-
-	        return fns[len]
-	    }
-
-	}()
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function ToObject(val) {
-		if (val == null) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-
-		return Object(val);
-	}
-
-	module.exports = Object.assign || function (target, source) {
-		var from;
-		var keys;
-		var to = ToObject(target);
-
-		for (var s = 1; s < arguments.length; s++) {
-			from = arguments[s];
-			keys = Object.keys(Object(from));
-
-			for (var i = 0; i < keys.length; i++) {
-				to[keys[i]] = from[keys[i]];
-			}
-		}
-
-		return to;
-	};
-
-
-/***/ },
-/* 38 */
-/***/ function(module, exports) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      } else {
-	        // At least give some kind of context to the user
-	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-	        err.context = er;
-	        throw err;
-	      }
-	    }
-	  }
-
-	  handler = this._events[type];
-
-	  if (isUndefined(handler))
-	    return false;
-
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-
-	  return true;
-	};
-
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events)
-	    this._events = {};
-
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  var fired = false;
-
-	  function g() {
-	    this.removeListener(type, g);
-
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-
-	  g.listener = listener;
-	  this.on(type, g);
-
-	  return this;
-	};
-
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-
-	  if (!this._events || !this._events[type])
-	    return this;
-
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-
-	    if (position < 0)
-	      return this;
-
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-
-	  if (!this._events)
-	    return this;
-
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-
-	  listeners = this._events[type];
-
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-
-	  return this;
-	};
-
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-
-	EventEmitter.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-
-	EventEmitter.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-
-/***/ },
-/* 39 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    ctor.prototype = Object.create(superCtor.prototype, {
-	        constructor: {
-	            value       : ctor,
-	            enumerable  : false,
-	            writable    : true,
-	            configurable: true
-	        }
-	    })
-	}
-
-/***/ },
-/* 40 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * @static
-	 * Returns true if the given region is valid, false otherwise.
-	 * @param  {Region} region The region to check
-	 * @return {Boolean}        True, if the region is valid, false otherwise.
-	 * A region is valid if
-	 *  * left <= right  &&
-	 *  * top  <= bottom
-	 */
-	module.exports = function validate(region){
-
-	    var isValid = true
-
-	    if (region.right < region.left){
-	        isValid = false
-	        region.right = region.left
-	    }
-
-	    if (region.bottom < region.top){
-	        isValid = false
-	        region.bottom = region.top
-	    }
-
-	    return isValid
-	}
-
-/***/ },
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
 /* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var hasOwn   = __webpack_require__(34)
-	var VALIDATE = __webpack_require__(40)
-
-	module.exports = function(REGION){
-
-	    var MAX = Math.max
-	    var MIN = Math.min
-
-	    var statics = {
-	        init: function(){
-	            var exportAsNonStatic = {
-	                getIntersection      : true,
-	                getIntersectionArea  : true,
-	                getIntersectionHeight: true,
-	                getIntersectionWidth : true,
-	                getUnion             : true
-	            }
-	            var thisProto = REGION.prototype
-	            var newName
-
-	            var exportHasOwn = hasOwn(exportAsNonStatic)
-	            var methodName
-
-	            for (methodName in exportAsNonStatic) if (exportHasOwn(methodName)) {
-	                newName = exportAsNonStatic[methodName]
-	                if (typeof newName != 'string'){
-	                    newName = methodName
-	                }
-
-	                ;(function(proto, methodName, protoMethodName){
-
-	                    proto[methodName] = function(region){
-	                        //<debug>
-	                        if (!REGION[protoMethodName]){
-	                            console.warn('cannot find method ', protoMethodName,' on ', REGION)
-	                        }
-	                        //</debug>
-	                        return REGION[protoMethodName](this, region)
-	                    }
-
-	                })(thisProto, newName, methodName);
-	            }
-	        },
-
-	        validate: VALIDATE,
-
-	        /**
-	         * Returns the region corresponding to the documentElement
-	         * @return {Region} The region corresponding to the documentElement. This region is the maximum region visible on the screen.
-	         */
-	        getDocRegion: function(){
-	            return REGION.fromDOM(document.documentElement)
-	        },
-
-	        from: function(reg){
-	            if (reg.__IS_REGION){
-	                return reg
-	            }
-
-	            if (typeof document != 'undefined'){
-	                if (typeof HTMLElement != 'undefined' && reg instanceof HTMLElement){
-	                    return REGION.fromDOM(reg)
-	                }
-
-	                if (reg.type && typeof reg.pageX !== 'undefined' && typeof reg.pageY !== 'undefined'){
-	                    return REGION.fromEvent(reg)
-	                }
-	            }
-
-	            return REGION(reg)
-	        },
-
-	        fromEvent: function(event){
-	            return REGION.fromPoint({
-	                x: event.pageX,
-	                y: event.pageY
-	            })
-	        },
-
-	        fromDOM: function(dom){
-	            var rect = dom.getBoundingClientRect()
-	            // var docElem = document.documentElement
-	            // var win     = window
-
-	            // var top  = rect.top + win.pageYOffset - docElem.clientTop
-	            // var left = rect.left + win.pageXOffset - docElem.clientLeft
-
-	            return new REGION({
-	                top   : rect.top,
-	                left  : rect.left,
-	                bottom: rect.bottom,
-	                right : rect.right
-	            })
-	        },
-
-	        /**
-	         * @static
-	         * Returns a region that is the intersection of the given two regions
-	         * @param  {Region} first  The first region
-	         * @param  {Region} second The second region
-	         * @return {Region/Boolean}        The intersection region or false if no intersection found
-	         */
-	        getIntersection: function(first, second){
-
-	            var area = this.getIntersectionArea(first, second)
-
-	            if (area){
-	                return new REGION(area)
-	            }
-
-	            return false
-	        },
-
-	        getIntersectionWidth: function(first, second){
-	            var minRight  = MIN(first.right, second.right)
-	            var maxLeft   = MAX(first.left,  second.left)
-
-	            if (maxLeft < minRight){
-	                return minRight  - maxLeft
-	            }
-
-	            return 0
-	        },
-
-	        getIntersectionHeight: function(first, second){
-	            var maxTop    = MAX(first.top,   second.top)
-	            var minBottom = MIN(first.bottom,second.bottom)
-
-	            if (maxTop  < minBottom){
-	                return minBottom - maxTop
-	            }
-
-	            return 0
-	        },
-
-	        getIntersectionArea: function(first, second){
-	            var maxTop    = MAX(first.top,   second.top)
-	            var minRight  = MIN(first.right, second.right)
-	            var minBottom = MIN(first.bottom,second.bottom)
-	            var maxLeft   = MAX(first.left,  second.left)
-
-	            if (
-	                    maxTop  < minBottom &&
-	                    maxLeft < minRight
-	                ){
-	                return {
-	                    top    : maxTop,
-	                    right  : minRight,
-	                    bottom : minBottom,
-	                    left   : maxLeft,
-
-	                    width  : minRight  - maxLeft,
-	                    height : minBottom - maxTop
-	                }
-	            }
-
-	            return false
-	        },
-
-	        /**
-	         * @static
-	         * Returns a region that is the union of the given two regions
-	         * @param  {Region} first  The first region
-	         * @param  {Region} second The second region
-	         * @return {Region}        The union region. The smallest region that contains both given regions.
-	         */
-	        getUnion: function(first, second){
-	            var top    = MIN(first.top,   second.top)
-	            var right  = MAX(first.right, second.right)
-	            var bottom = MAX(first.bottom,second.bottom)
-	            var left   = MIN(first.left,  second.left)
-
-	            return new REGION(top, right, bottom, left)
-	        },
-
-	        /**
-	         * @static
-	         * Returns a region. If the reg argument is a region, returns it, otherwise return a new region built from the reg object.
-	         *
-	         * @param  {Region} reg A region or an object with either top, left, bottom, right or
-	         * with top, left, width, height
-	         * @return {Region} A region
-	         */
-	        getRegion: function(reg){
-	            return REGION.from(reg)
-	        },
-
-	        /**
-	         * Creates a region that corresponds to a point.
-	         *
-	         * @param  {Object} xy The point
-	         * @param  {Number} xy.x
-	         * @param  {Number} xy.y
-	         *
-	         * @return {Region}    The new region, with top==xy.y, bottom = xy.y and left==xy.x, right==xy.x
-	         */
-	        fromPoint: function(xy){
-	            return new REGION({
-	                        top    : xy.y,
-	                        bottom : xy.y,
-	                        left   : xy.x,
-	                        right  : xy.x
-	                    })
-	        }
-	    }
-
-	    Object.keys(statics).forEach(function(key){
-	        REGION[key] = statics[key]
-	    })
-
-	    REGION.init()
-	}
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var Region = __webpack_require__(32)
-
-	/**
-	 * @static
-	 * Aligns the source region to the target region, so as to correspond to the given alignment.
-	 *
-	 * NOTE that this method makes changes on the sourceRegion in order for it to be aligned as specified.
-	 *
-	 * @param {Region} sourceRegion
-	 * @param {Region} targetRegion
-	 *
-	 * @param {String} align A string with 2 valid align positions, eg: 'tr-bl'.
-	 * For valid positions, see {@link Region#getPoint}
-	 *
-	 * Having 2 regions, we need to be able to align them as we wish:
-	 *
-	 * for example, if we have
-	 *
-	 *       source    target
-	 *       ________________
-	 *       ____
-	 *      |    |     ________
-	 *      |____|    |        |
-	 *                |        |
-	 *                |________|
-	 *
-	 * and we align 't-t', we get:
-	 *
-	 *       source    target
-	 *       _________________
-	 *
-	 *       ____      ________
-	 *      |    |    |        |
-	 *      |____|    |        |
-	 *                |________|
-	 *
-	 *  In this case, the source was moved down to be aligned to the top of the target
-	 *
-	 *
-	 * and if we align 'tc-tc' we get
-	 *
-	 *       source     target
-	 *       __________________
-	 *
-	 *                 ________
-	 *                | |    | |
-	 *                | |____| |
-	 *                |________|
-	 *
-	 *  Since the source was moved to have the top-center point to be the same with target top-center
-	 *
-	 *
-	 *
-	 * @return {RegionClass} The Region class
-	 */
-	Region.align = function(sourceRegion, targetRegion, align){
-
-	    targetRegion = Region.from(targetRegion)
-
-	    align = (align || 'c-c').split('-')
-
-	    //<debug>
-	    if (align.length != 2){
-	        console.warn('Incorrect region alignment! The align parameter need to be in the form \'br-c\', that is, a - separated string!', align)
-	    }
-	    //</debug>
-
-	    return Region.alignToPoint(sourceRegion, targetRegion.getPoint(align[1]), align[0])
-	}
-
-	/**
-	 * Modifies the given region to be aligned to the point, as specified by anchor
-	 *
-	 * @param {Region} region The region to align to the point
-	 * @param {Object} point The point to be used as a reference
-	 * @param {Number} point.x
-	 * @param {Number} point.y
-	 * @param {String} anchor The position where to anchor the region to the point. See {@link #getPoint} for available options/
-	 *
-	 * @return {Region} the given region
-	 */
-	Region.alignToPoint = function(region, point, anchor){
-
-	    region = Region.from(region)
-
-	    var sourcePoint = region.getPoint(anchor)
-	    var count       = 0
-	    var shiftObj    = {}
-
-	    if (
-	            sourcePoint.x != null &&
-	            point.x != null
-	        ){
-
-	            count++
-	            shiftObj.left = point.x - sourcePoint.x
-	    }
-
-	    if (
-	            sourcePoint.y != null &&
-	            point.y != null
-	        ){
-	            count++
-	            shiftObj.top = point.y - sourcePoint.y
-	    }
-
-	    if (count){
-
-	        region.shift(shiftObj)
-
-	    }
-
-	    return region
-	}
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Region = __webpack_require__(32)
-
-	/**
-	 *
-	 * Aligns this region to the given region
-	 * @param {Region} region
-	 * @param {String} alignPositions For available positions, see {@link #getPoint}
-	 *
-	 *     eg: 'tr-bl'
-	 *
-	 * @return this
-	 */
-	Region.prototype.alignToRegion = function(region, alignPositions){
-	    Region.align(this, region, alignPositions)
-
-	    return this
-	}
-
-	/**
-	 * Aligns this region to the given point, in the anchor position
-	 * @param {Object} point eg: {x: 20, y: 600}
-	 * @param {Number} point.x
-	 * @param {Number} point.y
-	 *
-	 * @param {String} anchor For available positions, see {@link #getPoint}
-	 *
-	 *     eg: 'bl'
-	 *
-	 * @return this
-	 */
-	 Region.prototype.alignToPoint = function(point, anchor){
-	    Region.alignToPoint(this, point, anchor)
-
-	    return this
-	}
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var ALIGN_TO_NORMALIZED = __webpack_require__(45)
-
-	var Region = __webpack_require__(32)
-
-	/**
-	 * @localdoc Given source and target regions, and the given alignments required, returns a region that is the resulting allignment.
-	 * Does not modify the sourceRegion.
-	 *
-	 * Example
-	 *
-	 *      var sourceRegion = zippy.getInstance({
-	 *          alias  : 'z.region',
-	 *          top    : 10,
-	 *          left   : 10,
-	 *          bottom : 40,
-	 *          right  : 100
-	 *      })
-	 *
-	 *      var targetRegion = zippy.getInstance({
-	 *          alias  : 'z.region',
-	 *          top    : 10,
-	 *          left   : 10,
-	 *          bottom : 40,
-	 *          right  : 100
-	 *      })
-	 *      //has top-left at (10,10)
-	 *      //and bottom-right at (40, 100)
-	 *
-	 *      var alignRegion = alignable.COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, 'tl-br')
-	 *
-	 *      //alignRegion will be a clone of sourceRegion, but will have the
-	 *      //top-left corner aligned with bottom-right of targetRegion
-	 *
-	 *      alignRegion.get() // => { top: 40, left: 100, bottom: 70, right: 190 }
-	 *
-	 * @param  {Region} sourceRegion The source region to align to targetRegion
-	 * @param  {Region} targetRegion The target region to which to align the sourceRegion
-	 * @param  {String/String[]} positions    A string ( delimited by "-" characters ) or an array of strings with the position to try, in the order of their priority.
-	 * See Region#getPoint for a list of available positions. They can be combined in any way.
-	 * @param  {Object} config      A config object with other configuration for the alignment
-	 * @param  {Object/Object[]} config.offset      Optional offsets. Either an object or an array with a different offset for each position
-	 * @param  {Element/Region/Boolean} config.constrain  The constrain to region or element. If the boolean true, Region.getDocRegion() will be used
-	 * @param  {Object/Boolean} config.sync   A boolean object that indicates whether to sync sourceRegion and targetRegion sizes (width/height or both). Can be
-	 *
-	 *  * true - in order to sync both width and height
-	 *  * { width: true }  - to only sync width
-	 *  * { height: true } - to only sync height
-	 *  * { size: true }   - to sync both width and height
-	 *
-	 * @return {Object} an object with the following keys:
-	 *
-	 *  * position - the position where the alignment was made. One of the given positions
-	 *  * region   - the region where the alignment is in place
-	 *  * positionChanged - boolean value indicating if the position of the returned region is different from the position of sourceRegion
-	 *  * widthChanged    - boolean value indicating if the width of the returned region is different from the width of sourceRegion
-	 *  * heightChanged   - boolean value indicating if the height of the returned region is different from the height of sourceRegion
-	 */
-	function COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config){
-	    sourceRegion = Region.from(sourceRegion)
-
-	    var sourceClone = sourceRegion.clone()
-	    var position    = ALIGN_TO_NORMALIZED(sourceClone, targetRegion, positions, config)
-
-	    return {
-	        position        : position,
-	        region          : sourceClone,
-	        widthChanged    : sourceClone.getWidth() != sourceRegion.getWidth(),
-	        heightChanged   : sourceClone.getHeight() != sourceRegion.getHeight(),
-	        positionChanged : sourceClone.equalsPosition(sourceRegion)
-	    }
-	}
-
-
-	module.exports = COMPUTE_ALIGN_REGION
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var Region = __webpack_require__(32)
-
-	/**
-	 *
-	 * This method is trying to align the sourceRegion to the targetRegion, given the alignment positions
-	 * and the offsets. It only modifies the sourceRegion
-	 *
-	 * This is all well and easy, but if there is a constrainTo region, the algorithm has to take it into account.
-	 * In this case, it works as follows.
-	 *
-	 *  * start with the first alignment position. Aligns the region, adds the offset and then check for the constraint.
-	 *  * if the constraint condition is ok, return the position.
-	 *  * otherwise, remember the intersection area, if the regions are intersecting.
-	 *  * then go to the next specified align position, and so on, computing the maximum intersection area.
-	 *
-	 * If no alignment fits the constrainRegion, the sourceRegion will be resized to match it,
-	 * using the position with the maximum intersection area.
-	 *
-	 * Since we have computed the index of the position with the max intersection area, take that position,
-	 * and align the sourceRegion accordingly. Then resize the sourceRegion to the intersection, and reposition
-	 * it again, since resizing it might have destroyed the alignment.
-	 *
-	 * Return the position.
-	 *
-	 * @param {Region} sourceRegion
-	 * @param {Region} targetRegion
-	 * @param {String[]} positions
-	 * @param {Object} config
-	 * @param {Array} config.offset
-	 * @param {Region} config.constrain
-	 * @param {Boolean/Object} config.sync
-	 *
-	 * @return {String/Undefined} the chosen position for the alignment, or undefined if no position found
-	 */
-	function ALIGN_TO_NORMALIZED(sourceRegion, targetRegion, positions, config){
-
-	    targetRegion = Region.from(targetRegion)
-
-	    config = config  || {}
-
-	    var constrainTo = config.constrain,
-	        syncOption  = config.sync,
-	        offsets     = config.offset || [],
-	        syncWidth   = false,
-	        syncHeight  = false,
-	        sourceClone = sourceRegion.clone()
-
-	    /*
-	     * Prepare the method arguments: positions, offsets, constrain and sync options
-	     */
-	    if (!Array.isArray(positions)){
-	        positions = positions? [positions]: []
-	    }
-
-	    if (!Array.isArray(offsets)){
-	        offsets = offsets? [offsets]: []
-	    }
-
-	    if (constrainTo){
-	        constrainTo = constrainTo === true?
-	                                Region.getDocRegion():
-	                                constrainTo.getRegion()
-	    }
-
-	    if (syncOption){
-
-	        if (syncOption.size){
-	            syncWidth  = true
-	            syncHeight = true
-	        } else {
-	            syncWidth  = syncOption === true?
-	                            true:
-	                            syncOption.width || false
-
-	            syncHeight = syncOption === true?
-	                            true:
-	                            syncOption.height || false
-	        }
-	    }
-
-	    if (syncWidth){
-	        sourceClone.setWidth(targetRegion.getWidth())
-	    }
-	    if (syncHeight){
-	        sourceClone.setHeight(targetRegion.getHeight())
-
-	    }
-
-	    var offset,
-	        i = 0,
-	        len = positions.length,
-	        pos,
-	        intersection,
-	        itArea,
-	        maxArea = -1,
-	        maxAreaIndex = -1
-
-	    for (; i < len; i++){
-	        pos     = positions[i]
-	        offset  = offsets[i]
-
-	        sourceClone.alignToRegion(targetRegion, pos)
-
-	        if (offset){
-	            if (!Array.isArray(offset)){
-	                offset = offsets[i] = [offset.x || offset.left, offset.y || offset.top]
-	            }
-
-	            sourceClone.shift({
-	                left: offset[0],
-	                top : offset[1]
-	            })
-	        }
-
-	        //the source region is already aligned in the correct position
-
-	        if (constrainTo){
-	            //if we have a constrain region, test for the constrain
-	            intersection = sourceClone.getIntersection(constrainTo)
-
-	            if ( intersection && intersection.equals(sourceClone) ) {
-	                //constrain respected, so return (the aligned position)
-
-	                sourceRegion.set(sourceClone)
-	                return pos
-	            } else {
-
-	                //the constrain was not respected, so continue trying
-	                if (intersection && ((itArea = intersection.getArea()) > maxArea)){
-	                    maxArea      = itArea
-	                    maxAreaIndex = i
-	                }
-	            }
-
-	        } else {
-	            sourceRegion.set(sourceClone)
-	            return pos
-	        }
-	    }
-
-	    //no alignment respected the constraints
-	    if (~maxAreaIndex){
-	        pos     = positions[maxAreaIndex]
-	        offset  = offsets[maxAreaIndex]
-
-	        sourceClone.alignToRegion(targetRegion, pos)
-
-	        if (offset){
-	            sourceClone.shift({
-	                left: offset[0],
-	                top : offset[1]
-	            })
-	        }
-
-	        //we are sure an intersection exists, because of the way the maxAreaIndex was computed
-	        intersection = sourceClone.getIntersection(constrainTo)
-
-	        sourceClone.setRegion(intersection)
-	        sourceClone.alignToRegion(targetRegion, pos)
-
-	        if (offset){
-	            sourceClone.shift({
-	                left: offset[0],
-	                top : offset[1]
-	            })
-	        }
-
-	        sourceRegion.set(sourceClone)
-
-	        return pos
-	    }
-
-	}
-
-	module.exports = ALIGN_TO_NORMALIZED
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	'use strict';
-	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-	function ToObject(val) {
-		if (val == null) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-
-		return Object(val);
-	}
-
-	function ownEnumerableKeys(obj) {
-		var keys = Object.getOwnPropertyNames(obj);
-
-		if (Object.getOwnPropertySymbols) {
-			keys = keys.concat(Object.getOwnPropertySymbols(obj));
-		}
-
-		return keys.filter(function (key) {
-			return propIsEnumerable.call(obj, key);
-		});
-	}
-
-	module.exports = Object.assign || function (target, source) {
-		var from;
-		var keys;
-		var to = ToObject(target);
-
-		for (var s = 1; s < arguments.length; s++) {
-			from = arguments[s];
-			keys = ownEnumerableKeys(Object(from));
-
-			for (var i = 0; i < keys.length; i++) {
-				to[keys[i]] = from[keys[i]];
-			}
-		}
-
-		return to;
-	};
-
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	/*!
-	 * escape-html
-	 * Copyright(c) 2012-2013 TJ Holowaychuk
-	 * Copyright(c) 2015 Andreas Lubbe
-	 * Copyright(c) 2015 Tiancheng "Timothy" Gu
-	 * MIT Licensed
-	 */
-
-	'use strict';
-
-	/**
-	 * Module variables.
-	 * @private
-	 */
-
-	var matchHtmlRegExp = /["'&<>]/;
-
-	/**
-	 * Module exports.
-	 * @public
-	 */
-
-	module.exports = escapeHtml;
-
-	/**
-	 * Escape special characters in the given string of html.
-	 *
-	 * @param  {string} string The string to escape for inserting into HTML
-	 * @return {string}
-	 * @public
-	 */
-
-	function escapeHtml(string) {
-	  var str = '' + string;
-	  var match = matchHtmlRegExp.exec(str);
-
-	  if (!match) {
-	    return str;
-	  }
-
-	  var escape;
-	  var html = '';
-	  var index = 0;
-	  var lastIndex = 0;
-
-	  for (index = match.index; index < str.length; index++) {
-	    switch (str.charCodeAt(index)) {
-	      case 34: // "
-	        escape = '&quot;';
-	        break;
-	      case 38: // &
-	        escape = '&amp;';
-	        break;
-	      case 39: // '
-	        escape = '&#39;';
-	        break;
-	      case 60: // <
-	        escape = '&lt;';
-	        break;
-	      case 62: // >
-	        escape = '&gt;';
-	        break;
-	      default:
-	        continue;
-	    }
-
-	    if (lastIndex !== index) {
-	      html += str.substring(lastIndex, index);
-	    }
-
-	    lastIndex = index + 1;
-	    html += escape;
-	  }
-
-	  return lastIndex !== index
-	    ? html + str.substring(lastIndex, index)
-	    : html;
-	}
-
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var toStyleObject = __webpack_require__(49).object
-	var normalize     = __webpack_require__(66)
-	var assign = __webpack_require__(46)
-
-	function toStyle(style){
-		return toStyleObject(normalize(style))
-	}
-
-	function setStyle(element, style){
-
-		style = toStyle(style)
-
-		Object.keys(style).forEach(function(key){
-		    element.style[key] = style[key]
-		})
-
-		return element
-	}
-
-	module.exports = function(element, style /*, style2 */){
-
-		var args = [].slice.call(arguments, 1)
-
-		var styles = [{}].concat(args).map(toStyle)
-
-		var style = assign.apply(null, styles)
-
-		setStyle(element, style)
-
-		return element
-	}
-
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	module.exports = {
-	   prefixProperties: __webpack_require__(50) ,
-	   cssUnitless: __webpack_require__(51) ,
-	   object: __webpack_require__(52),
-	   string: __webpack_require__(65)
-	}
-
-/***/ },
-/* 50 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    'border-radius'              : 1,
-	    'border-top-left-radius'     : 1,
-	    'border-top-right-radius'    : 1,
-	    'border-bottom-left-radius'  : 1,
-	    'border-bottom-right-radius' : 1,
-	    'box-shadow'                 : 1,
-	    'order'                      : 1,
-	    'flex'                       : function(name, prefix){
-	        return [prefix + 'box-flex']
-	    },
-	    'box-flex'                   : 1,
-	    'box-align'                  : 1,
-	    'animation'                  : 1,
-	    'animation-duration'         : 1,
-	    'animation-name'             : 1,
-	    'transition'                 : 1,
-	    'transition-duration'        : 1,
-	    'transform'                  : 1,
-	    'transform-style'            : 1,
-	    'transform-origin'           : 1,
-	    'backface-visibility'        : 1,
-	    'perspective'                : 1,
-	    'box-pack'                   : 1
-	}
-
-/***/ },
-/* 51 */
-/***/ function(module, exports) {
-
-	'use exports'
-
-	//make sure properties are in hyphenated form
-
-	module.exports = {
-	    'animation'    : 1,
-	    'column-count' : 1,
-	    'columns'      : 1,
-	    'font-weight'  : 1,
-	    'opacity'      : 1,
-	    'order  '      : 1,
-	    'z-index'      : 1,
-	    'zoom'         : 1,
-	    'flex'         : 1,
-	    'box-flex'     : 1,
-	    'transform'    : 1,
-	    'perspective'  : 1,
-	    'box-pack'     : 1,
-	    'box-align'    : 1,
-	    'colspan'      : 1,
-	    'rowspan'      : 1
-	}
-
-/***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var prefixInfo  = __webpack_require__(53)
-	var cssPrefixFn = __webpack_require__(55)
-
-	var HYPHENATE   = __webpack_require__(59)
-	var CAMELIZE   = __webpack_require__(57)
-	var HAS_OWN     = __webpack_require__(62)
-	var IS_OBJECT   = __webpack_require__(63)
-	var IS_FUNCTION = __webpack_require__(64)
-
-	var applyPrefix = function(target, property, value, normalizeFn){
-	    cssPrefixFn(property).forEach(function(p){
-	        target[normalizeFn? normalizeFn(p): p] = value
-	    })
-	}
-
-	var toObject = function(str){
-	    str = (str || '').split(';')
-
-	    var result = {}
-
-	    str.forEach(function(item){
-	        var split = item.split(':')
-
-	        if (split.length == 2){
-	            result[split[0].trim()] = split[1].trim()
-	        }
-	    })
-
-	    return result
-	}
-
-	var CONFIG = {
-	    cssUnitless: __webpack_require__(51)
-	}
-
-	/**
-	 * @ignore
-	 * @method toStyleObject
-	 *
-	 * @param  {Object} styles The object to convert to a style object.
-	 * @param  {Object} [config]
-	 * @param  {Boolean} [config.addUnits=true] True if you want to add units when numerical values are encountered.
-	 * @param  {Object}  config.cssUnitless An object whose keys represent css numerical property names that will not be appended with units.
-	 * @param  {Object}  config.prefixProperties An object whose keys represent css property names that should be prefixed
-	 * @param  {String}  config.cssUnit='px' The css unit to append to numerical values. Defaults to 'px'
-	 * @param  {String}  config.normalizeName A function that normalizes a name to a valid css property name
-	 * @param  {String}  config.scope
-	 *
-	 * @return {Object} The object, normalized with css style names
-	 */
-	var TO_STYLE_OBJECT = function(styles, config, prepend, result){
-
-	    if (typeof styles == 'string'){
-	        styles = toObject(styles)
-	    }
-
-	    config = config || CONFIG
-
-	    config.cssUnitless = config.cssUnitless || CONFIG.cssUnitless
-
-	    result = result || {}
-
-	    var scope    = config.scope || {},
-
-	        //configs
-	        addUnits = config.addUnits != null?
-	                            config.addUnits:
-	                            scope && scope.addUnits != null?
-	                                scope.addUnits:
-	                                true,
-
-	        cssUnitless      = (config.cssUnitless != null?
-	                                config.cssUnitless:
-	                                scope?
-	                                    scope.cssUnitless:
-	                                    null) || {},
-	        cssUnit          = (config.cssUnit || scope? scope.cssUnit: null) || 'px',
-	        prefixProperties = (config.prefixProperties || (scope? scope.prefixProperties: null)) || {},
-
-	        camelize    = config.camelize,
-	        normalizeFn = camelize? CAMELIZE: HYPHENATE
-
-	    // Object.keys(cssUnitless).forEach(function(key){
-	    //     cssUnitless[normalizeFn(key)] = 1
-	    // })
-
-	    var processed,
-	        styleName,
-
-	        propName,
-	        propValue,
-	        propCssUnit,
-	        propType,
-	        propIsNumber,
-
-	        fnPropValue,
-	        prefix
-
-	    for (propName in styles) if (HAS_OWN(styles, propName)) {
-
-	        propValue = styles[ propName ]
-
-	        //the hyphenated style name (css property name)
-	        styleName = HYPHENATE(prepend? prepend + propName: propName)
-
-	        processed = false
-	        prefix    = false
-
-	        if (IS_FUNCTION(propValue)) {
-
-	            //a function can either return a css value
-	            //or an object with { value, prefix, name }
-	            fnPropValue = propValue.call(scope || styles, propValue, propName, styleName, styles)
-
-	            if (IS_OBJECT(fnPropValue) && fnPropValue.value != null){
-
-	                propValue = fnPropValue.value
-	                prefix    = fnPropValue.prefix
-	                styleName = fnPropValue.name?
-	                                HYPHENATE(fnPropValue.name):
-	                                styleName
-
-	            } else {
-	                propValue = fnPropValue
-	            }
-	        }
-
-	        propType     = typeof propValue
-	        propIsNumber = propType == 'number' || (propType == 'string' && propValue != '' && propValue * 1 == propValue)
-
-	        if (propValue == null || styleName == null || styleName === ''){
-	            continue
-	        }
-
-	        if (propIsNumber || propType == 'string'){
-	           processed = true
-	        }
-
-	        if (!processed && propValue.value != null && propValue.prefix){
-	           processed = true
-	           prefix    = propValue.prefix
-	           propValue = propValue.value
-	        }
-
-	        // hyphenStyleName = camelize? HYPHENATE(styleName): styleName
-
-	        if (processed){
-
-	            prefix = prefix || !!prefixProperties[styleName]
-
-	            if (propIsNumber){
-	                propValue = addUnits && !(styleName in cssUnitless) ?
-	                                propValue + cssUnit:
-	                                propValue + ''//change it to a string, so that jquery does not append px or other units
-	            }
-
-	            //special border treatment
-	            if (
-	                    (
-	                     styleName == 'border' ||
-	                    (!styleName.indexOf('border')
-	                        &&
-	                        !~styleName.indexOf('radius')
-	                        &&
-	                        !~styleName.indexOf('width'))
-	                    ) &&
-	                    propIsNumber
-	                ){
-
-	                styleName = styleName + '-width'
-	            }
-
-	            //special border radius treatment
-	            if (!styleName.indexOf('border-radius-')){
-	                styleName.replace(/border(-radius)(-(.*))/, function(str, radius, theRest){
-	                    var positions = {
-	                        '-top'    : ['-top-left',      '-top-right' ],
-	                        '-left'   : ['-top-left',    '-bottom-left' ],
-	                        '-right'  : ['-top-right',   '-bottom-right'],
-	                        '-bottom' : ['-bottom-left', '-bottom-right']
-	                    }
-
-	                    if (theRest in positions){
-	                        styleName = []
-
-	                        positions[theRest].forEach(function(pos){
-	                            styleName.push('border' + pos + radius)
-	                        })
-	                    } else {
-	                        styleName = 'border'+ theRest + radius
-	                    }
-
-	                })
-
-	                if (Array.isArray(styleName)){
-	                    styleName.forEach(function(styleName){
-	                        if (prefix){
-	                            applyPrefix(result, styleName, propValue, normalizeFn)
-	                        } else {
-	                            result[normalizeFn(styleName)] = propValue
-	                        }
-	                    })
-
-	                    continue
-	                }
-	            }
-
-	            if (prefix){
-	                applyPrefix(result, styleName, propValue, normalizeFn)
-	            } else {
-	                result[normalizeFn(styleName)] = propValue
-	            }
-
-	        } else {
-	            //the propValue must be an object, so go down the hierarchy
-	            TO_STYLE_OBJECT(propValue, config, styleName + '-', result)
-	        }
-	    }
-
-	    return result
-	}
-
-	module.exports = TO_STYLE_OBJECT
-
-/***/ },
-/* 53 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var toUpperFirst = __webpack_require__(54)
-
-	var re         = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/
-
-	var docStyle   = typeof document == 'undefined'?
-	                    {}:
-	                    document.documentElement.style
-
-	var prefixInfo = (function(){
-
-	    var prefix = (function(){
-
-	            for (var prop in docStyle) {
-	                if( re.test(prop) ) {
-	                    // test is faster than match, so it's better to perform
-	                    // that on the lot and match only when necessary
-	                    return  prop.match(re)[0]
-	                }
-	            }
-
-	            // Nothing found so far? Webkit does not enumerate over the CSS properties of the style object.
-	            // However (prop in style) returns the correct value, so we'll have to test for
-	            // the precence of a specific property
-	            if ('WebkitOpacity' in docStyle){
-	                return 'Webkit'
-	            }
-
-	            if ('KhtmlOpacity' in docStyle) {
-	                return 'Khtml'
-	            }
-
-	            return ''
-	        })(),
-
-	    lower = prefix.toLowerCase()
-
-	    return {
-	        style       : prefix,
-	        css       : '-' + lower + '-',
-	        dom       : ({
-	            Webkit: 'WebKit',
-	            ms    : 'MS',
-	            o     : 'WebKit'
-	        })[prefix] || toUpperFirst(prefix)
-	    }
-
-	})()
-
-	module.exports = prefixInfo
-
-/***/ },
-/* 54 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = function(value){
-	    return value.length?
-	                value.charAt(0).toUpperCase() + value.substring(1):
-	                value
-	}
-
-/***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(56)()
-
-/***/ },
-/* 56 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var camelize     = __webpack_require__(57)
-	var hyphenate    = __webpack_require__(59)
-	var toLowerFirst = __webpack_require__(61)
-	var toUpperFirst = __webpack_require__(54)
-
-	var prefixInfo = __webpack_require__(53)
-	var prefixProperties = __webpack_require__(50)
-
-	var docStyle = typeof document == 'undefined'?
-	                {}:
-	                document.documentElement.style
-
-	module.exports = function(asStylePrefix){
-
-	    return function(name, config){
-	        config = config || {}
-
-	        var styleName = toLowerFirst(camelize(name)),
-	            cssName   = hyphenate(name),
-
-	            theName   = asStylePrefix?
-	                            styleName:
-	                            cssName,
-
-	            thePrefix = prefixInfo.style?
-	                            asStylePrefix?
-	                                prefixInfo.style:
-	                                prefixInfo.css
-	                            :
-	                            ''
-
-	        if ( styleName in docStyle ) {
-	            return config.asString?
-	                              theName :
-	                            [ theName ]
-	        }
-
-	        //not a valid style name, so we'll return the value with a prefix
-
-	        var upperCased     = theName,
-	            prefixProperty = prefixProperties[cssName],
-	            result         = []
-
-	        if (asStylePrefix){
-	            upperCased = toUpperFirst(theName)
-	        }
-
-	        if (typeof prefixProperty == 'function'){
-	            var prefixedCss = prefixProperty(theName, thePrefix) || []
-	            if (prefixedCss && !Array.isArray(prefixedCss)){
-	                prefixedCss = [prefixedCss]
-	            }
-
-	            if (prefixedCss.length){
-	                prefixedCss = prefixedCss.map(function(property){
-	                    return asStylePrefix?
-	                                toLowerFirst(camelize(property)):
-	                                hyphenate(property)
-
-	                })
-	            }
-
-	            result = result.concat(prefixedCss)
-	        }
-
-	        if (thePrefix){
-	            result.push(thePrefix + upperCased)
-	        }
-
-	        result.push(theName)
-
-	        if (config.asString || result.length == 1){
-	            return result[0]
-	        }
-
-	        return result
-	    }
-	}
-
-/***/ },
-/* 57 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var toCamelFn = function(str, letter){
-	       return letter ? letter.toUpperCase(): ''
-	   }
-
-	var hyphenRe = __webpack_require__(58)
-
-	module.exports = function(str){
-	   return str?
-	          str.replace(hyphenRe, toCamelFn):
-	          ''
-	}
-
-/***/ },
-/* 58 */
-/***/ function(module, exports) {
-
-	module.exports = /[-\s]+(.)?/g
-
-/***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var separate = __webpack_require__(60)
-
-	module.exports = function(name){
-	   return separate(name).toLowerCase()
-	}
-
-/***/ },
-/* 60 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	var doubleColonRe      = /::/g
-	var upperToLowerRe     = /([A-Z]+)([A-Z][a-z])/g
-	var lowerToUpperRe     = /([a-z\d])([A-Z])/g
-	var underscoreToDashRe = /_/g
-
-	module.exports = function(name, separator){
-
-	   return name?
-	           name.replace(doubleColonRe, '/')
-	                .replace(upperToLowerRe, '$1_$2')
-	                .replace(lowerToUpperRe, '$1_$2')
-	                .replace(underscoreToDashRe, separator || '-')
-	            :
-	            ''
-	}
-
-/***/ },
-/* 61 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = function(value){
-	    return value.length?
-	                value.charAt(0).toLowerCase() + value.substring(1):
-	                value
-	}
-
-/***/ },
-/* 62 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	var objectHasOwn = Object.prototype.hasOwnProperty
-
-	module.exports = function(object, propertyName){
-	    return objectHasOwn.call(object, propertyName)
-	}
-
-/***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	var objectToString = Object.prototype.toString
-
-	module.exports = function(v){
-	    return !!v && objectToString.call(v) === '[object Object]'
-	}
-
-
-
-/***/ },
-/* 64 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	var objectToString = Object.prototype.toString
-
-	module.exports = function(v) {
-	    return objectToString.apply(v) === '[object Function]'
-	}
-
-
-/***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var toStyleObject = __webpack_require__(52)
-	var hasOwn        = __webpack_require__(62)
-
-	/**
-	 * @ignore
-	 * @method toStyleString
-	 *
-	 * @param  {Object} styles The object to convert to a style string.
-	 * @param  {Object} config
-	 * @param  {Boolean} config.addUnits=true True if you want to add units when numerical values are encountered. Defaults to true
-	 * @param  {Object}  config.cssUnitless An object whose keys represent css numerical property names that will not be appended with units.
-	 * @param  {Object}  config.prefixProperties An object whose keys represent css property names that should be prefixed
-	 * @param  {String}  config.cssUnit='px' The css unit to append to numerical values. Defaults to 'px'
-	 * @param  {String}  config.scope
-	 *
-	 * @return {Object} The object, normalized with css style names
-	 */
-	module.exports = function(styles, config){
-	    styles = toStyleObject(styles, config)
-
-	    var result = []
-	    var prop
-
-	    for(prop in styles) if (hasOwn(styles, prop)){
-	        result.push(prop + ': ' + styles[prop])
-	    }
-
-	    return result.join('; ')
-	}
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var hasOwn      = __webpack_require__(67)
-	var getPrefixed = __webpack_require__(68)
-
-	var map      = __webpack_require__(74)
-	var plugable = __webpack_require__(75)
-
-	function plugins(key, value){
-
-		var result = {
-			key  : key,
-			value: value
-		}
-
-		;(RESULT.plugins || []).forEach(function(fn){
-
-			var tmp = map(function(res){
-				return fn(key, value, res)
-			}, result)
-
-			if (tmp){
-				result = tmp
-			}
-		})
-
-		return result
-	}
-
-	function normalize(key, value){
-
-		var result = plugins(key, value)
-
-		return map(function(result){
-			return {
-				key  : getPrefixed(result.key, result.value),
-				value: result.value
-			}
-		}, result)
-
-		return result
-	}
-
-	var RESULT = function(style){
-
-		var k
-		var item
-		var result = {}
-
-		for (k in style) if (hasOwn(style, k)){
-			item = normalize(k, style[k])
-
-			if (!item){
-				continue
-			}
-
-			map(function(item){
-				result[item.key] = item.value
-			}, item)
-		}
-
-		return result
-	}
-
-	module.exports = plugable(RESULT)
-
-/***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(obj, prop){
-		return Object.prototype.hasOwnProperty.call(obj, prop)
-	}
-
-
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var getStylePrefixed = __webpack_require__(69)
-	var properties       = __webpack_require__(73)
-
-	module.exports = function(key, value){
-
-		if (!properties[key]){
-			return key
-		}
-
-		return getStylePrefixed(key, value)
-	}
-
-/***/ },
-/* 69 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var toUpperFirst = __webpack_require__(70)
-	var getPrefix    = __webpack_require__(71)
-	var el           = __webpack_require__(72)
-
-	var MEMORY = {}
-	var STYLE
-	var ELEMENT
-
-	var PREFIX
-
-	module.exports = function(key, value){
-
-	    ELEMENT = ELEMENT || el()
-	    STYLE   = STYLE   || ELEMENT.style
-
-	    var k = key// + ': ' + value
-
-	    if (MEMORY[k]){
-	        return MEMORY[k]
-	    }
-
-	    var prefix
-	    var prefixed
-
-	    if (!(key in STYLE)){//we have to prefix
-
-	        // if (PREFIX){
-	        //     prefix = PREFIX
-	        // } else {
-	            prefix = getPrefix('appearance')
-
-	        //     if (prefix){
-	        //         prefix = PREFIX = prefix.toLowerCase()
-	        //     }
-	        // }
-
-	        if (prefix){
-	            prefixed = prefix + toUpperFirst(key)
-
-	            if (prefixed in STYLE){
-	                key = prefixed
-	            }
-	        }
-	    }
-
-	    MEMORY[k] = key
-
-	    return key
-	}
-
-/***/ },
-/* 70 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(str){
-		return str?
-				str.charAt(0).toUpperCase() + str.slice(1):
-				''
-	}
-
-/***/ },
-/* 71 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var toUpperFirst = __webpack_require__(70)
-	var prefixes     = ["ms", "Moz", "Webkit", "O"]
-
-	var el = __webpack_require__(72)
-
-	var ELEMENT
-	var PREFIX
-
-	module.exports = function(key){
-
-		if (PREFIX !== undefined){
-			return PREFIX
-		}
-
-		ELEMENT = ELEMENT || el()
-
-		var i = 0
-		var len = prefixes.length
-		var tmp
-		var prefix
-
-		for (; i < len; i++){
-			prefix = prefixes[i]
-			tmp = prefix + toUpperFirst(key)
-
-			if (typeof ELEMENT.style[tmp] != 'undefined'){
-				return PREFIX = prefix
-			}
-		}
-
-		return PREFIX
-	}
-
-/***/ },
-/* 72 */
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
-
-	var el
-
-	module.exports = function(){
-
-		if(!el && !!global.document){
-		  	el = global.document.createElement('div')
-		}
-
-		if (!el){
-			el = {style: {}}
-		}
-
-		return el
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 73 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = {
-	  'alignItems': 1,
-	  'justifyContent': 1,
-	  'flex': 1,
-	  'flexFlow': 1,
-	  'flexGrow': 1,
-	  'flexShrink': 1,
-	  'flexBasis': 1,
-	  'flexDirection': 1,
-	  'flexWrap': 1,
-	  'alignContent': 1,
-	  'alignSelf': 1,
-
-	  'userSelect': 1,
-	  'transform': 1,
-	  'transition': 1,
-	  'transformOrigin': 1,
-	  'transformStyle': 1,
-	  'transitionProperty': 1,
-	  'transitionDuration': 1,
-	  'transitionTimingFunction': 1,
-	  'transitionDelay': 1,
-	  'borderImage': 1,
-	  'borderImageSlice': 1,
-	  'boxShadow': 1,
-	  'backgroundClip': 1,
-	  'backfaceVisibility': 1,
-	  'perspective': 1,
-	  'perspectiveOrigin': 1,
-	  'animation': 1,
-	  'animationDuration': 1,
-	  'animationName': 1,
-	  'animationDelay': 1,
-	  'animationDirection': 1,
-	  'animationIterationCount': 1,
-	  'animationTimingFunction': 1,
-	  'animationPlayState': 1,
-	  'animationFillMode': 1,
-	  'appearance': 1
-	}
-
-
-/***/ },
-/* 74 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(fn, item){
-
-		if (!item){
-			return
-		}
-
-		if (Array.isArray(item)){
-			return item.map(fn).filter(function(x){
-				return !!x
-			})
-		} else {
-			return fn(item)
-		}
-	}
-
-/***/ },
-/* 75 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var getCssPrefixedValue = __webpack_require__(76)
-
-	module.exports = function(target){
-		target.plugins = target.plugins || [
-			(function(){
-				var values = {
-					'flex':1,
-					'inline-flex':1
-				}
-
-				return function(key, value){
-					if (key === 'display' && value in values){
-						return {
-							key  : key,
-							value: getCssPrefixedValue(key, value, true)
-						}
-					}
-				}
-			})()
-		]
-
-		target.plugin = function(fn){
-			target.plugins = target.plugins || []
-
-			target.plugins.push(fn)
-		}
-
-		return target
-	}
-
-/***/ },
-/* 76 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var getPrefix     = __webpack_require__(71)
-	var forcePrefixed = __webpack_require__(77)
-	var el            = __webpack_require__(72)
-
-	var MEMORY = {}
-	var STYLE
-	var ELEMENT
-
-	module.exports = function(key, value, force){
-
-	    ELEMENT = ELEMENT || el()
-	    STYLE   = STYLE   ||  ELEMENT.style
-
-	    var k = key + ': ' + value
-
-	    if (MEMORY[k]){
-	        return MEMORY[k]
-	    }
-
-	    var prefix
-	    var prefixed
-	    var prefixedValue
-
-	    if (force || !(key in STYLE)){
-
-	        prefix = getPrefix('appearance')
-
-	        if (prefix){
-	            prefixed = forcePrefixed(key, value)
-
-	            prefixedValue = '-' + prefix.toLowerCase() + '-' + value
-
-	            if (prefixed in STYLE){
-	                ELEMENT.style[prefixed] = ''
-	                ELEMENT.style[prefixed] = prefixedValue
-
-	                if (ELEMENT.style[prefixed] !== ''){
-	                    value = prefixedValue
-	                }
-	            }
-	        }
-	    }
-
-	    MEMORY[k] = value
-
-	    return value
-	}
-
-/***/ },
-/* 77 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var toUpperFirst = __webpack_require__(70)
-	var getPrefix    = __webpack_require__(71)
-	var properties   = __webpack_require__(73)
-
-	/**
-	 * Returns the given key prefixed, if the property is found in the prefixProps map.
-	 *
-	 * Does not test if the property supports the given value unprefixed.
-	 * If you need this, use './getPrefixed' instead
-	 */
-	module.exports = function(key, value){
-
-		if (!properties[key]){
-			return key
-		}
-
-		var prefix = getPrefix(key)
-
-		return prefix?
-					prefix + toUpperFirst(key):
-					key
-	}
-
-/***/ },
-/* 78 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var signs = {
-		t: { 
-			x: 1,
-			y: 1
-		},
-		l: {
-			x: 1,
-			y: 1
-		},
-		b: {
-			x: 1,
-			y: -1
-		},
-		r: {
-			x: -1,
-			y: 1
-		}
-	}
-
-	/**
-	 * Given the offset (x,y, or left,top or array), returns an array of offsets, for each given position
-	 *
-	 * For example, if we align br-tl, it means we align br of tooltip to tl of target,
-	 * so for this position we should return an offset of {-x,-y} of the original offset
-	 * 
-	 * @param  {Object}
-	 * @param  {Array}
-	 * @return {Array}
-	 */
-	module.exports = function(offset, positions){
-
-		if (!offset){
-			return
-		}
-
-		var array
-
-		if (Array.isArray(offset)){
-			array = offset
-		}
-
-		array = offset.x != undefined?
-				[offset.x, offset.y]:
-				[offset.left, offset.top]
-
-		var x = array[0]
-		var y = array[1]
-
-		return positions.map(function(pos){
-			var parts = pos.split('-')
-
-			var first = parts[0]
-
-			var side1 = first[0]
-			var side2 = first[1]
-
-			var sign1 = signs[side1]
-			var sign2 = signs[side2]
-
-			var xSign = 1
-			var ySign = 1
-
-			if (sign1){
-				xSign *= sign1.x
-				ySign *= sign1.y
-			}
-			if (sign2){
-				xSign *= sign2.x
-				ySign *= sign2.y
-			}
-
-			return [x * xSign, y * ySign]
-		})
-	}
-
-/***/ },
-/* 79 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(str){
-
-		var result = {}
-
-		str.split(';').forEach(function(style){
-			var parts = style.split(':')
-
-			if (parts.length){
-				result[parts[0].trim()] = parts[1].trim()
-			}
-		})
-
-		return result
-	}
-
-/***/ },
-/* 80 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var setStyle = __webpack_require__(48)
-	var map      = {}
-
-	var result = function(config){
-
-	    var element = map[config.id]
-
-	    if (!element){
-	        element = setStyle(document.createElement('div'), config.style || {})
-	        element.className = config.className
-
-	        if (config.appendTooltip){
-	            config.appendTooltip(element)
-	        } else {
-	            document.body.appendChild(element)
-	        }
-	        map[config.id] = element
-	    }
-
-	    return element
-	}
-
-	result.destroy = function(config){
-		var element = map[config.id]
-
-		if (element){
-			var parent = element.parentNode
-			parent && parent.removeChild(element)
-		}
-	}
-
-	module.exports = result
-
-/***/ },
-/* 81 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var TRANSLATE_POS = {
-	    top: 'bc-tc',
-	    bottom: 'tc-bc',
-	    left: 'rc-lc',
-	    right: 'lc-rc',
-	    topleft: 'br-tl',
-	    topright: 'bl-tr',
-	    bottomleft: 'tr-bl',
-	    bottomright: 'tl-br'
-	}
-
-	module.exports = function preparePositions(positions){
-	    positions = positions || [
-	        'topleft',
-	        'topright',
-	        'bottomleft',
-	        'bottomright',
-	        'top',
-	        'bottom'
-	    ]
-
-	    return positions.map(function(pos){
-	        pos = pos.trim()
-	        return TRANSLATE_POS[pos] || pos
-	    }).filter(function(pos){
-	        return !!pos
-	    })
-	}
-
-/***/ },
-/* 82 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function mapObject(obj, fn){
-
-	    var result = {}
-
-	    Object.keys(obj).forEach(function(key){
-	        result[key] = fn(obj[key])
-	    })
-
-	    return result
-	}
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var assign = __webpack_require__(46)
-	var clone  = __webpack_require__(84)
-
-	var DEFAULT = {
-	    attrName: 'data-tooltip',
-	    throttle: 10,
-	    showDelay: 500,
-	    offset: {
-	        x: 5,
-	        y: 5
-	    },
-	    hideOnChange: true,
-	    hideOnChangeDelay: 500,
-	    className: 'tooltip',
-	    style: {
-	        padding: 5,
-	        border: '1px solid gray',
-	        background: 'white',
-
-	    	boxSizing    : 'border-box',
-	    	pointerEvents: 'none',
-	    	position     : 'absolute',
-	    	visibility   : 'hidden',
-	    	display      : 'inline-block',
-	        transform    : 'translate3d(0px, 0px, 0px)',
-	    	transition   : 'opacity 0.3s'//, top 0.2s, left 0.2s'
-	    },
-	    visibleStyle: {
-	        opacity:1,
-	        visibility: 'visible'
-	    },
-	    hiddenStyle : {
-	        opacity: 0
-	    },
-	    alignPositions: null
-	}
-
-	var preparePositions = __webpack_require__(81)
-
-	var id = 0
-
-	module.exports = function(values){
-	    values = values || {}
-
-	    var style        = assign({}, DEFAULT.style, values.style)
-	    var visibleStyle = assign({}, DEFAULT.visibleStyle, values.visibleStyle)
-	    var hiddenStyle  = assign({}, DEFAULT.hiddenStyle, values.hiddenStyle)
-
-	    var config = clone(assign({}, DEFAULT, values))
-
-	    config.style        = style
-	    config.visibleStyle = visibleStyle
-	    config.hiddenStyle  = hiddenStyle
-
-	    config.selector = '[' + config.attrName + ']'
-
-	    config.alignPositions = preparePositions(config.alignPositions)
-	    config.target = config.target || document.documentElement
-
-	    config.id = id++
-
-	    return config
-	}
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
-	'use strict';
-
-	/**
-	 * Clones (copies) an Object using deep copying.
-	 *
-	 * This function supports circular references by default, but if you are certain
-	 * there are no circular references in your object, you can save some CPU time
-	 * by calling clone(obj, false).
-	 *
-	 * Caution: if `circular` is false and `parent` contains circular references,
-	 * your program may enter an infinite loop and crash.
-	 *
-	 * @param `parent` - the object to be cloned
-	 * @param `circular` - set to true if the object to be cloned may contain
-	 *    circular references. (optional - true by default)
-	 * @param `depth` - set to a number if the object is only to be cloned to
-	 *    a particular depth. (optional - defaults to Infinity)
-	 * @param `prototype` - sets the prototype to be used when cloning an object.
-	 *    (optional - defaults to parent prototype).
-	*/
-	function clone(parent, circular, depth, prototype) {
-	  var filter;
-	  if (typeof circular === 'object') {
-	    depth = circular.depth;
-	    prototype = circular.prototype;
-	    filter = circular.filter;
-	    circular = circular.circular
-	  }
-	  // maintain two arrays for circular references, where corresponding parents
-	  // and children have the same index
-	  var allParents = [];
-	  var allChildren = [];
-
-	  var useBuffer = typeof Buffer != 'undefined';
-
-	  if (typeof circular == 'undefined')
-	    circular = true;
-
-	  if (typeof depth == 'undefined')
-	    depth = Infinity;
-
-	  // recurse this function so we don't reset allParents and allChildren
-	  function _clone(parent, depth) {
-	    // cloning null always returns null
-	    if (parent === null)
-	      return null;
-
-	    if (depth == 0)
-	      return parent;
-
-	    var child;
-	    var proto;
-	    if (typeof parent != 'object') {
-	      return parent;
-	    }
-
-	    if (clone.__isArray(parent)) {
-	      child = [];
-	    } else if (clone.__isRegExp(parent)) {
-	      child = new RegExp(parent.source, __getRegExpFlags(parent));
-	      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
-	    } else if (clone.__isDate(parent)) {
-	      child = new Date(parent.getTime());
-	    } else if (useBuffer && Buffer.isBuffer(parent)) {
-	      child = new Buffer(parent.length);
-	      parent.copy(child);
-	      return child;
-	    } else {
-	      if (typeof prototype == 'undefined') {
-	        proto = Object.getPrototypeOf(parent);
-	        child = Object.create(proto);
-	      }
-	      else {
-	        child = Object.create(prototype);
-	        proto = prototype;
-	      }
-	    }
-
-	    if (circular) {
-	      var index = allParents.indexOf(parent);
-
-	      if (index != -1) {
-	        return allChildren[index];
-	      }
-	      allParents.push(parent);
-	      allChildren.push(child);
-	    }
-
-	    for (var i in parent) {
-	      var attrs;
-	      if (proto) {
-	        attrs = Object.getOwnPropertyDescriptor(proto, i);
-	      }
-
-	      if (attrs && attrs.set == null) {
-	        continue;
-	      }
-	      child[i] = _clone(parent[i], depth - 1);
-	    }
-
-	    return child;
-	  }
-
-	  return _clone(parent, depth);
-	}
-
-	/**
-	 * Simple flat clone using prototype, accepts only objects, usefull for property
-	 * override on FLAT configuration object (no nested props).
-	 *
-	 * USE WITH CAUTION! This may not behave as you wish if you do not know how this
-	 * works.
-	 */
-	clone.clonePrototype = function clonePrototype(parent) {
-	  if (parent === null)
-	    return null;
-
-	  var c = function () {};
-	  c.prototype = parent;
-	  return new c();
-	};
-
-	// private utility functions
-
-	function __objToStr(o) {
-	  return Object.prototype.toString.call(o);
-	};
-	clone.__objToStr = __objToStr;
-
-	function __isDate(o) {
-	  return typeof o === 'object' && __objToStr(o) === '[object Date]';
-	};
-	clone.__isDate = __isDate;
-
-	function __isArray(o) {
-	  return typeof o === 'object' && __objToStr(o) === '[object Array]';
-	};
-	clone.__isArray = __isArray;
-
-	function __isRegExp(o) {
-	  return typeof o === 'object' && __objToStr(o) === '[object RegExp]';
-	};
-	clone.__isRegExp = __isRegExp;
-
-	function __getRegExpFlags(re) {
-	  var flags = '';
-	  if (re.global) flags += 'g';
-	  if (re.ignoreCase) flags += 'i';
-	  if (re.multiline) flags += 'm';
-	  return flags;
-	};
-	clone.__getRegExpFlags = __getRegExpFlags;
-
-	return clone;
-	})();
-
-	if (typeof module === 'object' && module.exports) {
-	  module.exports = clone;
-	}
-
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(85).Buffer))
-
-/***/ },
-/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -15873,9 +11981,9 @@
 
 	'use strict'
 
-	var base64 = __webpack_require__(86)
-	var ieee754 = __webpack_require__(87)
-	var isArray = __webpack_require__(88)
+	var base64 = __webpack_require__(42)
+	var ieee754 = __webpack_require__(43)
+	var isArray = __webpack_require__(44)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -17656,7 +13764,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 86 */
+/* 42 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -17776,7 +13884,7 @@
 
 
 /***/ },
-/* 87 */
+/* 43 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -17866,7 +13974,7 @@
 
 
 /***/ },
-/* 88 */
+/* 44 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -17877,12 +13985,4470 @@
 
 
 /***/ },
-/* 89 */
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+
+	  handler = this._events[type];
+
+	  if (isUndefined(handler))
+	    return false;
+
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+
+	  return true;
+	};
+
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events)
+	    this._events = {};
+
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  var fired = false;
+
+	  function g() {
+	    this.removeListener(type, g);
+
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+
+	  g.listener = listener;
+	  this.on(type, g);
+
+	  return this;
+	};
+
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+
+	  if (!this._events || !this._events[type])
+	    return this;
+
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+
+	    if (position < 0)
+	      return this;
+
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+
+	  if (!this._events)
+	    return this;
+
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+
+	  listeners = this._events[type];
+
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+
+	  return this;
+	};
+
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var testEventMatches = __webpack_require__(90);
+	var throttle  = __webpack_require__(238)
+	var targetFn  = __webpack_require__(239)
+	var configure = __webpack_require__(291)
+
+	var mouseenter = __webpack_require__(293)
+	var mouseleave = __webpack_require__(296)
+
+	var contains = __webpack_require__(297)
+
+	var TOOLTIP = function(cfg){
+
+		var config = configure(cfg)
+		var target = targetFn(config)
+		var root   = config.target
+		var t      = config.throttle
+
+		//make the target && protection since it might be destroyed by that time
+	    var onMouseOver = throttle(function(eventTarget){
+	        target && target.set(eventTarget)
+	    }, t)
+
+	    var onMouseOut = throttle(function(eventTarget){
+
+	        target && target.hold()
+	        setTimeout(function(){
+	            if (target && target.onHold()){
+	                target.set(null)
+	            }
+	        }, t)
+
+	    }, t)
+
+	    var removeMouseEnter = mouseenter(root, config.selector, onMouseOver)
+	    var removeMouseLeave = mouseleave(root, config.selector, onMouseOut)
+
+	    var onMouseMove = throttle(function(){
+	        var currentTarget = target.getCurrentTarget()
+
+	        if (currentTarget && !contains(document.documentElement, currentTarget)){
+	            target.set(null)
+	        }
+	    }, 200)
+
+	    root.addEventListener('mousemove', onMouseMove)
+
+	    return {
+	        destroy: function(){
+
+	        	target.destroy()
+
+	            removeMouseEnter()
+	            removeMouseLeave()
+	            root.removeEventListener('mousemove', onMouseMove)
+
+				root   = null
+				target = null
+				config = null
+	        }
+	    }
+	}
+
+	module.exports = TOOLTIP
+
+/***/ },
+/* 238 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(fn, delay, scope) {
+	    var timeoutId = -1
+	    var self
+	    var args
+
+	    if (delay === undefined){
+	        delay = 0
+	    }
+
+	    if (delay < 0){
+	        return fn
+	    }
+
+	    return function () {
+
+	        self = scope || this
+	        args = arguments
+
+	        if (timeoutId !== -1) {
+	            //the function was called once again in the delay interval
+	        } else {
+	            timeoutId = setTimeout(function () {
+	                fn.apply(self, args)
+
+	                self = null
+	                timeoutId = -1
+	            }, delay)
+	        }
+
+	    }
+
+	}
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Region = __webpack_require__(240)
+
+	var assign = __webpack_require__(254);
+	var escape = __webpack_require__(255)
+
+	var setStyle         = __webpack_require__(256)
+	var toOffset         = __webpack_require__(286)
+	var parseAsStyle     = __webpack_require__(287)
+	var tooltipElement   = __webpack_require__(288)
+	var preparePositions = __webpack_require__(289)
+	var mapObject        = __webpack_require__(290)
+
+	function emptyObject(obj){
+	    return mapObject(obj, function(){
+	        return ''
+	    })
+	}
+
+	module.exports = function(config){
+
+	    var prevStyle
+
+	    function showTooltip(target){
+
+	        var tooltip = target.getAttribute(config.attrName)
+
+	        var el = tooltipElement(config)
+	        el.innerHTML = config.escape? escape(tooltip): tooltip
+
+	        var positions    = config.alignPositions
+	        var elRegion     = Region.from(el)
+	        var targetRegion = Region.from(target)
+
+	        var attrPosition = target.getAttribute(config.attrName + '-positions')
+	        var attrStyle    = target.getAttribute(config.attrName + '-style')
+
+	        var style = assign({}, prevStyle, config.style)
+
+	        if (attrStyle){
+	            attrStyle = parseAsStyle(attrStyle)
+	            prevStyle = emptyObject(attrStyle)
+
+	            assign(style, attrStyle)
+	        }
+
+	        if (attrPosition){
+	            positions = preparePositions(attrPosition.split(';'))
+	        }
+
+	        var res = elRegion.alignTo(targetRegion, positions, {
+	            offset: toOffset(config.offset, positions),
+	            constrain: true
+	        })
+
+	        var scrollTop = document.body.scrollTop || 0
+	        var scrollLeft = document.body.scrollLeft || 0
+
+	        setStyle(el, style, config.visibleStyle, {
+	            top : elRegion.top + scrollTop,
+	            left: elRegion.left + scrollLeft
+	        })
+	    }
+
+	    function clearTooltip(){
+	        setStyle(
+	            tooltipElement(config),
+	            config.hiddenStyle
+	        )
+	    }
+
+	    var currentTarget
+
+	    var withTarget = (function(){
+
+	        var prevId
+
+	        return function(target){
+
+	            if (target != currentTarget){
+	                if (prevId){
+	                    clearTimeout(prevId)
+	                    prevId = null
+	                }
+
+	                if (target){
+
+	                    if (config.showDelay){
+
+	                        prevId = setTimeout(function(){
+	                            prevId = null
+	                            showTooltip(target)
+	                        }, config.showDelay)
+	                    } else {
+	                        showTooltip(target)
+	                    }
+
+	                } else {
+	                    clearTooltip()
+	                }
+	            }
+
+	            currentTarget = target
+	        }
+	    })()
+
+	    var setter = (function(){
+	        var lastValue
+	        var PREV_ID
+
+	        return function setter(value){
+
+	            if (value == lastValue){
+	                return
+	            }
+
+	            lastValue = value
+
+	            if (config.hideOnChange){
+
+	                if (PREV_ID || value){
+
+	                    if (PREV_ID){
+	                        clearTimeout(PREV_ID)
+	                    }
+
+	                    PREV_ID = setTimeout(function(){
+	                        PREV_ID = null
+	                        withTarget(lastValue)
+	                    }, config.hideOnChangeDelay)
+	                }
+
+	                value = null
+	            }
+
+	            withTarget(value)
+	        }
+
+	    })()
+
+	    var HOLD = false
+
+	    return {
+
+	        destroy: function(){
+	            tooltipElement.destroy(config)
+	        },
+
+	        hold: function() {
+	            HOLD = true
+	        },
+
+	        onHold: function() {
+	            return HOLD
+	        },
+
+	        set: function(value){
+	            HOLD = false
+	            setter(value)
+	        },
+
+	        getCurrentTarget: function(){
+	            return currentTarget
+	        }
+	    }
+
+	}
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Region = __webpack_require__(241)
+
+	__webpack_require__(250)
+	__webpack_require__(251)
+
+	var COMPUTE_ALIGN_REGION = __webpack_require__(252)
+
+	/**
+	 * region-align module exposes methods for aligning {@link Element} and {@link Region} instances
+	 *
+	 * The #alignTo method aligns this to the target element/region using the specified positions. See #alignTo for a graphical example.
+	 *
+	 *
+	 *      var div = Element.select('div.first')
+	 *
+	 *      div.alignTo(Element.select('body') , 'br-br')
+	 *
+	 *      //aligns the div to be in the bottom-right corner of the body
+	 *
+	 * Other useful methods
+	 *
+	 *  * {@link #alignRegions} - aligns a given source region to a target region
+	 *  * {@link #COMPUTE_ALIGN_REGION} - given a source region and a target region, and alignment positions, returns a clone of the source region, but aligned to satisfy the given alignments
+	 */
+
+
+	/**
+	 * Aligns sourceRegion to targetRegion. It modifies the sourceRegion in order to perform the correct alignment.
+	 * See #COMPUTE_ALIGN_REGION for details and examples.
+	 *
+	 * This method calls #COMPUTE_ALIGN_REGION passing to it all its arguments. The #COMPUTE_ALIGN_REGION method returns a region that is properly aligned.
+	 * If this returned region position/size differs from sourceRegion, then the sourceRegion is modified to be an exact copy of the aligned region.
+	 *
+	 * @inheritdoc #COMPUTE_ALIGN_REGION
+	 * @return {String} the position used for alignment
+	 */
+	Region.alignRegions = function(sourceRegion, targetRegion, positions, config){
+
+	    var result        = COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config)
+	    var alignedRegion = result.region
+
+	    if ( !alignedRegion.equals(sourceRegion) ) {
+	        sourceRegion.setRegion(alignedRegion)
+	    }
+
+	    return result.position
+
+	}
+
+	    /**
+	     *
+	     * The #alignTo method aligns this to the given target region, using the specified alignment position(s).
+	     * You can also specify a constrain for the alignment.
+	     *
+	     * Example
+	     *
+	     *      BIG
+	     *      ________________________
+	     *      |  _______              |
+	     *      | |       |             |
+	     *      | |   A   |             |
+	     *      | |       |      _____  |
+	     *      | |_______|     |     | |
+	     *      |               |  B  | |
+	     *      |               |     | |
+	     *      |_______________|_____|_|
+	     *
+	     * Assume the *BIG* outside rectangle is our constrain region, and you want to align the *A* rectangle
+	     * to the *B* rectangle. Ideally, you'll want their tops to be aligned, and *A* to be placed at the right side of *B*
+	     *
+	     *
+	     *      //so we would align them using
+	     *
+	     *      A.alignTo(B, 'tl-tr', { constrain: BIG })
+	     *
+	     * But this would result in
+	     *
+	     *       BIG
+	     *      ________________________
+	     *      |                       |
+	     *      |                       |
+	     *      |                       |
+	     *      |                _____ _|_____
+	     *      |               |     | .     |
+	     *      |               |  B  | . A   |
+	     *      |               |     | .     |
+	     *      |_______________|_____|_._____|
+	     *
+	     *
+	     * Which is not what we want. So we specify an array of options to try
+	     *
+	     *      A.alignTo(B, ['tl-tr', 'tr-tl'], { constrain: BIG })
+	     *
+	     * So by this we mean: try to align A(top,left) with B(top,right) and stick to the BIG constrain. If this is not possible,
+	     * try the next option: align A(top,right) with B(top,left)
+	     *
+	     * So this is what we end up with
+	     *
+	     *      BIG
+	     *      ________________________
+	     *      |                       |
+	     *      |                       |
+	     *      |                       |
+	     *      |        _______ _____  |
+	     *      |       |       |     | |
+	     *      |       |   A   |  B  | |
+	     *      |       |       |     | |
+	     *      |_______|_______|_____|_|
+	     *
+	     *
+	     * Which is a lot better!
+	     *
+	     * @param {Element/Region} target The target to which to align this alignable.
+	     *
+	     * @param {String[]/String} positions The positions for the alignment.
+	     *
+	     * Example:
+	     *
+	     *      'br-tl'
+	     *      ['br-tl','br-tr','cx-tc']
+	     *
+	     * This method will try to align using the first position. But if there is a constrain region, that position might not satisfy the constrain.
+	     * If this is the case, the next positions will be tried. If one of them satifies the constrain, it will be used for aligning and it will be returned from this method.
+	     *
+	     * If no position matches the contrain, the one with the largest intersection of the source region with the constrain will be used, and this alignable will be resized to fit the constrain region.
+	     *
+	     * @param {Object} config A config object with other configuration for this method
+	     *
+	     * @param {Array[]/Object[]/Object} config.offset The offset to use for aligning. If more that one offset is specified, then offset at a given index is used with the position at the same index.
+	     *
+	     * An offset can have the following form:
+	     *
+	     *      [left_offset, top_offset]
+	     *      {left: left_offset, top: top_offset}
+	     *      {x: left_offset, y: top_offset}
+	     *
+	     * You can pass one offset or an array of offsets. In case you pass just one offset,
+	     * it cannot have the array form, so you cannot call
+	     *
+	     *      this.alignTo(target, positions, [10, 20])
+	     *
+	     * If you do, it will not be considered. Instead, please use
+	     *
+	     *      this.alignTo(target, positions, {x: 10, y: 20})
+	     *
+	     * Or
+	     *
+	     *      this.alignTo(target, positions, [[10, 20]] )
+	     *
+	     * @param {Boolean/Element/Region} config.constrain If boolean, target will be constrained to the document region, otherwise,
+	     * getRegion will be called on this argument to determine the region we need to constrain to.
+	     *
+	     * @param {Boolean/Object} config.sync Either boolean or an object with {width, height}. If it is boolean,
+	     * both width and height will be synced. If directions are specified, will only sync the direction which is specified as true
+	     *
+	     * @return {String}
+	     *
+	     */
+	Region.prototype.alignTo = function(target, positions, config){
+
+	    config = config || {}
+
+	    var sourceRegion = this
+	    var targetRegion = Region.from(target)
+
+	    var result = COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config)
+	    var resultRegion = result.region
+
+	    if (!resultRegion.equalsSize(sourceRegion)){
+	        this.setSize(resultRegion.getSize())
+	    }
+	    if (!resultRegion.equalsPosition(sourceRegion)){
+	        this.setPosition(resultRegion.getPosition(), { absolute: !!config.absolute })
+	    }
+
+	    return result.position
+	}
+
+	module.exports = Region
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(242)
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var hasOwn    = __webpack_require__(243)
+	var newify    = __webpack_require__(244)
+
+	var assign      = __webpack_require__(246);
+	var EventEmitter = __webpack_require__(53).EventEmitter
+
+	var inherits = __webpack_require__(247)
+	var VALIDATE = __webpack_require__(248)
+
+	var objectToString = Object.prototype.toString
+
+	var isObject = function(value){
+	    return objectToString.apply(value) === '[object Object]'
+	}
+
+	function copyList(source, target, list){
+	    if (source){
+	        list.forEach(function(key){
+	            if (hasOwn(source, key)){
+	                target[key] = source[key]
+	            }
+	        })
+	    }
+
+	    return target
+	}
+
+	/**
+	 * @class Region
+	 *
+	 * The Region is an abstraction that allows the developer to refer to rectangles on the screen,
+	 * and move them around, make diffs and unions, detect intersections, compute areas, etc.
+	 *
+	 * ## Creating a region
+	 *      var region = require('region')({
+	 *          top  : 10,
+	 *          left : 10,
+	 *          bottom: 100,
+	 *          right : 100
+	 *      })
+	 *      //this region is a square, 90x90, starting from (10,10) to (100,100)
+	 *
+	 *      var second = require('region')({ top: 10, left: 100, right: 200, bottom: 60})
+	 *      var union  = region.getUnion(second)
+	 *
+	 *      //the "union" region is a union between "region" and "second"
+	 */
+
+	var POINT_POSITIONS = {
+	        cy: 'YCenter',
+	        cx: 'XCenter',
+	        t : 'Top',
+	        tc: 'TopCenter',
+	        tl: 'TopLeft',
+	        tr: 'TopRight',
+	        b : 'Bottom',
+	        bc: 'BottomCenter',
+	        bl: 'BottomLeft',
+	        br: 'BottomRight',
+	        l : 'Left',
+	        lc: 'LeftCenter',
+	        r : 'Right',
+	        rc: 'RightCenter',
+	        c : 'Center'
+	    }
+
+	/**
+	 * @constructor
+	 *
+	 * Construct a new Region.
+	 *
+	 * Example:
+	 *
+	 *      var r = new Region({ top: 10, left: 20, bottom: 100, right: 200 })
+	 *
+	 *      //or, the same, but with numbers (can be used with new or without)
+	 *
+	 *      r = Region(10, 200, 100, 20)
+	 *
+	 *      //or, with width and height
+	 *
+	 *      r = Region({ top: 10, left: 20, width: 180, height: 90})
+	 *
+	 * @param {Number|Object} top The top pixel position, or an object with top, left, bottom, right properties. If an object is passed,
+	 * instead of having bottom and right, it can have width and height.
+	 *
+	 * @param {Number} right The right pixel position
+	 * @param {Number} bottom The bottom pixel position
+	 * @param {Number} left The left pixel position
+	 *
+	 * @return {Region} this
+	 */
+	var REGION = function(top, right, bottom, left){
+
+	    if (!(this instanceof REGION)){
+	        return newify(REGION, arguments)
+	    }
+
+	    EventEmitter.call(this)
+
+	    if (isObject(top)){
+	        copyList(top, this, ['top','right','bottom','left'])
+
+	        if (top.bottom == null && top.height != null){
+	            this.bottom = this.top + top.height
+	        }
+	        if (top.right == null && top.width != null){
+	            this.right = this.left + top.width
+	        }
+
+	        if (top.emitChangeEvents){
+	            this.emitChangeEvents = top.emitChangeEvents
+	        }
+	    } else {
+	        this.top    = top
+	        this.right  = right
+	        this.bottom = bottom
+	        this.left   = left
+	    }
+
+	    this[0] = this.left
+	    this[1] = this.top
+
+	    VALIDATE(this)
+	}
+
+	inherits(REGION, EventEmitter)
+
+	assign(REGION.prototype, {
+
+	    /**
+	     * @cfg {Boolean} emitChangeEvents If this is set to true, the region
+	     * will emit 'changesize' and 'changeposition' whenever the size or the position changs
+	     */
+	    emitChangeEvents: false,
+
+	    /**
+	     * Returns this region, or a clone of this region
+	     * @param  {Boolean} [clone] If true, this method will return a clone of this region
+	     * @return {Region}       This region, or a clone of this
+	     */
+	    getRegion: function(clone){
+	        return clone?
+	                    this.clone():
+	                    this
+	    },
+
+	    /**
+	     * Sets the properties of this region to those of the given region
+	     * @param {Region/Object} reg The region or object to use for setting properties of this region
+	     * @return {Region} this
+	     */
+	    setRegion: function(reg){
+
+	        if (reg instanceof REGION){
+	            this.set(reg.get())
+	        } else {
+	            this.set(reg)
+	        }
+
+	        return this
+	    },
+
+	    /**
+	     * Returns true if this region is valid, false otherwise
+	     *
+	     * @param  {Region} region The region to check
+	     * @return {Boolean}        True, if the region is valid, false otherwise.
+	     * A region is valid if
+	     *  * left <= right  &&
+	     *  * top  <= bottom
+	     */
+	    validate: function(){
+	        return REGION.validate(this)
+	    },
+
+	    _before: function(){
+	        if (this.emitChangeEvents){
+	            return copyList(this, {}, ['left','top','bottom','right'])
+	        }
+	    },
+
+	    _after: function(before){
+	        if (this.emitChangeEvents){
+
+	            if(this.top != before.top || this.left != before.left) {
+	                this.emitPositionChange()
+	            }
+
+	            if(this.right != before.right || this.bottom != before.bottom) {
+	                this.emitSizeChange()
+	            }
+	        }
+	    },
+
+	    notifyPositionChange: function(){
+	        this.emit('changeposition', this)
+	    },
+
+	    emitPositionChange: function(){
+	        this.notifyPositionChange()
+	    },
+
+	    notifySizeChange: function(){
+	        this.emit('changesize', this)
+	    },
+
+	    emitSizeChange: function(){
+	        this.notifySizeChange()
+	    },
+
+	    /**
+	     * Add the given amounts to each specified side. Example
+	     *
+	     *      region.add({
+	     *          top: 50,    //add 50 px to the top side
+	     *          bottom: -100    //substract 100 px from the bottom side
+	     *      })
+	     *
+	     * @param {Object} directions
+	     * @param {Number} [directions.top]
+	     * @param {Number} [directions.left]
+	     * @param {Number} [directions.bottom]
+	     * @param {Number} [directions.right]
+	     *
+	     * @return {Region} this
+	     */
+	    add: function(directions){
+
+	        var before = this._before()
+	        var direction
+
+	        for (direction in directions) if ( hasOwn(directions, direction) ) {
+	            this[direction] += directions[direction]
+	        }
+
+	        this[0] = this.left
+	        this[1] = this.top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * The same as {@link #add}, but substracts the given values
+	     * @param {Object} directions
+	     * @param {Number} [directions.top]
+	     * @param {Number} [directions.left]
+	     * @param {Number} [directions.bottom]
+	     * @param {Number} [directions.right]
+	     *
+	     * @return {Region} this
+	     */
+	    substract: function(directions){
+
+	        var before = this._before()
+	        var direction
+
+	        for (direction in directions) if (hasOwn(directions, direction) ) {
+	            this[direction] -= directions[direction]
+	        }
+
+	        this[0] = this.left
+	        this[1] = this.top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Retrieves the size of the region.
+	     * @return {Object} An object with {width, height}, corresponding to the width and height of the region
+	     */
+	    getSize: function(){
+	        return {
+	            width  : this.width,
+	            height : this.height
+	        }
+	    },
+
+	    /**
+	     * Move the region to the given position and keeps the region width and height.
+	     *
+	     * @param {Object} position An object with {top, left} properties. The values in {top,left} are used to move the region by the given amounts.
+	     * @param {Number} [position.left]
+	     * @param {Number} [position.top]
+	     *
+	     * @return {Region} this
+	     */
+	    setPosition: function(position){
+	        var width  = this.width
+	        var height = this.height
+
+	        if (position.left != undefined){
+	            position.right  = position.left + width
+	        }
+
+	        if (position.top != undefined){
+	            position.bottom = position.top  + height
+	        }
+
+	        return this.set(position)
+	    },
+
+	    /**
+	     * Sets both the height and the width of this region to the given size.
+	     *
+	     * @param {Number} size The new size for the region
+	     * @return {Region} this
+	     */
+	    setSize: function(size){
+	        if (size.height != undefined && size.width != undefined){
+	            return this.set({
+	                right  : this.left + size.width,
+	                bottom : this.top  + size.height
+	            })
+	        }
+
+	        if (size.width != undefined){
+	            this.setWidth(size.width)
+	        }
+
+	        if (size.height != undefined){
+	            this.setHeight(size.height)
+	        }
+
+	        return this
+	    },
+
+
+
+	    /**
+	     * @chainable
+	     *
+	     * Sets the width of this region
+	     * @param {Number} width The new width for this region
+	     * @return {Region} this
+	     */
+	    setWidth: function(width){
+	        return this.set({
+	            right: this.left + width
+	        })
+	    },
+
+	    /**
+	     * @chainable
+	     *
+	     * Sets the height of this region
+	     * @param {Number} height The new height for this region
+	     * @return {Region} this
+	     */
+	    setHeight: function(height){
+	        return this.set({
+	            bottom: this.top + height
+	        })
+	    },
+
+	    /**
+	     * Sets the given properties on this region
+	     *
+	     * @param {Object} directions an object containing top, left, and EITHER bottom, right OR width, height
+	     * @param {Number} [directions.top]
+	     * @param {Number} [directions.left]
+	     *
+	     * @param {Number} [directions.bottom]
+	     * @param {Number} [directions.right]
+	     *
+	     * @param {Number} [directions.width]
+	     * @param {Number} [directions.height]
+	     *
+	     *
+	     * @return {Region} this
+	     */
+	    set: function(directions){
+	        var before = this._before()
+
+	        copyList(directions, this, ['left','top','bottom','right'])
+
+	        if (directions.bottom == null && directions.height != null){
+	            this.bottom = this.top + directions.height
+	        }
+	        if (directions.right == null && directions.width != null){
+	            this.right = this.left + directions.width
+	        }
+
+	        this[0] = this.left
+	        this[1] = this.top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Retrieves the given property from this region. If no property is given, return an object
+	     * with {left, top, right, bottom}
+	     *
+	     * @param {String} [dir] the property to retrieve from this region
+	     * @return {Number/Object}
+	     */
+	    get: function(dir){
+	        return dir? this[dir]:
+	                    copyList(this, {}, ['left','right','top','bottom'])
+	    },
+
+	    /**
+	     * Shifts this region to either top, or left or both.
+	     * Shift is similar to {@link #add} by the fact that it adds the given dimensions to top/left sides, but also adds the given dimensions
+	     * to bottom and right
+	     *
+	     * @param {Object} directions
+	     * @param {Number} [directions.top]
+	     * @param {Number} [directions.left]
+	     *
+	     * @return {Region} this
+	     */
+	    shift: function(directions){
+
+	        var before = this._before()
+
+	        if (directions.top){
+	            this.top    += directions.top
+	            this.bottom += directions.top
+	        }
+
+	        if (directions.left){
+	            this.left  += directions.left
+	            this.right += directions.left
+	        }
+
+	        this[0] = this.left
+	        this[1] = this.top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Same as {@link #shift}, but substracts the given values
+	     * @chainable
+	     *
+	     * @param {Object} directions
+	     * @param {Number} [directions.top]
+	     * @param {Number} [directions.left]
+	     *
+	     * @return {Region} this
+	     */
+	    unshift: function(directions){
+
+	        if (directions.top){
+	            directions.top *= -1
+	        }
+
+	        if (directions.left){
+	            directions.left *= -1
+	        }
+
+	        return this.shift(directions)
+	    },
+
+	    /**
+	     * Compare this region and the given region. Return true if they have all the same size and position
+	     * @param  {Region} region The region to compare with
+	     * @return {Boolean}       True if this and region have same size and position
+	     */
+	    equals: function(region){
+	        return this.equalsPosition(region) && this.equalsSize(region)
+	    },
+
+	    /**
+	     * Returns true if this region has the same bottom,right properties as the given region
+	     * @param  {Region/Object} size The region to compare against
+	     * @return {Boolean}       true if this region is the same size as the given size
+	     */
+	    equalsSize: function(size){
+	        var isInstance = size instanceof REGION
+
+	        var s = {
+	            width: size.width == null && isInstance?
+	                    size.getWidth():
+	                    size.width,
+
+	            height: size.height == null && isInstance?
+	                    size.getHeight():
+	                    size.height
+	        }
+	        return this.getWidth() == s.width && this.getHeight() == s.height
+	    },
+
+	    /**
+	     * Returns true if this region has the same top,left properties as the given region
+	     * @param  {Region} region The region to compare against
+	     * @return {Boolean}       true if this.top == region.top and this.left == region.left
+	     */
+	    equalsPosition: function(region){
+	        return this.top == region.top && this.left == region.left
+	    },
+
+	    /**
+	     * Adds the given ammount to the left side of this region
+	     * @param {Number} left The ammount to add
+	     * @return {Region} this
+	     */
+	    addLeft: function(left){
+	        var before = this._before()
+
+	        this.left = this[0] = this.left + left
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Adds the given ammount to the top side of this region
+	     * @param {Number} top The ammount to add
+	     * @return {Region} this
+	     */
+	    addTop: function(top){
+	        var before = this._before()
+
+	        this.top = this[1] = this.top + top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Adds the given ammount to the bottom side of this region
+	     * @param {Number} bottom The ammount to add
+	     * @return {Region} this
+	     */
+	    addBottom: function(bottom){
+	        var before = this._before()
+
+	        this.bottom += bottom
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Adds the given ammount to the right side of this region
+	     * @param {Number} right The ammount to add
+	     * @return {Region} this
+	     */
+	    addRight: function(right){
+	        var before = this._before()
+
+	        this.right += right
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Minimize the top side.
+	     * @return {Region} this
+	     */
+	    minTop: function(){
+	        return this.expand({top: 1})
+	    },
+	    /**
+	     * Minimize the bottom side.
+	     * @return {Region} this
+	     */
+	    maxBottom: function(){
+	        return this.expand({bottom: 1})
+	    },
+	    /**
+	     * Minimize the left side.
+	     * @return {Region} this
+	     */
+	    minLeft: function(){
+	        return this.expand({left: 1})
+	    },
+	    /**
+	     * Maximize the right side.
+	     * @return {Region} this
+	     */
+	    maxRight: function(){
+	        return this.expand({right: 1})
+	    },
+
+	    /**
+	     * Expands this region to the dimensions of the given region, or the document region, if no region is expanded.
+	     * But only expand the given sides (any of the four can be expanded).
+	     *
+	     * @param {Object} directions
+	     * @param {Boolean} [directions.top]
+	     * @param {Boolean} [directions.bottom]
+	     * @param {Boolean} [directions.left]
+	     * @param {Boolean} [directions.right]
+	     *
+	     * @param {Region} [region] the region to expand to, defaults to the document region
+	     * @return {Region} this region
+	     */
+	    expand: function(directions, region){
+	        var docRegion = region || REGION.getDocRegion()
+	        var list      = []
+	        var direction
+	        var before = this._before()
+
+	        for (direction in directions) if ( hasOwn(directions, direction) ) {
+	            list.push(direction)
+	        }
+
+	        copyList(docRegion, this, list)
+
+	        this[0] = this.left
+	        this[1] = this.top
+
+	        this._after(before)
+
+	        return this
+	    },
+
+	    /**
+	     * Returns a clone of this region
+	     * @return {Region} A new region, with the same position and dimension as this region
+	     */
+	    clone: function(){
+	        return new REGION({
+	                    top    : this.top,
+	                    left   : this.left,
+	                    right  : this.right,
+	                    bottom : this.bottom
+	                })
+	    },
+
+	    /**
+	     * Returns true if this region contains the given point
+	     * @param {Number/Object} x the x coordinate of the point
+	     * @param {Number} [y] the y coordinate of the point
+	     *
+	     * @return {Boolean} true if this region constains the given point, false otherwise
+	     */
+	    containsPoint: function(x, y){
+	        if (arguments.length == 1){
+	            y = x.y
+	            x = x.x
+	        }
+
+	        return this.left <= x  &&
+	               x <= this.right &&
+	               this.top <= y   &&
+	               y <= this.bottom
+	    },
+
+	    /**
+	     *
+	     * @param region
+	     *
+	     * @return {Boolean} true if this region contains the given region, false otherwise
+	     */
+	    containsRegion: function(region){
+	        return this.containsPoint(region.left, region.top)    &&
+	               this.containsPoint(region.right, region.bottom)
+	    },
+
+	    /**
+	     * Returns an object with the difference for {top, bottom} positions betwen this and the given region,
+	     *
+	     * See {@link #diff}
+	     * @param  {Region} region The region to use for diff
+	     * @return {Object}        {top,bottom}
+	     */
+	    diffHeight: function(region){
+	        return this.diff(region, {top: true, bottom: true})
+	    },
+
+	    /**
+	     * Returns an object with the difference for {left, right} positions betwen this and the given region,
+	     *
+	     * See {@link #diff}
+	     * @param  {Region} region The region to use for diff
+	     * @return {Object}        {left,right}
+	     */
+	    diffWidth: function(region){
+	        return this.diff(region, {left: true, right: true})
+	    },
+
+	    /**
+	     * Returns an object with the difference in sizes for the given directions, between this and region
+	     *
+	     * @param  {Region} region     The region to use for diff
+	     * @param  {Object} directions An object with the directions to diff. Can have any of the following keys:
+	     *  * left
+	     *  * right
+	     *  * top
+	     *  * bottom
+	     *
+	     * @return {Object} and object with the same keys as the directions object, but the values being the
+	     * differences between this region and the given region
+	     */
+	    diff: function(region, directions){
+	        var result = {}
+	        var dirName
+
+	        for (dirName in directions) if ( hasOwn(directions, dirName) ) {
+	            result[dirName] = this[dirName] - region[dirName]
+	        }
+
+	        return result
+	    },
+
+	    /**
+	     * Returns the position, in {left,top} properties, of this region
+	     *
+	     * @return {Object} {left,top}
+	     */
+	    getPosition: function(){
+	        return {
+	            left: this.left,
+	            top : this.top
+	        }
+	    },
+
+	    /**
+	     * Returns the point at the given position from this region.
+	     *
+	     * @param {String} position Any of:
+	     *
+	     *  * 'cx' - See {@link #getPointXCenter}
+	     *  * 'cy' - See {@link #getPointYCenter}
+	     *  * 'b'  - See {@link #getPointBottom}
+	     *  * 'bc' - See {@link #getPointBottomCenter}
+	     *  * 'l'  - See {@link #getPointLeft}F
+	     *  * 'lc' - See {@link #getPointLeftCenter}
+	     *  * 't'  - See {@link #getPointTop}
+	     *  * 'tc' - See {@link #getPointTopCenter}
+	     *  * 'r'  - See {@link #getPointRight}
+	     *  * 'rc' - See {@link #getPointRightCenter}
+	     *  * 'c'  - See {@link #getPointCenter}
+	     *  * 'tl' - See {@link #getPointTopLeft}
+	     *  * 'bl' - See {@link #getPointBottomLeft}
+	     *  * 'br' - See {@link #getPointBottomRight}
+	     *  * 'tr' - See {@link #getPointTopRight}
+	     *
+	     * @param {Boolean} asLeftTop
+	     *
+	     * @return {Object} either an object with {x,y} or {left,top} if asLeftTop is true
+	     */
+	    getPoint: function(position, asLeftTop){
+
+	        //<debug>
+	        if (!POINT_POSITIONS[position]) {
+	            console.warn('The position ', position, ' could not be found! Available options are tl, bl, tr, br, l, r, t, b.');
+	        }
+	        //</debug>
+
+	        var method = 'getPoint' + POINT_POSITIONS[position],
+	            result = this[method]()
+
+	        if (asLeftTop){
+	            return {
+	                left : result.x,
+	                top  : result.y
+	            }
+	        }
+
+	        return result
+	    },
+
+	    /**
+	     * Returns a point with x = null and y being the middle of the left region segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointYCenter: function(){
+	        return { x: null, y: this.top + this.getHeight() / 2 }
+	    },
+
+	    /**
+	     * Returns a point with y = null and x being the middle of the top region segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointXCenter: function(){
+	        return { x: this.left + this.getWidth() / 2, y: null }
+	    },
+
+	    /**
+	     * Returns a point with x = null and y the region top position on the y axis
+	     * @return {Object} {x,y}
+	     */
+	    getPointTop: function(){
+	        return { x: null, y: this.top }
+	    },
+
+	    /**
+	     * Returns a point that is the middle point of the region top segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointTopCenter: function(){
+	        return { x: this.left + this.getWidth() / 2, y: this.top }
+	    },
+
+	    /**
+	     * Returns a point that is the top-left point of the region
+	     * @return {Object} {x,y}
+	     */
+	    getPointTopLeft: function(){
+	        return { x: this.left, y: this.top}
+	    },
+
+	    /**
+	     * Returns a point that is the top-right point of the region
+	     * @return {Object} {x,y}
+	     */
+	    getPointTopRight: function(){
+	        return { x: this.right, y: this.top}
+	    },
+
+	    /**
+	     * Returns a point with x = null and y the region bottom position on the y axis
+	     * @return {Object} {x,y}
+	     */
+	    getPointBottom: function(){
+	        return { x: null, y: this.bottom }
+	    },
+
+	    /**
+	     * Returns a point that is the middle point of the region bottom segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointBottomCenter: function(){
+	        return { x: this.left + this.getWidth() / 2, y: this.bottom }
+	    },
+
+	    /**
+	     * Returns a point that is the bottom-left point of the region
+	     * @return {Object} {x,y}
+	     */
+	    getPointBottomLeft: function(){
+	        return { x: this.left, y: this.bottom}
+	    },
+
+	    /**
+	     * Returns a point that is the bottom-right point of the region
+	     * @return {Object} {x,y}
+	     */
+	    getPointBottomRight: function(){
+	        return { x: this.right, y: this.bottom}
+	    },
+
+	    /**
+	     * Returns a point with y = null and x the region left position on the x axis
+	     * @return {Object} {x,y}
+	     */
+	    getPointLeft: function(){
+	        return { x: this.left, y: null }
+	    },
+
+	    /**
+	     * Returns a point that is the middle point of the region left segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointLeftCenter: function(){
+	        return { x: this.left, y: this.top + this.getHeight() / 2 }
+	    },
+
+	    /**
+	     * Returns a point with y = null and x the region right position on the x axis
+	     * @return {Object} {x,y}
+	     */
+	    getPointRight: function(){
+	        return { x: this.right, y: null }
+	    },
+
+	    /**
+	     * Returns a point that is the middle point of the region right segment
+	     * @return {Object} {x,y}
+	     */
+	    getPointRightCenter: function(){
+	        return { x: this.right, y: this.top + this.getHeight() / 2 }
+	    },
+
+	    /**
+	     * Returns a point that is the center of the region
+	     * @return {Object} {x,y}
+	     */
+	    getPointCenter: function(){
+	        return { x: this.left + this.getWidth() / 2, y: this.top + this.getHeight() / 2 }
+	    },
+
+	    /**
+	     * @return {Number} returns the height of the region
+	     */
+	    getHeight: function(){
+	        return this.bottom - this.top
+	    },
+
+	    /**
+	     * @return {Number} returns the width of the region
+	     */
+	    getWidth: function(){
+	        return this.right - this.left
+	    },
+
+	    /**
+	     * @return {Number} returns the top property of the region
+	     */
+	    getTop: function(){
+	        return this.top
+	    },
+
+	    /**
+	     * @return {Number} returns the left property of the region
+	     */
+	    getLeft: function(){
+	        return this.left
+	    },
+
+	    /**
+	     * @return {Number} returns the bottom property of the region
+	     */
+	    getBottom: function(){
+	        return this.bottom
+	    },
+
+	    /**
+	     * @return {Number} returns the right property of the region
+	     */
+	    getRight: function(){
+	        return this.right
+	    },
+
+	    /**
+	     * Returns the area of the region
+	     * @return {Number} the computed area
+	     */
+	    getArea: function(){
+	        return this.getWidth() * this.getHeight()
+	    },
+
+	    constrainTo: function(contrain){
+	        var intersect = this.getIntersection(contrain)
+	        var shift
+
+	        if (!intersect || !intersect.equals(this)){
+
+	            var contrainWidth  = contrain.getWidth(),
+	                contrainHeight = contrain.getHeight()
+
+	            if (this.getWidth() > contrainWidth){
+	                this.left = contrain.left
+	                this.setWidth(contrainWidth)
+	            }
+
+	            if (this.getHeight() > contrainHeight){
+	                this.top = contrain.top
+	                this.setHeight(contrainHeight)
+	            }
+
+	            shift = {}
+
+	            if (this.right > contrain.right){
+	                shift.left = contrain.right - this.right
+	            }
+
+	            if (this.bottom > contrain.bottom){
+	                shift.top = contrain.bottom - this.bottom
+	            }
+
+	            if (this.left < contrain.left){
+	                shift.left = contrain.left - this.left
+	            }
+
+	            if (this.top < contrain.top){
+	                shift.top = contrain.top - this.top
+	            }
+
+	            this.shift(shift)
+
+	            return true
+	        }
+
+	        return false
+	    },
+
+	    __IS_REGION: true
+
+	    /**
+	     * @property {Number} top
+	     */
+
+	    /**
+	     * @property {Number} right
+	     */
+
+	    /**
+	     * @property {Number} bottom
+	     */
+
+	    /**
+	     * @property {Number} left
+	     */
+
+	    /**
+	     * @property {Number} [0] the top property
+	     */
+
+	    /**
+	     * @property {Number} [1] the left property
+	     */
+
+	    /**
+	     * @method getIntersection
+	     * Returns a region that is the intersection of this region and the given region
+	     * @param  {Region} region The region to intersect with
+	     * @return {Region}        The intersection region
+	     */
+
+	    /**
+	     * @method getUnion
+	     * Returns a region that is the union of this region with the given region
+	     * @param  {Region} region  The region to make union with
+	     * @return {Region}        The union region. The smallest region that contains both this and the given region.
+	     */
+
+	})
+
+	Object.defineProperties(REGION.prototype, {
+	    width: {
+	        get: function(){
+	            return this.getWidth()
+	        },
+	        set: function(width){
+	            return this.setWidth(width)
+	        }
+	    },
+	    height: {
+	        get: function(){
+	            return this.getHeight()
+	        },
+	        set: function(height){
+	            return this.setHeight(height)
+	        }
+	    }
+	})
+
+	__webpack_require__(249)(REGION)
+
+	module.exports = REGION
+
+/***/ },
+/* 243 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	var hasOwn = Object.prototype.hasOwnProperty
+
+	function curry(fn, n){
+
+	    if (typeof n !== 'number'){
+	        n = fn.length
+	    }
+
+	    function getCurryClosure(prevArgs){
+
+	        function curryClosure() {
+
+	            var len  = arguments.length
+	            var args = [].concat(prevArgs)
+
+	            if (len){
+	                args.push.apply(args, arguments)
+	            }
+
+	            if (args.length < n){
+	                return getCurryClosure(args)
+	            }
+
+	            return fn.apply(this, args)
+	        }
+
+	        return curryClosure
+	    }
+
+	    return getCurryClosure([])
+	}
+
+
+	module.exports = curry(function(object, property){
+	    return hasOwn.call(object, property)
+	})
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getInstantiatorFunction = __webpack_require__(245)
+
+	module.exports = function(fn, args){
+		return getInstantiatorFunction(args.length)(fn, args)
+	}
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	module.exports = function(){
+
+	    'use strict';
+
+	    var fns = {}
+
+	    return function(len){
+
+	        if ( ! fns [len ] ) {
+
+	            var args = []
+	            var i    = 0
+
+	            for (; i < len; i++ ) {
+	                args.push( 'a[' + i + ']')
+	            }
+
+	            fns[len] = new Function(
+	                            'c',
+	                            'a',
+	                            'return new c(' + args.join(',') + ')'
+	                        )
+	        }
+
+	        return fns[len]
+	    }
+
+	}()
+
+/***/ },
+/* 246 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = Object.keys(Object(from));
+
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 247 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(ctor, superCtor) {
+	    ctor.super_ = superCtor
+	    ctor.prototype = Object.create(superCtor.prototype, {
+	        constructor: {
+	            value       : ctor,
+	            enumerable  : false,
+	            writable    : true,
+	            configurable: true
+	        }
+	    })
+	}
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * @static
+	 * Returns true if the given region is valid, false otherwise.
+	 * @param  {Region} region The region to check
+	 * @return {Boolean}        True, if the region is valid, false otherwise.
+	 * A region is valid if
+	 *  * left <= right  &&
+	 *  * top  <= bottom
+	 */
+	module.exports = function validate(region){
+
+	    var isValid = true
+
+	    if (region.right < region.left){
+	        isValid = false
+	        region.right = region.left
+	    }
+
+	    if (region.bottom < region.top){
+	        isValid = false
+	        region.bottom = region.top
+	    }
+
+	    return isValid
+	}
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var hasOwn   = __webpack_require__(243)
+	var VALIDATE = __webpack_require__(248)
+
+	module.exports = function(REGION){
+
+	    var MAX = Math.max
+	    var MIN = Math.min
+
+	    var statics = {
+	        init: function(){
+	            var exportAsNonStatic = {
+	                getIntersection      : true,
+	                getIntersectionArea  : true,
+	                getIntersectionHeight: true,
+	                getIntersectionWidth : true,
+	                getUnion             : true
+	            }
+	            var thisProto = REGION.prototype
+	            var newName
+
+	            var exportHasOwn = hasOwn(exportAsNonStatic)
+	            var methodName
+
+	            for (methodName in exportAsNonStatic) if (exportHasOwn(methodName)) {
+	                newName = exportAsNonStatic[methodName]
+	                if (typeof newName != 'string'){
+	                    newName = methodName
+	                }
+
+	                ;(function(proto, methodName, protoMethodName){
+
+	                    proto[methodName] = function(region){
+	                        //<debug>
+	                        if (!REGION[protoMethodName]){
+	                            console.warn('cannot find method ', protoMethodName,' on ', REGION)
+	                        }
+	                        //</debug>
+	                        return REGION[protoMethodName](this, region)
+	                    }
+
+	                })(thisProto, newName, methodName);
+	            }
+	        },
+
+	        validate: VALIDATE,
+
+	        /**
+	         * Returns the region corresponding to the documentElement
+	         * @return {Region} The region corresponding to the documentElement. This region is the maximum region visible on the screen.
+	         */
+	        getDocRegion: function(){
+	            return REGION.fromDOM(document.documentElement)
+	        },
+
+	        from: function(reg){
+	            if (reg.__IS_REGION){
+	                return reg
+	            }
+
+	            if (typeof document != 'undefined'){
+	                if (typeof HTMLElement != 'undefined' && reg instanceof HTMLElement){
+	                    return REGION.fromDOM(reg)
+	                }
+
+	                if (reg.type && typeof reg.pageX !== 'undefined' && typeof reg.pageY !== 'undefined'){
+	                    return REGION.fromEvent(reg)
+	                }
+	            }
+
+	            return REGION(reg)
+	        },
+
+	        fromEvent: function(event){
+	            return REGION.fromPoint({
+	                x: event.pageX,
+	                y: event.pageY
+	            })
+	        },
+
+	        fromDOM: function(dom){
+	            var rect = dom.getBoundingClientRect()
+	            // var docElem = document.documentElement
+	            // var win     = window
+
+	            // var top  = rect.top + win.pageYOffset - docElem.clientTop
+	            // var left = rect.left + win.pageXOffset - docElem.clientLeft
+
+	            return new REGION({
+	                top   : rect.top,
+	                left  : rect.left,
+	                bottom: rect.bottom,
+	                right : rect.right
+	            })
+	        },
+
+	        /**
+	         * @static
+	         * Returns a region that is the intersection of the given two regions
+	         * @param  {Region} first  The first region
+	         * @param  {Region} second The second region
+	         * @return {Region/Boolean}        The intersection region or false if no intersection found
+	         */
+	        getIntersection: function(first, second){
+
+	            var area = this.getIntersectionArea(first, second)
+
+	            if (area){
+	                return new REGION(area)
+	            }
+
+	            return false
+	        },
+
+	        getIntersectionWidth: function(first, second){
+	            var minRight  = MIN(first.right, second.right)
+	            var maxLeft   = MAX(first.left,  second.left)
+
+	            if (maxLeft < minRight){
+	                return minRight  - maxLeft
+	            }
+
+	            return 0
+	        },
+
+	        getIntersectionHeight: function(first, second){
+	            var maxTop    = MAX(first.top,   second.top)
+	            var minBottom = MIN(first.bottom,second.bottom)
+
+	            if (maxTop  < minBottom){
+	                return minBottom - maxTop
+	            }
+
+	            return 0
+	        },
+
+	        getIntersectionArea: function(first, second){
+	            var maxTop    = MAX(first.top,   second.top)
+	            var minRight  = MIN(first.right, second.right)
+	            var minBottom = MIN(first.bottom,second.bottom)
+	            var maxLeft   = MAX(first.left,  second.left)
+
+	            if (
+	                    maxTop  < minBottom &&
+	                    maxLeft < minRight
+	                ){
+	                return {
+	                    top    : maxTop,
+	                    right  : minRight,
+	                    bottom : minBottom,
+	                    left   : maxLeft,
+
+	                    width  : minRight  - maxLeft,
+	                    height : minBottom - maxTop
+	                }
+	            }
+
+	            return false
+	        },
+
+	        /**
+	         * @static
+	         * Returns a region that is the union of the given two regions
+	         * @param  {Region} first  The first region
+	         * @param  {Region} second The second region
+	         * @return {Region}        The union region. The smallest region that contains both given regions.
+	         */
+	        getUnion: function(first, second){
+	            var top    = MIN(first.top,   second.top)
+	            var right  = MAX(first.right, second.right)
+	            var bottom = MAX(first.bottom,second.bottom)
+	            var left   = MIN(first.left,  second.left)
+
+	            return new REGION(top, right, bottom, left)
+	        },
+
+	        /**
+	         * @static
+	         * Returns a region. If the reg argument is a region, returns it, otherwise return a new region built from the reg object.
+	         *
+	         * @param  {Region} reg A region or an object with either top, left, bottom, right or
+	         * with top, left, width, height
+	         * @return {Region} A region
+	         */
+	        getRegion: function(reg){
+	            return REGION.from(reg)
+	        },
+
+	        /**
+	         * Creates a region that corresponds to a point.
+	         *
+	         * @param  {Object} xy The point
+	         * @param  {Number} xy.x
+	         * @param  {Number} xy.y
+	         *
+	         * @return {Region}    The new region, with top==xy.y, bottom = xy.y and left==xy.x, right==xy.x
+	         */
+	        fromPoint: function(xy){
+	            return new REGION({
+	                        top    : xy.y,
+	                        bottom : xy.y,
+	                        left   : xy.x,
+	                        right  : xy.x
+	                    })
+	        }
+	    }
+
+	    Object.keys(statics).forEach(function(key){
+	        REGION[key] = statics[key]
+	    })
+
+	    REGION.init()
+	}
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var Region = __webpack_require__(241)
+
+	/**
+	 * @static
+	 * Aligns the source region to the target region, so as to correspond to the given alignment.
+	 *
+	 * NOTE that this method makes changes on the sourceRegion in order for it to be aligned as specified.
+	 *
+	 * @param {Region} sourceRegion
+	 * @param {Region} targetRegion
+	 *
+	 * @param {String} align A string with 2 valid align positions, eg: 'tr-bl'.
+	 * For valid positions, see {@link Region#getPoint}
+	 *
+	 * Having 2 regions, we need to be able to align them as we wish:
+	 *
+	 * for example, if we have
+	 *
+	 *       source    target
+	 *       ________________
+	 *       ____
+	 *      |    |     ________
+	 *      |____|    |        |
+	 *                |        |
+	 *                |________|
+	 *
+	 * and we align 't-t', we get:
+	 *
+	 *       source    target
+	 *       _________________
+	 *
+	 *       ____      ________
+	 *      |    |    |        |
+	 *      |____|    |        |
+	 *                |________|
+	 *
+	 *  In this case, the source was moved down to be aligned to the top of the target
+	 *
+	 *
+	 * and if we align 'tc-tc' we get
+	 *
+	 *       source     target
+	 *       __________________
+	 *
+	 *                 ________
+	 *                | |    | |
+	 *                | |____| |
+	 *                |________|
+	 *
+	 *  Since the source was moved to have the top-center point to be the same with target top-center
+	 *
+	 *
+	 *
+	 * @return {RegionClass} The Region class
+	 */
+	Region.align = function(sourceRegion, targetRegion, align){
+
+	    targetRegion = Region.from(targetRegion)
+
+	    align = (align || 'c-c').split('-')
+
+	    //<debug>
+	    if (align.length != 2){
+	        console.warn('Incorrect region alignment! The align parameter need to be in the form \'br-c\', that is, a - separated string!', align)
+	    }
+	    //</debug>
+
+	    return Region.alignToPoint(sourceRegion, targetRegion.getPoint(align[1]), align[0])
+	}
+
+	/**
+	 * Modifies the given region to be aligned to the point, as specified by anchor
+	 *
+	 * @param {Region} region The region to align to the point
+	 * @param {Object} point The point to be used as a reference
+	 * @param {Number} point.x
+	 * @param {Number} point.y
+	 * @param {String} anchor The position where to anchor the region to the point. See {@link #getPoint} for available options/
+	 *
+	 * @return {Region} the given region
+	 */
+	Region.alignToPoint = function(region, point, anchor){
+
+	    region = Region.from(region)
+
+	    var sourcePoint = region.getPoint(anchor)
+	    var count       = 0
+	    var shiftObj    = {}
+
+	    if (
+	            sourcePoint.x != null &&
+	            point.x != null
+	        ){
+
+	            count++
+	            shiftObj.left = point.x - sourcePoint.x
+	    }
+
+	    if (
+	            sourcePoint.y != null &&
+	            point.y != null
+	        ){
+	            count++
+	            shiftObj.top = point.y - sourcePoint.y
+	    }
+
+	    if (count){
+
+	        region.shift(shiftObj)
+
+	    }
+
+	    return region
+	}
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Region = __webpack_require__(241)
+
+	/**
+	 *
+	 * Aligns this region to the given region
+	 * @param {Region} region
+	 * @param {String} alignPositions For available positions, see {@link #getPoint}
+	 *
+	 *     eg: 'tr-bl'
+	 *
+	 * @return this
+	 */
+	Region.prototype.alignToRegion = function(region, alignPositions){
+	    Region.align(this, region, alignPositions)
+
+	    return this
+	}
+
+	/**
+	 * Aligns this region to the given point, in the anchor position
+	 * @param {Object} point eg: {x: 20, y: 600}
+	 * @param {Number} point.x
+	 * @param {Number} point.y
+	 *
+	 * @param {String} anchor For available positions, see {@link #getPoint}
+	 *
+	 *     eg: 'bl'
+	 *
+	 * @return this
+	 */
+	 Region.prototype.alignToPoint = function(point, anchor){
+	    Region.alignToPoint(this, point, anchor)
+
+	    return this
+	}
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var ALIGN_TO_NORMALIZED = __webpack_require__(253)
+
+	var Region = __webpack_require__(241)
+
+	/**
+	 * @localdoc Given source and target regions, and the given alignments required, returns a region that is the resulting allignment.
+	 * Does not modify the sourceRegion.
+	 *
+	 * Example
+	 *
+	 *      var sourceRegion = zippy.getInstance({
+	 *          alias  : 'z.region',
+	 *          top    : 10,
+	 *          left   : 10,
+	 *          bottom : 40,
+	 *          right  : 100
+	 *      })
+	 *
+	 *      var targetRegion = zippy.getInstance({
+	 *          alias  : 'z.region',
+	 *          top    : 10,
+	 *          left   : 10,
+	 *          bottom : 40,
+	 *          right  : 100
+	 *      })
+	 *      //has top-left at (10,10)
+	 *      //and bottom-right at (40, 100)
+	 *
+	 *      var alignRegion = alignable.COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, 'tl-br')
+	 *
+	 *      //alignRegion will be a clone of sourceRegion, but will have the
+	 *      //top-left corner aligned with bottom-right of targetRegion
+	 *
+	 *      alignRegion.get() // => { top: 40, left: 100, bottom: 70, right: 190 }
+	 *
+	 * @param  {Region} sourceRegion The source region to align to targetRegion
+	 * @param  {Region} targetRegion The target region to which to align the sourceRegion
+	 * @param  {String/String[]} positions    A string ( delimited by "-" characters ) or an array of strings with the position to try, in the order of their priority.
+	 * See Region#getPoint for a list of available positions. They can be combined in any way.
+	 * @param  {Object} config      A config object with other configuration for the alignment
+	 * @param  {Object/Object[]} config.offset      Optional offsets. Either an object or an array with a different offset for each position
+	 * @param  {Element/Region/Boolean} config.constrain  The constrain to region or element. If the boolean true, Region.getDocRegion() will be used
+	 * @param  {Object/Boolean} config.sync   A boolean object that indicates whether to sync sourceRegion and targetRegion sizes (width/height or both). Can be
+	 *
+	 *  * true - in order to sync both width and height
+	 *  * { width: true }  - to only sync width
+	 *  * { height: true } - to only sync height
+	 *  * { size: true }   - to sync both width and height
+	 *
+	 * @return {Object} an object with the following keys:
+	 *
+	 *  * position - the position where the alignment was made. One of the given positions
+	 *  * region   - the region where the alignment is in place
+	 *  * positionChanged - boolean value indicating if the position of the returned region is different from the position of sourceRegion
+	 *  * widthChanged    - boolean value indicating if the width of the returned region is different from the width of sourceRegion
+	 *  * heightChanged   - boolean value indicating if the height of the returned region is different from the height of sourceRegion
+	 */
+	function COMPUTE_ALIGN_REGION(sourceRegion, targetRegion, positions, config){
+	    sourceRegion = Region.from(sourceRegion)
+
+	    var sourceClone = sourceRegion.clone()
+	    var position    = ALIGN_TO_NORMALIZED(sourceClone, targetRegion, positions, config)
+
+	    return {
+	        position        : position,
+	        region          : sourceClone,
+	        widthChanged    : sourceClone.getWidth() != sourceRegion.getWidth(),
+	        heightChanged   : sourceClone.getHeight() != sourceRegion.getHeight(),
+	        positionChanged : sourceClone.equalsPosition(sourceRegion)
+	    }
+	}
+
+
+	module.exports = COMPUTE_ALIGN_REGION
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var Region = __webpack_require__(241)
+
+	/**
+	 *
+	 * This method is trying to align the sourceRegion to the targetRegion, given the alignment positions
+	 * and the offsets. It only modifies the sourceRegion
+	 *
+	 * This is all well and easy, but if there is a constrainTo region, the algorithm has to take it into account.
+	 * In this case, it works as follows.
+	 *
+	 *  * start with the first alignment position. Aligns the region, adds the offset and then check for the constraint.
+	 *  * if the constraint condition is ok, return the position.
+	 *  * otherwise, remember the intersection area, if the regions are intersecting.
+	 *  * then go to the next specified align position, and so on, computing the maximum intersection area.
+	 *
+	 * If no alignment fits the constrainRegion, the sourceRegion will be resized to match it,
+	 * using the position with the maximum intersection area.
+	 *
+	 * Since we have computed the index of the position with the max intersection area, take that position,
+	 * and align the sourceRegion accordingly. Then resize the sourceRegion to the intersection, and reposition
+	 * it again, since resizing it might have destroyed the alignment.
+	 *
+	 * Return the position.
+	 *
+	 * @param {Region} sourceRegion
+	 * @param {Region} targetRegion
+	 * @param {String[]} positions
+	 * @param {Object} config
+	 * @param {Array} config.offset
+	 * @param {Region} config.constrain
+	 * @param {Boolean/Object} config.sync
+	 *
+	 * @return {String/Undefined} the chosen position for the alignment, or undefined if no position found
+	 */
+	function ALIGN_TO_NORMALIZED(sourceRegion, targetRegion, positions, config){
+
+	    targetRegion = Region.from(targetRegion)
+
+	    config = config  || {}
+
+	    var constrainTo = config.constrain,
+	        syncOption  = config.sync,
+	        offsets     = config.offset || [],
+	        syncWidth   = false,
+	        syncHeight  = false,
+	        sourceClone = sourceRegion.clone()
+
+	    /*
+	     * Prepare the method arguments: positions, offsets, constrain and sync options
+	     */
+	    if (!Array.isArray(positions)){
+	        positions = positions? [positions]: []
+	    }
+
+	    if (!Array.isArray(offsets)){
+	        offsets = offsets? [offsets]: []
+	    }
+
+	    if (constrainTo){
+	        constrainTo = constrainTo === true?
+	                                Region.getDocRegion():
+	                                constrainTo.getRegion()
+	    }
+
+	    if (syncOption){
+
+	        if (syncOption.size){
+	            syncWidth  = true
+	            syncHeight = true
+	        } else {
+	            syncWidth  = syncOption === true?
+	                            true:
+	                            syncOption.width || false
+
+	            syncHeight = syncOption === true?
+	                            true:
+	                            syncOption.height || false
+	        }
+	    }
+
+	    if (syncWidth){
+	        sourceClone.setWidth(targetRegion.getWidth())
+	    }
+	    if (syncHeight){
+	        sourceClone.setHeight(targetRegion.getHeight())
+
+	    }
+
+	    var offset,
+	        i = 0,
+	        len = positions.length,
+	        pos,
+	        intersection,
+	        itArea,
+	        maxArea = -1,
+	        maxAreaIndex = -1
+
+	    for (; i < len; i++){
+	        pos     = positions[i]
+	        offset  = offsets[i]
+
+	        sourceClone.alignToRegion(targetRegion, pos)
+
+	        if (offset){
+	            if (!Array.isArray(offset)){
+	                offset = offsets[i] = [offset.x || offset.left, offset.y || offset.top]
+	            }
+
+	            sourceClone.shift({
+	                left: offset[0],
+	                top : offset[1]
+	            })
+	        }
+
+	        //the source region is already aligned in the correct position
+
+	        if (constrainTo){
+	            //if we have a constrain region, test for the constrain
+	            intersection = sourceClone.getIntersection(constrainTo)
+
+	            if ( intersection && intersection.equals(sourceClone) ) {
+	                //constrain respected, so return (the aligned position)
+
+	                sourceRegion.set(sourceClone)
+	                return pos
+	            } else {
+
+	                //the constrain was not respected, so continue trying
+	                if (intersection && ((itArea = intersection.getArea()) > maxArea)){
+	                    maxArea      = itArea
+	                    maxAreaIndex = i
+	                }
+	            }
+
+	        } else {
+	            sourceRegion.set(sourceClone)
+	            return pos
+	        }
+	    }
+
+	    //no alignment respected the constraints
+	    if (~maxAreaIndex){
+	        pos     = positions[maxAreaIndex]
+	        offset  = offsets[maxAreaIndex]
+
+	        sourceClone.alignToRegion(targetRegion, pos)
+
+	        if (offset){
+	            sourceClone.shift({
+	                left: offset[0],
+	                top : offset[1]
+	            })
+	        }
+
+	        //we are sure an intersection exists, because of the way the maxAreaIndex was computed
+	        intersection = sourceClone.getIntersection(constrainTo)
+
+	        sourceClone.setRegion(intersection)
+	        sourceClone.alignToRegion(targetRegion, pos)
+
+	        if (offset){
+	            sourceClone.shift({
+	                left: offset[0],
+	                top : offset[1]
+	            })
+	        }
+
+	        sourceRegion.set(sourceClone)
+
+	        return pos
+	    }
+
+	}
+
+	module.exports = ALIGN_TO_NORMALIZED
+
+/***/ },
+/* 254 */
+/***/ function(module, exports) {
+
+	'use strict';
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	function ownEnumerableKeys(obj) {
+		var keys = Object.getOwnPropertyNames(obj);
+
+		if (Object.getOwnPropertySymbols) {
+			keys = keys.concat(Object.getOwnPropertySymbols(obj));
+		}
+
+		return keys.filter(function (key) {
+			return propIsEnumerable.call(obj, key);
+		});
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = ownEnumerableKeys(Object(from));
+
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 255 */
+/***/ function(module, exports) {
+
+	/*!
+	 * escape-html
+	 * Copyright(c) 2012-2013 TJ Holowaychuk
+	 * Copyright(c) 2015 Andreas Lubbe
+	 * Copyright(c) 2015 Tiancheng "Timothy" Gu
+	 * MIT Licensed
+	 */
+
+	'use strict';
+
+	/**
+	 * Module variables.
+	 * @private
+	 */
+
+	var matchHtmlRegExp = /["'&<>]/;
+
+	/**
+	 * Module exports.
+	 * @public
+	 */
+
+	module.exports = escapeHtml;
+
+	/**
+	 * Escape special characters in the given string of html.
+	 *
+	 * @param  {string} string The string to escape for inserting into HTML
+	 * @return {string}
+	 * @public
+	 */
+
+	function escapeHtml(string) {
+	  var str = '' + string;
+	  var match = matchHtmlRegExp.exec(str);
+
+	  if (!match) {
+	    return str;
+	  }
+
+	  var escape;
+	  var html = '';
+	  var index = 0;
+	  var lastIndex = 0;
+
+	  for (index = match.index; index < str.length; index++) {
+	    switch (str.charCodeAt(index)) {
+	      case 34: // "
+	        escape = '&quot;';
+	        break;
+	      case 38: // &
+	        escape = '&amp;';
+	        break;
+	      case 39: // '
+	        escape = '&#39;';
+	        break;
+	      case 60: // <
+	        escape = '&lt;';
+	        break;
+	      case 62: // >
+	        escape = '&gt;';
+	        break;
+	      default:
+	        continue;
+	    }
+
+	    if (lastIndex !== index) {
+	      html += str.substring(lastIndex, index);
+	    }
+
+	    lastIndex = index + 1;
+	    html += escape;
+	  }
+
+	  return lastIndex !== index
+	    ? html + str.substring(lastIndex, index)
+	    : html;
+	}
+
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var toStyleObject = __webpack_require__(257).object
+	var normalize     = __webpack_require__(274)
+	var assign = __webpack_require__(254)
+
+	function toStyle(style){
+		return toStyleObject(normalize(style))
+	}
+
+	function setStyle(element, style){
+
+		style = toStyle(style)
+
+		Object.keys(style).forEach(function(key){
+		    element.style[key] = style[key]
+		})
+
+		return element
+	}
+
+	module.exports = function(element, style /*, style2 */){
+
+		var args = [].slice.call(arguments, 1)
+
+		var styles = [{}].concat(args).map(toStyle)
+
+		var style = assign.apply(null, styles)
+
+		setStyle(element, style)
+
+		return element
+	}
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	module.exports = {
+	   prefixProperties: __webpack_require__(258) ,
+	   cssUnitless: __webpack_require__(259) ,
+	   object: __webpack_require__(260),
+	   string: __webpack_require__(273)
+	}
+
+/***/ },
+/* 258 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    'border-radius'              : 1,
+	    'border-top-left-radius'     : 1,
+	    'border-top-right-radius'    : 1,
+	    'border-bottom-left-radius'  : 1,
+	    'border-bottom-right-radius' : 1,
+	    'box-shadow'                 : 1,
+	    'order'                      : 1,
+	    'flex'                       : function(name, prefix){
+	        return [prefix + 'box-flex']
+	    },
+	    'box-flex'                   : 1,
+	    'box-align'                  : 1,
+	    'animation'                  : 1,
+	    'animation-duration'         : 1,
+	    'animation-name'             : 1,
+	    'transition'                 : 1,
+	    'transition-duration'        : 1,
+	    'transform'                  : 1,
+	    'transform-style'            : 1,
+	    'transform-origin'           : 1,
+	    'backface-visibility'        : 1,
+	    'perspective'                : 1,
+	    'box-pack'                   : 1
+	}
+
+/***/ },
+/* 259 */
+/***/ function(module, exports) {
+
+	'use exports'
+
+	//make sure properties are in hyphenated form
+
+	module.exports = {
+	    'animation'    : 1,
+	    'column-count' : 1,
+	    'columns'      : 1,
+	    'font-weight'  : 1,
+	    'opacity'      : 1,
+	    'order  '      : 1,
+	    'z-index'      : 1,
+	    'zoom'         : 1,
+	    'flex'         : 1,
+	    'box-flex'     : 1,
+	    'transform'    : 1,
+	    'perspective'  : 1,
+	    'box-pack'     : 1,
+	    'box-align'    : 1,
+	    'colspan'      : 1,
+	    'rowspan'      : 1
+	}
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var prefixInfo  = __webpack_require__(261)
+	var cssPrefixFn = __webpack_require__(263)
+
+	var HYPHENATE   = __webpack_require__(267)
+	var CAMELIZE   = __webpack_require__(265)
+	var HAS_OWN     = __webpack_require__(270)
+	var IS_OBJECT   = __webpack_require__(271)
+	var IS_FUNCTION = __webpack_require__(272)
+
+	var applyPrefix = function(target, property, value, normalizeFn){
+	    cssPrefixFn(property).forEach(function(p){
+	        target[normalizeFn? normalizeFn(p): p] = value
+	    })
+	}
+
+	var toObject = function(str){
+	    str = (str || '').split(';')
+
+	    var result = {}
+
+	    str.forEach(function(item){
+	        var split = item.split(':')
+
+	        if (split.length == 2){
+	            result[split[0].trim()] = split[1].trim()
+	        }
+	    })
+
+	    return result
+	}
+
+	var CONFIG = {
+	    cssUnitless: __webpack_require__(259)
+	}
+
+	/**
+	 * @ignore
+	 * @method toStyleObject
+	 *
+	 * @param  {Object} styles The object to convert to a style object.
+	 * @param  {Object} [config]
+	 * @param  {Boolean} [config.addUnits=true] True if you want to add units when numerical values are encountered.
+	 * @param  {Object}  config.cssUnitless An object whose keys represent css numerical property names that will not be appended with units.
+	 * @param  {Object}  config.prefixProperties An object whose keys represent css property names that should be prefixed
+	 * @param  {String}  config.cssUnit='px' The css unit to append to numerical values. Defaults to 'px'
+	 * @param  {String}  config.normalizeName A function that normalizes a name to a valid css property name
+	 * @param  {String}  config.scope
+	 *
+	 * @return {Object} The object, normalized with css style names
+	 */
+	var TO_STYLE_OBJECT = function(styles, config, prepend, result){
+
+	    if (typeof styles == 'string'){
+	        styles = toObject(styles)
+	    }
+
+	    config = config || CONFIG
+
+	    config.cssUnitless = config.cssUnitless || CONFIG.cssUnitless
+
+	    result = result || {}
+
+	    var scope    = config.scope || {},
+
+	        //configs
+	        addUnits = config.addUnits != null?
+	                            config.addUnits:
+	                            scope && scope.addUnits != null?
+	                                scope.addUnits:
+	                                true,
+
+	        cssUnitless      = (config.cssUnitless != null?
+	                                config.cssUnitless:
+	                                scope?
+	                                    scope.cssUnitless:
+	                                    null) || {},
+	        cssUnit          = (config.cssUnit || scope? scope.cssUnit: null) || 'px',
+	        prefixProperties = (config.prefixProperties || (scope? scope.prefixProperties: null)) || {},
+
+	        camelize    = config.camelize,
+	        normalizeFn = camelize? CAMELIZE: HYPHENATE
+
+	    // Object.keys(cssUnitless).forEach(function(key){
+	    //     cssUnitless[normalizeFn(key)] = 1
+	    // })
+
+	    var processed,
+	        styleName,
+
+	        propName,
+	        propValue,
+	        propCssUnit,
+	        propType,
+	        propIsNumber,
+
+	        fnPropValue,
+	        prefix
+
+	    for (propName in styles) if (HAS_OWN(styles, propName)) {
+
+	        propValue = styles[ propName ]
+
+	        //the hyphenated style name (css property name)
+	        styleName = HYPHENATE(prepend? prepend + propName: propName)
+
+	        processed = false
+	        prefix    = false
+
+	        if (IS_FUNCTION(propValue)) {
+
+	            //a function can either return a css value
+	            //or an object with { value, prefix, name }
+	            fnPropValue = propValue.call(scope || styles, propValue, propName, styleName, styles)
+
+	            if (IS_OBJECT(fnPropValue) && fnPropValue.value != null){
+
+	                propValue = fnPropValue.value
+	                prefix    = fnPropValue.prefix
+	                styleName = fnPropValue.name?
+	                                HYPHENATE(fnPropValue.name):
+	                                styleName
+
+	            } else {
+	                propValue = fnPropValue
+	            }
+	        }
+
+	        propType     = typeof propValue
+	        propIsNumber = propType == 'number' || (propType == 'string' && propValue != '' && propValue * 1 == propValue)
+
+	        if (propValue == null || styleName == null || styleName === ''){
+	            continue
+	        }
+
+	        if (propIsNumber || propType == 'string'){
+	           processed = true
+	        }
+
+	        if (!processed && propValue.value != null && propValue.prefix){
+	           processed = true
+	           prefix    = propValue.prefix
+	           propValue = propValue.value
+	        }
+
+	        // hyphenStyleName = camelize? HYPHENATE(styleName): styleName
+
+	        if (processed){
+
+	            prefix = prefix || !!prefixProperties[styleName]
+
+	            if (propIsNumber){
+	                propValue = addUnits && !(styleName in cssUnitless) ?
+	                                propValue + cssUnit:
+	                                propValue + ''//change it to a string, so that jquery does not append px or other units
+	            }
+
+	            //special border treatment
+	            if (
+	                    (
+	                     styleName == 'border' ||
+	                    (!styleName.indexOf('border')
+	                        &&
+	                        !~styleName.indexOf('radius')
+	                        &&
+	                        !~styleName.indexOf('width'))
+	                    ) &&
+	                    propIsNumber
+	                ){
+
+	                styleName = styleName + '-width'
+	            }
+
+	            //special border radius treatment
+	            if (!styleName.indexOf('border-radius-')){
+	                styleName.replace(/border(-radius)(-(.*))/, function(str, radius, theRest){
+	                    var positions = {
+	                        '-top'    : ['-top-left',      '-top-right' ],
+	                        '-left'   : ['-top-left',    '-bottom-left' ],
+	                        '-right'  : ['-top-right',   '-bottom-right'],
+	                        '-bottom' : ['-bottom-left', '-bottom-right']
+	                    }
+
+	                    if (theRest in positions){
+	                        styleName = []
+
+	                        positions[theRest].forEach(function(pos){
+	                            styleName.push('border' + pos + radius)
+	                        })
+	                    } else {
+	                        styleName = 'border'+ theRest + radius
+	                    }
+
+	                })
+
+	                if (Array.isArray(styleName)){
+	                    styleName.forEach(function(styleName){
+	                        if (prefix){
+	                            applyPrefix(result, styleName, propValue, normalizeFn)
+	                        } else {
+	                            result[normalizeFn(styleName)] = propValue
+	                        }
+	                    })
+
+	                    continue
+	                }
+	            }
+
+	            if (prefix){
+	                applyPrefix(result, styleName, propValue, normalizeFn)
+	            } else {
+	                result[normalizeFn(styleName)] = propValue
+	            }
+
+	        } else {
+	            //the propValue must be an object, so go down the hierarchy
+	            TO_STYLE_OBJECT(propValue, config, styleName + '-', result)
+	        }
+	    }
+
+	    return result
+	}
+
+	module.exports = TO_STYLE_OBJECT
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var toUpperFirst = __webpack_require__(262)
+
+	var re         = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/
+
+	var docStyle   = typeof document == 'undefined'?
+	                    {}:
+	                    document.documentElement.style
+
+	var prefixInfo = (function(){
+
+	    var prefix = (function(){
+
+	            for (var prop in docStyle) {
+	                if( re.test(prop) ) {
+	                    // test is faster than match, so it's better to perform
+	                    // that on the lot and match only when necessary
+	                    return  prop.match(re)[0]
+	                }
+	            }
+
+	            // Nothing found so far? Webkit does not enumerate over the CSS properties of the style object.
+	            // However (prop in style) returns the correct value, so we'll have to test for
+	            // the precence of a specific property
+	            if ('WebkitOpacity' in docStyle){
+	                return 'Webkit'
+	            }
+
+	            if ('KhtmlOpacity' in docStyle) {
+	                return 'Khtml'
+	            }
+
+	            return ''
+	        })(),
+
+	    lower = prefix.toLowerCase()
+
+	    return {
+	        style       : prefix,
+	        css       : '-' + lower + '-',
+	        dom       : ({
+	            Webkit: 'WebKit',
+	            ms    : 'MS',
+	            o     : 'WebKit'
+	        })[prefix] || toUpperFirst(prefix)
+	    }
+
+	})()
+
+	module.exports = prefixInfo
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = function(value){
+	    return value.length?
+	                value.charAt(0).toUpperCase() + value.substring(1):
+	                value
+	}
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(264)()
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var camelize     = __webpack_require__(265)
+	var hyphenate    = __webpack_require__(267)
+	var toLowerFirst = __webpack_require__(269)
+	var toUpperFirst = __webpack_require__(262)
+
+	var prefixInfo = __webpack_require__(261)
+	var prefixProperties = __webpack_require__(258)
+
+	var docStyle = typeof document == 'undefined'?
+	                {}:
+	                document.documentElement.style
+
+	module.exports = function(asStylePrefix){
+
+	    return function(name, config){
+	        config = config || {}
+
+	        var styleName = toLowerFirst(camelize(name)),
+	            cssName   = hyphenate(name),
+
+	            theName   = asStylePrefix?
+	                            styleName:
+	                            cssName,
+
+	            thePrefix = prefixInfo.style?
+	                            asStylePrefix?
+	                                prefixInfo.style:
+	                                prefixInfo.css
+	                            :
+	                            ''
+
+	        if ( styleName in docStyle ) {
+	            return config.asString?
+	                              theName :
+	                            [ theName ]
+	        }
+
+	        //not a valid style name, so we'll return the value with a prefix
+
+	        var upperCased     = theName,
+	            prefixProperty = prefixProperties[cssName],
+	            result         = []
+
+	        if (asStylePrefix){
+	            upperCased = toUpperFirst(theName)
+	        }
+
+	        if (typeof prefixProperty == 'function'){
+	            var prefixedCss = prefixProperty(theName, thePrefix) || []
+	            if (prefixedCss && !Array.isArray(prefixedCss)){
+	                prefixedCss = [prefixedCss]
+	            }
+
+	            if (prefixedCss.length){
+	                prefixedCss = prefixedCss.map(function(property){
+	                    return asStylePrefix?
+	                                toLowerFirst(camelize(property)):
+	                                hyphenate(property)
+
+	                })
+	            }
+
+	            result = result.concat(prefixedCss)
+	        }
+
+	        if (thePrefix){
+	            result.push(thePrefix + upperCased)
+	        }
+
+	        result.push(theName)
+
+	        if (config.asString || result.length == 1){
+	            return result[0]
+	        }
+
+	        return result
+	    }
+	}
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var toCamelFn = function(str, letter){
+	       return letter ? letter.toUpperCase(): ''
+	   }
+
+	var hyphenRe = __webpack_require__(266)
+
+	module.exports = function(str){
+	   return str?
+	          str.replace(hyphenRe, toCamelFn):
+	          ''
+	}
+
+/***/ },
+/* 266 */
+/***/ function(module, exports) {
+
+	module.exports = /[-\s]+(.)?/g
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var separate = __webpack_require__(268)
+
+	module.exports = function(name){
+	   return separate(name).toLowerCase()
+	}
+
+/***/ },
+/* 268 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	var doubleColonRe      = /::/g
+	var upperToLowerRe     = /([A-Z]+)([A-Z][a-z])/g
+	var lowerToUpperRe     = /([a-z\d])([A-Z])/g
+	var underscoreToDashRe = /_/g
+
+	module.exports = function(name, separator){
+
+	   return name?
+	           name.replace(doubleColonRe, '/')
+	                .replace(upperToLowerRe, '$1_$2')
+	                .replace(lowerToUpperRe, '$1_$2')
+	                .replace(underscoreToDashRe, separator || '-')
+	            :
+	            ''
+	}
+
+/***/ },
+/* 269 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = function(value){
+	    return value.length?
+	                value.charAt(0).toLowerCase() + value.substring(1):
+	                value
+	}
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	var objectHasOwn = Object.prototype.hasOwnProperty
+
+	module.exports = function(object, propertyName){
+	    return objectHasOwn.call(object, propertyName)
+	}
+
+/***/ },
+/* 271 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	var objectToString = Object.prototype.toString
+
+	module.exports = function(v){
+	    return !!v && objectToString.call(v) === '[object Object]'
+	}
+
+
+
+/***/ },
+/* 272 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	var objectToString = Object.prototype.toString
+
+	module.exports = function(v) {
+	    return objectToString.apply(v) === '[object Function]'
+	}
+
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var toStyleObject = __webpack_require__(260)
+	var hasOwn        = __webpack_require__(270)
+
+	/**
+	 * @ignore
+	 * @method toStyleString
+	 *
+	 * @param  {Object} styles The object to convert to a style string.
+	 * @param  {Object} config
+	 * @param  {Boolean} config.addUnits=true True if you want to add units when numerical values are encountered. Defaults to true
+	 * @param  {Object}  config.cssUnitless An object whose keys represent css numerical property names that will not be appended with units.
+	 * @param  {Object}  config.prefixProperties An object whose keys represent css property names that should be prefixed
+	 * @param  {String}  config.cssUnit='px' The css unit to append to numerical values. Defaults to 'px'
+	 * @param  {String}  config.scope
+	 *
+	 * @return {Object} The object, normalized with css style names
+	 */
+	module.exports = function(styles, config){
+	    styles = toStyleObject(styles, config)
+
+	    var result = []
+	    var prop
+
+	    for(prop in styles) if (hasOwn(styles, prop)){
+	        result.push(prop + ': ' + styles[prop])
+	    }
+
+	    return result.join('; ')
+	}
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var hasOwn      = __webpack_require__(275)
+	var getPrefixed = __webpack_require__(276)
+
+	var map      = __webpack_require__(282)
+	var plugable = __webpack_require__(283)
+
+	function plugins(key, value){
+
+		var result = {
+			key  : key,
+			value: value
+		}
+
+		;(RESULT.plugins || []).forEach(function(fn){
+
+			var tmp = map(function(res){
+				return fn(key, value, res)
+			}, result)
+
+			if (tmp){
+				result = tmp
+			}
+		})
+
+		return result
+	}
+
+	function normalize(key, value){
+
+		var result = plugins(key, value)
+
+		return map(function(result){
+			return {
+				key  : getPrefixed(result.key, result.value),
+				value: result.value
+			}
+		}, result)
+
+		return result
+	}
+
+	var RESULT = function(style){
+
+		var k
+		var item
+		var result = {}
+
+		for (k in style) if (hasOwn(style, k)){
+			item = normalize(k, style[k])
+
+			if (!item){
+				continue
+			}
+
+			map(function(item){
+				result[item.key] = item.value
+			}, item)
+		}
+
+		return result
+	}
+
+	module.exports = plugable(RESULT)
+
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(obj, prop){
+		return Object.prototype.hasOwnProperty.call(obj, prop)
+	}
+
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var getStylePrefixed = __webpack_require__(277)
+	var properties       = __webpack_require__(281)
+
+	module.exports = function(key, value){
+
+		if (!properties[key]){
+			return key
+		}
+
+		return getStylePrefixed(key, value)
+	}
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var toUpperFirst = __webpack_require__(278)
+	var getPrefix    = __webpack_require__(279)
+	var el           = __webpack_require__(280)
+
+	var MEMORY = {}
+	var STYLE
+	var ELEMENT
+
+	var PREFIX
+
+	module.exports = function(key, value){
+
+	    ELEMENT = ELEMENT || el()
+	    STYLE   = STYLE   || ELEMENT.style
+
+	    var k = key// + ': ' + value
+
+	    if (MEMORY[k]){
+	        return MEMORY[k]
+	    }
+
+	    var prefix
+	    var prefixed
+
+	    if (!(key in STYLE)){//we have to prefix
+
+	        // if (PREFIX){
+	        //     prefix = PREFIX
+	        // } else {
+	            prefix = getPrefix('appearance')
+
+	        //     if (prefix){
+	        //         prefix = PREFIX = prefix.toLowerCase()
+	        //     }
+	        // }
+
+	        if (prefix){
+	            prefixed = prefix + toUpperFirst(key)
+
+	            if (prefixed in STYLE){
+	                key = prefixed
+	            }
+	        }
+	    }
+
+	    MEMORY[k] = key
+
+	    return key
+	}
+
+/***/ },
+/* 278 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(str){
+		return str?
+				str.charAt(0).toUpperCase() + str.slice(1):
+				''
+	}
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var toUpperFirst = __webpack_require__(278)
+	var prefixes     = ["ms", "Moz", "Webkit", "O"]
+
+	var el = __webpack_require__(280)
+
+	var ELEMENT
+	var PREFIX
+
+	module.exports = function(key){
+
+		if (PREFIX !== undefined){
+			return PREFIX
+		}
+
+		ELEMENT = ELEMENT || el()
+
+		var i = 0
+		var len = prefixes.length
+		var tmp
+		var prefix
+
+		for (; i < len; i++){
+			prefix = prefixes[i]
+			tmp = prefix + toUpperFirst(key)
+
+			if (typeof ELEMENT.style[tmp] != 'undefined'){
+				return PREFIX = prefix
+			}
+		}
+
+		return PREFIX
+	}
+
+/***/ },
+/* 280 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var el
+
+	module.exports = function(){
+
+		if(!el && !!global.document){
+		  	el = global.document.createElement('div')
+		}
+
+		if (!el){
+			el = {style: {}}
+		}
+
+		return el
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 281 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  'alignItems': 1,
+	  'justifyContent': 1,
+	  'flex': 1,
+	  'flexFlow': 1,
+	  'flexGrow': 1,
+	  'flexShrink': 1,
+	  'flexBasis': 1,
+	  'flexDirection': 1,
+	  'flexWrap': 1,
+	  'alignContent': 1,
+	  'alignSelf': 1,
+
+	  'userSelect': 1,
+	  'transform': 1,
+	  'transition': 1,
+	  'transformOrigin': 1,
+	  'transformStyle': 1,
+	  'transitionProperty': 1,
+	  'transitionDuration': 1,
+	  'transitionTimingFunction': 1,
+	  'transitionDelay': 1,
+	  'borderImage': 1,
+	  'borderImageSlice': 1,
+	  'boxShadow': 1,
+	  'backgroundClip': 1,
+	  'backfaceVisibility': 1,
+	  'perspective': 1,
+	  'perspectiveOrigin': 1,
+	  'animation': 1,
+	  'animationDuration': 1,
+	  'animationName': 1,
+	  'animationDelay': 1,
+	  'animationDirection': 1,
+	  'animationIterationCount': 1,
+	  'animationTimingFunction': 1,
+	  'animationPlayState': 1,
+	  'animationFillMode': 1,
+	  'appearance': 1
+	}
+
+
+/***/ },
+/* 282 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(fn, item){
+
+		if (!item){
+			return
+		}
+
+		if (Array.isArray(item)){
+			return item.map(fn).filter(function(x){
+				return !!x
+			})
+		} else {
+			return fn(item)
+		}
+	}
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var getCssPrefixedValue = __webpack_require__(284)
+
+	module.exports = function(target){
+		target.plugins = target.plugins || [
+			(function(){
+				var values = {
+					'flex':1,
+					'inline-flex':1
+				}
+
+				return function(key, value){
+					if (key === 'display' && value in values){
+						return {
+							key  : key,
+							value: getCssPrefixedValue(key, value, true)
+						}
+					}
+				}
+			})()
+		]
+
+		target.plugin = function(fn){
+			target.plugins = target.plugins || []
+
+			target.plugins.push(fn)
+		}
+
+		return target
+	}
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var getPrefix     = __webpack_require__(279)
+	var forcePrefixed = __webpack_require__(285)
+	var el            = __webpack_require__(280)
+
+	var MEMORY = {}
+	var STYLE
+	var ELEMENT
+
+	module.exports = function(key, value, force){
+
+	    ELEMENT = ELEMENT || el()
+	    STYLE   = STYLE   ||  ELEMENT.style
+
+	    var k = key + ': ' + value
+
+	    if (MEMORY[k]){
+	        return MEMORY[k]
+	    }
+
+	    var prefix
+	    var prefixed
+	    var prefixedValue
+
+	    if (force || !(key in STYLE)){
+
+	        prefix = getPrefix('appearance')
+
+	        if (prefix){
+	            prefixed = forcePrefixed(key, value)
+
+	            prefixedValue = '-' + prefix.toLowerCase() + '-' + value
+
+	            if (prefixed in STYLE){
+	                ELEMENT.style[prefixed] = ''
+	                ELEMENT.style[prefixed] = prefixedValue
+
+	                if (ELEMENT.style[prefixed] !== ''){
+	                    value = prefixedValue
+	                }
+	            }
+	        }
+	    }
+
+	    MEMORY[k] = value
+
+	    return value
+	}
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var toUpperFirst = __webpack_require__(278)
+	var getPrefix    = __webpack_require__(279)
+	var properties   = __webpack_require__(281)
+
+	/**
+	 * Returns the given key prefixed, if the property is found in the prefixProps map.
+	 *
+	 * Does not test if the property supports the given value unprefixed.
+	 * If you need this, use './getPrefixed' instead
+	 */
+	module.exports = function(key, value){
+
+		if (!properties[key]){
+			return key
+		}
+
+		var prefix = getPrefix(key)
+
+		return prefix?
+					prefix + toUpperFirst(key):
+					key
+	}
+
+/***/ },
+/* 286 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var signs = {
+		t: { 
+			x: 1,
+			y: 1
+		},
+		l: {
+			x: 1,
+			y: 1
+		},
+		b: {
+			x: 1,
+			y: -1
+		},
+		r: {
+			x: -1,
+			y: 1
+		}
+	}
+
+	/**
+	 * Given the offset (x,y, or left,top or array), returns an array of offsets, for each given position
+	 *
+	 * For example, if we align br-tl, it means we align br of tooltip to tl of target,
+	 * so for this position we should return an offset of {-x,-y} of the original offset
+	 * 
+	 * @param  {Object}
+	 * @param  {Array}
+	 * @return {Array}
+	 */
+	module.exports = function(offset, positions){
+
+		if (!offset){
+			return
+		}
+
+		var array
+
+		if (Array.isArray(offset)){
+			array = offset
+		}
+
+		array = offset.x != undefined?
+				[offset.x, offset.y]:
+				[offset.left, offset.top]
+
+		var x = array[0]
+		var y = array[1]
+
+		return positions.map(function(pos){
+			var parts = pos.split('-')
+
+			var first = parts[0]
+
+			var side1 = first[0]
+			var side2 = first[1]
+
+			var sign1 = signs[side1]
+			var sign2 = signs[side2]
+
+			var xSign = 1
+			var ySign = 1
+
+			if (sign1){
+				xSign *= sign1.x
+				ySign *= sign1.y
+			}
+			if (sign2){
+				xSign *= sign2.x
+				ySign *= sign2.y
+			}
+
+			return [x * xSign, y * ySign]
+		})
+	}
+
+/***/ },
+/* 287 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(str){
+
+		var result = {}
+
+		str.split(';').forEach(function(style){
+			var parts = style.split(':')
+
+			if (parts.length){
+				result[parts[0].trim()] = parts[1].trim()
+			}
+		})
+
+		return result
+	}
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var setStyle = __webpack_require__(256)
+	var map      = {}
+
+	var result = function(config){
+
+	    var element = map[config.id]
+
+	    if (!element){
+	        element = setStyle(document.createElement('div'), config.style || {})
+	        element.className = config.className
+
+	        if (config.appendTooltip){
+	            config.appendTooltip(element)
+	        } else {
+	            document.body.appendChild(element)
+	        }
+	        map[config.id] = element
+	    }
+
+	    return element
+	}
+
+	result.destroy = function(config){
+		var element = map[config.id]
+
+		if (element){
+			var parent = element.parentNode
+			parent && parent.removeChild(element)
+		}
+	}
+
+	module.exports = result
+
+/***/ },
+/* 289 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var TRANSLATE_POS = {
+	    top: 'bc-tc',
+	    bottom: 'tc-bc',
+	    left: 'rc-lc',
+	    right: 'lc-rc',
+	    topleft: 'br-tl',
+	    topright: 'bl-tr',
+	    bottomleft: 'tr-bl',
+	    bottomright: 'tl-br'
+	}
+
+	module.exports = function preparePositions(positions){
+	    positions = positions || [
+	        'topleft',
+	        'topright',
+	        'bottomleft',
+	        'bottomright',
+	        'top',
+	        'bottom'
+	    ]
+
+	    return positions.map(function(pos){
+	        pos = pos.trim()
+	        return TRANSLATE_POS[pos] || pos
+	    }).filter(function(pos){
+	        return !!pos
+	    })
+	}
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function mapObject(obj, fn){
+
+	    var result = {}
+
+	    Object.keys(obj).forEach(function(key){
+	        result[key] = fn(obj[key])
+	    })
+
+	    return result
+	}
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var assign = __webpack_require__(254)
+	var clone  = __webpack_require__(292)
+
+	var DEFAULT = {
+	    attrName: 'data-tooltip',
+	    throttle: 10,
+	    showDelay: 500,
+	    offset: {
+	        x: 5,
+	        y: 5
+	    },
+	    hideOnChange: true,
+	    hideOnChangeDelay: 500,
+	    className: 'tooltip',
+	    style: {
+	        padding: 5,
+	        border: '1px solid gray',
+	        background: 'white',
+
+	    	boxSizing    : 'border-box',
+	    	pointerEvents: 'none',
+	    	position     : 'absolute',
+	    	visibility   : 'hidden',
+	    	display      : 'inline-block',
+	        transform    : 'translate3d(0px, 0px, 0px)',
+	    	transition   : 'opacity 0.3s'//, top 0.2s, left 0.2s'
+	    },
+	    visibleStyle: {
+	        opacity:1,
+	        visibility: 'visible'
+	    },
+	    hiddenStyle : {
+	        opacity: 0
+	    },
+	    alignPositions: null
+	}
+
+	var preparePositions = __webpack_require__(289)
+
+	var id = 0
+
+	module.exports = function(values){
+	    values = values || {}
+
+	    var style        = assign({}, DEFAULT.style, values.style)
+	    var visibleStyle = assign({}, DEFAULT.visibleStyle, values.visibleStyle)
+	    var hiddenStyle  = assign({}, DEFAULT.hiddenStyle, values.hiddenStyle)
+
+	    var config = clone(assign({}, DEFAULT, values))
+
+	    config.style        = style
+	    config.visibleStyle = visibleStyle
+	    config.hiddenStyle  = hiddenStyle
+
+	    config.selector = '[' + config.attrName + ']'
+
+	    config.alignPositions = preparePositions(config.alignPositions)
+	    config.target = config.target || document.documentElement
+
+	    config.id = id++
+
+	    return config
+	}
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
+	'use strict';
+
+	/**
+	 * Clones (copies) an Object using deep copying.
+	 *
+	 * This function supports circular references by default, but if you are certain
+	 * there are no circular references in your object, you can save some CPU time
+	 * by calling clone(obj, false).
+	 *
+	 * Caution: if `circular` is false and `parent` contains circular references,
+	 * your program may enter an infinite loop and crash.
+	 *
+	 * @param `parent` - the object to be cloned
+	 * @param `circular` - set to true if the object to be cloned may contain
+	 *    circular references. (optional - true by default)
+	 * @param `depth` - set to a number if the object is only to be cloned to
+	 *    a particular depth. (optional - defaults to Infinity)
+	 * @param `prototype` - sets the prototype to be used when cloning an object.
+	 *    (optional - defaults to parent prototype).
+	*/
+	function clone(parent, circular, depth, prototype) {
+	  var filter;
+	  if (typeof circular === 'object') {
+	    depth = circular.depth;
+	    prototype = circular.prototype;
+	    filter = circular.filter;
+	    circular = circular.circular
+	  }
+	  // maintain two arrays for circular references, where corresponding parents
+	  // and children have the same index
+	  var allParents = [];
+	  var allChildren = [];
+
+	  var useBuffer = typeof Buffer != 'undefined';
+
+	  if (typeof circular == 'undefined')
+	    circular = true;
+
+	  if (typeof depth == 'undefined')
+	    depth = Infinity;
+
+	  // recurse this function so we don't reset allParents and allChildren
+	  function _clone(parent, depth) {
+	    // cloning null always returns null
+	    if (parent === null)
+	      return null;
+
+	    if (depth == 0)
+	      return parent;
+
+	    var child;
+	    var proto;
+	    if (typeof parent != 'object') {
+	      return parent;
+	    }
+
+	    if (clone.__isArray(parent)) {
+	      child = [];
+	    } else if (clone.__isRegExp(parent)) {
+	      child = new RegExp(parent.source, __getRegExpFlags(parent));
+	      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+	    } else if (clone.__isDate(parent)) {
+	      child = new Date(parent.getTime());
+	    } else if (useBuffer && Buffer.isBuffer(parent)) {
+	      child = new Buffer(parent.length);
+	      parent.copy(child);
+	      return child;
+	    } else {
+	      if (typeof prototype == 'undefined') {
+	        proto = Object.getPrototypeOf(parent);
+	        child = Object.create(proto);
+	      }
+	      else {
+	        child = Object.create(prototype);
+	        proto = prototype;
+	      }
+	    }
+
+	    if (circular) {
+	      var index = allParents.indexOf(parent);
+
+	      if (index != -1) {
+	        return allChildren[index];
+	      }
+	      allParents.push(parent);
+	      allChildren.push(child);
+	    }
+
+	    for (var i in parent) {
+	      var attrs;
+	      if (proto) {
+	        attrs = Object.getOwnPropertyDescriptor(proto, i);
+	      }
+
+	      if (attrs && attrs.set == null) {
+	        continue;
+	      }
+	      child[i] = _clone(parent[i], depth - 1);
+	    }
+
+	    return child;
+	  }
+
+	  return _clone(parent, depth);
+	}
+
+	/**
+	 * Simple flat clone using prototype, accepts only objects, usefull for property
+	 * override on FLAT configuration object (no nested props).
+	 *
+	 * USE WITH CAUTION! This may not behave as you wish if you do not know how this
+	 * works.
+	 */
+	clone.clonePrototype = function clonePrototype(parent) {
+	  if (parent === null)
+	    return null;
+
+	  var c = function () {};
+	  c.prototype = parent;
+	  return new c();
+	};
+
+	// private utility functions
+
+	function __objToStr(o) {
+	  return Object.prototype.toString.call(o);
+	};
+	clone.__objToStr = __objToStr;
+
+	function __isDate(o) {
+	  return typeof o === 'object' && __objToStr(o) === '[object Date]';
+	};
+	clone.__isDate = __isDate;
+
+	function __isArray(o) {
+	  return typeof o === 'object' && __objToStr(o) === '[object Array]';
+	};
+	clone.__isArray = __isArray;
+
+	function __isRegExp(o) {
+	  return typeof o === 'object' && __objToStr(o) === '[object RegExp]';
+	};
+	clone.__isRegExp = __isRegExp;
+
+	function __getRegExpFlags(re) {
+	  var flags = '';
+	  if (re.global) flags += 'g';
+	  if (re.ignoreCase) flags += 'i';
+	  if (re.multiline) flags += 'm';
+	  return flags;
+	};
+	clone.__getRegExpFlags = __getRegExpFlags;
+
+	return clone;
+	})();
+
+	if (typeof module === 'object' && module.exports) {
+	  module.exports = clone;
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41).Buffer))
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var testEventMatches = __webpack_require__(294);
 
 	function returnTrue(){
 	    return true
@@ -17927,12 +18493,12 @@
 
 
 /***/ },
-/* 90 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var matches = __webpack_require__(91)
+	var matches = __webpack_require__(295)
 
 	module.exports = function(root, selector){
 
@@ -17956,7 +18522,7 @@
 	}
 
 /***/ },
-/* 91 */
+/* 295 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17990,12 +18556,12 @@
 	}
 
 /***/ },
-/* 92 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var testEventMatches = __webpack_require__(90);
+	var testEventMatches = __webpack_require__(294);
 
 	function returnTrue(){
 	    return true
@@ -18044,7 +18610,7 @@
 
 
 /***/ },
-/* 93 */
+/* 297 */
 /***/ function(module, exports) {
 
 	var DOCUMENT_POSITION_CONTAINED_BY = 16

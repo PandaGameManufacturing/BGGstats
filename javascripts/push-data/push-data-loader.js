@@ -1,8 +1,8 @@
 "use strict";
 
     // BGG API Calls
-let pushData = require("./push-data");
+let post = require("./post");
 
 module.exports = {
-  pushData
+  post
 };

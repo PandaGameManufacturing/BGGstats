@@ -1,7 +1,7 @@
 "use strict";
 
 // requires
-let getData = require("../get-data"),
+let getData = require("../get-data-clientside"),
     getToday = require("../../assets/get-date");
 
 // URL config

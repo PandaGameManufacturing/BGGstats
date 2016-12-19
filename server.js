@@ -21,3 +21,10 @@ app.get('/', function(req, res) {
 app.listen(port, function() {
 	console.log('Our app is running on http://localhost:' + port);
 });
+
+// uncomment to test crawler
+// require("./javascripts/cron-jobs/daily");
+
+// uncomment to push data
+pushData = require("./javascripts/push-data/push-data-loader");
+pushData.post({test: "hi"}, `/Rankings.json`);
