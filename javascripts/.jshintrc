@@ -12,6 +12,7 @@
     "setTimeout": true,
     "XMLHttpRequest": true,
     "module": true,
-    "cheerio": true
+    "cheerio": true,
+    "Buffer": true
   }
 }
