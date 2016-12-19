@@ -6,11 +6,17 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic2"),
 
 // config options
 let baseURL = "http://boardgamegeek.com/browse/boardgame",
-    gameStart = 1;
+    gameStart = 1,
+    pageCounter = 2;
 
 // action to take after a page successfully completes crawling
-let startNextCrawl = function() {
-  console.log("finished up");
+let startNextCrawl = (gameEnd, totalRanked) => {
+
+  console.log(`You finished up at ${gameEnd}`);
+  if (gameEnd <= 200) {
+    rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
+  }
+
 };
 
 // before first crawl, pull total ranked games to calculate percentile
@@ -20,6 +26,6 @@ getData.getTotalRanked().then(function(data) {
 
 // start crawler
   console.log(":: Rankings Crawler Booting Up ::");
-  rankingsCrawler(gameStart,  gameStart + 99,  baseURL, totalRanked, startNextCrawl);
+  rankingsCrawler(gameStart, baseURL, totalRanked, startNextCrawl);
 
 });

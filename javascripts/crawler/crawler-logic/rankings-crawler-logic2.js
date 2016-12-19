@@ -8,8 +8,9 @@ let database = require("../../database-settings/database-settings"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio");
 
-let rankingsCrawlerLogic = function(gameStart, gameEnd, url, totalRanked, callback) {
+let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
   console.log("total ranked from within crawler:", totalRanked);
+
 
   let resultsCounter = 1; // BGG id for 100 results on page
 
@@ -21,7 +22,10 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url, totalRanked, callba
     console.log("I just received %s (%d bytes)", queueItem.url, responseBuffer.length);
     console.log("It was a resource of type %s", response.headers['content-type']);
 
+
     // loop over the games on the page 201-300, or 501-600, etc
+    let gameEnd = gameStart + 99;
+
     for (let i = gameStart; i <= gameEnd; i++) {
 
       // push data to a temporary object
@@ -36,7 +40,7 @@ let rankingsCrawlerLogic = function(gameStart, gameEnd, url, totalRanked, callba
       pushData.post(data, `/Rankings.json`);
     }
 
-    callback();
+    callback(gameEnd, totalRanked);
 
   });
 
