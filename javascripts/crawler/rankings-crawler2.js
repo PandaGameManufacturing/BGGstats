@@ -9,16 +9,6 @@ let baseURL = "http://boardgamegeek.com/browse/boardgame",
     gameStart = 1,
     pageCounter = 2;
 
-// action to take after a page successfully completes crawling
-let startNextCrawl = (gameEnd, totalRanked) => {
-
-  console.log(`You finished up at ${gameEnd}`);
-  if (gameEnd <= 200) {
-    rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
-  }
-
-};
-
 // before first crawl, pull total ranked games to calculate percentile
 getData.getTotalRanked().then(function(data) {
   console.log("total ranked data after promise:", data);
@@ -29,3 +19,15 @@ getData.getTotalRanked().then(function(data) {
   rankingsCrawler(gameStart, baseURL, totalRanked, startNextCrawl);
 
 });
+
+// keep crawling until I run into untracked games
+let startNextCrawl = (gameEnd, totalRanked) => {
+
+  console.log(`You finished up at ${gameEnd}`);
+  if (gameEnd <= 200) {
+    rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
+    console.log(`:: Crawling Page ${pageCounter} ::`);
+    pageCounter++;
+  }
+
+};
