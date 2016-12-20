@@ -5,8 +5,8 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic2"),
     getData = require("../get-data/get-data-loader");
 
 // config options
-let baseURL = "http://boardgamegeek.com/browse/boardgame",
-    gameStart = 1,
+let baseURL = "http://boardgamegeek.com/browse/boardgame/page/132",
+    gameStart = 13101,
     pageCounter = 2;
 
 // before first crawl, pull total ranked games to calculate percentile
