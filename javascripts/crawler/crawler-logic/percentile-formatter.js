@@ -1,7 +1,5 @@
 "use strict";
 
-console.log("percintile formater runs");
-
     // percentiles
 
     // percentile: 4,

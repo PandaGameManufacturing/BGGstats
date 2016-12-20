@@ -8,8 +8,7 @@ let database = require("../../database-settings/database-settings"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio");
 
-let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
-  console.log("total ranked from within crawler:", totalRanked);
+let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, callback) {
 
   let resultsCounter = 1; // BGG id for 100 results on page. resets after function runs
   let stopCrawling = false; // trigger for crawling next page
@@ -18,7 +17,7 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
   let crawl = Crawler(`${url}`)
   .on("fetchcomplete", function(queueItem, responseBuffer, response) {
     // display when new page is fetched
-    console.log(":: Fetched", queueItem.url, "::");
+    console.log(`:: Fetched Page ${currentPage} (${queueItem.url})`);
 
     let gameEnd = gameStart + 99; // set crawler to crawl up to 100 games per page
 
@@ -34,7 +33,6 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
 
       // check if it's ranked by bgg
       let isRanked = Crawler.checkIfRanked(responseBuffer, queueItem, resultsCounter);
-      console.log("isRanked:", isRanked);
 
       if (isRanked) {
         // if so push it up
@@ -42,11 +40,11 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
       } else {
         let lastRankedGame = data.Rank - 1;
         stopCrawling = true;
-        console.log("The last ranked game has rank", lastRankedGame);
+
         // push up last rank
 
-        console.log(`:: Crawled games ${gameStart}-${lastRankedGame} ::`);
-        console.log(`:: The Crawler has stopped ::`);
+        console.log(`:: Crawled games ${gameStart}-${lastRankedGame} on page ${currentPage}`);
+        console.log(`:: The Crawler stopped at game ${lastRankedGame}`);
 
         break;
       }
@@ -77,7 +75,6 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
     let targetRow = resultsNumber - 1; // resultsNumber 1 row off target game
     let $ = cheerio.load(buffer.toString("utf8"));
     let currenRank = $(`#row_`).eq(targetRow).find('td').find('a').attr("name");
-    console.log("currenRank:", currenRank);
     if (currenRank === undefined) {
       return false;
       } else {

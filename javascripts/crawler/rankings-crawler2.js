@@ -5,26 +5,40 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic2"),
     getData = require("../get-data/get-data-loader");
 
 // config options
-let baseURL = "http://boardgamegeek.com/browse/boardgame/page/131",
-    gameStart = 13001,
-    pageCounter = 131;
+let crawlStartPage = 129,
+    gameStart = (129 * 100) -99, // 100 pages per page
+    baseCrawlURL = "http://boardgamegeek.com/browse/boardgame/";
 
 // before first crawl, pull total ranked games to calculate percentile
 getData.getTotalRanked().then(function(data) {
   console.log("total ranked data after promise:", data);
   let totalRanked = data.totalRanked;
 
-// start crawler
-  console.log(":: Rankings Crawler Booting Up ::");
-  rankingsCrawler(gameStart, baseURL, totalRanked, startNextCrawl);
+  // start crawler
+  console.log(":: Rankings Crawler Booting Up");
+
+  // start crawler at correct url if the first page is page 1
+  if (gameStart == 1) {
+    rankingsCrawler(baseCrawlURL, gameStart, crawlStartPage, totalRanked, startNextCrawl);
+  } else {
+    rankingsCrawler(`${baseCrawlURL}/page/${crawlStartPage}`, gameStart, crawlStartPage, totalRanked, startNextCrawl);
+  }
 
 });
 
 // logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
-  console.log(`:: Crawled games ${gameEnd-99}-${gameEnd} on page ${pageCounter} ::`);
-  pageCounter++;
-  // rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
-  rankingsCrawler(gameEnd+1, `http://boardgamegeek.com/browse/boardgame/page/${pageCounter}`, totalRanked, startNextCrawl);
+  console.log(`:: Crawled games ${gameEnd-99}-${gameEnd} on page ${crawlStartPage}`);
+  crawlStartPage++;
+  console.log("crawlStartPage:", crawlStartPage);
+  // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);
 
+  // start next crawl on the next game
+  rankingsCrawler(
+    `${baseCrawlURL}/page/${crawlStartPage}`,
+    gameEnd+1, // start at game with rank of
+    crawlStartPage, // current page
+    totalRanked, // last ranked game from yesterday to calculate percentile
+    startNextCrawl // callback
+  );
 };
