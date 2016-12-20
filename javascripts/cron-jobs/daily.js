@@ -5,3 +5,5 @@ require("../crawler/rankings-crawler");
 
 //   manually run it with:
 //   `heroku run "node javascripts/cron-jobs/daily.js" --app bggstats`
+
+// heroku run "node javascripts/crawler/rankings-crawler2.js" --app bggstats

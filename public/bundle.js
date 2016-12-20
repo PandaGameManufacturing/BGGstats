@@ -226,6 +226,7 @@
 	    published = __webpack_require__(13),
 	    top10 = __webpack_require__(14),
 	    getTotalRanked = __webpack_require__(298),
+	    rankings = __webpack_require__(569),
 
 	    // Local Data
 	    historic = __webpack_require__(15),
@@ -243,6 +244,7 @@
 	  published,
 	  top10,
 	  getTotalRanked,
+	  rankings,
 	  historic,
 	  price
 	};
@@ -56128,6 +56130,28 @@
 
 	})));
 
+
+/***/ },
+/* 569 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	// requires
+	let getData = __webpack_require__(299),
+	    getToday = __webpack_require__(12);
+
+	// URL config
+	let baseURL      = "https://bggstats-2de27.firebaseio.com/",
+	    collection   = "Rankings",
+	    tag          = "timeYMD",
+	    today       = getToday();
+
+	let getRankings = () => {
+	  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today}%22`);
+	};
+
+	module.exports = getRankings;
 
 /***/ }
 /******/ ]);

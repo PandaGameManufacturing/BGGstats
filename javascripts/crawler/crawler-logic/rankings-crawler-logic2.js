@@ -6,7 +6,8 @@ let database = require("../../database-settings/database-settings"),
     addTopTen = require("./top10-formatter"),
     addPercentile = require("./percentile-formatter"),
     Crawler = require("simplecrawler"),
-    cheerio = require("cheerio");
+    cheerio = require("cheerio"),
+    manipulateData = require("../../data-manipulation/data-manipulation-loader");
 
 let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, callback) {
 
@@ -27,9 +28,9 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       let data = {};                                  // push data to a temporary object
       addCrawlTimes(data);                            // add crawl times
       data.bggID = Crawler.getGameId(responseBuffer, queueItem, resultsCounter); // bgg id
-      data.Rank = i;                                  // rank of game based on incrementing on GameStart
-      addTopTen(data, data.Rank);                     // adds top10, top100, etc tags
-      addPercentile(data, data.Rank, totalRanked);    // adds top 1%, 5%, etc tags
+      data.rank = i;                                  // rank of game based on incrementing on GameStart
+      addTopTen(data, data.rank);                     // adds top10, top100, etc tags
+      addPercentile(data, data.rank, totalRanked);    // adds top 1%, 5%, etc tags
 
       // check if it's ranked by bgg
       let isRanked = Crawler.checkIfRanked(responseBuffer, queueItem, resultsCounter);
@@ -42,7 +43,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         let lastRankedData = {}; // temporary object
 
         // build out object
-        let lastRanked = data.Rank - 1;
+        let lastRanked = data.rank - 1;
         lastRankedData.totalRankedGames = lastRanked; // set last ranked game
         addCrawlTimes(lastRankedData); // add timestamps
         lastRankedData.totalTrackedGamesAndExpansions = Crawler.getTotalTracked(responseBuffer, queueItem, resultsCounter); // get total games tracked (not ranked)
@@ -60,6 +61,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         console.log(`::  The Crawler stopped at game ${lastRanked}  ::`);
         console.log(":::::::::::::::::::::::::::::::::::::::::");
 
+        manipulateData.crawler();
 
         break;
       }

@@ -2,38 +2,37 @@
 let http = require('https');
 
 function pushData(dataObject, collectionPath) {
-  // let postData = JSON.stringify(dataObject);
+  let postData = JSON.stringify(dataObject);
 
-  // let options = {
-  //   hostname: process.env.firebasePostDomain,
-  //   path: collectionPath,
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/x-www-form-urlencoded',
-  //     'Content-Length': Buffer.byteLength(postData)
-  //   }
-  // };
+  let options = {
+    hostname: process.env.firebasePostDomain,
+    path: collectionPath,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(postData)
+    }
+  };
 
-  // let req = http.request(options, (res) => {
-  //   console.log(`STATUS: ${res.statusCode}`);
-  //   console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-  //   res.setEncoding('utf8');
-  //   res.on('data', (chunk) => {
-  //     console.log(`BODY: ${chunk}`);
-  //   });
-  //   res.on('end', () => {
-  //     console.log('No more data in response.');
-  //   });
-  // });
+  let req = http.request(options, (res) => {
+    console.log(`::                 Pushed up game ${dataObject.rank}: STATUS ${res.statusCode}`);
+    // console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      // console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      // console.log('No more data in response.');
+    });
+  });
 
-  // req.on('error', (e) => {
-  //   console.log(`problem with request: ${e.message}`);
-  // });
+  req.on('error', (e) => {
+    console.log(`::   ERROR: Pushing up game ${dataObject.rank} failed:     ${e.message}`);
+  });
 
-  // // write data to request body
-  // req.write(postData);
-  // req.end();
-
+  // write data to request body
+  req.write(postData);
+  req.end();
 }
 
 module.exports = pushData;
