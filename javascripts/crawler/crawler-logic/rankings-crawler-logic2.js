@@ -1,5 +1,6 @@
 "use strict";
 
+// requires
 let database = require("../../database-settings/database-settings"),
     pushData = require("../../push-data/push-data-loader"),
     addCrawlTimes = require("./crawl-time-formatter"),
@@ -7,12 +8,15 @@ let database = require("../../database-settings/database-settings"),
     addPercentile = require("./percentile-formatter"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio"),
+    moment = require("moment"),
     manipulateData = require("../../data-manipulation/data-manipulation-loader");
 
 let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, callback) {
 
-  let resultsCounter = 1; // BGG id for 100 results on page. resets after function runs
-  let stopCrawling = false; // trigger for crawling next page
+  let resultsCounter = 1, // BGG id for 100 results on page. resets after function runs
+      stopCrawling = false, // trigger for crawling next page
+      crawlStartTime = new Date().getTime(), // track how long the total crawl takes
+      momentStartTime = moment().format('llll'); // Tue, Dec 20, 2016 2:17 PM
 
   // set url to crawl
   let crawl = Crawler(`${url}`)
@@ -50,16 +54,23 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
 
         console.log("total tracked:", lastRankedData.totalRankedGames);
 
-        //push last ranked game data up
+        // push last ranked game data up
         console.log("lastRankedData:", lastRankedData);
         pushData.post(lastRankedData, `/BGG/${data.timeYMD}.json`);
+
+        // calculate how long the crawl took
+        let crawlEndTime = new Date().getTime();
+        let timeInMilliseconds = crawlEndTime - crawlStartTime;
+        let crawlMinutes = Math.ceil(timeInMilliseconds/100/60);
 
         //console log that everything has completed
         console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
         console.log("");
-        console.log(":::::::::::::::::::::::::::::::::::::::::");
-        console.log(`::  The Crawler stopped at game ${lastRanked}  ::`);
-        console.log(":::::::::::::::::::::::::::::::::::::::::");
+        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+        console.log(`::  The Crawler stopped at game ${lastRanked}      ::`);
+        console.log(`::  - Duration: ${crawlMinutes} minutes                 ::`);
+        console.log(`::  - Started:  ${momentStartTime}  ::`);
+        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
 
         manipulateData.crawler();
 

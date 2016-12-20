@@ -5,7 +5,7 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic2"),
     getData = require("../get-data/get-data-loader");
 
 // config options
-let crawlStartPage = 1,
+let crawlStartPage = 126,
     gameStart = (crawlStartPage * 100) -99, // 100 pages per page
     baseCrawlURL = "http://boardgamegeek.com/browse/boardgame/";
 
