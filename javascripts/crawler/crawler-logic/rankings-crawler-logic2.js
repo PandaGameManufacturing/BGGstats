@@ -37,6 +37,7 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
     data.Rank = i;
     addTopTen(data, data.Rank);
     addPercentile(data, data.Rank, totalRanked);
+    console.log("data:", data);
     pushData.post(data, `/Rankings.json`);
   }
 

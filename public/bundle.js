@@ -348,7 +348,6 @@
 	let moment = __webpack_require__(459);
 
 	let getDate = function(numberOfDaysBack) {
-
 	    return moment().subtract(numberOfDaysBack, "days").format("YYYYMMDD");
 	};
 
@@ -710,12 +709,12 @@
 	    time_top100: "20161217_top100_false",
 	    time_top1000: "20161217_top1000_false",
 	    time_top10000: "20161217_top10000_false",
-	    time_percentile1: "20161217_time_percentile1_false",
-	    time_percentile5: "20161217_time_percentile5_false",
-	    time_percentile10: "20161217_time_percentile10_false",
-	    time_percentile25: "20161217_time_percentile25_false",
-	    time_percentile50: "20161217_time_percentile50_false",
-	    time_percentile75: "20161217_time_percentile75_false",
+	    time_percentile1: "20161217_percentile1_false",
+	    time_percentile5: "20161217_percentile5_false",
+	    time_percentile10: "20161217_percentile10_false",
+	    time_percentile25: "20161217_percentile25_false",
+	    time_percentile50: "20161217_percentile50_false",
+	    time_percentile75: "20161217_percentile75_false",
 	    // time formats
 	    timeYMD: "20161217",
 	    timeISO: "2016-12-17T09:02:16.973Z",
@@ -753,12 +752,12 @@
 	  time_top100: "20161217_top100_false",
 	  time_top1000: "20161217_top1000_false",
 	  time_top10000: "20161217_top10000_false",
-	  time_percentile1: "20161217_time_percentile1_false",
-	  time_percentile5: "20161217_time_percentile5_false",
-	  time_percentile10: "20161217_time_percentile10_false",
-	  time_percentile25: "20161217_time_percentile25_false",
-	  time_percentile50: "20161217_time_percentile50_false",
-	  time_percentile75: "20161217_time_percentile75_false",
+	  time_percentile1: "20161217_percentile1_false",
+	  time_percentile5: "20161217_percentile5_false",
+	  time_percentile10: "20161217_percentile10_false",
+	  time_percentile25: "20161217_percentile25_false",
+	  time_percentile50: "20161217_percentile50_false",
+	  time_percentile75: "20161217_percentile75_false",
 	  // time formats
 	  timeYMD: "20161217",
 	  timeISO: "2016-12-17T09:02:16.973Z",
@@ -31721,20 +31720,15 @@
 
 	// requires
 	let getData = __webpack_require__(299),
-	    getToday = __webpack_require__(12);
+	    getDateMinus = __webpack_require__(12);
 
 	// URL config
 	let baseURL    = "https://bggstats-2de27.firebaseio.com/",
 	    collection = "BGG",
-	    subcollection = getToday(),
-	    url = `${baseURL}${collection}/${subcollection}.json`;
-	    console.log("url I'm getting:", url);
-
-	// tagValue is a custom tag that lets me pull down using two queries
-	// it's workaround since you can't use ?orderBy= twice in a firebase query
+	    subcollection = getDateMinus(1); // get yesterday's data since we don't have today's yet
 
 	let getTotalRanked = () => {
-	  return getData(url);
+	  return getData(`${baseURL}${collection}/${subcollection}.json`);
 	};
 
 	module.exports = getTotalRanked;
