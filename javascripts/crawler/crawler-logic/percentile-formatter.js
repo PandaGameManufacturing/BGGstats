@@ -24,7 +24,6 @@ console.log("percintile formater runs");
 let addPercentile = function(data, rank, totalRanked) {
 
     data.percentile = Math.ceil(rank/totalRanked*100);
-    console.log("data.percentile:", data.percentile);
 
     if (data.percentile <= 1) {
       addTags(data, true, true, true, true, true, true);
