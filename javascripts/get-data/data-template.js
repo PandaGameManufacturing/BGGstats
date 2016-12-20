@@ -336,7 +336,7 @@ let GamesPublished = {
 
 let BGG = {
   totalRankedGames: 13030,
-  totalTrackedGames: 87712,
+  totalTrackedGamesAndExpansions: 87712,
   // time formats
   timeYMD: "20161217",
   timeISO: "2016-12-17T09:02:16.973Z",

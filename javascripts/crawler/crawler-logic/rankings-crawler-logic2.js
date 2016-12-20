@@ -17,7 +17,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
   let crawl = Crawler(`${url}`)
   .on("fetchcomplete", function(queueItem, responseBuffer, response) {
     // display when new page is fetched
-    console.log(`:: Fetched Page ${currentPage} (${queueItem.url})`);
+    console.log(`::   Fetched Page ${currentPage}     ${queueItem.url}`);
 
     let gameEnd = gameStart + 99; // set crawler to crawl up to 100 games per page
 
@@ -33,18 +33,33 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
 
       // check if it's ranked by bgg
       let isRanked = Crawler.checkIfRanked(responseBuffer, queueItem, resultsCounter);
-
-      if (isRanked) {
-        // if so push it up
+      if (isRanked) { // if a game is ranked, push it up
         pushData.post(data, `/Rankings.json`);
       } else {
-        let lastRankedGame = data.Rank - 1;
-        stopCrawling = true;
+        stopCrawling = true; // set stop crawl boolean
 
-        // push up last rank
+        // save last rank to database for tomrrow's percentile calculations
+        let lastRankedData = {}; // temporary object
 
-        console.log(`:: Crawled games ${gameStart}-${lastRankedGame} on page ${currentPage}`);
-        console.log(`:: The Crawler stopped at game ${lastRankedGame}`);
+        // build out object
+        let lastRanked = data.Rank - 1;
+        lastRankedData.totalRankedGames = lastRanked; // set last ranked game
+        addCrawlTimes(lastRankedData); // add timestamps
+        lastRankedData.totalTrackedGamesAndExpansions = Crawler.getTotalTracked(responseBuffer, queueItem, resultsCounter); // get total games tracked (not ranked)
+
+        console.log("total tracked:", lastRankedData.totalRankedGames);
+
+        //push last ranked game data up
+        console.log("lastRankedData:", lastRankedData);
+        pushData.post(lastRankedData, `/BGG/${data.timeYMD}.json`);
+
+        //console log that everything has completed
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
+        console.log("");
+        console.log(":::::::::::::::::::::::::::::::::::::::::");
+        console.log(`::  The Crawler stopped at game ${lastRanked}  ::`);
+        console.log(":::::::::::::::::::::::::::::::::::::::::");
+
 
         break;
       }
@@ -53,7 +68,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
 
     }
 
-    // only crawl next page if the crawler has run into untracked games
+    // crawl next page if the crawler hasn't run into untracked games
     if (!stopCrawling) {
       callback(gameEnd, totalRanked);
     }
@@ -81,6 +96,13 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       return true;
       }
     };
+
+  // function for checking total tracked games
+  Crawler.getTotalTracked = function(buffer, queueItem, resultsNumber) {
+    let $ = cheerio.load(buffer.toString("utf8"));
+    let dirtyData = $(`.js-tablist`).eq(5).find('ul').find('li').eq(0).text();
+    return dirtyData.replace(/\D+/g, ''); // remove everything execpt digits
+  };
 
   // start crawl
   crawl.start();
