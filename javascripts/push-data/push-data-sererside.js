@@ -1,13 +1,13 @@
 "use strict";
 let http = require('https');
 
-function pushData(dataObject, collectionPath) {
+function pushData(dataObject, collectionPath, RESTmethod) {
   let postData = JSON.stringify(dataObject);
 
   let options = {
     hostname: process.env.firebasePostDomain,
     path: collectionPath,
-    method: 'POST',
+    method: RESTmethod,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': Buffer.byteLength(postData)

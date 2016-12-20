@@ -2,7 +2,7 @@
 
 // requires
 let database = require("../../database-settings/database-settings"),
-    pushData = require("../../push-data/push-data-loader"),
+    pushData = require("../../push-data/push-data-serverside"),
     addCrawlTimes = require("./crawl-time-formatter"),
     addTopTen = require("./top10-formatter"),
     addPercentile = require("./percentile-formatter"),
@@ -39,7 +39,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       // check if it's ranked by bgg
       let isRanked = Crawler.checkIfRanked(responseBuffer, queueItem, resultsCounter);
       if (isRanked) { // if a game is ranked, push it up
-        pushData.post(data, `/Rankings.json`);
+        pushData(data, `/Rankings.json`, "POST");
       } else {
         stopCrawling = true; // set stop crawl boolean
 
@@ -52,11 +52,8 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         addCrawlTimes(lastRankedData); // add timestamps
         lastRankedData.totalTrackedGamesAndExpansions = Crawler.getTotalTracked(responseBuffer, queueItem, resultsCounter); // get total games tracked (not ranked)
 
-        console.log("total tracked:", lastRankedData.totalRankedGames);
-
         // push last ranked game data up
-        console.log("lastRankedData:", lastRankedData);
-        pushData.post(lastRankedData, `/BGG/${data.timeYMD}.json`);
+        pushData(lastRankedData, `/BGG/${data.timeYMD}.json`, "PUT");
 
         // calculate how long the crawl took
         let crawlEndTime = new Date().getTime();

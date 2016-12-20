@@ -27,5 +27,5 @@ app.listen(port, function() {
 require("./javascripts/crawler/rankings-crawler2");
 
 // uncomment to push data
-// pushData = require("./javascripts/push-data/push-data-loader");
-// pushData.post({}, `/BGG.json`);
+// pushData = require("./javascripts/push-data/push-data-serverside");
+// pushData.post({}, `/BGG.json`, "POST");
