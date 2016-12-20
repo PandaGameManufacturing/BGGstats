@@ -24,7 +24,8 @@ app.listen(port, function() {
 
 // uncomment to test crawler
 // require("./javascripts/cron-jobs/daily");
+require("./javascripts/crawler/rankings-crawler2");
 
 // uncomment to push data
-pushData = require("./javascripts/push-data/push-data-loader");
-pushData.post({test: "hi"}, `/Rankings.json`);
+// pushData = require("./javascripts/push-data/push-data-loader");
+// pushData.post({}, `/BGG.json`);

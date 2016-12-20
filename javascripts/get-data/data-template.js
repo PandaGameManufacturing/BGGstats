@@ -254,12 +254,12 @@ let Games = {
     time_top100: "20161217_top100_false",
     time_top1000: "20161217_top1000_false",
     time_top10000: "20161217_top10000_false",
-    time_percentile1: "20161217_time_percentile1_false",
-    time_percentile5: "20161217_time_percentile5_false",
-    time_percentile10: "20161217_time_percentile10_false",
-    time_percentile25: "20161217_time_percentile25_false",
-    time_percentile50: "20161217_time_percentile50_false",
-    time_percentile75: "20161217_time_percentile75_false",
+    time_percentile1: "20161217_percentile1_false",
+    time_percentile5: "20161217_percentile5_false",
+    time_percentile10: "20161217_percentile10_false",
+    time_percentile25: "20161217_percentile25_false",
+    time_percentile50: "20161217_percentile50_false",
+    time_percentile75: "20161217_percentile75_false",
     // time formats
     timeYMD: "20161217",
     timeISO: "2016-12-17T09:02:16.973Z",
@@ -297,12 +297,12 @@ let Rankings = {
   time_top100: "20161217_top100_false",
   time_top1000: "20161217_top1000_false",
   time_top10000: "20161217_top10000_false",
-  time_percentile1: "20161217_time_percentile1_false",
-  time_percentile5: "20161217_time_percentile5_false",
-  time_percentile10: "20161217_time_percentile10_false",
-  time_percentile25: "20161217_time_percentile25_false",
-  time_percentile50: "20161217_time_percentile50_false",
-  time_percentile75: "20161217_time_percentile75_false",
+  time_percentile1: "20161217_percentile1_false",
+  time_percentile5: "20161217_percentile5_false",
+  time_percentile10: "20161217_percentile10_false",
+  time_percentile25: "20161217_percentile25_false",
+  time_percentile50: "20161217_percentile50_false",
+  time_percentile75: "20161217_percentile75_false",
   // time formats
   timeYMD: "20161217",
   timeISO: "2016-12-17T09:02:16.973Z",
@@ -336,7 +336,7 @@ let GamesPublished = {
 
 let BGG = {
   totalRankedGames: 13030,
-  totalTrackedGames: 87712,
+  totalTrackedGamesAndExpansions: 87712,
   // time formats
   timeYMD: "20161217",
   timeISO: "2016-12-17T09:02:16.973Z",
@@ -368,12 +368,12 @@ let Users = {
 
 let BggCall = {"items":{"$":{"termsofuse":"http://boardgamegeek.com/xmlapi/termsofuse"},"item":[{"$":{"type":"boardgame","id":"127023"},"thumbnail":["//cf.geekdo-images.com/images/pic1431241_t.jpg"],"image":["//cf.geekdo-images.com/images/pic1431241.jpg"],"name":[{"$":{"type":"primary","sortindex":"1","value":"Kemet"}}],"description":["In Kemet, players each deploy the troops of an Egyptian tribe and use the mystical powers of the gods of ancient Egypt &ndash; along with their powerful armies &ndash; to score points in glorious battles or through invasion of rich territories. A game is typically played to 8 or 10 victory points, which may be accrued through winning attacks, controlling temples, controlling fully-developed pyramids, sacrificing to the gods, and wielding particular magical powers.&#10;&#10;The conquest for the land of Kemet takes place over two phases: Day and Night. During the day, choose an action amongst the nine possible choices provided by your player mat and perform it immediately. Once every player has taken five actions, night falls, with players gathering Prayer Points from their temples, drawing Divine Intervention cards, and determining the turn order before the start of the new day.&#10;&#10;As the game progresses, they can use Prayer Points to acquire power tiles. Some of these enroll magical creatures and have them join their troops. In addition to intimidating enemies, these creatures provide special powers!&#10;&#10;Detailed miniature components represent the combat units and the supernatural creatures that are summoned to enhance them. Combat is resolved through cards chosen from a diminishing six-card hand and enhanced by bonuses.&#10;&#10;Play By Forum&#10;&#10;     Kemet PBF #1&#10;&#10;&#10;&#10;&#10;"],"yearpublished":[{"$":{"value":"2012"}}],"minplayers":[{"$":{"value":"2"}}],"maxplayers":[{"$":{"value":"5"}}],"poll":[{"$":{"name":"suggested_numplayers","title":"User Suggested Number of Players","totalvotes":"137"},"results":[{"$":{"numplayers":"1"},"result":[{"$":{"value":"Best","numvotes":"0"}},{"$":{"value":"Recommended","numvotes":"0"}},{"$":{"value":"Not Recommended","numvotes":"71"}}]},{"$":{"numplayers":"2"},"result":[{"$":{"value":"Best","numvotes":"5"}},{"$":{"value":"Recommended","numvotes":"47"}},{"$":{"value":"Not Recommended","numvotes":"52"}}]},{"$":{"numplayers":"3"},"result":[{"$":{"value":"Best","numvotes":"26"}},{"$":{"value":"Recommended","numvotes":"75"}},{"$":{"value":"Not Recommended","numvotes":"4"}}]},{"$":{"numplayers":"4"},"result":[{"$":{"value":"Best","numvotes":"63"}},{"$":{"value":"Recommended","numvotes":"48"}},{"$":{"value":"Not Recommended","numvotes":"2"}}]},{"$":{"numplayers":"5"},"result":[{"$":{"value":"Best","numvotes":"70"}},{"$":{"value":"Recommended","numvotes":"30"}},{"$":{"value":"Not Recommended","numvotes":"12"}}]},{"$":{"numplayers":"5+"},"result":[{"$":{"value":"Best","numvotes":"0"}},{"$":{"value":"Recommended","numvotes":"1"}},{"$":{"value":"Not Recommended","numvotes":"56"}}]}]},{"$":{"name":"suggested_playerage","title":"User Suggested Player Age","totalvotes":"27"},"results":[{"result":[{"$":{"value":"2","numvotes":"0"}},{"$":{"value":"3","numvotes":"0"}},{"$":{"value":"4","numvotes":"0"}},{"$":{"value":"5","numvotes":"0"}},{"$":{"value":"6","numvotes":"0"}},{"$":{"value":"8","numvotes":"5"}},{"$":{"value":"10","numvotes":"6"}},{"$":{"value":"12","numvotes":"12"}},{"$":{"value":"14","numvotes":"4"}},{"$":{"value":"16","numvotes":"0"}},{"$":{"value":"18","numvotes":"0"}},{"$":{"value":"21 and up","numvotes":"0"}}]}]},{"$":{"name":"language_dependence","title":"Language Dependence","totalvotes":"34"},"results":[{"result":[{"$":{"level":"16","value":"No necessary in-game text","numvotes":"24"}},{"$":{"level":"17","value":"Some necessary text - easily memorized or small crib sheet","numvotes":"10"}},{"$":{"level":"18","value":"Moderate in-game text - needs crib sheet or paste ups","numvotes":"0"}},{"$":{"level":"19","value":"Extensive use of text - massive conversion needed to be playable","numvotes":"0"}},{"$":{"level":"20","value":"Unplayable in another language","numvotes":"0"}}]}]}],"playingtime":[{"$":{"value":"120"}}],"minplaytime":[{"$":{"value":"90"}}],"maxplaytime":[{"$":{"value":"120"}}],"minage":[{"$":{"value":"13"}}],"link":[{"$":{"type":"boardgamecategory","id":"1050","value":"Ancient"}},{"$":{"type":"boardgamecategory","id":"1046","value":"Fighting"}},{"$":{"type":"boardgamecategory","id":"1047","value":"Miniatures"}},{"$":{"type":"boardgamecategory","id":"1082","value":"Mythology"}},{"$":{"type":"boardgamemechanic","id":"2001","value":"Action Point Allowance System"}},{"$":{"type":"boardgamemechanic","id":"2080","value":"Area Control / Area Influence"}},{"$":{"type":"boardgamemechanic","id":"2046","value":"Area Movement"}},{"$":{"type":"boardgamemechanic","id":"2018","value":"Campaign / Battle Card Driven"}},{"$":{"type":"boardgamemechanic","id":"2041","value":"Card Drafting"}},{"$":{"type":"boardgamefamily","id":"6471","value":"Country: Egypt"}},{"$":{"type":"boardgamefamily","id":"13265","value":"Desert Theme"}},{"$":{"type":"boardgamefamily","id":"5615","value":"Monsters"}},{"$":{"type":"boardgameexpansion","id":"146781","value":"C3K: Creatures Crossover Cyclades/Kemet"}},{"$":{"type":"boardgameexpansion","id":"207149","value":"Kemet: Dice Tower Promo 2016"}},{"$":{"type":"boardgameexpansion","id":"190744","value":"Kemet: New Power Tiles"}},{"$":{"type":"boardgameexpansion","id":"190743","value":"Kemet: Skills and Black Power Tile For Ta-Seti"}},{"$":{"type":"boardgameexpansion","id":"161842","value":"Kemet: Ta-Seti"}},{"$":{"type":"boardgamedesigner","id":"10395","value":"Jacques Bariot"}},{"$":{"type":"boardgamedesigner","id":"10393","value":"Guillaume Montiage"}},{"$":{"type":"boardgameartist","id":"30958","value":"Dimitri Bielak"}},{"$":{"type":"boardgameartist","id":"46405","value":"Emile Denis"}},{"$":{"type":"boardgameartist","id":"12935","value":"Nicolas Fructus"}},{"$":{"type":"boardgamepublisher","id":"5400","value":"Matagot"}},{"$":{"type":"boardgamepublisher","id":"157","value":"Asmodee"}},{"$":{"type":"boardgamepublisher","id":"15889","value":"Asterion Press"}},{"$":{"type":"boardgamepublisher","id":"15605","value":"Galápagos Jogos"}},{"$":{"type":"boardgamepublisher","id":"39","value":"Pegasus Spiele"}},{"$":{"type":"boardgamepublisher","id":"7466","value":"REBEL.pl"}}],"statistics":[{"$":{"page":"1"},"ratings":[{"usersrated":[{"$":{"value":"8320"}}],"average":[{"$":{"value":"7.77561"}}],"bayesaverage":[{"$":{"value":"7.53636"}}],"ranks":[{"rank":[{"$":{"type":"subtype","id":"1","name":"boardgame","friendlyname":"Board Game Rank","value":"67","bayesaverage":"7.53636"}},{"$":{"type":"family","id":"5497","name":"strategygames","friendlyname":"Strategy Game Rank","value":"49","bayesaverage":"7.56723"}}]}],"stddev":[{"$":{"value":"1.3131"}}],"median":[{"$":{"value":"0"}}],"owned":[{"$":{"value":"10272"}}],"trading":[{"$":{"value":"128"}}],"wanting":[{"$":{"value":"1151"}}],"wishing":[{"$":{"value":"4443"}}],"numcomments":[{"$":{"value":"1499"}}],"numweights":[{"$":{"value":"461"}}],"averageweight":[{"$":{"value":"2.9761"}}]}]}]}]}};
 
-console.log("Data Template", {
-  "Charts": Charts,
-  "Games": Games,
-  "Rankings": Rankings,
-  "GamesPublished": GamesPublished,
-  "BGG": BGG,
-  "Users": Users,
-  "BggCall": BggCall
-});
+// console.log("Data Template", {
+//   "Charts": Charts,
+//   "Games": Games,
+//   "Rankings": Rankings,
+//   "GamesPublished": GamesPublished,
+//   "BGG": BGG,
+//   "Users": Users,
+//   "BggCall": BggCall
+// });

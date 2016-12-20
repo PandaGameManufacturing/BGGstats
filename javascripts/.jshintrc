@@ -13,6 +13,7 @@
     "XMLHttpRequest": true,
     "module": true,
     "cheerio": true,
-    "Buffer": true
+    "Buffer": true,
+    "require": true
   }
 }
