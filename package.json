@@ -28,6 +28,7 @@
     "json": "^9.0.4",
     "json-loader": "^0.5.4",
     "markdown-loader": "^0.1.7",
+    "moment": "^2.17.1",
     "mongodb": "^2.2.14",
     "node-rest-client": "^2.0.1",
     "npm": "^4.0.3",

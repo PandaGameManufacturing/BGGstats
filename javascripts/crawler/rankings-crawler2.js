@@ -20,14 +20,12 @@ getData.getTotalRanked().then(function(data) {
 
 });
 
-// keep crawling until I run into untracked games
+// logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
 
   console.log(`You finished up at ${gameEnd}`);
-  if (gameEnd <= 200) {
-    rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
-    console.log(`:: Crawling Page ${pageCounter} ::`);
-    pageCounter++;
-  }
+  rankingsCrawler(gameEnd+1, `${baseURL}/page/${pageCounter}`, totalRanked, startNextCrawl);
+  console.log(`:: Crawling Page ${pageCounter} ::`);
+  pageCounter++;
 
 };

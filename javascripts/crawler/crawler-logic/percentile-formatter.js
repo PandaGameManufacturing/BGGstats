@@ -23,12 +23,6 @@ console.log("percintile formater runs");
 
 let addPercentile = function(data, rank, totalRanked) {
 
-
-
-
-
-
-
   // // top10
   // for (let topNumber = 10; topNumber <= 10000; topNumber*=10) {
   //   if (rank <= topNumber) {

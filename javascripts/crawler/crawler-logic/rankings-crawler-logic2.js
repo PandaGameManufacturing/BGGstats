@@ -23,24 +23,30 @@ let rankingsCrawlerLogic = function(gameStart, url, totalRanked, callback) {
     console.log("It was a resource of type %s", response.headers['content-type']);
 
 
-    // loop over the games on the page 201-300, or 501-600, etc
-    let gameEnd = gameStart + 99;
+  // loop over the games on the page 201-300, or 501-600, etc
+  let gameEnd = gameStart + 99;
 
-    for (let i = gameStart; i <= gameEnd; i++) {
+  for (let i = gameStart; i <= gameEnd; i++) {
 
-      // push data to a temporary object
-      let data = {};
-      addCrawlTimes(data);                                                            // crawl time data
-      let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
-      data.bggID = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
-      resultsCounter++; // BGG id for 100 results on page
-      data.Rank = i;
-      addTopTen(data, data.Rank);
-      addPercentile(data, data.Rank, totalRanked);
-      pushData.post(data, `/Rankings.json`);
-    }
+    // push data to a temporary object
+    let data = {};
+    addCrawlTimes(data);                                                            // crawl time data
+    let BggUrl = Crawler.getGameId(responseBuffer, queueItem, resultsCounter);      // bgg id
+    data.bggID = BggUrl.replace(/\D+/g, ''); // remove everything execpt digits
+    resultsCounter++; // BGG id for 100 results on page
+    data.Rank = i;
+    addTopTen(data, data.Rank);
+    addPercentile(data, data.Rank, totalRanked);
+    pushData.post(data, `/Rankings.json`);
+  }
 
+  // only crawl next page if the crawler has run into untracked games
+  if (gameEnd <= 200) {
     callback(gameEnd, totalRanked);
+  }
+
+
+
 
   });
 
