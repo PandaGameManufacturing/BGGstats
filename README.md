@@ -1,4 +1,4 @@
-![BGGstats](http://www.bggstats.com/images/BGGstats.png "BGGstats")
+![BGGstats](http://www.bggstats.com/images/BGGstats-medium.png "BGGstats")
 
 BGGstats.com tracks which new board games deserve your attention among the thousands of games that are published each year. Board game rankings are sourced from BoardGameGeek.com.
 
