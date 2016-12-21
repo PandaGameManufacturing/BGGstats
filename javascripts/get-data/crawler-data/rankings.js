@@ -7,11 +7,10 @@ let getData = require("../get-data-serverside"),
 // URL config
 let baseURL      = "https://bggstats-2de27.firebaseio.com/",
     collection   = "Rankings",
-    tag          = "timeYMD",
-    today       = getToday();
+    tag          = "timeYMD";
 
-let getRankings = () => {
-  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today}%22`);
+let getRankings = date => {
+  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${date}%22`);
 };
 
 module.exports = getRankings;
