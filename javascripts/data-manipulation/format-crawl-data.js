@@ -6,17 +6,34 @@ let getData = require("../get-data/get-data-loader"),
     todayData = {},
     compareData = {};
 
+    // configuration options
+let today          = getDateMinus(0),
+
+    compareDate    = getDateMinus(7), // compare to a week back
+    compareString  = "a week ago",     // for console logs
+
+    fallbackDate   = getDateMinus(6),  // compare to 6 days ago instead
+    fallbackString = "6 days ago";     // for console logs
+
 let formatCrawlerData = function() {
 
-  let today = getDateMinus(0);
+console.log(":::::::::::::::::::::::::::::::");
+console.log("::  Manipulating Crawl Data  ::");
+console.log(":::::::::::::::::::::::::::::::");
+console.log("");
 
   // 1. pull down all games from today from Rankings Table
   getData.rankings(today).then(function(data) {
+
+    // store today's data
     todayData = data;
-    if(isDataEmpty(data)) {
-      console.log("ERRPR: There's no data available from Firebase for the day");
+    if(isDataEmpty(todayData)) {
+      console.log(`:: ERROR: There's no data available from Firebase for the day (${today})`);
+    } else {
+      console.log(`:: ✓ Database has rankings data from today (${today})`);
     }
 
+    // store data from a week ago
     getCompareData().then(function(result) {
       console.log("compareData", result);
     }, function(err) {
@@ -166,19 +183,29 @@ function isDataEmpty(obj) {
 // function to get compare data data
 function getCompareData() {
   return new Promise(function(resolve, reject) {
-  // compare back 7 days
-  let weekAgo = getDateMinus(7);
-  console.log("weekAgo:", weekAgo);
 
-  getData.rankings(weekAgo).then(function(olderData) {
-    if(isDataEmpty(compareData)) {
-      console.log(`ERROR: There's no data available from Firebase from 7 days ago (${weekAgo}). Using fallback date, 20161220`);
-      // if no data from week ago, pull data from last crawl get-date
-      getData.rankings("20161220").then(function(fallbackData) {
-        return fallbackData;
+  // pull data from database based on compare date settings at top
+  getData.rankings(compareDate).then(function(compareObject) {
+
+    // is data from a week ago there?
+    if(isDataEmpty(compareObject)) {
+      console.log(`:: ERROR: There's no data available from Firebase from ${compareString} (${compareDate})`);
+      console.log(`::        Trying fallback date (${fallbackDate})`);
+
+        // if no data from week ago, pull data from last fallback date
+        getData.rankings(fallbackDate).then(function(fallbackObject) {
+          if(isDataEmpty(fallbackObject)) {
+            console.log(`:: ERROR: Database doesn't have rankings data from ${fallbackString} (${fallbackDate})`);
+          } else {
+            console.log(`:: ✓ Database has rankings data from ${fallbackString} (${fallbackDate})`);
+            return fallbackObject;
+          }
+
       });
+    // success, there is data from a week ago
     } else {
-      return olderData;
+      console.log(`:: ✓ Database has rankings data from ${compareString} (${compareDate})`);
+      return compareObject;
     }
   });
 
@@ -189,6 +216,6 @@ function getCompareData() {
 
 
 // invoking function when testing file directly
-// formatCrawlerData();
+formatCrawlerData();
 
 module.exports = formatCrawlerData;
