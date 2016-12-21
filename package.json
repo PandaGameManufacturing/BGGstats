@@ -9,7 +9,9 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "npm-sass ./sass/style.scss > ./public/css/style.css && cp -r images public"
+    "build": "npm-sass ./sass/style.scss > ./public/css/style.css && cp -r images public",
+    "server": "open http://localhost:9966/webpack-dev-server/ && webpack-dev-server --inline --port 9966",
+    "watch": "webpack --watch"
   },
   "author": "Nathan T. Baker",
   "license": "ISC",
