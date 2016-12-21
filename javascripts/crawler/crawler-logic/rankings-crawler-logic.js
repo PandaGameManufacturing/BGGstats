@@ -68,9 +68,9 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         console.log(`::  - Duration: ${crawlMinutes} minutes`);
         console.log(`::  - Started:  ${momentStartTime}`);
         console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+        console.log("");
 
         manipulateData.crawler();
-
         break;
       }
 
@@ -91,8 +91,16 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
   // function for targeting game id
   Crawler.getGameId = function(buffer, queueItem, resultsNumber) {
     let $ = cheerio.load(buffer.toString("utf8"));
-    let dirtyData = $(`#results_objectname${resultsNumber}`).find('a').attr("href");
-    return dirtyData.replace(/\D+/g, ''); // remove everything execpt digits
+    // pull href path
+    let hrefData = $(`#results_objectname${resultsNumber}`).find('a').attr("href");
+    console.log("hrefData:", hrefData);
+    // pull out href="boardgame/148943/ from stuff like href="/boardgame/148943/coup-rebellion-g54" to exclude non-bggId numbers
+    let smallerPath = hrefData.match(/boardgame\/(.*?)\//);
+    console.log("smallerPath:", smallerPath);
+    // remove everything execpt digits on first match
+    let prettyData = smallerPath[0].replace(/\D+/g, '');
+    console.log("prettyData:", prettyData);
+    return prettyData;
     };
 
   // function for checking if game is ranked

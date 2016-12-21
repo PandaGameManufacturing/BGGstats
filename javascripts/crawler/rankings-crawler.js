@@ -5,7 +5,7 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
     getData = require("../get-data/get-data-loader");
 
 // config options
-let crawlStartPage = 132,
+let crawlStartPage = 1,
     gameStart = (crawlStartPage * 100) -99, // 100 pages per page
     baseCrawlURL = "http://boardgamegeek.com/browse/boardgame/";
 
@@ -15,10 +15,31 @@ getData.getTotalRanked().then(function(data) {
   let totalRanked = data.totalRankedGames;
 
   // start crawler
-  console.log(":::::::::::::::::::::::::::::::::::");
-  console.log("::  Rankings Crawler Booting Up  ::");
-  console.log(":::::::::::::::::::::::::::::::::::");
-  console.log("");
+
+
+console.log(`      .-..-.                               `);
+console.log(`    (-o/\o-)                               `);
+console.log(`   /."".."".\                              `);
+console.log(`   \ /.__.\ /                              `);
+console.log(`    \ .--. /                               `);
+console.log(`     ||  ||                                `);
+console.log(`  ,  /::::\  ,                             `);
+console.log(`  |'.\::::/.'|                             `);
+console.log(` _|  ';::;'  |_                            `);
+console.log(`(::)   ||   (::)                        _. `);
+console.log(` "|    ||    |"                       _(:) `);
+console.log(`  '.   ||   .'                       /::\  `);
+console.log(`    '._||_.'                         \::/  `);
+console.log(`     /::::\                         /:::\  `);
+console.log(`     \::::/                        _\:::/  `);
+console.log(`      /::::\_.._  _.._  _.._  _.._/::::\   `);
+console.log(`      \::::/::::\/::::\/::::\/::::\::::/   `);
+console.log(`       ."".\::::/\::::/\::::/\::::/."".    `);
+console.log(`            ."".  ."".  ."".  ."".         `);
+console.log(":::::::::::::::::::::::::::::::::::");
+console.log("::  Rankings Crawler Booting Up  ::");
+console.log(":::::::::::::::::::::::::::::::::::");
+console.log("");
 
   // start crawler at correct url if the first page is page 1
   if (gameStart == 1) {
