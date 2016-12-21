@@ -1,6 +1,6 @@
 ![BGGstats](http://www.bggstats.com/images/BGGstats-medium.png "BGGstats")
 
-BGGstats.com tracks which new board games deserve your attention among the thousands of games that are published each year. Board game rankings are sourced from BoardGameGeek.com.
+[BGGstats.com](http://bggstats.com/) tracks which new board games deserve your attention among the thousands of games that are published each year. Board game rankings are sourced from [BoardGameGeek.com](http://boardgamegeek.com/).
 
 BoardGameGeek tracks the ranking of each board game based on user submitted ratings. The BGGstats crawler checks the current ranking of each ranked board game daily and displays board game information based on crawled data and data from the BoardGameGeek API.
 
