@@ -36,7 +36,6 @@
     "node-rest-client": "^2.0.1",
     "npm": "^4.0.3",
     "npm-sass": "^1.3.0",
-    "present": "^1.0.0",
     "simplecrawler": "^1.0.3",
     "tooltip": "^1.6.1",
     "url-loader": "^0.5.7",
