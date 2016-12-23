@@ -9,13 +9,17 @@ let database = require("../../database-settings/database-settings"),
     Crawler = require("simplecrawler"),
     cheerio = require("cheerio"),
     moment = require("moment"),
+    t = require("exectimer"),
     manipulateData = require("../../data-manipulation/data-manipulation-loader");
+
+// start timer for total crawl time
+var tick = new t.Tick("TIMER");
+tick.start();
 
 let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, callback) {
 
   let resultsCounter = 1, // BGG id for 100 results on page. resets after function runs
       stopCrawling = false, // trigger for crawling next page
-      crawlStartTime = new Date().getTime(), // track how long the total crawl takes
       momentStartTime = moment().format('llll'); // Tue, Dec 20, 2016 2:17 PM
 
   // set url to crawl
@@ -55,20 +59,26 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         // push last ranked game data up
         pushData(lastRankedData, `/BGG/${data.timeYMD}.json`, "PUT");
 
-        // calculate how long the crawl took
-        let crawlEndTime = new Date().getTime();
-        let timeInMilliseconds = crawlEndTime - crawlStartTime;
-        let crawlMinutes = Math.ceil(timeInMilliseconds/1000/60);
 
-        //console log that everything has completed
-        console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
-        console.log("");
-        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
-        console.log(`::  The Crawler stopped at game ${lastRanked}`);
-        console.log(`::  - Duration: ${crawlMinutes} minutes`);
-        console.log(`::  - Started:  ${momentStartTime}`);
-        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
-        console.log("");
+        // end timer
+        tick.stop();
+        var myTimer = t.timers.TIMER;
+        let ticks = myTimer.duration();
+        let seconds = ticks/1000000000;
+        let minutes = Math.ceil(seconds/60);
+
+        console.log("It took: " + seconds + "seconds");
+
+          //console log that everything has completed
+          console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
+          console.log("");
+          console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+          console.log(`::  The Crawler stopped at game ${lastRanked}`);
+          console.log(`::  - Duration: ${minutes} minutes (${Math.ceil(seconds)} seconds)`);
+          console.log(`::  - Started:  ${momentStartTime}`);
+          console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+          console.log("");
+
 
         manipulateData.crawler();
         break;
@@ -123,5 +133,6 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
   crawl.start();
 
 };
+
 
 module.exports = rankingsCrawlerLogic;

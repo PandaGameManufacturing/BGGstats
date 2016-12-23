@@ -26,7 +26,7 @@ let getGameDetails = array => {
         // map data
         let name = gameDataArray[i].items.item[0].name[0].$.value;
 
-        console.log(`Game ${i+1} Name: ${name}`);
+        // console.log(`Game ${i+1} Name: ${name}`);
 
       }
 
