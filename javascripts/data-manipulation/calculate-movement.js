@@ -55,7 +55,6 @@ let compareTwoSetsOfData = (dataToday, dataCompare) => {
     let top10 = movement.slice(0, 10);
     let lastIndex = movement.length;
     let bottom5 = movement.slice(lastIndex - 5, lastIndex);
-    console.log("bottom5:", bottom5);
 
     // combine top 10 and bottom 5 into 1 array
     let prettyArray = top10.concat(bottom5);

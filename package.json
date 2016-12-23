@@ -20,6 +20,7 @@
     "cors-anywhere": "^0.4.0",
     "ejs": "^2.5.5",
     "ejs-loader": "^0.3.0",
+    "exectimer": "^2.0.2",
     "express": "^4.14.0",
     "firebase": "^3.6.4",
     "html-loader": "^0.4.4",

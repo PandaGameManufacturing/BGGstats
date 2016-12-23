@@ -40,16 +40,15 @@ let formatCrawlData = () => {
   }).then( data => {
 
     console.log(`:: ✓ Movement array calculated. It has ${data.length} games.`);
-    console.log(`::    - Biggest mover is up ${data[0].movement}`);
-    console.log(`::    - Lowest mover is down ${data[14].movement}`);
-    console.log(`::    - Lowest mover has id ${data[14].bggID}`);
+    console.log(`::    - Biggest mover is up ${data[0].movement} (bggID: ${data[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${data[14].movement} (bggID: ${data[14].bggID})`);
 
     // make API calls for the 15 games and push up data to database
     return getGameDetails(data);
 
   }).then( data => {
 
-    console.log(`:: ✓ Data for ${data} games pushed up.`);
+    // console.log(`:: ✓ Data for ${data} games pushed up.`);
 
      // do more stuff
 
