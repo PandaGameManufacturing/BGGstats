@@ -63,7 +63,8 @@ let weekChange = (dataToday, dataCompare) => {
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
-       pushData(prettyArray[i], `Games/{prettyArray[i].bggID}`, "PATCH");
+      let data = JSON.stringify(prettyArray[i]);
+      pushData(data, `/Games/${prettyArray[i].bggID}.json`, "PATCH");
     }
 
     console.log(":: ✓ Game movement for biggest movers pushed to database ");
