@@ -43,10 +43,18 @@ let formatCrawlData = () => {
     console.log(`::    - Biggest mover is up ${data[0].movement} (bggID: ${data[0].bggID})`);
     console.log(`::    - Lowest mover is down ${data[14].movement} (bggID: ${data[14].bggID})`);
 
-    // make API calls for the 15 games and push up data to database
-    return getGameDetails(data);
+    // make API calls for the 15 games and push up data to database along with movement info
+    getGameDetails(data);
+
+    // get top 10 games and push up game details
+    // console.log("today rankings:", data[0]);
+
+    let hotness = data;
+    return {hotness}; // return hotness array of ids
 
   }).then( data => {
+
+    // console.log("I have some data:", data);
 
     // console.log(`:: ✓ Data for ${data} games pushed up.`);
 
@@ -83,6 +91,6 @@ let formatCrawlData = () => {
 
 
 // invoking function when testing file directly
-formatCrawlData();
+// formatCrawlData();
 
 module.exports = formatCrawlData;
