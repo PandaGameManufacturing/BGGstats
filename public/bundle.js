@@ -185,7 +185,6 @@
 	let hotnessLogic = slot => {
 	  getData.hotness.then( result => {                             // get hotness data
 	    data = JSON.parse(result).slice(0,5);                       // push first five results to data.hotness
-	    console.log("game data:", data);
 	    for (let i = 0; i < 5; i++) {                               // iterate over the top 5
 	      let bggId = data[i].gameId;
 	      let arrayItem = getData.details(bggId).then( result => {  // get more game details for each game
@@ -40738,6 +40737,10 @@
 	//   "Users": Users,
 	//   "BggCall": BggCall
 	// });
+
+	// console.log("Charts", Charts);
+	// console.log("BggCall", BggCall);
+	// console.log("Games", Games);
 
 /***/ },
 /* 350 */

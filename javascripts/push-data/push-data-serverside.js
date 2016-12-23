@@ -26,8 +26,16 @@ function pushData(dataObject, collectionPath, RESTmethod) {
     });
   });
 
+  let gameNumber = "unknown";
+
+  if (dataObject.rank) {
+    gameNumber = `with rank ${dataObject.rank}`;
+  } else {
+    gameNumber = `with bggID ${dataObject.bggID}`;
+  }
+
   req.on('error', (e) => {
-    console.log(`:: ERROR: Pushing up game ${dataObject.rank} failed:     ${e.message}`);
+    console.log(`:: ERROR: Pushing up game ${gameNumber} failed:     ${e.message}`);
   });
 
   // write data to request body

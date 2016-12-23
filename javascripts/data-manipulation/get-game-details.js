@@ -2,7 +2,8 @@
 
 // requires
 let getData = require("../get-data/get-data-serverside"),
-    pushData = require("../push-data/push-data-serverside");
+    pushData = require("../push-data/push-data-serverside"),
+    formatAPIdata = require("./format-api-data");
 
 let getGameDetails = array => {
 
@@ -20,21 +21,20 @@ let getGameDetails = array => {
     // once the API calls are done, push up game data
     Promise.all(promises).then(gameDataArray => {
 
-      // format and push up each game
-      for (let i = 0; i < gameDataArray.length; i++) {
+      // format games
+      let formattedGames = formatAPIdata(gameDataArray);
 
-        // map data
-        let name = gameDataArray[i].items.item[0].name[0].$.value;
-
-        // console.log(`Game ${i+1} Name: ${name}`);
-
+      // add game data to database in Games collection under the game's bggID
+      for (let i = 0; i < formattedGames.length; i++) {
+         pushData(formattedGames[i], `Games/{formattedGames[i].bggID}`, "PATCH");
       }
 
-
+      console.log(":: ✓ Game details for biggest movers pushed to database ");
+      resolve(formattedGames);
 
     });
 
-    resolve(15);
+
   });
 
 };
