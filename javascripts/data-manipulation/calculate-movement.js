@@ -66,9 +66,11 @@ let weekChange = (dataToday, dataCompare) => {
        pushData(prettyArray[i], `Games/{prettyArray[i].bggID}`, "PATCH");
     }
 
+    console.log(":: ✓ Game movement for biggest movers pushed to database ");
+
     // return formatted data
     resolve(prettyArray);
-    console.log("prettyArray:", prettyArray);
+    // console.log("prettyArray:", prettyArray);
 
   });
 };

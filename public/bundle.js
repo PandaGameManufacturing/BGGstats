@@ -40738,9 +40738,9 @@
 	//   "BggCall": BggCall
 	// });
 
-	console.log("Charts", Charts);
-	console.log("BggCall", BggCall);
-	console.log("Games", Games);
+	// console.log("Charts", Charts);
+	// console.log("BggCall", BggCall);
+	// console.log("Games", Games);
 
 /***/ },
 /* 350 */

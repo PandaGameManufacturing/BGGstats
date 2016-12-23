@@ -29,6 +29,7 @@ let getGameDetails = array => {
          pushData(formattedGames[i], `Games/{formattedGames[i].bggID}`, "PATCH");
       }
 
+      console.log(":: ✓ Game details for biggest movers pushed to database ");
       resolve(formattedGames);
 
     });
