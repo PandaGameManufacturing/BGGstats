@@ -26,7 +26,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
   let crawl = Crawler(`${url}`)
   .on("fetchcomplete", function(queueItem, responseBuffer, response) {
     // display when new page is fetched
-    console.log(`::   Fetched Page ${currentPage}     ${queueItem.url}`);
+    // console.log(`::   Fetched Page ${currentPage}     ${queueItem.url}`);
 
     let gameEnd = gameStart + 99; // set crawler to crawl up to 100 games per page
 
@@ -61,19 +61,23 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
 
         // end timer
         tick.stop();
-        var myTimer = t.timers.TIMER;
-        let ticks = myTimer.duration();
-        let seconds = ticks/1000000000;
-        let minutes = Math.ceil(seconds/60);
+        let myTimer = t.timers.TIMER,
+            ticks = myTimer.duration(),
+            seconds = ticks/1000000000,
+            roundedSeconds = Math.round(seconds * 100) / 100,
+            minutes = Math.ceil(seconds/60);
 
         //console log that everything has completed
         console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
         console.log("");
-        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
-        console.log(`::  The Crawler stopped at game ${lastRanked}`);
-        console.log(`::  - Duration: ${minutes} minutes (${Math.ceil(seconds)} seconds)`);
-        console.log(`::  - Started:  ${momentStartTime}`);
-        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+        console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
+        console.log(`::  The Crawler stopped`);
+        console.log(`::`);
+        console.log(`::  Last Ranked Game      ${lastRanked}`);
+        console.log(`::  Crawl Duration        ${minutes} minutes`);
+        console.log(`::  Avg. Processing Time  ${roundedSeconds} seconds`);
+        console.log(`::  Crawl Started         ${momentStartTime}`);
+        console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log("");
 
 

@@ -5,8 +5,14 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
     getData = require("../get-data/get-data-loader");
 
 // config options
-let crawlStartPage = 1,
-    gameStart = (crawlStartPage * 100) - 99, // 100 pages per page
+
+//////////////////////////////////
+                               //
+   let crawlStartPage = 1;
+                             //
+//////////////////////////////
+
+let gameStart = (crawlStartPage * 100) - 99, // 100 pages per page
     baseCrawlURL = "http://boardgamegeek.com/browse/boardgame/";
 
 // before first crawl, pull total ranked games to calculate percentile
@@ -15,7 +21,6 @@ getData.getTotalRanked().then(function(data) {
   let totalRanked = data.totalRankedGames;
 
   // start crawler
-
 
 console.log(`      .-..-.                               `);
 console.log(`    (-o/\o-)                               `);
@@ -66,7 +71,6 @@ console.log("");
 let startNextCrawl = (gameEnd, totalRanked) => {
   console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${gameEnd-99}-${gameEnd}`)
   ;
-  console.log("");
   crawlStartPage++;
   // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);
 
