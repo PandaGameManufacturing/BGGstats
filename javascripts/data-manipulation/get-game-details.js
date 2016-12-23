@@ -26,7 +26,7 @@ let getGameDetails = array => {
 
       // add game data to database in Games collection under the game's bggID
       for (let i = 0; i < formattedGames.length; i++) {
-        pushData(formattedGames[i], `/Games/{formattedGames[i].bggID}.json`, "PATCH");
+        pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");
       }
 
       console.log(":: ✓ Game details for biggest movers pushed to database ");
