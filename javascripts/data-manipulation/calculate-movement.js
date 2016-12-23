@@ -1,6 +1,7 @@
 "use strict";
 
-let pushData = require("../push-data/push-data-serverside");
+let pushData = require("../push-data/push-data-serverside"),
+    addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 let weekChange = (dataToday, dataCompare) => {
 
@@ -63,6 +64,7 @@ let weekChange = (dataToday, dataCompare) => {
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
+      addCrawlTimes(prettyArray[i]); // add crawl times tied to week movement push
       pushData(prettyArray[i], `/Games/${prettyArray[i].bggID}.json`, "PATCH");
     }
 
