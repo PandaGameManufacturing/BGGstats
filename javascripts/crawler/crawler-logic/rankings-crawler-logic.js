@@ -93,13 +93,10 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
     let $ = cheerio.load(buffer.toString("utf8"));
     // pull href path
     let hrefData = $(`#results_objectname${resultsNumber}`).find('a').attr("href");
-    console.log("hrefData:", hrefData);
     // pull out href="boardgame/148943/ from stuff like href="/boardgame/148943/coup-rebellion-g54" to exclude non-bggId numbers
     let smallerPath = hrefData.match(/boardgame\/(.*?)\//);
-    console.log("smallerPath:", smallerPath);
     // remove everything execpt digits on first match
     let prettyData = smallerPath[0].replace(/\D+/g, '');
-    console.log("prettyData:", prettyData);
     return prettyData;
     };
 
