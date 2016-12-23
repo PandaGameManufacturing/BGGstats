@@ -41,9 +41,9 @@ console.log(`      /::::\_.._  _.._  _.._  _.._/::::\   `);
 console.log(`      \::::/::::\/::::\/::::\/::::\::::/   `);
 console.log(`       ."".\::::/\::::/\::::/\::::/."".    `);
 console.log(`            ."".  ."".  ."".  ."".         `);
-console.log(":::::::::::::::::::::::::::::::::::");
-console.log("::  Rankings Crawler Booting Up  ::");
-console.log(":::::::::::::::::::::::::::::::::::");
+console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
+console.log("::          Rankings Crawler Booting Up         ::");
+console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
 console.log("");
 
   // start crawler at correct url if the first page is page 1

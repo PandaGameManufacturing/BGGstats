@@ -16,9 +16,9 @@ let today          = getDateMinus(0),
 
 let formatCrawlData = () => {
 
-  console.log(":::::::::::::::::::::::::::::::");
-  console.log("::  Manipulating Crawl Data  ::");
-  console.log(":::::::::::::::::::::::::::::::");
+  console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
+  console.log("::           Manipulating Crawl Data            ::");
+  console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
   console.log("");
 
   let dataTodayPromise = getTodayData(today);
@@ -35,7 +35,7 @@ let formatCrawlData = () => {
   }).then( data => {
 
     // build an array of movement from two sets of data
-    return calculateMovement(data[0], data[1]);
+    return calculateMovement.weekChange(data[0], data[1]);
 
   }).then( data => {
 
@@ -83,6 +83,6 @@ let formatCrawlData = () => {
 
 
 // invoking function when testing file directly
-// formatCrawlData();
+formatCrawlData();
 
 module.exports = formatCrawlData;

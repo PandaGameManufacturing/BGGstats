@@ -377,3 +377,7 @@ let BggCall = {"items":{"$":{"termsofuse":"http://boardgamegeek.com/xmlapi/terms
 //   "Users": Users,
 //   "BggCall": BggCall
 // });
+
+console.log("Charts", Charts);
+console.log("BggCall", BggCall);
+console.log("Games", Games);

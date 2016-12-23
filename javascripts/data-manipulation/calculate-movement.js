@@ -1,6 +1,8 @@
 "use strict";
 
-let compareTwoSetsOfData = (dataToday, dataCompare) => {
+let pushData = require("../push-data/push-data-serverside");
+
+let weekChange = (dataToday, dataCompare) => {
 
   return new Promise( (resolve, reject) => {
 
@@ -36,7 +38,7 @@ let compareTwoSetsOfData = (dataToday, dataCompare) => {
         if (todayrank !== comparerank) {
           // push change in movement to the movement array
           let object = {};
-          object.movement = comparerank - todayrank;
+          object.movementWeek = comparerank - todayrank;
           object.bggID = prop;
 
           movement.push(object);
@@ -46,8 +48,8 @@ let compareTwoSetsOfData = (dataToday, dataCompare) => {
 
     // sort movement array by movement
     movement.sort(function (a, b) {
-      if (a.movement < b.movement) { return 1;  }
-      if (a.movement > b.movement) { return -1; }
+      if (a.movementWeek < b.movementWeek) { return 1;  }
+      if (a.movementWeek > b.movementWeek) { return -1; }
       return 0;
     });
 
@@ -59,10 +61,16 @@ let compareTwoSetsOfData = (dataToday, dataCompare) => {
     // combine top 10 and bottom 5 into 1 array
     let prettyArray = top10.concat(bottom5);
 
+    // add game data to database in Games collection under the game's bggID
+    for (let i = 0; i < prettyArray.length; i++) {
+       pushData(prettyArray[i], `Games/{prettyArray[i].bggID}`, "PATCH");
+    }
+
     // return formatted data
     resolve(prettyArray);
+    console.log("prettyArray:", prettyArray);
 
   });
 };
 
-module.exports = compareTwoSetsOfData;
+module.exports = {weekChange};

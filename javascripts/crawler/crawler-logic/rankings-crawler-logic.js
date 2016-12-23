@@ -71,12 +71,12 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
         console.log("");
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
-        console.log(`::  The Crawler stopped`);
+        console.log(`:: ✓ The Crawler stopped`);
         console.log(`::`);
-        console.log(`::  Last Ranked Game      ${lastRanked}`);
-        console.log(`::  Crawl Duration        ${minutes} minutes`);
-        console.log(`::  Avg. Processing Time  ${roundedSeconds} seconds`);
-        console.log(`::  Crawl Started         ${momentStartTime}`);
+        console.log(`::   Last Ranked Game      ${lastRanked}`);
+        console.log(`::   Crawl Duration        ${minutes} minutes`);
+        console.log(`::   Avg. Processing Time  ${roundedSeconds} seconds`);
+        console.log(`::   Crawl Started         ${momentStartTime}`);
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log("");
 
