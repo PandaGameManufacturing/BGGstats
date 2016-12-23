@@ -59,7 +59,6 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         // push last ranked game data up
         pushData(lastRankedData, `/BGG/${data.timeYMD}.json`, "PUT");
 
-
         // end timer
         tick.stop();
         var myTimer = t.timers.TIMER;
@@ -67,17 +66,15 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         let seconds = ticks/1000000000;
         let minutes = Math.ceil(seconds/60);
 
-        console.log("It took: " + seconds + "seconds");
-
-          //console log that everything has completed
-          console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
-          console.log("");
-          console.log(":::::::::::::::::::::::::::::::::::::::::::::");
-          console.log(`::  The Crawler stopped at game ${lastRanked}`);
-          console.log(`::  - Duration: ${minutes} minutes (${Math.ceil(seconds)} seconds)`);
-          console.log(`::  - Started:  ${momentStartTime}`);
-          console.log(":::::::::::::::::::::::::::::::::::::::::::::");
-          console.log("");
+        //console log that everything has completed
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
+        console.log("");
+        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+        console.log(`::  The Crawler stopped at game ${lastRanked}`);
+        console.log(`::  - Duration: ${minutes} minutes (${Math.ceil(seconds)} seconds)`);
+        console.log(`::  - Started:  ${momentStartTime}`);
+        console.log(":::::::::::::::::::::::::::::::::::::::::::::");
+        console.log("");
 
 
         manipulateData.crawler();
