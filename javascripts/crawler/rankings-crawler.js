@@ -69,7 +69,7 @@ console.log("");
 
 // logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
-  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${gameEnd-99}-${gameEnd}`)
+  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${numberWithCommas(gameEnd-99)} - ${numberWithCommas(gameEnd)}`)
   ;
   crawlStartPage++;
   // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);
@@ -83,3 +83,8 @@ let startNextCrawl = (gameEnd, totalRanked) => {
     startNextCrawl // callback
   );
 };
+
+// function to add commas to large numbers
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

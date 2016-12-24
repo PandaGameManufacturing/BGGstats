@@ -5,14 +5,15 @@ let getDateMinus = require("../assets/get-date"),
     getTodayData = require("./get-today-rankings"),
     getCompareData = require("./get-compare-rankings"),
     calculateMovement = require("./calculate-movement"),
-    getGameDetails = require("./get-game-details");
+    getGameDetails = require("./get-game-details"),
+    getData = require("../get-data/get-data-loader");
 
 // configuration options
 let today          = getDateMinus(0),
     compareString  = "a week ago",     // for console logs
-    compareDate    = getDateMinus(7), // compare to a week back
+    compareDate    = getDateMinus(1), // compare to a week back
     fallbackString = "6 days ago",     // for console logs
-    fallbackDate   = getDateMinus(6);  // compare to 6 days ago instead
+    fallbackDate   = getDateMinus(2);  // compare to 6 days ago instead
 
 let formatCrawlData = () => {
 
@@ -35,62 +36,106 @@ let formatCrawlData = () => {
   }).then( data => {
 
     // build an array of movement from two sets of data
-    return calculateMovement.weekChange(data[0], data[1]);
+    // push up movement info while I'm at it.
+    let movement = calculateMovement.dayChange(data[0], data[1]);
+    return movement;
+
 
   }).then( data => {
 
     console.log(`:: ✓ Movement array calculated. It has ${data.length} games.`);
-    console.log(`::    - Biggest mover is up ${data[0].movement} (bggID: ${data[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${data[14].movement} (bggID: ${data[14].bggID})`);
+    console.log(`::    - Biggest mover is up ${data[0].movementDay} (bggID: ${data[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${data[14].movementDay} (bggID: ${data[14].bggID})`);
 
-    // make API calls for the 15 games and push up data to database along with movement info
+    // make API calls for the 15 games and push up game details
     getGameDetails(data);
 
-    // get top 10 games and push up game details
+    console.log(":: ✓ Data pushed up to database");
+    console.log("::   - details and movement for top 15 movers pushed up");
+
     // console.log("today rankings:", data[0]);
 
-    let hotness = data;
-    return {hotness}; // return hotness array of ids
+    let movement = data;
+    return movement; // return hotness array of ids
 
   }).then( data => {
 
-    // console.log("I have some data:", data);
+    let movementData = data;
 
-    // console.log(`:: ✓ Data for ${data} games pushed up.`);
+    // get top 10 games
+    getData.top10().then(function(top10data) {
 
-     // do more stuff
+      let unsorted = [],
+          top10 = [],
+          movement = [];
 
+      // pull out id and rank for top10 data
+      for (let prop in top10data) {
+        unsorted.push({
+          "bggID": top10data[prop].bggID,
+          "rank": top10data[prop].rank
+        });
+      }
+
+      // sort top 10 by rank
+      sortByKey(unsorted, "rank");
+
+      // push sorted to top10 array
+      for (let i = 0; i < unsorted.length; i++) {
+        top10.push(unsorted[i].bggID);
+      }
+
+      // make API calls for the 10 games and push up game details
+      getGameDetails(top10);
+
+      // format movement array
+      for (let i = 0; i < movementData.length; i++) {
+        movement.push(movementData[i].bggID);
+      }
+
+      // 1. get hotness data.
+      // get top 10 games
+
+      // 2. push up games
+      // 3. pass along hotness array
+
+      // return two game arrays I'll need to build out the charts
+      return {top10, movement};
+
+
+
+    }).then( data => {
+
+      console.log("all data:", data);
+
+      // getData.hotness().then(function(hotnessdata) {
+      //   console.log("hotnessdata:", hotnessdata);
+      // });
+
+
+
+      // add crawl times
+
+      // build charts data and push it up
+
+      // top10 chart data... in another module
+
+    });
   });
-
 };
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     // 3. loop over 15 games, build out game object
-
-//     // 4. push up each game object to Games collection by id
-
-
-
-
 // invoking function when testing file directly
 // formatCrawlData();
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
 
 module.exports = formatCrawlData;
