@@ -6,6 +6,7 @@ let getData = require("../get-data/get-data-serverside"),
     formatAPIdata = require("./format-api-data"),
     addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
+// This function takes an array of ids, gets game details for the ids, and pushes up details to the correct place
 let getGameDetails = array => {
 
   return new Promise( (resolve, reject) => {

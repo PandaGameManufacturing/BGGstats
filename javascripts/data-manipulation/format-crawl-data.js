@@ -118,17 +118,22 @@ let formatCrawlData = () => {
 
       getData.hotness().then(function(value) {
         // parse, cut result to first 5
-        let data = JSON.parse(value).slice(0,5);
+        let hotnessData = JSON.parse(value).slice(0,5);
         let hotness = [];
-        for (let i = 0; i < data.length; i++) {
-          hotness.push(data[i].gameId);
+        for (let i = 0; i < hotnessData.length; i++) {
+          hotness.push(hotnessData[i].gameId);
         }
         // get game details for hotness games
         getGameDetails(hotness);
 
         //add hotness data to other data
-        data.hotness = hotness;
-        return data;
+        let combinedData = {};
+        combinedData.top10 = data.top10;
+        combinedData.movement = data.movement;
+        combinedData.hotness = hotness;
+        console.log("all data:", combinedData);
+        return combinedData;
+
 
         }, function(reason) {
           console.log("ERROR: Couldn't get hotness API data", reason);
@@ -150,8 +155,9 @@ let formatCrawlData = () => {
 
     }).then( data => {
 
-      getCrawlTimes(data);
-      console.log("all data:", data);
+
+      // console.log("all data:", data);
+      // getCrawlTimes(data);
 
 
     });
