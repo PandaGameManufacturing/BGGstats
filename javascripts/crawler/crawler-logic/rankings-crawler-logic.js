@@ -68,7 +68,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
             minutes = Math.ceil(seconds/60);
 
         //console log that everything has completed
-        console.log(`:: ✓ Crawled page ${currentPage}     games ${numberWithCommas(gameStart)}-${numberWithCommas(lastRanked)}`);
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${numberWithCommas(gameStart)} - ${numberWithCommas(lastRanked)}`);
         console.log("");
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log(`:: ✓ The Crawler stopped`);

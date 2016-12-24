@@ -55,21 +55,19 @@ let formatCrawlData = () => {
 
     // console.log("today rankings:", data[0]);
 
-    let hotness = data;
-    return hotness; // return hotness array of ids
+    let movement = data;
+    return movement; // return hotness array of ids
 
   }).then( data => {
 
-    let hotnessData = data;
+    let movementData = data;
 
-    // console.log("hotness data", data);
-    // get top 10 games and push up game details
+    // get top 10 games
     getData.top10().then(function(top10data) {
-      // console.log("top10:", top10);
 
       let unsorted = [],
           top10 = [],
-          hotness = [];
+          movement = [];
 
       // pull out id and rank for top10 data
       for (let prop in top10data) {
@@ -79,10 +77,10 @@ let formatCrawlData = () => {
         });
       }
 
+      // sort top 10 by rank
       sortByKey(unsorted, "rank");
 
-      console.log("unsorted:", unsorted);
-
+      // push sorted to top10 array
       for (let i = 0; i < unsorted.length; i++) {
         top10.push(unsorted[i].bggID);
       }
@@ -90,53 +88,48 @@ let formatCrawlData = () => {
       // make API calls for the 10 games and push up game details
       getGameDetails(top10);
 
-      // format hotness array
-      for (let i = 0; i < hotnessData.length; i++) {
-        hotness.push(hotnessData[i].bggID);
+      // format movement array
+      for (let i = 0; i < movementData.length; i++) {
+        movement.push(movementData[i].bggID);
       }
 
-      return {top10, hotness};
+      // 1. get hotness data.
+      // get top 10 games
 
-      // for (var i = 0; i < top10.length; i++) {
-      //   let value = top10[i];
-      //   // let value = top10[i][Object.keys(top10[i])[0]];
-      //   console.log("value in loop:", value);
-      // }
+      // 2. push up games
+      // 3. pass along hotness array
 
-      // make API calls for the 15 games and push up game details
-      // getGameDetails(data);
+      // return two game arrays I'll need to build out the charts
+      return {top10, movement};
 
-
-      // return top10;
 
 
     }).then( data => {
 
       console.log("all data:", data);
 
+      // getData.hotness().then(function(hotnessdata) {
+      //   console.log("hotnessdata:", hotnessdata);
+      // });
+
+
+
+      // add crawl times
+
+      // build charts data and push it up
+
+      // top10 chart data... in another module
 
     });
-
-
-    // console.log("ranks from today:", data[0]);
-
-    //make call to database to get top10.. then get game details details and push up....
-
-
   });
-
 };
 
-
-//     // 3. loop over 15 games, build out game object
-
-//     // 4. push up each game object to Games collection by id
 
 
 
 
 // invoking function when testing file directly
-formatCrawlData();
+// formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {

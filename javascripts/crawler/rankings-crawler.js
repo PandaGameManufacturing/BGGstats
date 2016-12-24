@@ -69,7 +69,7 @@ console.log("");
 
 // logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
-  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${numberWithCommas(gameEnd-99)}-${numberWithCommas(gameEnd)}`)
+  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${numberWithCommas(gameEnd-99)} - ${numberWithCommas(gameEnd)}`)
   ;
   crawlStartPage++;
   // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);

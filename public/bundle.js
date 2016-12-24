@@ -307,7 +307,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(9),
+	let getData = __webpack_require__(127),
 	    getHotness = getData('https://bgg-json.azurewebsites.net/hot');
 	module.exports = getHotness;
 
@@ -40738,7 +40738,7 @@
 	//   "BggCall": BggCall
 	// });
 
-	// console.log("Charts", Charts);
+	console.log("Charts", Charts);
 	// console.log("BggCall", BggCall);
 	// console.log("Games", Games);
 
