@@ -13,15 +13,15 @@ let getGameDetails = array => {
     // make API calls for the array of games
     let promises = [];
     for (let i = 0; i < array.length; i++) {
+
       // set location of API calls and insert id
-      let url = `https://bgg-api.herokuapp.com/api/v1/thing?id=${array[i].bggID}&stats=1`;
+      let url = `https://bgg-api.herokuapp.com/api/v1/thing?id=${array[i]}&stats=1`;
       let p = getData(url);
       promises.push(p);
     }
 
     // once the API calls are done, push up game data
     Promise.all(promises).then(gameDataArray => {
-
       // format games
       let formattedGames = formatAPIdata(gameDataArray);
 

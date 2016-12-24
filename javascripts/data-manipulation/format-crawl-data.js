@@ -6,7 +6,8 @@ let getDateMinus = require("../assets/get-date"),
     getCompareData = require("./get-compare-rankings"),
     calculateMovement = require("./calculate-movement"),
     getGameDetails = require("./get-game-details"),
-    getData = require("../get-data/get-data-loader");
+    getData = require("../get-data/get-data-loader"),
+    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -36,7 +37,7 @@ let formatCrawlData = () => {
   }).then( data => {
 
     // build an array of movement from two sets of data
-    // push up movement info while I'm at it.
+    // push up movement data
     let movement = calculateMovement.dayChange(data[0], data[1]);
     return movement;
 
@@ -48,7 +49,13 @@ let formatCrawlData = () => {
     console.log(`::    - Lowest mover is down ${data[14].movementDay} (bggID: ${data[14].bggID})`);
 
     // make API calls for the 15 games and push up game details
-    getGameDetails(data);
+    let arrayOfGames = [];
+    for (var i = 0; i < data.length; i++) {
+      arrayOfGames.push(data[i].bggID);
+    }
+
+    // push up game details for movement games
+    getGameDetails(arrayOfGames);
 
     console.log(":: ✓ Data pushed up to database");
     console.log("::   - details and movement for top 15 movers pushed up");
@@ -103,13 +110,34 @@ let formatCrawlData = () => {
       return {top10, movement};
 
 
-
     }).then( data => {
 
-      console.log("all data:", data);
-
-      // getData.hotness().then(function(hotnessdata) {
+      // getData.hotness().then(hotnessdata => {
       //   console.log("hotnessdata:", hotnessdata);
+      // });
+
+      getData.hotness().then(function(value) {
+        // parse, cut result to first 5
+        let data = JSON.parse(value).slice(0,5);
+        let hotness = [];
+        for (let i = 0; i < data.length; i++) {
+          hotness.push(data[i].gameId);
+        }
+        // get game details for hotness games
+        getGameDetails(hotness);
+
+        //add hotness data to other data
+        data.hotness = hotness;
+        return data;
+
+        }, function(reason) {
+          console.log("ERROR: Couldn't get hotness API data", reason);
+      });
+
+
+
+      // getHotness('https://bgg-json.azurewebsites.net/hot').then(data => {
+      //   console.log("hotness data:", data);
       // });
 
 
@@ -120,6 +148,12 @@ let formatCrawlData = () => {
 
       // top10 chart data... in another module
 
+    }).then( data => {
+
+      getCrawlTimes(data);
+      console.log("all data:", data);
+
+
     });
   });
 };
@@ -129,7 +163,7 @@ let formatCrawlData = () => {
 
 
 // invoking function when testing file directly
-// formatCrawlData();
+formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {

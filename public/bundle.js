@@ -307,8 +307,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(127),
-	    getHotness = getData('https://bgg-json.azurewebsites.net/hot');
+	let getData = __webpack_require__(127);
+
+	let getHotness = () => {
+	 return getData('https://bgg-json.azurewebsites.net/hot');
+	};
+
 	module.exports = getHotness;
 
 /***/ },
