@@ -64,18 +64,18 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         let myTimer = t.timers.TIMER,
             ticks = myTimer.duration(),
             seconds = ticks/1000000000,
-            roundedSeconds = Math.round(seconds * 100) / 100,
+            avgTime = Math.round(seconds/lastRanked * 100) / 100,
             minutes = Math.ceil(seconds/60);
 
         //console log that everything has completed
-        console.log(`:: ✓ Crawled page ${currentPage}     games ${gameStart}-${lastRanked}`);
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${numberWithCommas(gameStart)}-${numberWithCommas(lastRanked)}`);
         console.log("");
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log(`:: ✓ The Crawler stopped`);
         console.log(`::`);
-        console.log(`::   Last Ranked Game      ${lastRanked}`);
+        console.log(`::   Total Games Crawled   ${numberWithCommas(lastRanked)}`);
         console.log(`::   Crawl Duration        ${minutes} minutes`);
-        console.log(`::   Avg. Processing Time  ${roundedSeconds} seconds`);
+        console.log(`::   Avg. Processing Time  ${avgTime} seconds`);
         console.log(`::   Crawl Started         ${momentStartTime}`);
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log("");
@@ -129,6 +129,12 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
     let dirtyData = $(`.js-tablist`).eq(5).find('ul').find('li').eq(0).text();
     return dirtyData.replace(/\D+/g, ''); // remove everything execpt digits
   };
+
+  // function to add commas to large numbers
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
 
   // start crawl
   crawl.start();

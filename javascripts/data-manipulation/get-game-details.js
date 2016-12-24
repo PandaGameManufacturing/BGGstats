@@ -3,7 +3,8 @@
 // requires
 let getData = require("../get-data/get-data-serverside"),
     pushData = require("../push-data/push-data-serverside"),
-    formatAPIdata = require("./format-api-data");
+    formatAPIdata = require("./format-api-data"),
+    addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 let getGameDetails = array => {
 
@@ -26,10 +27,10 @@ let getGameDetails = array => {
 
       // add game data to database in Games collection under the game's bggID
       for (let i = 0; i < formattedGames.length; i++) {
+        addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
         pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");
       }
 
-      console.log(":: ✓ Game details for biggest movers pushed to database ");
       resolve(formattedGames);
 
     });

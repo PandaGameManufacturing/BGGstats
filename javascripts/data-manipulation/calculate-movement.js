@@ -1,9 +1,9 @@
 "use strict";
 
-let pushData = require("../push-data/push-data-serverside"),
-    addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
+// requires
+let pushData = require("../push-data/push-data-serverside");
 
-let weekChange = (dataToday, dataCompare) => {
+let dayChange = (dataToday, dataCompare) => {
 
   return new Promise( (resolve, reject) => {
 
@@ -39,7 +39,7 @@ let weekChange = (dataToday, dataCompare) => {
         if (todayrank !== comparerank) {
           // push change in movement to the movement array
           let object = {};
-          object.movementWeek = comparerank - todayrank;
+          object.movementDay = comparerank - todayrank;
           object.bggID = prop;
 
           movement.push(object);
@@ -49,8 +49,8 @@ let weekChange = (dataToday, dataCompare) => {
 
     // sort movement array by movement
     movement.sort(function (a, b) {
-      if (a.movementWeek < b.movementWeek) { return 1;  }
-      if (a.movementWeek > b.movementWeek) { return -1; }
+      if (a.movementDay < b.movementDay) { return 1;  }
+      if (a.movementDay > b.movementDay) { return -1; }
       return 0;
     });
 
@@ -64,17 +64,13 @@ let weekChange = (dataToday, dataCompare) => {
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
-      addCrawlTimes(prettyArray[i]); // add crawl times tied to week movement push
       pushData(prettyArray[i], `/Games/${prettyArray[i].bggID}.json`, "PATCH");
     }
 
-    console.log(":: ✓ Game movement for biggest movers pushed to database ");
-
     // return formatted data
     resolve(prettyArray);
-    // console.log("prettyArray:", prettyArray);
 
   });
 };
 
-module.exports = {weekChange};
+module.exports = {dayChange};
