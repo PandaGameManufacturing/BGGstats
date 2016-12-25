@@ -2,8 +2,15 @@
 
 // requires
 let assets = require("./assets/asset-loader"),
-    loadChart = require("./chart-logic/chart-logic-loader");
+    createChart = require("./chart-visuals/chart-visuals-loader"),
+    getData = require("./get-data/get-data-loader");
 
-loadChart.hotness ("slot1");
-loadChart.rank    ("slot2");
-loadChart.top10   ("slot3");
+// get data for the day
+getData.charts().then( unparsed => {
+  let data = JSON.parse(unparsed);
+  // console.log("data:", data);
+  //once the app has the data, draw the charts
+  createChart.hotness.hotnessChart("The Hotness",    data, "slot1");
+  // createChart.rank("Biggest Movers", data, "slot2");
+  // createChart.top10("Top 10",         data, "slot3");
+});

@@ -6,7 +6,7 @@ let getData = require("../get-data/get-data-loader"),
     arrayOfPromises = [],
     data = {};
 
-let hotnessLogic = slot => {
+let hotnessLogic = (data, slot) => {
   getData.hotness.then( result => {                             // get hotness data
     data = JSON.parse(result).slice(0,5);                       // push first five results to data.hotness
     for (let i = 0; i < 5; i++) {                               // iterate over the top 5

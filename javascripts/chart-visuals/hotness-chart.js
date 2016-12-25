@@ -9,8 +9,14 @@ let globalData;
 
 let hotnessChart = (title, data, slot) => {
 
+  // push game data for 5 hotest games to hotnessGames array
+  let hotnessGames = [];
+  for (let i = 0; i < data.charts.hotness.length; i++) {
+    hotnessGames.push(data.games[data.charts.hotness[i]]);
+  }
+
   // save data so other function can use it
-  globalData = data;
+  globalData = hotnessGames;
 
   /**********************\
   |                      |
@@ -22,16 +28,16 @@ let hotnessChart = (title, data, slot) => {
 for (let i = 0; i < 5; i++) {
    // item 1 description
   let truncateLength1 = 250,
-      item1Link1 = `https://boardgamegeek.com/boardgame/${data[i].gameId}`,
-      descriptionData1 = String(data[i].details.description).substring(0, truncateLength1),
+      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
+      descriptionData1 = String(hotnessGames[i].description).substring(0, truncateLength1),
       description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
   // item 1 html
   top5list[i] = `
-    <li><a href="${item1Link1}/"><strong>About ${data[i].name}</strong</a></li>
+    <li><a href="${item1Link1}/"><strong>About ${hotnessGames[i].name}</strong</a></li>
     <table class="table table-hover">
       <tr>
-        <td><strong>${data[i].yearPublished}</strong> - ${description1}</td>
+        <td><strong>${hotnessGames[i].yearPublished}</strong> - ${description1}</td>
       </tr>
     </table>
   `;
@@ -45,11 +51,11 @@ for (let i = 0; i < 5; i++) {
 
   // titles in list form
     gameDetails1 += `<ol>`;
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < hotnessGames.length; i++) {
       gameDetails1 += `
          <li>
-          <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-            ${data[i].name}
+          <a href="https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}/">
+            ${hotnessGames[i].name}
           </a>
         </li>
       `;
@@ -57,19 +63,24 @@ for (let i = 0; i < 5; i++) {
     gameDetails1 += `</ol>`;
 
     // player count
-    for (let i = 0; i < data.length; i++) {
-      let playerCountMin = data[i].details.minplayers[0].$.value,
-          playerCountMax = data[i].details.maxplayers[0].$.value,
+    for (let i = 0; i < hotnessGames.length; i++) {
+      let playerCountMin = hotnessGames[i].minPlayers,
+          playerCountMax = hotnessGames[i].maxPlayers,
           playerCount = `${playerCountMin}-${playerCountMax} players`;
           gameDetails2 += `<td>${playerCount}</td>`;
     }
 
     // playing time
-    for (let i = 0; i < data.length; i++) {
-      let timeMin = data[i].details.minplaytime[0].$.value,
-          timeMax = data[i].details.maxplaytime[0].$.value,
-          time = `${timeMin}-${timeMax} minutes`;
-          gameDetails3 += `<td>${time}</td>`;
+    for (let i = 0; i < hotnessGames.length; i++) {
+      let time = "";
+      let timeMin = hotnessGames[i].minPlayTime;
+      let timeMax = hotnessGames[i].maxPlayTime;
+          if (timeMin === timeMax) {
+            time = `${timeMax} minutes`;
+          } else {
+            time = `${timeMin}-${timeMax} minutes`;
+          }
+        gameDetails3 += `<td>${time}</td>`;
     }
 
   /**********************\
@@ -98,11 +109,11 @@ for (let i = 0; i < 5; i++) {
         `;
 
         // loop over shelf images
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < hotnessGames.length; i++) {
           shelf += `
             <div class="shelf-shadowed">
-              <a href="https://boardgamegeek.com/boardgame/${data[i].gameId}/">
-                <img id="hotness-${i+1}" class="shelf-img" alt="${data[i].name}" title="${data[i].name}" src="${data[i].thumbnail}">
+              <a href="https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}/">
+                <img id="hotness-${i+1}" class="shelf-img" alt="${hotnessGames[i].name}" title="${hotnessGames[i].name}" src="${hotnessGames[i].thumbnail}">
               </a>
             </div>
           `;

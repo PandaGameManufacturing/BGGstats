@@ -5,7 +5,7 @@ let $ = require("jquery"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
-let rankLogic = slot => {
+let rankLogic = (data, slot) => {
 
   // compare back 30 days logic
   let compareDate = 20161214;

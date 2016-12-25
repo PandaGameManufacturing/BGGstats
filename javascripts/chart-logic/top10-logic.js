@@ -5,7 +5,7 @@ let $ = require("jquery"),
     getData = require("../get-data/get-data-loader"),
     createChart = require("../chart-visuals/chart-visuals-loader");
 
-let top10Logic = slot => {
+let top10Logic = (data, slot) => {
 
   // pull top 10 data from database
   getData.top10().then( databaseData => {
