@@ -7,6 +7,7 @@ let getDateMinus = require("../assets/get-date"),
     calculateMovement = require("./calculate-movement"),
     getGameDetails = require("./get-game-details"),
     getData = require("../get-data/get-data-loader"),
+    pushData = require("../push-data/push-data-serverside"),
     getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 // configuration options
@@ -100,12 +101,6 @@ let formatCrawlData = () => {
         movement.push(movementData[i].bggID);
       }
 
-      // 1. get hotness data.
-      // get top 10 games
-
-      // 2. push up games
-      // 3. pass along hotness array
-
       // return two game arrays I'll need to build out the charts
       return {top10, movement};
 
@@ -124,7 +119,6 @@ let formatCrawlData = () => {
 
         // concat all game ids
         let allGameIds = data.movement.concat(hotness, data.top10);
-        console.log("allGameIds:", allGameIds);
 
         //create structure for compiled data
         let chartData = {
@@ -162,27 +156,25 @@ let formatCrawlData = () => {
 
     }).then( data => {
 
+      // pull down all the games data from the database
       let promises = [];
-
       for (let i = 0; i < data.allGameIds.length; i++) {
-        console.log("id:", data.allGameIds[i]);
         let p = getData.databaseGame(data.allGameIds[i]);
-        console.log("p:", p);
+        promises.push(p);
       }
 
-      Promise.all(promises).then(values => {
-        console.log(values); // [3, 1337, "foo"]
+      // once the data is available,
+      Promise.all(promises).then(gameArray => {
+        for (let i = 0; i < gameArray.length; i++) {
+          // create key with game id in the games property with game data
+          data.chartData.games[gameArray[i].bggID] = gameArray[i];
+        }
+          // add crawl times
+          getCrawlTimes(data.chartData);
+          // push up data to Charts collection under today's date
+          pushData(data.chartData, `/Charts/${today}.json`, "POST");
+
       });
-
-      // add crawl times
-      // add game data
-
-      console.log("chart data:", data.chartData);
-
-      // console.log("all data:", data);
-      // getCrawlTimes(data);
-
-
     });
   });
 };
