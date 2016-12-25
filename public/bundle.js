@@ -226,6 +226,7 @@
 	    top10 = __webpack_require__(125),
 	    getTotalRanked = __webpack_require__(126),
 	    rankings = __webpack_require__(346),
+	    databaseGame = __webpack_require__(421),
 
 	    // Local Data
 	    historic = __webpack_require__(347),
@@ -244,6 +245,7 @@
 	  top10,
 	  getTotalRanked,
 	  rankings,
+	  databaseGame,
 	  historic,
 	  price
 	};
@@ -307,8 +309,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	let getData = __webpack_require__(127),
-	    getHotness = getData('https://bgg-json.azurewebsites.net/hot');
+	let getData = __webpack_require__(127);
+
+	let getHotness = () => {
+	 return getData('https://bgg-json.azurewebsites.net/hot');
+	};
+
 	module.exports = getHotness;
 
 /***/ },
@@ -40738,7 +40744,7 @@
 	//   "BggCall": BggCall
 	// });
 
-	console.log("Charts", Charts);
+	// console.log("Charts", Charts);
 	// console.log("BggCall", BggCall);
 	// console.log("Games", Games);
 
@@ -56005,6 +56011,26 @@
 	    return comparison === 0 || comparison & DOCUMENT_POSITION_CONTAINED_BY
 	}
 
+
+/***/ },
+/* 421 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	// requires
+	let getData = __webpack_require__(127);
+
+	// URL config
+	let baseURL    = "https://bggstats-2de27.firebaseio.com/",
+	    collection = "Games/";
+
+	// get a specific game info in the Games collection
+	let databaseGameInfo = gameId => {
+	  return getData(`${baseURL}${collection}${gameId}.json`);
+	};
+
+	module.exports = databaseGameInfo;
 
 /***/ }
 /******/ ]);

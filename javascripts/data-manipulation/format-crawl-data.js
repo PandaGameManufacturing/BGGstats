@@ -6,7 +6,8 @@ let getDateMinus = require("../assets/get-date"),
     getCompareData = require("./get-compare-rankings"),
     calculateMovement = require("./calculate-movement"),
     getGameDetails = require("./get-game-details"),
-    getData = require("../get-data/get-data-loader");
+    getData = require("../get-data/get-data-loader"),
+    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -36,7 +37,7 @@ let formatCrawlData = () => {
   }).then( data => {
 
     // build an array of movement from two sets of data
-    // push up movement info while I'm at it.
+    // push up movement data
     let movement = calculateMovement.dayChange(data[0], data[1]);
     return movement;
 
@@ -48,7 +49,13 @@ let formatCrawlData = () => {
     console.log(`::    - Lowest mover is down ${data[14].movementDay} (bggID: ${data[14].bggID})`);
 
     // make API calls for the 15 games and push up game details
-    getGameDetails(data);
+    let arrayOfGames = [];
+    for (var i = 0; i < data.length; i++) {
+      arrayOfGames.push(data[i].bggID);
+    }
+
+    // push up game details for movement games
+    getGameDetails(arrayOfGames);
 
     console.log(":: ✓ Data pushed up to database");
     console.log("::   - details and movement for top 15 movers pushed up");
@@ -103,22 +110,78 @@ let formatCrawlData = () => {
       return {top10, movement};
 
 
+    }).then( data => {
+
+      return getData.hotness().then(function(value) {
+        // parse, cut result to first 5
+        let hotnessData = JSON.parse(value).slice(0,5);
+        let hotness = [];
+        for (let i = 0; i < hotnessData.length; i++) {
+          hotness.push(hotnessData[i].gameId);
+        }
+        // get game details for hotness games
+        getGameDetails(hotness);
+
+        // concat all game ids
+        let allGameIds = data.movement.concat(hotness, data.top10);
+        console.log("allGameIds:", allGameIds);
+
+        //create structure for compiled data
+        let chartData = {
+          charts: {
+            hotness: [],
+            top10: {
+             games: [],
+             data: [],
+            },
+            movement: {
+              positive: [],
+              negative: []
+            }
+          },
+          games: {},
+        };
+
+        // compile data
+        chartData.charts.top10 = data.top10;
+        for (let i = 0; i < 10; i++) {
+          chartData.charts.movement.positive.push(data.movement[i]);
+        }
+        for (let i = 10; i < 15; i++) {
+          chartData.charts.movement.negative.push(data.movement[i]);
+        }
+        chartData.charts.hotness = hotness;
+
+
+        return {chartData, allGameIds};
+
+        }, function(reason) {
+          console.log("ERROR: Couldn't get hotness API data", reason);
+      });
+
 
     }).then( data => {
 
-      console.log("all data:", data);
+      let promises = [];
 
-      // getData.hotness().then(function(hotnessdata) {
-      //   console.log("hotnessdata:", hotnessdata);
-      // });
+      for (let i = 0; i < data.allGameIds.length; i++) {
+        console.log("id:", data.allGameIds[i]);
+        let p = getData.databaseGame(data.allGameIds[i]);
+        console.log("p:", p);
+      }
 
-
+      Promise.all(promises).then(values => {
+        console.log(values); // [3, 1337, "foo"]
+      });
 
       // add crawl times
+      // add game data
 
-      // build charts data and push it up
+      console.log("chart data:", data.chartData);
 
-      // top10 chart data... in another module
+      // console.log("all data:", data);
+      // getCrawlTimes(data);
+
 
     });
   });
@@ -129,7 +192,7 @@ let formatCrawlData = () => {
 
 
 // invoking function when testing file directly
-// formatCrawlData();
+formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
