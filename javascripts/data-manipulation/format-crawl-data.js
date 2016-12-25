@@ -51,7 +51,7 @@ let formatCrawlData = () => {
 
     // make API calls for the 15 games and push up game details
     let arrayOfGames = [];
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       arrayOfGames.push(data[i].bggID);
     }
 
@@ -100,6 +100,12 @@ let formatCrawlData = () => {
       for (let i = 0; i < movementData.length; i++) {
         movement.push(movementData[i].bggID);
       }
+
+      // 1. get hotness data.
+      // get top 10 games
+
+      // 2. push up games
+      // 3. pass along hotness array
 
       // return two game arrays I'll need to build out the charts
       return {top10, movement};
@@ -172,9 +178,20 @@ let formatCrawlData = () => {
           // add crawl times
           getCrawlTimes(data.chartData);
           // push up data to Charts collection under today's date
-          pushData(data.chartData, `/Charts/${today}.json`, "POST");
+          pushData(data.chartData, `/Charts/${today}.json`, "PUT");
+          console.log(":: ✓ Chart data pushed up for the day");
 
       });
+
+      // add crawl times
+      // add game data
+
+
+
+      // console.log("all data:", data);
+
+
+
     });
   });
 };
@@ -188,7 +205,7 @@ formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
+        let x = a[key]; let y = b[key];
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
