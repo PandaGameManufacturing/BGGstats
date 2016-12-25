@@ -10,6 +10,7 @@ let details = require("./bgg-api/game-details-call"),
     top10 = require("./crawler-data/top10-call"),
     getTotalRanked = require("./crawler-data/total-ranked"),
     rankings = require("./crawler-data/rankings"),
+    databaseGame = require("./crawler-data/database-game-info"),
 
     // Local Data
     historic = require("./local-data/historical-top-10"),
@@ -28,6 +29,7 @@ module.exports = {
   top10,
   getTotalRanked,
   rankings,
+  databaseGame,
   historic,
   price
 };

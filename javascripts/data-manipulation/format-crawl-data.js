@@ -112,11 +112,7 @@ let formatCrawlData = () => {
 
     }).then( data => {
 
-      // getData.hotness().then(hotnessdata => {
-      //   console.log("hotnessdata:", hotnessdata);
-      // });
-
-      getData.hotness().then(function(value) {
+      return getData.hotness().then(function(value) {
         // parse, cut result to first 5
         let hotnessData = JSON.parse(value).slice(0,5);
         let hotness = [];
@@ -126,35 +122,62 @@ let formatCrawlData = () => {
         // get game details for hotness games
         getGameDetails(hotness);
 
-        //add hotness data to other data
-        let combinedData = {};
-        combinedData.top10 = data.top10;
-        combinedData.movement = data.movement;
-        combinedData.hotness = hotness;
-        console.log("all data:", combinedData);
-        return combinedData;
+        // concat all game ids
+        let allGameIds = data.movement.concat(hotness, data.top10);
+        console.log("allGameIds:", allGameIds);
 
+        //create structure for compiled data
+        let chartData = {
+          charts: {
+            hotness: [],
+            top10: {
+             games: [],
+             data: [],
+            },
+            movement: {
+              positive: [],
+              negative: []
+            }
+          },
+          games: {},
+        };
+
+        // compile data
+        chartData.charts.top10 = data.top10;
+        for (let i = 0; i < 10; i++) {
+          chartData.charts.movement.positive.push(data.movement[i]);
+        }
+        for (let i = 10; i < 15; i++) {
+          chartData.charts.movement.negative.push(data.movement[i]);
+        }
+        chartData.charts.hotness = hotness;
+
+
+        return {chartData, allGameIds};
 
         }, function(reason) {
           console.log("ERROR: Couldn't get hotness API data", reason);
       });
 
 
-
-      // getHotness('https://bgg-json.azurewebsites.net/hot').then(data => {
-      //   console.log("hotness data:", data);
-      // });
-
-
-
-      // add crawl times
-
-      // build charts data and push it up
-
-      // top10 chart data... in another module
-
     }).then( data => {
 
+      let promises = [];
+
+      for (let i = 0; i < data.allGameIds.length; i++) {
+        console.log("id:", data.allGameIds[i]);
+        let p = getData.databaseGame(data.allGameIds[i]);
+        console.log("p:", p);
+      }
+
+      Promise.all(promises).then(values => {
+        console.log(values); // [3, 1337, "foo"]
+      });
+
+      // add crawl times
+      // add game data
+
+      console.log("chart data:", data.chartData);
 
       // console.log("all data:", data);
       // getCrawlTimes(data);
