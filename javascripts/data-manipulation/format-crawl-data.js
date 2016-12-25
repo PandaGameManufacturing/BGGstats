@@ -61,8 +61,6 @@ let formatCrawlData = () => {
     console.log(":: ✓ Data pushed up to database");
     console.log("::   - details and movement for top 15 movers pushed up");
 
-    // console.log("today rankings:", data[0]);
-
     let movement = data;
     return movement; // return hotness array of ids
 
@@ -100,12 +98,6 @@ let formatCrawlData = () => {
       for (let i = 0; i < movementData.length; i++) {
         movement.push(movementData[i].bggID);
       }
-
-      // 1. get hotness data.
-      // get top 10 games
-
-      // 2. push up games
-      // 3. pass along hotness array
 
       // return two game arrays I'll need to build out the charts
       return {top10, movement};
@@ -182,26 +174,12 @@ let formatCrawlData = () => {
           console.log(":: ✓ Chart data pushed up for the day");
 
       });
-
-      // add crawl times
-      // add game data
-
-
-
-      // console.log("all data:", data);
-
-
-
     });
   });
 };
 
-
-
-
-
 // invoking function when testing file directly
-formatCrawlData();
+// formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
