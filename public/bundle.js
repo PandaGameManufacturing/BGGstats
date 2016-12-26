@@ -51136,7 +51136,7 @@
 	  let item1ImageURL = game1.thumbnail;
 	  let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${game1.name}</a></strong></li></ol>`;
 
-	  let top10html = "", bottom5html = "", top10status = "", bottom5status = "";
+	  let ranks = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
 
 
@@ -51151,7 +51151,7 @@
 	      time = `${timeMin}-${timeMax} minutes`;
 
 	  // item 1 description
-	  let truncateLength = 350,
+	  let truncateLength = 250,
 	      descriptionData = String(game1.description).substring(0, truncateLength),
 	      description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
 
@@ -51159,6 +51159,17 @@
 	  for (let i = 0; i < 10; i++) {
 	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
 	  }
+
+	  // loop over positive ranks
+	  for (let i = 0; i < 10; i++) {
+	    ranks += `<li>${games[chartData.positive[i]].rank}</li>`;
+	  }
+
+	  // loop over negative ranks
+	  for (let i = 0; i < 5; i++) {
+	    ranks += `<li>${games[chartData.negative[i]].rank}</li>`;
+	  }
+
 
 	  // loop over top 10 status bars
 	  for (let i = 0; i < 10; i++) {
@@ -51213,13 +51224,23 @@
 	                      ${bottom5status}
 	                    </div>
 
-	                    <div class="col-sm-5">
+	                    <div class="col-sm-4">
 	                      <ol>
 	                        ${top10html}
 	                     </ol>
 	                     <ol class="negative">
 	                       ${bottom5html}
 	                     </ol>
+	                    </div>
+
+	                    <div class="col-sm-1">
+	                      <!--<ul>
+	                        <li><strong>RANK</strong></li>
+	                        ${ranks}
+	                      </ul>
+	                     <ol class="negative">
+
+	                     </ol>-->
 	                    </div>
 
 	                    <div class="col-sm-5 top-wrapper">
@@ -51245,7 +51266,7 @@
 	                    </a>
 	                </div>
 
-	                <div class="col-sm-8">
+	                <div class="col-sm-8"s>
 
 	                  <div id="rankMovement">${item1Rank}</div>
 	                  <p id="rankDescription">Up ${item1Rank} spots <br/>since yesterday</p>
@@ -51261,7 +51282,7 @@
 	                <table class="table table-hover">
 
 	                    <tr>
-	                      <td>${game1.rank}</td>
+	                      <td>Rank: ${game1.rank}</td>
 	                      <td>${game1.yearPublished}</td>
 	                    </tr>
 	                    <tr>
