@@ -56,6 +56,7 @@ let formatCrawlData = () => {
     }
 
     // push up game details for movement games
+    console.log("arrayOfGames:", arrayOfGames);
     getGameDetails(arrayOfGames);
 
     console.log(":: ✓ Data pushed up to database");
@@ -154,26 +155,33 @@ let formatCrawlData = () => {
 
     }).then( data => {
 
-      // pull down all the games data from the database
-      let promises = [];
-      for (let i = 0; i < data.allGameIds.length; i++) {
-        let p = getData.databaseGame(data.allGameIds[i]);
-        promises.push(p);
-      }
+      // wait 20 seconds for all data to get pushed up
+      setTimeout(function() {
 
-      // once the data is available,
-      Promise.all(promises).then(gameArray => {
-        for (let i = 0; i < gameArray.length; i++) {
-          // create key with game id in the games property with game data
-          data.chartData.games[gameArray[i].bggID] = gameArray[i];
+        console.log("ran create promise function");
+        let promises = [];
+
+        for (let i = 0; i < data.allGameIds.length; i++) {
+          // pull down all the games data from the database
+          let p = getData.databaseGame(data.allGameIds[i]);
+          promises.push(p);
         }
-          // add crawl times
-          getCrawlTimes(data.chartData);
-          // push up data to Charts collection under today's date
-          pushData(data.chartData, `/Charts/${today}.json`, "PUT");
-          console.log(":: ✓ Chart data pushed up for the day");
 
-      });
+        // once the data is available,
+        Promise.all(promises).then(gameArray => {
+          for (let i = 0; i < gameArray.length; i++) {
+            // create key with game id in the games property with game data
+            data.chartData.games[gameArray[i].bggID] = gameArray[i];
+          }
+            // add crawl times
+            getCrawlTimes(data.chartData);
+            // push up data to Charts collection under today's date
+            pushData(data.chartData, `/Charts/${today}.json`, "PUT");
+            console.log(":: ✓ Chart data pushed up for the day");
+
+        });
+      }, 20000);
+
     });
   });
 };
@@ -187,5 +195,7 @@ function sortByKey(array, key) {
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
+
+
 
 module.exports = formatCrawlData;

@@ -74,6 +74,7 @@ for (let i = 0; i < 5; i++) {
     for (let i = 0; i < hotnessGames.length; i++) {
       let time = "";
       let timeMin = hotnessGames[i].minPlayTime;
+
       let timeMax = hotnessGames[i].maxPlayTime;
           if (timeMin === timeMax) {
             time = `${timeMax} minutes`;

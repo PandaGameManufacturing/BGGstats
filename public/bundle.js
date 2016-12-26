@@ -105,10 +105,9 @@
 	// get data for the day
 	getData.charts().then( unparsed => {
 	  let data = JSON.parse(unparsed);
-	  // console.log("data:", data);
 	  //once the app has the data, draw the charts
 	  createChart.hotness.hotnessChart("The Hotness",    data, "slot1");
-	  // createChart.rank("Biggest Movers", data, "slot2");
+	  createChart.rank("Biggest Movers", data, "slot2");
 	  // createChart.top10("Top 10",         data, "slot3");
 	});
 
@@ -40799,6 +40798,7 @@
 	    for (let i = 0; i < hotnessGames.length; i++) {
 	      let time = "";
 	      let timeMin = hotnessGames[i].minPlayTime;
+
 	      let timeMax = hotnessGames[i].maxPlayTime;
 	          if (timeMin === timeMax) {
 	            time = `${timeMax} minutes`;
@@ -51121,59 +51121,69 @@
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
 	let drawRankChart = (title, data, slot) => {
-	  let item1Link = `https://boardgamegeek.com/boardgame/${data[0].bgg}`;
-	  let item1Rank = data[0].movement;
-	  let item1ImageURL = data[0].details.thumbnail[0];
-	  let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${data[0].name}</a></strong></li></ol>`;
+	  console.log("data:", data);
+
+	  let games = data.games,
+	      chartData = data.charts.movement,
+	      game1 = games[chartData.positive[0]];
+
+	  // console.log("chartData:", chartData);
+	  // console.log("id:", games[chartData.positive[0]].bggID);
+
+	  // console.log("data:", data);
+	  let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
+	  let item1Rank = game1.movementDay;
+	  let item1ImageURL = game1.thumbnail;
+	  let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${game1.name}</a></strong></li></ol>`;
 
 	  let gameDetails1 = "", gameDetails2 = "", gameDetails3 = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
 	  // year published
-	  gameDetails1 += data[0].details.yearpublished[0].$.value;
+	  gameDetails1 += game1.yearPublished;
 
 	  // player count
-	  let playerCountMin = data[0].details.minplayers[0].$.value,
-	      playerCountMax = data[0].details.maxplayers[0].$.value,
+	  let playerCountMin = game1.minPlayers,
+	      playerCountMax = game1.maxPlayers,
 	      playerCount = `${playerCountMin}-${playerCountMax} players`;
 	      gameDetails2 += `<td>${playerCount}</td>`;
 
 	  // playing time
-	  let timeMin = data[0].details.minplaytime[0].$.value,
-	      timeMax = data[0].details.maxplaytime[0].$.value,
+	  let timeMin = game1.minPlayTime,
+	      timeMax = game1.maxPlayTime,
 	      time = `${timeMin}-${timeMax} minutes`;
 	      gameDetails3 += `<td>${time}</td>`;
 
 	  // item 1 description
 	  let truncateLength = 350,
-	      descriptionData = String(data[0].details.description[0]).substring(0, truncateLength),
+	      descriptionData = String(game1.description).substring(0, truncateLength),
 	      description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
 
 	  // loop over top 10 titles
 	  for (let i = 0; i < 10; i++) {
-	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${data[i].bgg}/">${data[i].name}<a/></li>`;
+	    top10html = `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
 	  }
 
 	  // loop over top 10 status bars
 	  for (let i = 0; i < 10; i++) {
-	    let percent = (data[i].movement / data[0].movement) * 100; // build percent based on biggest movement
+	    let percent = (games[chartData.positive[i]].movementDay / game1.movementDay) * 100; // build percent based on biggest movement
 	    top10status += `
 	      <div class="progress positive">
 	        <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-	          <p>Up ${data[i].movement}</p>
+	          <p>Up ${games[chartData.positive[i]].movementDay}</p>
 	        </div>
 	      </div>
 	    `;
 	  }
 
 	  // loop over bottom 5 titles
-	  for (let i = 10; i < 15; i++) {
-	    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${data[i].bgg}/">${data[i].name}<a/></li>`;
-	  }
+	  for (let i = 0; i < 5; i++) {
+	    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.negative[i]].bggID}/">${games[chartData.negative[i]].name}<a/></li>`;  }
 
 	  // loop over bottom 5 status bars
-	  for (let i = 10; i < 15; i++) {
-	    let percent = (data[i].movement / data[14].movement) * 100; // build percent based on biggest movement
-	    let movementRawData = data[i].movement.toString();
+	  for (let i = 0; i < 5; i++) {
+
+	    let percent = (games[chartData.negative[i]].movementDay / games[chartData.negative[4]].movementDay) * 100; // build percent based on biggest movement
+	    let movementRawData = games[chartData.negative[i]].movementDay.toString();
 	    let movement = movementRawData.replace(/\D+/g, ''); // remove everything execpt digits
 	    bottom5status += `
 	      <div class="progress negative">
@@ -51182,6 +51192,7 @@
 	        </div>
 	      </div>
 	    `;
+
 	  }
 
 	  let snippets = `
@@ -51189,7 +51200,7 @@
 	    <div class="row rankChart">
 	      <div class="col-sm-12 col-md-12 col-lg-12">
 
-	      <div class="statbox" data-tooltip="Games that moved in BoardGameGeek rankings the most over the last week. The top 1,000 games are tracked and refreshed daily.">
+	      <div class="statbox" data-tooltip="Ranked games that moved in BoardGameGeek rankings the most over the last day. Data refreshed daily.">
 
 	        <div class="label-title">
 	          <h2>${title}</h2>
@@ -51234,7 +51245,7 @@
 	                <div class="col-sm-6">
 	                  <div class="shelf-shadowed">
 	                    <a href="${item1Link}">
-	                      <img class="shelf-img" alt="${data[0].name}" title="${data[0].name}" src="${item1ImageURL}">
+	                      <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
 	                    </a>
 	                  </div>
 
@@ -51247,7 +51258,7 @@
 	                <div class="col-sm-6">
 
 	                  <div id="rankMovement">${item1Rank}</div>
-	                  <p id="rankDescription">up ${item1Rank} spots <br/>in a week</p>
+	                  <p id="rankDescription">up ${item1Rank} spots <br/>in a day</p>
 
 	                </div>
 

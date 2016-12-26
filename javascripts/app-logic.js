@@ -8,9 +8,8 @@ let assets = require("./assets/asset-loader"),
 // get data for the day
 getData.charts().then( unparsed => {
   let data = JSON.parse(unparsed);
-  // console.log("data:", data);
   //once the app has the data, draw the charts
   createChart.hotness.hotnessChart("The Hotness",    data, "slot1");
-  // createChart.rank("Biggest Movers", data, "slot2");
+  createChart.rank("Biggest Movers", data, "slot2");
   // createChart.top10("Top 10",         data, "slot3");
 });

@@ -65,8 +65,8 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
             ticks = myTimer.duration(),
             seconds = ticks/1000000000,
             avgTime = Math.round(seconds/lastRanked * 100) / 100,
-            gamesPerSec = Math.round(seconds/lastRanked*60 * 100) / 100,
-            minutes = Math.ceil(seconds/60);
+            minutes = Math.ceil(seconds/60),
+            gamesPerMin = Math.round(lastRanked/minutes * 100) / 100;
 
         //console log that everything has completed
         console.log(`:: ✓ Crawled page ${currentPage}     games ${numberWithCommas(gameStart)} - ${numberWithCommas(lastRanked)}`);
@@ -77,7 +77,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         console.log(`::   Total Games Crawled   ${numberWithCommas(lastRanked)}`);
         console.log(`::   Crawl Duration        ${minutes} minutes`);
         console.log(`::   Avg. Processing Time  ${avgTime} seconds`);
-        console.log(`::   Games Per Second      ${gamesPerSec} games/second`);
+        console.log(`::   Games Per Minute      ${gamesPerMin} games/min`);
         console.log(`::   Crawl Started         ${momentStartTime}`);
         console.log("");
 
