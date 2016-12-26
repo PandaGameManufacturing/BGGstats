@@ -56,7 +56,6 @@ let formatCrawlData = () => {
     }
 
     // push up game details for movement games
-    console.log("arrayOfGames:", arrayOfGames);
     getGameDetails(arrayOfGames);
 
     console.log(":: ✓ Data pushed up to database");
@@ -158,7 +157,6 @@ let formatCrawlData = () => {
       // wait 20 seconds for all data to get pushed up
       setTimeout(function() {
 
-        console.log("ran create promise function");
         let promises = [];
 
         for (let i = 0; i < data.allGameIds.length; i++) {
@@ -187,7 +185,7 @@ let formatCrawlData = () => {
 };
 
 // invoking function when testing file directly
-formatCrawlData();
+// formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
