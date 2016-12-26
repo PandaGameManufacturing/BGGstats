@@ -13,7 +13,7 @@
   #settings {
     margin-top: 10px; } }
 
-.help, #helpmeh {
+.help {
   opacity: 0.3;
   filter: alpha(opacity=30);
   /* For IE8 and earlier */

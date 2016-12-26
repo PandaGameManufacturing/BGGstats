@@ -106,8 +106,8 @@
 	getData.charts().then( unparsed => {
 	  let data = JSON.parse(unparsed);
 	  //once the app has the data, draw the charts
-	  createChart.hotness.hotnessChart("The Hotness",    data, "slot1");
-	  createChart.rank("Biggest Movers", data, "slot2");
+	  createChart.hotness.hotnessChart ("Most Viewed",            data, "slot1");
+	  createChart.rank                 ("Today's Biggest Movers", data, "slot2");
 	  // createChart.top10("Top 10",         data, "slot3");
 	});
 
@@ -40817,7 +40817,7 @@
 	  shelf += `
 	   <div class='row'>
 	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox hotnessbox" data-tooltip="The Hotness is a BoardGameGeek list that reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com">
+	      <div class="statbox hotnessbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com">
 	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
@@ -51197,18 +51197,18 @@
 
 	  let snippets = `
 	<!-- Rank Chart  -->
-	    <div class="row rankChart">
+	    <div class="row">
 	      <div class="col-sm-12 col-md-12 col-lg-12">
 
 	      <div class="statbox" data-tooltip="Ranked games that moved in BoardGameGeek rankings the most over the last day. Data refreshed daily.">
 
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <!-- <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a> -->
+	          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
 	        </div>
 
 	            <!-- Movement Chart -->
-	            <div class="col-lg-8">
+	            <div class="col-lg-8 rankChart">
 
 	                <div class="row">
 
@@ -51234,7 +51234,7 @@
 	            </div>
 
 	            <!-- Details About Biggest Mover -->
-	            <div class="col-lg-4">
+	            <div class="col-lg-4 rankChart">
 
 	              <div class="row">
 	                ${biggestMover}

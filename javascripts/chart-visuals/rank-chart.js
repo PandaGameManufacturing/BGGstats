@@ -81,18 +81,18 @@ let drawRankChart = (title, data, slot) => {
 
   let snippets = `
 <!-- Rank Chart  -->
-    <div class="row rankChart">
+    <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-12">
 
       <div class="statbox" data-tooltip="Ranked games that moved in BoardGameGeek rankings the most over the last day. Data refreshed daily.">
 
         <div class="label-title">
           <h2>${title}</h2>
-          <!-- <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a> -->
+          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
         </div>
 
             <!-- Movement Chart -->
-            <div class="col-lg-8">
+            <div class="col-lg-8 rankChart">
 
                 <div class="row">
 
@@ -118,7 +118,7 @@ let drawRankChart = (title, data, slot) => {
             </div>
 
             <!-- Details About Biggest Mover -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 rankChart">
 
               <div class="row">
                 ${biggestMover}
