@@ -5,6 +5,8 @@ let pushData = require("../push-data/push-data-serverside");
 
 let dayChange = (dataToday, dataCompare) => {
 
+  // console.log("dataToday:", dataToday);
+
   return new Promise( (resolve, reject) => {
 
     // crunch the numbers so we know the biggest movers
@@ -41,7 +43,7 @@ let dayChange = (dataToday, dataCompare) => {
           let object = {};
           object.movementDay = comparerank - todayrank;
           object.bggID = prop;
-
+          object.rank = todayrank;
           movement.push(object);
         }
       }
@@ -64,6 +66,7 @@ let dayChange = (dataToday, dataCompare) => {
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
+      console.log("prettyArray[i]:", prettyArray[i]);
       pushData(prettyArray[i], `/Games/${prettyArray[i].bggID}.json`, "PATCH");
     }
 

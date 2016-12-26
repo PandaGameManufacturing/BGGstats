@@ -13,7 +13,7 @@
   #settings {
     margin-top: 10px; } }
 
-.help, #helpmeh {
+.help {
   opacity: 0.3;
   filter: alpha(opacity=30);
   /* For IE8 and earlier */
@@ -469,7 +469,8 @@ ol.color-list > li:nth-child(10):before {
 .rankChart #rankDescription {
   font-size: 1.2em;
   color: grey;
-  text-align: center; }
+  text-align: center;
+  padding-bottom: 10px; }
 
 .rankChart #rankMovement {
   background: url("/images/icons/arrow-up.png") no-repeat top left;
@@ -483,11 +484,15 @@ ol.color-list > li:nth-child(10):before {
   margin: 10px 0 0 10px; }
 
 .rankChart img {
-  min-width: 110px;
-  max-width: 140px;
-  min-height: 130px;
-  max-height: none;
-  margin-left: 10px; }
+  max-width: 100px;
+  padding: 0;
+  margin-left: -20px; }
+
+.rankChart li {
+  list-style-type: none;
+  background-color: white;
+  margin: 0 0 0 -20px;
+  padding: 0; }
 
 .progress p {
   text-align: left;

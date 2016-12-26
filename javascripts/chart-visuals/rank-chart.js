@@ -20,25 +20,22 @@ let drawRankChart = (title, data, slot) => {
   let item1ImageURL = game1.thumbnail;
   let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${game1.name}</a></strong></li></ol>`;
 
-  let gameDetails1 = "", gameDetails2 = "", gameDetails3 = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
+  let ranks = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
-  // year published
-  gameDetails1 += game1.yearPublished;
+
 
   // player count
   let playerCountMin = game1.minPlayers,
       playerCountMax = game1.maxPlayers,
       playerCount = `${playerCountMin}-${playerCountMax} players`;
-      gameDetails2 += `<td>${playerCount}</td>`;
 
   // playing time
   let timeMin = game1.minPlayTime,
       timeMax = game1.maxPlayTime,
       time = `${timeMin}-${timeMax} minutes`;
-      gameDetails3 += `<td>${time}</td>`;
 
   // item 1 description
-  let truncateLength = 350,
+  let truncateLength = 250,
       descriptionData = String(game1.description).substring(0, truncateLength),
       description = `${descriptionData}... <a href="${item1Link}">Read More</a>`;
 
@@ -46,6 +43,17 @@ let drawRankChart = (title, data, slot) => {
   for (let i = 0; i < 10; i++) {
     top10html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
   }
+
+  // loop over positive ranks
+  for (let i = 0; i < 10; i++) {
+    ranks += `<li>${games[chartData.positive[i]].rank}</li>`;
+  }
+
+  // loop over negative ranks
+  for (let i = 0; i < 5; i++) {
+    ranks += `<li>${games[chartData.negative[i]].rank}</li>`;
+  }
+
 
   // loop over top 10 status bars
   for (let i = 0; i < 10; i++) {
@@ -81,18 +89,18 @@ let drawRankChart = (title, data, slot) => {
 
   let snippets = `
 <!-- Rank Chart  -->
-    <div class="row rankChart">
+    <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <div class="statbox" data-tooltip="Ranked games that moved in BoardGameGeek rankings the most over the last day. Data refreshed daily.">
+      <div class="statbox" data-tooltip="Based on user ratings on BoardGameGeek, each board game has a unique rank. This chart shows which ranked games moved the most over the last day. Data is calculated daily.">
 
         <div class="label-title">
           <h2>${title}</h2>
-          <!-- <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a> -->
+          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
         </div>
 
             <!-- Movement Chart -->
-            <div class="col-lg-8">
+            <div class="col-lg-9 rankChart">
 
                 <div class="row">
 
@@ -100,13 +108,23 @@ let drawRankChart = (title, data, slot) => {
                       ${bottom5status}
                     </div>
 
-                    <div class="col-sm-5">
+                    <div class="col-sm-4">
                       <ol>
                         ${top10html}
                      </ol>
                      <ol class="negative">
                        ${bottom5html}
                      </ol>
+                    </div>
+
+                    <div class="col-sm-1">
+                      <!--<ul>
+                        <li><strong>RANK</strong></li>
+                        ${ranks}
+                      </ul>
+                     <ol class="negative">
+
+                     </ol>-->
                     </div>
 
                     <div class="col-sm-5 top-wrapper">
@@ -118,7 +136,7 @@ let drawRankChart = (title, data, slot) => {
             </div>
 
             <!-- Details About Biggest Mover -->
-            <div class="col-lg-4">
+            <div class="col-lg-3 rankChart">
 
               <div class="row">
                 ${biggestMover}
@@ -126,45 +144,34 @@ let drawRankChart = (title, data, slot) => {
 
               <div class="row">
 
-                <div class="col-sm-6">
-                  <div class="shelf-shadowed">
+                <div class="col-sm-4">
                     <a href="${item1Link}">
-                      <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
+                      <img alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
                     </a>
-                  </div>
-
-
-
-
-                  </a>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-8"s>
 
                   <div id="rankMovement">${item1Rank}</div>
-                  <p id="rankDescription">up ${item1Rank} spots <br/>in a day</p>
+                  <p id="rankDescription">Up ${item1Rank} spots <br/>since yesterday</p>
 
                 </div>
 
               </div>
+              <div class="row">
+              </div>
 
               <div class="row">
-
-                <div class="shelf-bottom">
-                  <div class="shelf-left">
-                    <div class="shelf-right"></div>
-                  </div>
-               </div>
-
-               <br/><br/>
-
 
                 <table class="table table-hover">
 
                     <tr>
-                      <td>${gameDetails1}</td>
-                      <td>${gameDetails2}</td>
-                      <td>${gameDetails3}</td>
+                      <td>Rank: ${game1.rank}</td>
+                      <td>${game1.yearPublished}</td>
+                    </tr>
+                    <tr>
+                      <td>${playerCount}</td>
+                      <td>${time}</td>
                     </tr>
                     <tr>
                       <td colspan="12">
