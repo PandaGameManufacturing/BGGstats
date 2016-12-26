@@ -4,6 +4,7 @@
   font-size: 1.2em;
   color: grey;
   text-align: center;
+  padding-bottom: 10px;
 }
 
 .rankChart #rankMovement {
@@ -19,11 +20,9 @@
 }
 
 .rankChart img {
-  min-width: 110px;
-  max-width: 140px;
-  min-height: 130px;
-  max-height: none;
-  margin-left: 10px;
+  max-width: 100px;
+  padding: 0;
+  margin-left: -20px;
 }
 
 .progress p {

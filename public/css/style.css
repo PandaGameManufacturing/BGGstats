@@ -467,9 +467,10 @@ ol.color-list > li:nth-child(10):before {
     margin-top: -55px; } }
 
 .rankChart #rankDescription {
-  font-size: 1.2em;
+  font-size: 1.1em;
   color: grey;
-  text-align: center; }
+  text-align: center;
+  padding-bottom: 5px; }
 
 .rankChart #rankMovement {
   background: url("/images/icons/arrow-up.png") no-repeat top left;
@@ -483,11 +484,9 @@ ol.color-list > li:nth-child(10):before {
   margin: 10px 0 0 10px; }
 
 .rankChart img {
-  min-width: 110px;
-  max-width: 140px;
-  min-height: 130px;
-  max-height: none;
-  margin-left: 10px; }
+  max-width: 100px;
+  padding: 0;
+  margin-left: -20px; }
 
 .progress p {
   text-align: left;

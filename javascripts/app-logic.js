@@ -11,5 +11,5 @@ getData.charts().then( unparsed => {
   //once the app has the data, draw the charts
   createChart.hotness.hotnessChart ("Most Viewed",            data, "slot1");
   createChart.rank                 ("Today's Biggest Movers", data, "slot2");
-  // createChart.top10("Top 10",         data, "slot3");
+  createChart.top10                ("Top 10",                 data, "slot3");
 });
