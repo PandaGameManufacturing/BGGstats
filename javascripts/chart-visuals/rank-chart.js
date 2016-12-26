@@ -44,7 +44,7 @@ let drawRankChart = (title, data, slot) => {
 
   // loop over top 10 titles
   for (let i = 0; i < 10; i++) {
-    top10html = `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
+    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
   }
 
   // loop over top 10 status bars
@@ -88,7 +88,7 @@ let drawRankChart = (title, data, slot) => {
 
         <div class="label-title">
           <h2>${title}</h2>
-          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          <!-- <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a> -->
         </div>
 
             <!-- Movement Chart -->
