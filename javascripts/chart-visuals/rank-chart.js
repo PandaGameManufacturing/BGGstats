@@ -69,7 +69,7 @@ let drawRankChart = (title, data, slot) => {
 
   // loop over bottom 5 titles
   for (let i = 0; i < 5; i++) {
-    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.negative[i]].bggID}/">${games[chartData.negative[i]].name}<a/></li>`;  }
+    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.negative[i]].bggID}/">${games[chartData.negative[i]].name}</a></li>`;  }
 
   // loop over bottom 5 status bars
   for (let i = 0; i < 5; i++) {
@@ -89,106 +89,109 @@ let drawRankChart = (title, data, slot) => {
 
   let snippets = `
 <!-- Rank Chart  -->
-    <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-12">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <div class="statbox" data-tooltip="Based on user ratings on BoardGameGeek, each board game has a unique rank. This chart shows which ranked games moved the most over the last day. Data is calculated daily.">
+        <div class="statbox" data-tooltip="Based on user ratings on BoardGameGeek, each board game has a unique rank. This chart shows which ranked games moved the most over the last day. Data is calculated daily.">
 
-        <div class="label-title">
-          <h2>${title}</h2>
-          <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          <div class="label-title">
+            <h2>${title}</h2>
+            <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+          </div>
+
         </div>
 
-            <!-- Movement Chart -->
-            <div class="col-lg-9 rankChart">
+
+              <!-- Movement Chart -->
+              <div class="col-lg-9 rankChart">
+
+                  <div class="row">
+
+                      <div class="col-sm-2 bottom-wrapper">
+                        ${bottom5status}
+                      </div>
+
+                      <div class="col-sm-4">
+                        <ol>
+                          ${top10html}
+                       </ol>
+                       <ol class="negative">
+                         ${bottom5html}
+                       </ol>
+                      </div>
+
+                      <div class="col-sm-1">
+                        <!--<ul>
+                          <li><strong>RANK</strong></li>
+                          ${ranks}
+                        </ul>
+                       <ol class="negative">
+
+                       </ol>-->
+                      </div>
+
+                      <div class="col-sm-5 top-wrapper">
+                        ${top10status}
+                      </div>
+
+                  </div>
+
+              </div>
+
+              <!-- Details About Biggest Mover -->
+              <div class="col-lg-3 rankChart">
+
+                <div class="row">
+                  ${biggestMover}
+                </div>
 
                 <div class="row">
 
-                    <div class="col-sm-2 bottom-wrapper">
-                      ${bottom5status}
-                    </div>
+                  <div class="col-sm-4">
+                      <a href="${item1Link}">
+                        <img alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
+                      </a>
+                  </div>
 
-                    <div class="col-sm-4">
-                      <ol>
-                        ${top10html}
-                     </ol>
-                     <ol class="negative">
-                       ${bottom5html}
-                     </ol>
-                    </div>
+                  <div class="col-sm-8"s>
 
-                    <div class="col-sm-1">
-                      <!--<ul>
-                        <li><strong>RANK</strong></li>
-                        ${ranks}
-                      </ul>
-                     <ol class="negative">
+                    <div id="rankMovement">${item1Rank}</div>
+                    <p id="rankDescription">Up ${item1Rank} spots <br/>since yesterday</p>
 
-                     </ol>-->
-                    </div>
+                  </div>
 
-                    <div class="col-sm-5 top-wrapper">
-                      ${top10status}
-                    </div>
 
+                <div class="row">
                 </div>
 
-            </div>
+                <div class="row">
 
-            <!-- Details About Biggest Mover -->
-            <div class="col-lg-3 rankChart">
+                  <table class="table table-hover">
 
-              <div class="row">
-                ${biggestMover}
-              </div>
+                      <tr>
+                        <td>Rank: ${game1.rank}</td>
+                        <td>${game1.yearPublished}</td>
+                      </tr>
+                      <tr>
+                        <td>${playerCount}</td>
+                        <td>${time}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="12">
+                          ${description}
+                        </td>
+                      </tr>
 
-              <div class="row">
-
-                <div class="col-sm-4">
-                    <a href="${item1Link}">
-                      <img alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
-                    </a>
-                </div>
-
-                <div class="col-sm-8"s>
-
-                  <div id="rankMovement">${item1Rank}</div>
-                  <p id="rankDescription">Up ${item1Rank} spots <br/>since yesterday</p>
+                  </table>
 
                 </div>
 
               </div>
-              <div class="row">
-              </div>
 
-              <div class="row">
-
-                <table class="table table-hover">
-
-                    <tr>
-                      <td>Rank: ${game1.rank}</td>
-                      <td>${game1.yearPublished}</td>
-                    </tr>
-                    <tr>
-                      <td>${playerCount}</td>
-                      <td>${time}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="12">
-                        ${description}
-                      </td>
-                    </tr>
-
-                </table>
-
-              </div>
-
-            </div>
+          </div>
 
         </div>
-
       </div>
-    </div>
   `;
 
   $(`#${slot}`).html(snippets);
