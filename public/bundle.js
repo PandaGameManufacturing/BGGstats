@@ -10866,32 +10866,33 @@
 	  let snippets = `
 	    <div class="row">
 
-	      <!-- Top 10  -->
-	      <div class="col-sm-12 col-md-12 col-lg-12">
-	      <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
-	                      <div class="label-title">
-	          <h2>${title}</h2>
-	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
-	        </div>
+	          <!-- Top 10  -->
+	          <div class="col-sm-12 col-md-12 col-lg-12">
 
-	            <div class="col-sm-12 col-md-7 col-lg-8">
-
-	              <!-- Line Chart -->
-	             <div id="top10"></div>
-
+	          <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
+	            <div class="label-title">
+	              <h2>${title}</h2>
+	              <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	            </div>
+	          </div>
 
-	            <!-- Table -->
-	            <div class="col-sm-12 col-md-5 col-lg-4">
-	              <ol class="color-list">
+	          <div class="col-sm-12 col-md-7 col-lg-8">
 
-	                ${top10html}
-
-	             </ol>
-	            </div>
+	            <!-- Line Chart -->
+	           <div id="top10"></div>
 
 	          </div>
-	      </div>
+
+	          <!-- Table -->
+	          <div class="col-sm-12 col-md-5 col-lg-4">
+	            <ol class="color-list">
+
+	              ${top10html}
+
+	           </ol>
+	          </div>
+
+	        </div>
 	    </div>
 
 	  `;
