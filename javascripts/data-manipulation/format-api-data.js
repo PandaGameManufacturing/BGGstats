@@ -11,13 +11,10 @@ let formatAPIData = xmlArray => {
 
     let parseString = xml2js.parseString;
     let xml = xmlArray[i];
-    parseString(xml, function (err, result) {
+    parseString(xml, (err, result) => {
       gameDataArray.push(result); // push json to new array
-      console.dir(result);
     });
   }
-
-  console.log("gameDataArray:", gameDataArray);
 
   // array of game data
   let games = [];
@@ -48,6 +45,7 @@ let formatAPIData = xmlArray => {
   }
 
   // return formatted games array
+  console.log("games array:", games);
   return games;
 
 };
