@@ -2,6 +2,8 @@
 
 let formatAPIData = gameDataArray => {
 
+  console.log("gameDataArray:", gameDataArray);
+
   // array of game data
   let games = [];
 
