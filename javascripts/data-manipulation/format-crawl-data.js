@@ -12,10 +12,10 @@ let getDateMinus = require("../assets/get-date"),
 
 // configuration options
 let today          = getDateMinus(0),
-    compareString  = "a week ago",     // for console logs
+    compareString  = "yesterday",     // for console logs
     compareDate    = getDateMinus(1), // compare to a week back
-    fallbackString = "6 days ago",     // for console logs
-    fallbackDate   = getDateMinus(2);  // compare to 6 days ago instead
+    fallbackString = "2 days ago",     // for console logs
+    fallbackDate   = getDateMinus(2);  // compare to 2 days ago instead
 
 let formatCrawlData = () => {
 
