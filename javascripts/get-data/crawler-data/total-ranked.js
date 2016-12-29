@@ -10,7 +10,8 @@ let baseURL    = "https://bggstats-2de27.firebaseio.com/",
     subcollection = getDateMinus(1); // get yesterday's data since we don't have today's yet
 
 let getTotalRanked = () => {
-  return getData(`${baseURL}${collection}/${subcollection}.json`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}/${subcollection}.json`);
 };
 
 module.exports = getTotalRanked;

@@ -9,7 +9,8 @@ let baseURL    = "https://bggstats-2de27.firebaseio.com/",
 
 // get a specific game info in the Games collection
 let databaseGameInfo = gameId => {
-  return getData(`${baseURL}${collection}${gameId}.json`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}${gameId}.json`);
 };
 
 module.exports = databaseGameInfo;

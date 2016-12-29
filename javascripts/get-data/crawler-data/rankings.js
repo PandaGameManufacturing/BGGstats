@@ -10,7 +10,8 @@ let baseURL      = "https://bggstats-2de27.firebaseio.com/",
     tag          = "timeYMD";
 
 let getRankings = date => {
-  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${date}%22`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}.json?orderBy=%22${tag}%22&equalTo=%22${date}%22`);
 };
 
 module.exports = getRankings;
