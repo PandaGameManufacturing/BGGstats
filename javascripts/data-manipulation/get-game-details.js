@@ -29,6 +29,7 @@ let getGameDetails = array => {
       // add game data to database in Games collection under the game's bggID
       for (let i = 0; i < formattedGames.length; i++) {
         addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
+        // let data = JSON.stringify(formattedGames[i]); // convert from an object to JSON
         pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");
       }
 
