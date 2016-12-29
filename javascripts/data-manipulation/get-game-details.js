@@ -16,7 +16,7 @@ let getGameDetails = array => {
     for (let i = 0; i < array.length; i++) {
 
       // set location of API calls and insert id
-      let url = `https://bgg-api.herokuapp.com/api/v1/thing?id=${array[i]}&stats=1`;
+      let url = `https://boardgamegeek.com/xmlapi2/thing?id=${array[i]}&stats=1`;
       let p = getData(url);
       promises.push(p);
     }

@@ -1,5 +1,8 @@
 "use strict";
 
+// requires
+let xmltojson = require("xmltojson");
+
 let formatAPIData = gameDataArray => {
 
   console.log("gameDataArray:", gameDataArray);
