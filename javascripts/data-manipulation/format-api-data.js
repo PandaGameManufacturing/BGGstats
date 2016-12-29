@@ -1,9 +1,17 @@
 "use strict";
 
 // requires
-let xmltojson = require("xmltojson");
+let xmlToJSON = require("xmltojson");
 
-let formatAPIData = gameDataArray => {
+let formatAPIData = xmlArray => {
+
+  let gameDataArray = [];
+
+  for (let i = 0; i < xmlArray.length; i++) {
+    let string = xmlArray[i];   // get some xml (string or document/node)
+    let result = xmlToJSON.parseString(string); // parse
+    gameDataArray.push(result); // push json to new array
+  }
 
   console.log("gameDataArray:", gameDataArray);
 
