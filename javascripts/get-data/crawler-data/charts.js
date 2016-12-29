@@ -12,8 +12,7 @@ let baseURL       = "https://bggstats-2de27.firebaseio.com/",
     backup        = getToday(1); // today minus 1 day
 
 let getCharts = () => {
-
-  if (!isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
+  if (isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
     // if it doesn't exist, return yesterday's data
     return getData(`${baseURL}${collection}/${backup}.json`);
   } else {
