@@ -5,8 +5,8 @@ let getData = require("../get-data-clientside"),
     getToday = require("../../assets/get-date");
 
 // URL config
-let baseURL      = "https://bggstats-2de27.firebaseio.com/",
-    collection   = "GameRank",
+let baseURL      = "https://bggstats-2de27.firebaseio.com",
+    collection   = "/GameRank",
     tag          = "CrawlYMD",
     today_       = getToday();
 
@@ -14,11 +14,13 @@ let baseURL      = "https://bggstats-2de27.firebaseio.com/",
 // it's workaround since you can't use ?orderBy= twice in a firebase query
 
 let today = () => {
-  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}.json?orderBy=%22${tag}%22&equalTo=%22${today_}%22`);
 };
 
 let compareDate = compareDate_ => {
-  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${compareDate_}%22`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}.json?orderBy=%22${tag}%22&equalTo=%22${compareDate_}%22`);
 };
 
 module.exports = {today, compareDate};

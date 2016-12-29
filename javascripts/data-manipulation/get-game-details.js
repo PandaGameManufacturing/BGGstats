@@ -16,8 +16,9 @@ let getGameDetails = array => {
     for (let i = 0; i < array.length; i++) {
 
       // set location of API calls and insert id
-      let url = `https://boardgamegeek.com/xmlapi2/thing?id=${array[i]}&stats=1`;
-      let p = getData(url);
+      let host = `https://boardgamegeek.com`;
+      let path = `/xmlapi2/thing?id=${array[i]}&stats=1`;
+      let p = getData(host, path);
       promises.push(p);
     }
 
@@ -28,6 +29,7 @@ let getGameDetails = array => {
 
       // add game data to database in Games collection under the game's bggID
       for (let i = 0; i < formattedGames.length; i++) {
+        console.log("formattedGames:", formattedGames[i]);
         addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
         // let data = JSON.stringify(formattedGames[i]); // convert from an object to JSON
         pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");

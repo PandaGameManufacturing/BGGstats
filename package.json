@@ -16,6 +16,7 @@
   "author": "Nathan T. Baker",
   "license": "ISC",
   "dependencies": {
+    "agentkeepalive": "^3.0.0",
     "cheerio": "^0.22.0",
     "cors-anywhere": "^0.4.0",
     "ejs": "^2.5.5",

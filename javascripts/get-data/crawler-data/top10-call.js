@@ -15,7 +15,8 @@ let baseURL    = "https://bggstats-2de27.firebaseio.com/",
 // it's workaround since you can't use ?orderBy= twice in a firebase query
 
 let getCrawlTop10 = () => {
-  return getData(`${baseURL}${collection}.json?orderBy=%22${tag}%22&equalTo=%22${tagValue}%22`);
+  // base url then path
+  return getData(`${baseURL}`, `${collection}.json?orderBy=%22${tag}%22&equalTo=%22${tagValue}%22`);
 };
 
 module.exports = getCrawlTop10;
