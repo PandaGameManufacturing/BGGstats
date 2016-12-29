@@ -6,8 +6,8 @@ let getData = require("../get-data-clientside"),
     isDataEmpty = require("../../assets/empty-data-checker");
 
 // URL config
-let baseURL       = "https://bggstats-2de27.firebaseio.com/",
-    collection    = "Charts",
+let baseURL       = "https://bggstats-2de27.firebaseio.com",
+    collection    = "/Charts",
     subcollection = getToday(),
     backup        = getToday(1); // today minus 1 day
 
