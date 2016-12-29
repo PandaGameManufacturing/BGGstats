@@ -5,7 +5,7 @@ let getData = require("../get-data-serverside"),
     getToday = require("../../assets/get-date");
 
 // URL config
-let baseURL      = "https://bggstats-2de27.firebaseio.com",
+let baseURL      = "bggstats-2de27.firebaseio.com",
     collection   = "/Rankings",
     tag          = "timeYMD";
 
