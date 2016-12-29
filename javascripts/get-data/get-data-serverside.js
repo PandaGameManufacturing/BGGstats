@@ -52,6 +52,7 @@ let getData = (host, path) => {
         res.on('data', function(d) {
             console.info('GET result:\n');
             process.stdout.write(d);
+            resolve(d);
             console.info('\n\nCall completed');
         });
 
