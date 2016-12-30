@@ -5,6 +5,8 @@ let pushData = require("../push-data/push-data-serverside");
 
 let dayChange = (dataToday, dataCompare) => {
 
+  console.log("dataToday:", dataToday);
+
   // console.log("dataToday:", dataToday);
 
   return new Promise( (resolve, reject) => {

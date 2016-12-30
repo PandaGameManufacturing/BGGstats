@@ -10,12 +10,13 @@ let getDateMinus = require("../assets/get-date"),
     pushData = require("../push-data/push-data-serverside"),
     getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
+
 // configuration options
-let today          = getDateMinus(0),
+let today          = getDateMinus(5),
     compareString  = "yesterday",     // for console logs
-    compareDate    = getDateMinus(1), // compare to a week back
+    compareDate    = getDateMinus(6), // compare to a week back
     fallbackString = "2 days ago",     // for console logs
-    fallbackDate   = getDateMinus(2);  // compare to 2 days ago instead
+    fallbackDate   = getDateMinus(7);  // compare to 2 days ago instead
 
 let formatCrawlData = () => {
 
@@ -25,6 +26,7 @@ let formatCrawlData = () => {
   console.log("");
 
   let dataTodayPromise = getTodayData(today);
+  console.log("dataTodayPromise:", dataTodayPromise);
   let dataComparePromise = getCompareData(compareString, compareDate, fallbackString, fallbackDate);
 
   // pull down the data I need
@@ -33,15 +35,15 @@ let formatCrawlData = () => {
     console.log(":: ✓ Data retrieved");
     console.log("::    - Data from today has", Object.keys(data[0]).length, "rankings");
     console.log("::    - Compare data has", Object.keys(data[1]).length, "rankings");
+
     return data;
 
-  }).then( data => {
+}).then( data => {
 
     // build an array of movement from two sets of data
     // push up movement data
     let movement = calculateMovement.dayChange(data[0], data[1]);
     return movement;
-
 
   }).then( data => {
 
