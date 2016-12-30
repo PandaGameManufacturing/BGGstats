@@ -28,17 +28,25 @@ let formatCrawlData = () => {
   let dataTodayPromise = getTodayData(today);
   console.log("dataTodayPromise:", dataTodayPromise);
   let dataComparePromise = getCompareData(compareString, compareDate, fallbackString, fallbackDate);
+  console.log("dataComparePromise:", dataComparePromise);
 
   // pull down the data I need
-  Promise.all([dataTodayPromise, dataComparePromise]).then(data => {
-
+  dataTodayPromise.then(today => {
+    console.log("data today:", today);
     console.log(":: ✓ Data retrieved");
-    console.log("::    - Data from today has", Object.keys(data[0]).length, "rankings");
-    console.log("::    - Compare data has", Object.keys(data[1]).length, "rankings");
+    console.log("::    - Data from today has", Object.keys(today).length, "rankings");
+    return today;
 
-    return data;
+  }).then( today => {
 
-}).then( data => {
+      let compare = dataComparePromise.then(compare => {
+      console.log("::    - Compare data has", Object.keys(compare).length, "rankings");
+      return compare;
+      });
+
+    return {today, compare};
+
+  }).then( data => {
 
     // build an array of movement from two sets of data
     // push up movement data

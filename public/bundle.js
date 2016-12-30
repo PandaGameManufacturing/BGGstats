@@ -11187,6 +11187,8 @@
 
 	let getData = (host, path) => {
 	  return new Promise(function(resolve, reject) {
+
+
 	    /**
 	     * HOW TO Make an HTTP Call - GET
 	     */
@@ -11203,21 +11205,23 @@
 	    // console.info('Do the GET call');
 
 	    // do the GET request
-	    var reqGet = https.request(optionsget, function(res) {
+	    let reqGet = https.request(optionsget, function(res) {
+
 	        console.log(`:: ✓ Status Code ${res.statusCode}: ${optionsget.path} `);
 	        // uncomment it for header details
-	    //  console.log("headers: ", res.headers);
+	     console.log("headers: ", res.headers);
 
 
 	        res.on('data', data => {
+
+	            let parsed = JSON.parse(data);
 	            // console.info('GET result:\n');
 	            // process.stdout.write(data);
-	            // fs.readFile('/etc/passwd', 'utf-8', resolve(data));
+	            resolve(parsed);
 
 
 	            // console.log("data in get data promise:", data);
-	            let parsed = JSON.parse(data);
-	            resolve(parsed);
+
 	            // console.info('\n\nCall completed');
 	        });
 	    });
@@ -11230,6 +11234,9 @@
 	  });
 	};
 
+	function sendData(data) {
+
+	}
 
 	module.exports = getData;
 

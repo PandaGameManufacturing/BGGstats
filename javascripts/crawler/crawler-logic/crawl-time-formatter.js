@@ -11,8 +11,8 @@ let getPrettyDate = require("../../assets/get-date");
 
 let addCrawlTimes = function(object) {
   let date = new Date();
-  object.timeISO = date;
-  object.timeLocal = date.toTimeString();
+  // object.timeISO = date;
+  // object.timeLocal = date.toTimeString();
   object.timeYMD = getPrettyDate();
   object.timeYear = date.getFullYear();
   object.timeMilliseconds = date.getTime();
