@@ -17,6 +17,7 @@ let gameStart = (crawlStartPage * 100) - 99, // 100 pages per page
 
 // before first crawl, pull total ranked games to calculate percentile
 getData.getTotalRanked().then(function(data) {
+
   // console.log("total ranked data after promise:",  data);
   let totalRanked = data.totalRankedGames;
   console.log("totalRanked:", totalRanked);

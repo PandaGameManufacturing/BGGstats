@@ -3,19 +3,19 @@
 // requires
 let got = require('got');
 
-let getData = (host, path) => {
+let getXML = (host, path) => {
 
   return new Promise( (resolve, reject) => {
-    let url = `https://${host}${path}`;
+    let url = `https://www.${host}${path}`;
     got(url)
     .then(response => {
-        resolve(JSON.parse(response.body));
+        resolve(response);
     })
     .catch(error => {
         console.log(error.response.body);
     });
-
   });
+
 };
 
-module.exports = getData;
+module.exports = getXML;
