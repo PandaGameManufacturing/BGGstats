@@ -9,8 +9,7 @@ let getPrettyDate = require("../../assets/get-date");
 
 let addCrawlTimes = function(object) {
   let date = new Date();
-  object.timeYMD = "1000";
-  // object.timeYMD = getPrettyDate();
+  object.timeYMD = getPrettyDate();
   object.timeYear = date.getFullYear();
   object.timeMilliseconds = date.getTime();
 };

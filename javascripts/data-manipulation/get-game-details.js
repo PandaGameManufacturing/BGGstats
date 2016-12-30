@@ -1,7 +1,7 @@
 "use strict";
 
 // requires
-let getData = require("../get-data/get-data-serverside"),
+let getXML = require("../get-data/get-xml"),
     pushData = require("../push-data/push-data-serverside"),
     formatAPIdata = require("./format-api-data"),
     addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
@@ -16,9 +16,9 @@ let getGameDetails = array => {
     for (let i = 0; i < array.length; i++) {
 
       // set location of API calls and insert id
-      let host = `https://boardgamegeek.com`;
+      let host = `boardgamegeek.com`;
       let path = `/xmlapi2/thing?id=${array[i]}&stats=1`;
-      let p = getData(host, path);
+      let p = getXML(host, path);
       promises.push(p);
     }
 
@@ -29,6 +29,7 @@ let getGameDetails = array => {
 
       // add game data to database in Games collection under the game's bggID
       for (let i = 0; i < formattedGames.length; i++) {
+        console.log("formattedGames[i]:", formattedGames[i]);
         console.log("formattedGames:", formattedGames[i]);
         addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
         // let data = JSON.stringify(formattedGames[i]); // convert from an object to JSON
