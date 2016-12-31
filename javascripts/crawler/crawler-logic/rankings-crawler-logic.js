@@ -38,10 +38,10 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       data.bggID = Crawler.getGameId(responseBuffer, queueItem, resultsCounter); // bgg id
       data.name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter); // game name
       // add image options
-      data.thumbnail_mini = Crawler.getGameThumbnail(responseBuffer, queueItem, resultsCounter); // game name
-      let targetIndex = data.thumbnail_mini.lastIndexOf('m');
-      data.thumbnail = data.thumbnail_mini.slice(0, targetIndex) + data.thumbnail_mini.slice(targetIndex).replace('m', '');
-      data.image = data.thumbnail_mini.slice(0, targetIndex-1) + data.thumbnail_mini.slice(targetIndex-1).replace('_mt', '');
+      data.thumbnailMini = Crawler.getGameThumbnail(responseBuffer, queueItem, resultsCounter); // game name
+      let targetIndex = data.thumbnailMini.lastIndexOf('m');
+      data.thumbnail = data.thumbnailMini.slice(0, targetIndex) + data.thumbnailMini.slice(targetIndex).replace('m', '');
+      data.image = data.thumbnailMini.slice(0, targetIndex-1) + data.thumbnailMini.slice(targetIndex-1).replace('_mt', '');
       let uglyYear = Crawler.getGameYear(responseBuffer, queueItem, resultsCounter);  // bgg year
       data.yearPublished = uglyYear.replace(/\D+/g, ''); // remove everything execpt digits
       data.rank = i;                                  // rank of game based on incrementing on GameStart
