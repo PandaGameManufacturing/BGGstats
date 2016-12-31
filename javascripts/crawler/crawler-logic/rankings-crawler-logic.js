@@ -36,6 +36,14 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       let data = {};                                  // push data to a temporary object
       addCrawlTimes(data);                            // add crawl times
       data.bggID = Crawler.getGameId(responseBuffer, queueItem, resultsCounter); // bgg id
+      data.name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter); // game name
+      // add image options
+      data.thumbnail_mini = Crawler.getGameThumbnail(responseBuffer, queueItem, resultsCounter); // game name
+      let targetIndex = data.thumbnail_mini.lastIndexOf('m');
+      data.thumbnail = data.thumbnail_mini.slice(0, targetIndex) + data.thumbnail_mini.slice(targetIndex).replace('m', '');
+      data.image = data.thumbnail_mini.slice(0, targetIndex-1) + data.thumbnail_mini.slice(targetIndex-1).replace('_mt', '');
+      let uglyYear = Crawler.getGameYear(responseBuffer, queueItem, resultsCounter);  // bgg year
+      data.yearPublished = uglyYear.replace(/\D+/g, ''); // remove everything execpt digits
       data.rank = i;                                  // rank of game based on incrementing on GameStart
       addTopTen(data, data.rank);                     // adds top10, top100, etc tags
       addPercentile(data, data.rank, totalRanked);    // adds top 1%, 5%, etc tags
@@ -110,6 +118,27 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
     // remove everything execpt digits on first match
     let prettyData = smallerPath[0].replace(/\D+/g, '');
     return prettyData;
+    };
+
+  // function for targeting game name
+  Crawler.getGameName = function(buffer, queueItem, resultsNumber) {
+    let $ = cheerio.load(buffer.toString("utf8"));
+    let name = $(`#results_objectname${resultsNumber}`).find('a').text();
+    return name;
+    };
+
+  // function for targeting game image url
+  Crawler.getGameThumbnail = function(buffer, queueItem, resultsNumber) {
+    let targetRow = resultsNumber - 1; // resultsNumber 1 row off target game
+    let $ = cheerio.load(buffer.toString("utf8"));
+    let image = $(`#row_`).eq(targetRow).find('td').find('img').attr("src");
+    return image;
+    };
+
+  // function for game year
+  Crawler.getGameYear = function(buffer, queueItem, resultsNumber) {
+    let $ = cheerio.load(buffer.toString("utf8"));
+    return $(`#results_objectname${resultsNumber}`).find('span').text();
     };
 
   // function for checking if game is ranked
