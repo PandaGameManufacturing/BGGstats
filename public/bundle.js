@@ -34115,7 +34115,7 @@
 	    name: "Eurorails",
 	    yearPublished: "1990",
 	    thumbnail: "//cf.geekdo-images.com/images/pic3122349_t.jpg",
-	    thumbnail_mini: "//cf.geekdo-images.com/images/pic3122349_mt.jpg",
+	    thumbnailMini: "//cf.geekdo-images.com/images/pic3122349_mt.jpg",
 	    description: "Something evil stirs in Arkham...",
 	    image: "//cf.geekdo-images.com/images/pic3122349.jpg",
 	    publishers: [

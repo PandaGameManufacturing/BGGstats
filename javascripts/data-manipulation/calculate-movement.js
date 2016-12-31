@@ -1,23 +1,37 @@
 "use strict";
 
 // requires
-let pushData = require("../push-data/push-data-serverside");
+let pushData = require("../push-data/push-data-serverside"),
+    addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 let dayChange = (dataToday, dataCompare) => {
+  // console.log("dataToday:", dataToday);
 
   return new Promise( (resolve, reject) => {
 
     // crunch the numbers so we know the biggest movers
 
     // make new objects with flatter data
-    let today = {}, compare = {}, movement = [];
+    let today = {}, percentile = {}, name = {}, year = {}, image = {}, thumbnail = {}, thumbnailMini = {}, compare = {}, movement = [];
 
     // push today's ids and ranks to new objects
     for (let prop in dataToday) {
       let todayId = dataToday[prop].bggID;
       let todayrank = dataToday[prop].rank;
+      let todayPercentile = dataToday[prop].percentile;
+      let todayYear = dataToday[prop].yearPublished;
+      let todayName = dataToday[prop].name;
+      let todayImage = dataToday[prop].image;
+      let todayThumbnail = dataToday[prop].thumbnail;
+      let todayThumbnailMini = dataToday[prop].thumbnailMini;
       // add key "game":rank to today object
       today[todayId] = todayrank;
+      percentile[todayId] = todayPercentile;
+      year[todayId] = todayYear;
+      name[todayId] = todayName;
+      image[todayId] = todayImage;
+      thumbnail[todayId] = todayThumbnail;
+      thumbnailMini[todayId] = todayThumbnailMini;
     }
 
     // push compare today's Ids and ranks to new objects
@@ -42,6 +56,14 @@ let dayChange = (dataToday, dataCompare) => {
           object.movementDay = comparerank - todayrank;
           object.bggID = prop;
           object.rank = todayrank;
+          addCrawlTimes(object);
+          // object.yearPublished = dataToday[object.bggID].yearPublished;
+          object.percentile = percentile[object.bggID];
+          object.name = name[object.bggID];
+          object.image = image[object.bggID];
+          object.thumbnail = thumbnail[object.bggID];
+          object.thumbnailMini = thumbnailMini[object.bggID];
+          console.log("game details:", object);
           movement.push(object);
         }
       }
