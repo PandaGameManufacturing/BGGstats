@@ -57,13 +57,12 @@ let dayChange = (dataToday, dataCompare) => {
           object.bggID = prop;
           object.rank = todayrank;
           addCrawlTimes(object);
-          // object.yearPublished = dataToday[object.bggID].yearPublished;
+          object.yearPublished = year[object.bggID];
           object.percentile = percentile[object.bggID];
           object.name = name[object.bggID];
           object.image = image[object.bggID];
           object.thumbnail = thumbnail[object.bggID];
           object.thumbnailMini = thumbnailMini[object.bggID];
-          console.log("game details:", object);
           movement.push(object);
         }
       }
@@ -86,7 +85,6 @@ let dayChange = (dataToday, dataCompare) => {
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
-      console.log("prettyArray[i]:", prettyArray[i]);
       pushData(prettyArray[i], `/Games/${prettyArray[i].bggID}.json`, "PATCH");
     }
 
