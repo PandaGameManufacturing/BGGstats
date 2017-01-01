@@ -182,7 +182,7 @@ let formatCrawlData = lastRanked => {
 };
 
 // invoking function when testing file directly
-  formatCrawlData();
+  // formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
