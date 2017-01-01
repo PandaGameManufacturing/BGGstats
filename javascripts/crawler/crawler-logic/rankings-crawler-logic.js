@@ -94,7 +94,7 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
         console.log("");
 
 
-        manipulateData.crawler();
+        manipulateData.crawler(lastRanked);
         break;
       }
 
