@@ -8,7 +8,7 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
 
 //////////////////////////////////
                                //
-   let crawlStartPage = 1;
+   let crawlStartPage = 132;
                              //
 //////////////////////////////
 
@@ -20,8 +20,6 @@ getData.getTotalRanked().then(function(data) {
 
   // console.log("total ranked data after promise:",  data);
   let totalRanked = data.totalRankedGames;
-  console.log("totalRanked:", totalRanked);
-
 
   // start crawler
 
