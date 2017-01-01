@@ -37,11 +37,15 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
       addCrawlTimes(data);                            // add crawl times
       data.bggID = Crawler.getGameId(responseBuffer, queueItem, resultsCounter); // bgg id
       data.name = Crawler.getGameName(responseBuffer, queueItem, resultsCounter); // game name
-      // add image options
-      data.thumbnailMini = Crawler.getGameThumbnail(responseBuffer, queueItem, resultsCounter); // game name
-      let targetIndex = data.thumbnailMini.lastIndexOf('m');
-      data.thumbnail = data.thumbnailMini.slice(0, targetIndex) + data.thumbnailMini.slice(targetIndex).replace('m', '');
-      data.image = data.thumbnailMini.slice(0, targetIndex-1) + data.thumbnailMini.slice(targetIndex-1).replace('_mt', '');
+      data.thumbnailMini = Crawler.getGameThumbnail(responseBuffer, queueItem, resultsCounter); // mini thumbnail
+
+      // only calculate other image sizes if there's an image
+      if (data.thumbnailMini !== undefined) {
+        let targetIndex = data.thumbnailMini.lastIndexOf('m');
+        data.thumbnail = data.thumbnailMini.slice(0, targetIndex) + data.thumbnailMini.slice(targetIndex).replace('m', '');
+        data.image = data.thumbnailMini.slice(0, targetIndex-1) + data.thumbnailMini.slice(targetIndex-1).replace('_mt', '');
+      }
+
       let uglyYear = Crawler.getGameYear(responseBuffer, queueItem, resultsCounter);  // bgg year
       data.yearPublished = uglyYear.replace(/\D+/g, ''); // remove everything execpt digits
       data.rank = i;                                  // rank of game based on incrementing on GameStart
