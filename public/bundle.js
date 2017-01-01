@@ -102,14 +102,19 @@
 	    createChart = __webpack_require__(5),
 	    getData = __webpack_require__(12);
 
-	// get data for the day
+	// get data for the day (or fallback to yesterday's data)
 	getData.charts().then( unparsed => {
+	  // parse the data
 	  let data = JSON.parse(unparsed);
 	  console.log("data:", data);
-	  //once the app has the data, draw the charts
-	  createChart.hotness.hotnessChart ("Most Viewed",            data, "slot1");
-	  createChart.rank                 ("Today's Biggest Movers", data, "slot2");
-	  createChart.top10                ("Top 10",                 data, "slot3");
+
+	  //if there is movement data, draw the movement chart first
+	  if (data.movement) {
+	    createChart.rank("Today's Biggest Movers Among All Games", "yesterday", data, "slot1");
+	  }
+
+	  // createChart.hotness.hotnessChart ("Most Viewed",            data, "slot2");
+	  // createChart.top10                ("Top 10",                 data, "slot3");
 	});
 
 /***/ },
@@ -10579,12 +10584,10 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, data, slot) => {
-	  console.log("data:", data);
+	let drawRankChart = (title, compareString, data, slot) => {
 
-	  let games = data.games,
-	      chartData = data.charts.movement,
-	      game1 = games[chartData.positive[0]];
+	  let chartData = data.movement,
+	      game1 = data.movement.positive[0];
 
 	  // console.log("chartData:", chartData);
 	  // console.log("id:", games[chartData.positive[0]].bggID);
@@ -10594,8 +10597,10 @@
 	  let item1Rank = game1.movementDay;
 	  let item1ImageURL = game1.thumbnail;
 	  let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${game1.name}</a></strong></li></ol>`;
+	  let percentChange = game1.percentile - Math.round((game1.rank-game1.movementDay)/data.totalRankedGames*100);
+	  let percentChangeNumber = Math.round((game1.rank-game1.movementDay)/data.totalRankedGames*100);
 
-	  let ranks = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
+	  let ranksPositive = "", ranksNegative = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
 
 
@@ -10616,27 +10621,27 @@
 
 	  // loop over top 10 titles
 	  for (let i = 0; i < 10; i++) {
-	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.positive[i]].bggID}/">${games[chartData.positive[i]].name}<a/></li>`;
+	    top10html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.positive[i].bggID}/">${chartData.positive[i].name}<a/></div></li>`;
 	  }
 
 	  // loop over positive ranks
 	  for (let i = 0; i < 10; i++) {
-	    ranks += `<li>${games[chartData.positive[i]].rank}</li>`;
+	    ranksPositive += `<li>${numberWithCommas(chartData.positive[i].rank)}</li>`;
 	  }
 
 	  // loop over negative ranks
 	  for (let i = 0; i < 5; i++) {
-	    ranks += `<li>${games[chartData.negative[i]].rank}</li>`;
+	    ranksNegative += `<li>${numberWithCommas(chartData.negative[i].rank)}</li>`;
 	  }
 
 
 	  // loop over top 10 status bars
 	  for (let i = 0; i < 10; i++) {
-	    let percent = (games[chartData.positive[i]].movementDay / game1.movementDay) * 100; // build percent based on biggest movement
+	    let percent = (chartData.positive[i].movementDay / game1.movementDay) * 100; // build percent based on biggest movement
 	    top10status += `
 	      <div class="progress positive">
 	        <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-	          <p>Up ${games[chartData.positive[i]].movementDay}</p>
+	          <p>Up ${chartData.positive[i].movementDay}</p>
 	        </div>
 	      </div>
 	    `;
@@ -10644,23 +10649,33 @@
 
 	  // loop over bottom 5 titles
 	  for (let i = 0; i < 5; i++) {
-	    bottom5html += `<li><a href="http://boardgamegeek.com/boardgame/${games[chartData.negative[i]].bggID}/">${games[chartData.negative[i]].name}</a></li>`;  }
+	    bottom5html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.negative[i].bggID}/">${chartData.negative[i].name}</a></div></li>`;  }
 
 	  // loop over bottom 5 status bars
 	  for (let i = 0; i < 5; i++) {
 
-	    let percent = (games[chartData.negative[i]].movementDay / games[chartData.negative[4]].movementDay) * 100; // build percent based on biggest movement
-	    let movementRawData = games[chartData.negative[i]].movementDay.toString();
+	    let percent = (chartData.negative[i].movementDay / chartData.negative[4].movementDay) * 100; // build percent based on biggest movement
+	    let movementRawData = chartData.negative[i].movementDay.toString();
 	    let movement = movementRawData.replace(/\D+/g, ''); // remove everything execpt digits
 	    bottom5status += `
 	      <div class="progress negative">
 	        <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-	          <p>Down ${movement}</p>
+	          <p>${movement} Down</p>
 	        </div>
 	      </div>
 	    `;
-
 	  }
+
+	  let apiDetails = "";
+	  // <tr>
+	  //   <td>${playerCount}</td>
+	  //   <td>${time}</td>
+	  // </tr>
+	  // <tr>
+	  //   <td coldiv="12">
+	  //     ${description}
+	  //   </td>
+	  // </tr>
 
 	  let snippets = `
 	<!-- Rank Chart  -->
@@ -10673,6 +10688,7 @@
 	            <h2>${title}</h2>
 	            <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
 	          </div>
+	          <br/>
 
 	        </div>
 
@@ -10695,14 +10711,15 @@
 	                       </ol>
 	                      </div>
 
-	                      <div class="col-sm-1">
-	                        <!--<ul>
-	                          <li><strong>RANK</strong></li>
-	                          ${ranks}
+	                      <div class="col-sm-1" id="rankColumn">
+	                        <ul>
+	                          <li><strong>Rank</strong></li>
+	                          ${ranksPositive}
 	                        </ul>
-	                       <ol class="negative">
+	                        <ul id="rankColumnNegative">
+	                          ${ranksNegative}
+	                        </ul>
 
-	                       </ol>-->
 	                      </div>
 
 	                      <div class="col-sm-5 top-wrapper">
@@ -10731,7 +10748,7 @@
 	                  <div class="col-sm-8"s>
 
 	                    <div id="rankMovement">${item1Rank}</div>
-	                    <p id="rankDescription">Up ${item1Rank} spots <br/>since yesterday</p>
+	                    <p id="rankDescription">Up ${item1Rank} spots <br/>from ${compareString}</p>
 
 	                  </div>
 
@@ -10744,19 +10761,20 @@
 	                  <table class="table table-hover">
 
 	                      <tr>
-	                        <td>Rank: ${game1.rank}</td>
-	                        <td>${game1.yearPublished}</td>
+	                        <td>Ranked <strong>${numberWithCommas(game1.rank)}</strong></td>
+	                        <td>Published <strong>${game1.yearPublished}</strong></td>
+
 	                      </tr>
 	                      <tr>
-	                        <td>${playerCount}</td>
-	                        <td>${time}</td>
+	                        <td>In Top <strong>${game1.percentile}%</td>
+	                        <td>Up <strong>${percentChange}%</strong></td>
+
 	                      </tr>
 	                      <tr>
-	                        <td colspan="12">
-	                          ${description}
-	                        </td>
+	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${percentChangeNumber}% ${compareString}.</td>
 	                      </tr>
 
+	                      ${apiDetails}
 	                  </table>
 
 	                </div>
@@ -10772,6 +10790,11 @@
 	  $(`#${slot}`).html(snippets);
 
 	};
+
+	// function to add commas to large numbers
+	function numberWithCommas(x) {
+	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 
 	module.exports = drawRankChart;
 
@@ -33916,16 +33939,14 @@
 	    backup        = getToday(1); // today minus 1 day
 
 	let getCharts = () => {
-	  console.log("getCharts runs");
 	  if (isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
 	    // if today's data is there return today's data
 	    let today = getData(`${baseURL}${collection}/${subcollection}.json`);
-	    console.log("today:", today);
 	    return today;
 	  } else {
 	    // if it doesn't exist, return yesterday's data
 	    let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
-	    console.log("yesterday:", yesterday);
+	    console.log("data from today not found. serving data from yesterday");
 	    return yesterday;
 	  }
 	};

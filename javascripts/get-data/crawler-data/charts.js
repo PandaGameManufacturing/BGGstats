@@ -12,16 +12,14 @@ let baseURL       = "https://bggstats-2de27.firebaseio.com",
     backup        = getToday(1); // today minus 1 day
 
 let getCharts = () => {
-  console.log("getCharts runs");
   if (isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
     // if today's data is there return today's data
     let today = getData(`${baseURL}${collection}/${subcollection}.json`);
-    console.log("today:", today);
     return today;
   } else {
     // if it doesn't exist, return yesterday's data
     let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
-    console.log("yesterday:", yesterday);
+    console.log("data from today not found. serving data from yesterday");
     return yesterday;
   }
 };
