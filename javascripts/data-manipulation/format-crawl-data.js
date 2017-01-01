@@ -17,7 +17,7 @@ let today          = getDateMinus(0),
     fallbackString = "2 days ago",     // for console logs
     fallbackDate   = getDateMinus(2);  // compare to 2 days ago instead
 
-let formatCrawlData = () => {
+let formatCrawlData = lastRanked => {
 
   console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
   console.log("::           Manipulating Crawl Data            ::");
@@ -141,36 +141,35 @@ let formatCrawlData = () => {
 
         //create structure for compiled data
         let chartData = {
-          charts: {
-            hotness: [],
-            top10: {
-             games: [],
-             data: [],
-            },
-            movement: {
-              positive: [],
-              negative: []
-            }
+          hotness: [],
+          top10: {
+           games: [],
+           data: [],
           },
-          games: {},
+          movement: {
+            positive: [],
+            negative: []
+          }
         };
 
         // compile data
-        chartData.charts.top10 = data.top10;
+        chartData.top10.games = data.top10;
         for (let i = 0; i < 10; i++) {
-          chartData.charts.movement.positive.push(data.movement[i]);
+          chartData.movement.positive.push(data.movement[i]);
         }
         for (let i = 10; i < 15; i++) {
-          chartData.charts.movement.negative.push(data.movement[i]);
+          chartData.movement.negative.push(data.movement[i]);
         }
         // chartData.charts.hotness = hotness;
         //push all hotness data for now while api is crappy
-        chartData.charts.hotness = hotnessData;
+        chartData.hotness = hotnessData;
+        // store the last ranked game
+        chartData.totalRankedGames = lastRanked;
 
         // add crawl times
         getCrawlTimes(chartData);
         // push up data to Charts collection under today's date
-        // console.log("chartData:", chartData);
+        console.log("chartData:", chartData);
         pushData(chartData, `/Charts/${today}.json`, "PATCH");
         console.log(":: ✓ Chart data pushed up for the day");
 
@@ -183,7 +182,7 @@ let formatCrawlData = () => {
 };
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
