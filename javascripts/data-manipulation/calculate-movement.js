@@ -4,7 +4,7 @@
 let pushData = require("../push-data/push-data-serverside"),
     addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
-let dayChange = (dataToday, dataCompare) => {
+let calculateMovement = (dataToday, dataCompare) => {
   // console.log("dataToday:", dataToday);
 
   return new Promise( (resolve, reject) => {
@@ -53,7 +53,7 @@ let dayChange = (dataToday, dataCompare) => {
         if (todayrank !== comparerank) {
           // push change in movement to the movement array
           let object = {};
-          object.movementDay = comparerank - todayrank;
+          object.movement = comparerank - todayrank;
           object.bggID = prop;
           object.rank = todayrank;
           addCrawlTimes(object);
@@ -70,8 +70,8 @@ let dayChange = (dataToday, dataCompare) => {
 
     // sort movement array by movement
     movement.sort(function (a, b) {
-      if (a.movementDay < b.movementDay) { return 1;  }
-      if (a.movementDay > b.movementDay) { return -1; }
+      if (a.movement < b.movement) { return 1;  }
+      if (a.movement > b.movement) { return -1; }
       return 0;
     });
 
@@ -94,4 +94,4 @@ let dayChange = (dataToday, dataCompare) => {
   });
 };
 
-module.exports = {dayChange};
+module.exports = calculateMovement;

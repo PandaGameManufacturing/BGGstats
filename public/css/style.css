@@ -480,12 +480,12 @@ ol.color-list > li:nth-child(10):before {
   font-size: 3em;
   font-weight: 300;
   padding: 0 0 0 50px;
-  line-height: .9em;
-  margin: 10px 0 0 10px; }
+  margin: 10px 0 0 10px;
+  line-height: .9em; }
 
 .rankChart img {
   max-width: 100px;
-  padding: 0;
+  padding: 0 0 20px 0;
   margin-left: -20px; }
 
 .rankChart li {
@@ -519,7 +519,7 @@ ol.color-list > li:nth-child(10):before {
   padding-right: 8px; }
 
 .positive {
-  margin: 10.1px 20px 0 -10px;
+  margin: 10.1px 20px 0 5px;
   position: relative;
   z-index: 5; }
 
@@ -534,6 +534,21 @@ ol.color-list > li:nth-child(10):before {
 
 .rankChart ol {
   padding: 10px 0; }
+
+.truncate {
+  margin: 0 -60px -.14em 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2em;
+  padding: 0; }
+
+#rankColumn {
+  margin: -22px 0 0 0;
+  line-height: 2.21em; }
+
+#rankColumnNegative {
+  padding-top: 20px; }
 
 .hotnessbox {
   height: 300px; }
