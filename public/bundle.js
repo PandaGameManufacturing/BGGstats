@@ -118,7 +118,6 @@
 	  if (data.movementDay) { // check that the data's there first
 	    createChart.rank(
 	      "Today's Biggest Movers", // chart title
-	      "yesterday", // compare text string
 	      data, // pushes all data
 	      "day", // code word for switch to know where to go in data
 	      "slot1" // slot in the app to show this chart
@@ -129,7 +128,6 @@
 	  if (data.movementWeek) { // check that the data's there first
 	    createChart.rank(
 	      "This Week's Biggest Movers", // chart title
-	      "a week ago", // compare text string
 	      data, // pushes all data
 	      "week", // code word for switch to know where to go in data
 	      "slot2" // slot in the app to show this chart
@@ -10607,15 +10605,38 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, compareString, data, dataLocation, slot) => {
+	let drawRankChart = (title, data, dataLocation, slot) => {
+
+
+	  let chartData = null,
+	      descriptionCompareDate = null,
+	      descriptionDataRange = null,
+	      descriptionTooltip = null;
 
 	  // pull data from right place based on the codeword given
-	  let chartData = null;
 	  switch(dataLocation) {
-	    case "day":  chartData = data.movementDay;  break;
-	    case "week": chartData = data.movementWeek; break;
+	    case "day":
+	      chartData = data.movementDay;
+	      descriptionCompareDate = "yesterday";
+	      descriptionDataRange = `all ranked board games (currently ${numberWithCommas(data.totalRankedGames)})`;
+	      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+	      break;
+	    case "week":
+	      chartData = data.movementWeek;
+	      descriptionCompareDate = "a week ago";
+	      descriptionDataRange = `all ranked board games (currently ${numberWithCommas(data.totalRankedGames)})`;
+	      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+	      break;
+	    case "week25":
+	      chartData = data.movementWeek;
+	      descriptionCompareDate = "a week ago";
+	      descriptionDataRange = `the top 25% of ranked board games. (There are currently ${numberWithCommas(Math.round(data.totalRankedGames/4))} in the top 25%)`;
+	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 25% of ranked games.`;
+	      break;
 	    default:     chartData = data.movementDay;
 	  }
+
+	  descriptionTooltip += " Rankings are based on the number and quality of user ratings on BoardGameGeek. Data is calculated daily.";
 
 	  let game1 = chartData.positive[0];
 
@@ -10709,7 +10730,7 @@
 	  <div class="row">
 	    <div class="col-sm-12 col-md-12 col-lg-12">
 
-	        <div class="statbox" data-tooltip="Based on user ratings on BoardGameGeek, each board game has a unique rank. This chart shows which ranked games moved the most over the last day. Data is calculated daily.">
+	        <div class="statbox" data-tooltip="${descriptionTooltip}">
 
 	          <div class="label-title">
 	            <h2>${title}</h2>
@@ -10775,7 +10796,7 @@
 	                  <div class="col-sm-8"s>
 
 	                    <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-	                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${compareString}</p>
+	                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
 
 	                  </div>
 
@@ -10798,7 +10819,7 @@
 
 	                      </tr>
 	                      <tr>
-	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${percentChangeNumber}% ${compareString}.</td>
+	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of ${descriptionDataRange}. It was in the top ${percentChangeNumber}% ${descriptionCompareDate}.</td>
 	                      </tr>
 
 	                      ${apiDetails}

@@ -21,7 +21,6 @@ getData.charts().then( unparsed => {
   if (data.movementDay) { // check that the data's there first
     createChart.rank(
       "Today's Biggest Movers", // chart title
-      "yesterday", // compare text string
       data, // pushes all data
       "day", // code word for switch to know where to go in data
       "slot1" // slot in the app to show this chart
@@ -32,7 +31,6 @@ getData.charts().then( unparsed => {
   if (data.movementWeek) { // check that the data's there first
     createChart.rank(
       "This Week's Biggest Movers", // chart title
-      "a week ago", // compare text string
       data, // pushes all data
       "week", // code word for switch to know where to go in data
       "slot2" // slot in the app to show this chart
