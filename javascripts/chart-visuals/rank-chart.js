@@ -172,7 +172,7 @@ let drawRankChart = (title, compareString, data, dataLocation, slot) => {
                   <div class="col-sm-8"s>
 
                     <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots <br/>from ${compareString}</p>
+                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${compareString}</p>
 
                   </div>
 
