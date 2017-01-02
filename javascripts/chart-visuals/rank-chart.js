@@ -12,7 +12,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
       descriptionDataRange = null,
       descriptionTooltip = null;
 
-  // pull data from right place based on the codeword given
+  // pull data from right place based on the codeword given and configure each chart's description
   switch(dataLocation) {
     case "day":
       chartData = data.movementDay;
@@ -26,11 +26,11 @@ let drawRankChart = (title, data, dataLocation, slot) => {
       descriptionDataRange = `all ranked board games (currently ${numberWithCommas(data.totalRankedGames)})`;
       descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
       break;
-    case "week25":
+    case "week10":
       chartData = data.movementWeek;
       descriptionCompareDate = "a week ago";
-      descriptionDataRange = `the top 25% of ranked board games. (There are currently ${numberWithCommas(Math.round(data.totalRankedGames/4))} in the top 25%)`;
-      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 25% of ranked games.`;
+      descriptionDataRange = `the top 10% of ranked board games. (There are currently ${numberWithCommas(Math.round(data.totalRankedGames/10))} in the top 10%)`;
+      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games.`;
       break;
     default:     chartData = data.movementDay;
   }
