@@ -541,14 +541,15 @@ ol.color-list > li:nth-child(10):before {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2em;
-  padding: 0; }
+  padding: 0;
+  width: 250px; }
 
 #rankColumn {
-  margin: -22px 0 0 0;
+  margin: -22px -15px 0 0;
   line-height: 2.21em; }
 
 #rankColumnNegative {
-  padding-top: 20px; }
+  height: 20px; }
 
 .hotnessbox {
   height: 300px; }

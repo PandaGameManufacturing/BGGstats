@@ -32,7 +32,6 @@
   padding: 0;
 }
 
-
 .progress p {
   text-align: left;
   padding-left: 8px;
@@ -85,6 +84,10 @@
   padding: 10px 0;
 }
 
+#rankColumn ul {
+
+}
+
 .truncate {
   margin: 0 -60px -.14em 0;
   white-space: nowrap;
@@ -92,13 +95,14 @@
   text-overflow: ellipsis;
   line-height: 1.2em;
   padding: 0;
+  width: 250px;
 }
 
 #rankColumn {
-  margin: -22px 0 0 0;
+  margin: -22px -15px 0 0;
   line-height: 2.21em;
 }
 
 #rankColumnNegative {
-  padding-top: 20px;
+  height: 20px;
 }

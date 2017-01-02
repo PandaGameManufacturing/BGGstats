@@ -9,7 +9,6 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
   let chartData = null,
       descriptionCompareDate = null,
-      descriptionDataRange = null,
       descriptionTooltip = null;
 
   // pull data from right place based on the codeword given and configure each chart's description
@@ -17,20 +16,17 @@ let drawRankChart = (title, data, dataLocation, slot) => {
     case "day":
       chartData = data.movementDay;
       descriptionCompareDate = "yesterday";
-      descriptionDataRange = `all ranked board games (currently ${numberWithCommas(data.totalRankedGames)})`;
       descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
       break;
     case "week":
       chartData = data.movementWeek;
       descriptionCompareDate = "a week ago";
-      descriptionDataRange = `all ranked board games (currently ${numberWithCommas(data.totalRankedGames)})`;
       descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
       break;
     case "week10":
-      chartData = data.movementWeek;
+      chartData = data.movementWeek10;
       descriptionCompareDate = "a week ago";
-      descriptionDataRange = `the top 10% of ranked board games. (There are currently ${numberWithCommas(Math.round(data.totalRankedGames/10))} in the top 10%)`;
-      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games.`;
+      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${numberWithCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
       break;
     default:     chartData = data.movementDay;
   }
@@ -73,12 +69,12 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
   // loop over positive ranks
   for (let i = 0; i < 10; i++) {
-    ranksPositive += `<li>${numberWithCommas(chartData.positive[i].rank)}</li>`;
+    ranksPositive += `<li class="pull-right">${numberWithCommas(chartData.positive[i].rank)}</li>`;
   }
 
   // loop over negative ranks
   for (let i = 0; i < 5; i++) {
-    ranksNegative += `<li>${numberWithCommas(chartData.negative[i].rank)}</li>`;
+    ranksNegative += `<li class="pull-right">${numberWithCommas(chartData.negative[i].rank)}</li>`;
   }
 
 
@@ -160,10 +156,11 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
                       <div class="col-sm-1" id="rankColumn">
                         <ul>
-                          <li><strong>Rank</strong></li>
+                          <li class="pull-right"><strong>Rank</strong></li>
                           ${ranksPositive}
                         </ul>
-                        <ul id="rankColumnNegative">
+                        <ul>
+                          <li style="color: white" class="pull-right">Rank</li>
                           ${ranksNegative}
                         </ul>
 
@@ -218,7 +215,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
                       </tr>
                       <tr>
-                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of ${descriptionDataRange}. It was in the top ${percentChangeNumber}% ${descriptionCompareDate}.</td>
+                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
                       </tr>
 
                       ${apiDetails}
