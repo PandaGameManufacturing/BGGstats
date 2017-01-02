@@ -12,14 +12,23 @@ let getDateMinus = require("../assets/get-date"),
 
 // configuration options
 let today          = getDateMinus(0),
-    compareString  = "yesterday",     // for console logs
-    compareDate    = getDateMinus(1), // compare to a week back
-    fallbackString = "2 days ago",     // for console logs
-    fallbackDate   = getDateMinus(2);  // compare to 2 days ago instead
+    // yesterday
+    yesterdayString  = "yesterday",
+    yesterdayDate    = getDateMinus(1),         // compare to a day back
+    yesterdayFallbackString = "2 days ago",
+    yesterdayFallbackDate   = getDateMinus(2),  // compare to 2 days ago instead
+    // week ago
+    weekString  = "a week ago",
+    weekDate    = getDateMinus(7),              // compare to a week back
+    weekFallbackString = "6 days ago",
+    weekFallbackDate   = getDateMinus(6);       // compare to 6 days ago instead
 
 // set data globally
 let todayGames = [],
-    compareGames = [];
+    yesterdayGames = [],
+    weekGames = [],
+    todayMovement = [],
+    weekMovement = [];
 
 //create structure for compiled data
 let chartData = {
@@ -48,34 +57,57 @@ let formatCrawlData = lastRanked => {
   // add last ranked game
   chartData.totalRankedGames = lastRanked;
 
-  // get today and yesterday data
+  // get today
   let dataTodayPromise = getTodayData(today);
-  let dataComparePromise = getCompareData(compareString, compareDate, fallbackString, fallbackDate);
+  // get yesterday
+  let dataYesterdayPromise = getCompareData(yesterdayString, yesterdayDate, yesterdayFallbackString, yesterdayFallbackDate);
+  // get a week ago
+  let dataWeekPromise = getCompareData(weekString, weekDate, weekFallbackString, weekFallbackDate);
+
 
   // pull down the data the app needs to draw movement charts first
-  Promise.all([dataTodayPromise, dataComparePromise]).then(data => {
+  Promise.all([dataTodayPromise, dataYesterdayPromise, dataWeekPromise]).then(data => {
 
     // set data globally
     todayGames = data[0];
-    compareGames = data[1];
+    yesterdayGames = data[1];
+    weekGames = data[2];
 
     console.log(":: ✓ Data retrieved");
     console.log("::    - Data from today has", Object.keys(todayGames).length, "rankings");
-    console.log("::    - Compare data has", Object.keys(compareGames).length, "rankings");
+    console.log("::    - Data from yesterday has", Object.keys(yesterdayGames).length, "rankings");
+    console.log("::    - Data from a week ago has", Object.keys(weekGames).length, "rankings");
+
+    return calculateMovement(todayGames, yesterdayGames);
+
+    }).then( day => {
+
+    todayMovement = day;
 
     // build an array of movement from two sets of data and push up movement data
-    return calculateMovement.dayChange(todayGames, compareGames);
+    let week = calculateMovement(todayGames, weekGames);
 
-  }).then( movementArray => {
+    return week;
 
-    console.log(`:: ✓ Movement array calculated. It has ${movementArray.length} games.`);
-    console.log(`::    - Biggest mover is up ${movementArray[0].movementDay} (bggID: ${movementArray[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${movementArray[14].movementDay} (movementArray: ${movementArray[14].bggID})`);
+  }).then( week => {
+
+    let weekMovement = week;
+
+    console.log(`:: ✓ Day Movement array calculated.`);
+    console.log(`::    - Today Movement has ${todayMovement.length} games.`);
+    console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (movementArray: ${todayMovement[14].bggID})`);
+
+    console.log(`:: ✓ Week Movement array calculated.`);
+    console.log(`::    - Today Movement has ${weekMovement.length} games.`);
+    console.log(`::    - Biggest mover is up ${weekMovement[0].movement} (bggID: ${weekMovement[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (movementArray: ${weekMovement[14].bggID})`);
 
     // convert ids of movement games to game objects
-    getGameObjects(movementArray);
+    getGameObjects(todayMovement.day);
+    getGameObjects(weekMovement);
 
-    return movementArray;
+    return {todayMovement, weekMovement};
 
   }).then( movementArray => {
 
