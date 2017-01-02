@@ -37,7 +37,11 @@ let chartData = {
    games: [],
    data: [],
   },
-  movement: {
+  movementDay: {
+    positive: [],
+    negative: []
+  },
+  movementWeek: {
     positive: [],
     negative: []
   }
@@ -93,30 +97,36 @@ let formatCrawlData = lastRanked => {
 
     let weekMovement = week;
 
-    console.log(`:: ✓ Day Movement array calculated.`);
-    console.log(`::    - Today Movement has ${todayMovement.length} games.`);
+    console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
     console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (movementArray: ${todayMovement[14].bggID})`);
+    console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (bggID: ${todayMovement[14].bggID})`);
 
-    console.log(`:: ✓ Week Movement array calculated.`);
-    console.log(`::    - Today Movement has ${weekMovement.length} games.`);
+    console.log(`:: ✓ Week Movement array calculated (${weekMovement.length} games)`);
     console.log(`::    - Biggest mover is up ${weekMovement[0].movement} (bggID: ${weekMovement[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (movementArray: ${weekMovement[14].bggID})`);
-
-    // convert ids of movement games to game objects
-    getGameObjects(todayMovement.day);
-    getGameObjects(weekMovement);
+    console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (bggID: ${weekMovement[14].bggID})`);
 
     return {todayMovement, weekMovement};
 
-  }).then( movementArray => {
+  }).then( data => {
 
-    // put movement data in correct place
+    // convert ids of movement games to game objects
+    getGameObjects(data.todayMovement);
+    getGameObjects(data.weekMovement);
+
+    // put today movement data in correct place
     for (let i = 0; i < 10; i++) {
-      chartData.movement.positive.push(movementArray[i]);
+      chartData.movementDay.positive.push(data.todayMovement[i]);
     }
     for (let i = 10; i < 15; i++) {
-      chartData.movement.negative.push(movementArray[i]);
+      chartData.movementDay.negative.push(data.todayMovement[i]);
+    }
+
+    // put yesterday movement data in correct place
+    for (let i = 0; i < 10; i++) {
+      chartData.movementWeek.positive.push(data.weekMovement[i]);
+    }
+    for (let i = 10; i < 15; i++) {
+      chartData.movementWeek.negative.push(data.weekMovement[i]);
     }
 
     // push up movement chart data to Charts collection under today's date
