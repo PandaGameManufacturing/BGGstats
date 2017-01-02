@@ -3,7 +3,7 @@
 
 ## Hotness List
 http://bgg-json.azurewebsites.net/hot         40ms
-http://bgg-api.herokuapp.com/api/v1/hotness   50ms
+http://bgg-api.herokuapp.com/a pi/v1/hotness   50ms
 https://www.boardgamegeek.com/xmlapi2/hot    700ms
 
 ## Item Details

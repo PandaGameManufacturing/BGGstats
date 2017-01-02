@@ -28,7 +28,8 @@ let todayGames = [],
     yesterdayGames = [],
     weekGames = [],
     todayMovement = [],
-    weekMovement = [];
+    weekMovement = [],
+    weekMovement10 = [];
 
 //create structure for compiled data
 let chartData = {
@@ -44,6 +45,10 @@ let chartData = {
   movementWeek: {
     positive: [],
     negative: []
+  },
+  movementWeek10: {
+    positive: [],
+    negative: []
   }
 };
 
@@ -57,9 +62,7 @@ let formatCrawlData = lastRanked => {
   console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
   console.log("");
 
-
-  // add last ranked game
-  chartData.totalRankedGames = lastRanked;
+  chartData.totalRankedGames = lastRanked;   // add last ranked game
 
   // get today
   let dataTodayPromise = getTodayData(today);
@@ -73,45 +76,59 @@ let formatCrawlData = lastRanked => {
   Promise.all([dataTodayPromise, dataYesterdayPromise, dataWeekPromise]).then(data => {
 
     // set data globally
-    todayGames = data[0];
+    todayGames     = data[0];
     yesterdayGames = data[1];
-    weekGames = data[2];
+    weekGames      = data[2];
 
+    console.log(`::`);
     console.log(":: ✓ Data retrieved");
     console.log("::    - Data from today has", Object.keys(todayGames).length, "rankings");
     console.log("::    - Data from yesterday has", Object.keys(yesterdayGames).length, "rankings");
     console.log("::    - Data from a week ago has", Object.keys(weekGames).length, "rankings");
+    console.log(`::`);
 
     return calculateMovement(todayGames, yesterdayGames);
 
     }).then( day => {
 
-    todayMovement = day;
+    todayMovement = day; // set returned promise
+    return calculateMovement(todayGames, weekGames); // setup another promise;
 
-    // build an array of movement from two sets of data and push up movement data
-    let week = calculateMovement(todayGames, weekGames);
+    }).then( week => {
 
-    return week;
+    weekMovement = week;
+    return calculateMovement(todayGames, weekGames, 10); // pass percentile filter;
 
-  }).then( week => {
+  }).then( week10 => {
 
-    let weekMovement = week;
+    weekMovement10 = week10;
 
+    // today data
     console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
     console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
     console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (bggID: ${todayMovement[14].bggID})`);
+    console.log(`::`);
 
+    // week data
     console.log(`:: ✓ Week Movement array calculated (${weekMovement.length} games)`);
     console.log(`::    - Biggest mover is up ${weekMovement[0].movement} (bggID: ${weekMovement[0].bggID})`);
     console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (bggID: ${weekMovement[14].bggID})`);
+    console.log(`::`);
 
-    return {todayMovement, weekMovement};
+    // week 10% data
+    console.log(`:: ✓ Week 10% Movement array calculated (${weekMovement10.length} games)`);
+    console.log(`::    - Biggest mover is up ${weekMovement10[0].movement} (bggID: ${weekMovement10[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${weekMovement10[14].movement} (bggID: ${weekMovement10[14].bggID})`);
+    console.log(`::`);
+
+    return {todayMovement, weekMovement, weekMovement10};
 
   }).then( data => {
 
     // convert ids of movement games to game objects
     getGameObjects(data.todayMovement);
     getGameObjects(data.weekMovement);
+    getGameObjects(data.weekMovement10);
 
     // put today movement data in correct place
     for (let i = 0; i < 10; i++) {
@@ -121,12 +138,20 @@ let formatCrawlData = lastRanked => {
       chartData.movementDay.negative.push(data.todayMovement[i]);
     }
 
-    // put yesterday movement data in correct place
+    // put week movement data in correct place
     for (let i = 0; i < 10; i++) {
       chartData.movementWeek.positive.push(data.weekMovement[i]);
     }
     for (let i = 10; i < 15; i++) {
       chartData.movementWeek.negative.push(data.weekMovement[i]);
+    }
+
+    // put week 10% movement data in correct place
+    for (let i = 0; i < 10; i++) {
+      chartData.movementWeek10.positive.push(data.weekMovement10[i]);
+    }
+    for (let i = 10; i < 15; i++) {
+      chartData.movementWeek10.negative.push(data.weekMovement10[i]);
     }
 
     // push up movement chart data to Charts collection under today's date
