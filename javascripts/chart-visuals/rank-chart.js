@@ -4,21 +4,25 @@ let $ = require("jquery");
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = (title, compareString, data, slot) => {
+let drawRankChart = (title, compareString, data, dataLocation, slot) => {
 
-  let chartData = data.movement,
-      game1 = data.movement.positive[0];
+  // pull data from right place based on the codeword given
+  let chartData = null;
+  switch(dataLocation) {
+    case "day":  chartData = data.movementDay;  break;
+    case "week": chartData = data.movementWeek; break;
+    default:     chartData = data.movementDay;
+  }
 
-  // console.log("chartData:", chartData);
-  // console.log("id:", games[chartData.positive[0]].bggID);
+  let game1 = chartData.positive[0];
 
   // console.log("data:", data);
   let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
-  let item1Rank = game1.movementDay;
+  let item1Rank = game1.movement;
   let item1ImageURL = game1.thumbnail;
   let biggestMover = `<ol class="color-list"><li><strong><a href="${item1Link}/">${game1.name}</a></strong></li></ol>`;
-  let percentChange = game1.percentile - Math.round((game1.rank-game1.movementDay)/data.totalRankedGames*100);
-  let percentChangeNumber = Math.round((game1.rank-game1.movementDay)/data.totalRankedGames*100);
+  let percentChange = game1.percentile - Math.round((game1.rank-game1.movement)/data.totalRankedGames*100);
+  let percentChangeNumber = Math.round((game1.rank-game1.movement)/data.totalRankedGames*100);
 
   let ranksPositive = "", ranksNegative = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
 
@@ -57,11 +61,11 @@ let drawRankChart = (title, compareString, data, slot) => {
 
   // loop over top 10 status bars
   for (let i = 0; i < 10; i++) {
-    let percent = (chartData.positive[i].movementDay / game1.movementDay) * 100; // build percent based on biggest movement
+    let percent = (chartData.positive[i].movement / game1.movement) * 100; // build percent based on biggest movement
     top10status += `
       <div class="progress positive">
         <div class="progress-bar progress-bar-success" role="progressbar" style="width:${percent}%">
-          <p>Up ${chartData.positive[i].movementDay}</p>
+          <p>Up ${chartData.positive[i].movement}</p>
         </div>
       </div>
     `;
@@ -74,8 +78,8 @@ let drawRankChart = (title, compareString, data, slot) => {
   // loop over bottom 5 status bars
   for (let i = 0; i < 5; i++) {
 
-    let percent = (chartData.negative[i].movementDay / chartData.negative[4].movementDay) * 100; // build percent based on biggest movement
-    let movementRawData = chartData.negative[i].movementDay.toString();
+    let percent = (chartData.negative[i].movement / chartData.negative[4].movement) * 100; // build percent based on biggest movement
+    let movementRawData = chartData.negative[i].movement.toString();
     let movement = movementRawData.replace(/\D+/g, ''); // remove everything execpt digits
     bottom5status += `
       <div class="progress negative">
@@ -167,8 +171,8 @@ let drawRankChart = (title, compareString, data, slot) => {
 
                   <div class="col-sm-8"s>
 
-                    <div id="rankMovement">${item1Rank}</div>
-                    <p id="rankDescription">Up ${item1Rank} spots <br/>from ${compareString}</p>
+                    <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
+                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots <br/>from ${compareString}</p>
 
                   </div>
 
