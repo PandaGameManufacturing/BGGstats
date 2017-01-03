@@ -151,14 +151,14 @@ let formatCrawlData = lastRanked => {
     }
 
     // push up movement chart data
-    // pushData(chartData, `/Charts/${today}.json`, "PATCH");
+    pushData(chartData, `/Charts/${today}.json`, "PATCH");
     console.log(":: ✓ Data pushed up to database");
     console.log("::    - Movement data pushed up");
 
   }).then( data => {
 
     // get top 10 data
-    getTop10.then( gameIds => {
+    return getTop10.then( gameIds => {
 
       // convert ids of movement games to game objects
       getGameObjects(gameIds);
@@ -167,10 +167,13 @@ let formatCrawlData = lastRanked => {
 
       // create structure for compiled data
       chartData.top10 = { games: gameIds, data: []};
+      console.log("chartData after top10:", chartData);
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");
       console.log("::    - Top10 data pushed up");
+
+      return gameIds;
 
     });
 
@@ -248,7 +251,6 @@ let formatCrawlData = lastRanked => {
   });
 };
 
-
 // function that takes an array of ids and changes it to an array of game objects
 function getGameObjects(arrayOfIds) {
   // iterate over all of the games from today
@@ -267,6 +269,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 module.exports = formatCrawlData;

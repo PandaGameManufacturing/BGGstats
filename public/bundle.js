@@ -10909,7 +10909,6 @@
 	    google.charts.load("current", {packages:["corechart"]});
 	    google.charts.setOnLoadCallback(drawChart);
 
-
 	    function drawChart() {
 
 	      let chartData = google.visualization.arrayToDataTable(getData.historic);
@@ -20052,18 +20051,18 @@
 		"_args": [
 			[
 				{
-					"raw": "got",
+					"raw": "got@^6.7.1",
 					"scope": null,
 					"escapedName": "got",
 					"name": "got",
-					"rawSpec": "",
-					"spec": "latest",
-					"type": "tag"
+					"rawSpec": "^6.7.1",
+					"spec": ">=6.7.1 <7.0.0",
+					"type": "range"
 				},
 				"/Users/nathantbaker/workspace/projects/BGGstats.com/www"
 			]
 		],
-		"_from": "got@latest",
+		"_from": "got@>=6.7.1 <7.0.0",
 		"_id": "got@6.7.1",
 		"_inCache": true,
 		"_location": "/got",
@@ -20079,13 +20078,13 @@
 		"_npmVersion": "3.10.9",
 		"_phantomChildren": {},
 		"_requested": {
-			"raw": "got",
+			"raw": "got@^6.7.1",
 			"scope": null,
 			"escapedName": "got",
 			"name": "got",
-			"rawSpec": "",
-			"spec": "latest",
-			"type": "tag"
+			"rawSpec": "^6.7.1",
+			"spec": ">=6.7.1 <7.0.0",
+			"type": "range"
 		},
 		"_requiredBy": [
 			"#USER",
@@ -20094,7 +20093,7 @@
 		"_resolved": "https://registry.npmjs.org/got/-/got-6.7.1.tgz",
 		"_shasum": "240cd05785a9a18e561dc1b44b41c763ef1e8db0",
 		"_shrinkwrap": null,
-		"_spec": "got",
+		"_spec": "got@^6.7.1",
 		"_where": "/Users/nathantbaker/workspace/projects/BGGstats.com/www",
 		"ava": {
 			"concurrency": 4

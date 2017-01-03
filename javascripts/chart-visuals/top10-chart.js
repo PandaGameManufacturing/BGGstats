@@ -25,7 +25,6 @@ let drawTop10List = (title, data, slot) => {
     google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
 
-
     function drawChart() {
 
       let chartData = google.visualization.arrayToDataTable(getData.historic);
