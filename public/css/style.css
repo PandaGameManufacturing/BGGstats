@@ -451,6 +451,9 @@ ol.color-list > li:nth-child(10):before {
   color: grey;
   padding-left: 10px; }
 
+.hotnessSmall {
+  width: 100px; }
+
 /* ============================================================
    Project:
    Author:  Nathan T. Baker
