@@ -208,17 +208,27 @@ let formatCrawlData = lastRanked => {
   }).then( basicGameInfo => {
 
     // create an array of all bggIDs
+    let gameIds = [];
 
-    // chartData.movementDay.positive
-    // chartData.movementDay.negative
-    // chartData.movementWeek.positive
-    // chartData.movementWeek.negative
-    // chartData.movementWeek10.positive
-    // chartData.movementWeek10.negative
-    // chartData.top10.games
-    // chartData.hotness
+    // take an arry and push ids of games objects to gamesIds array
+    function addIds(array) {
+      for (let i = 0; i < array.length; i++) {
+        gameIds.push(array[i].bggID);
+      }
+    }
 
+    // collect all bggIDs for games the app wants details for
+    addIds(chartData.movementDay.positive);
+    addIds(chartData.movementDay.negative);
+    addIds(chartData.movementWeek.positive);
+    addIds(chartData.movementWeek.negative);
+    addIds(chartData.movementWeek10.positive);
+    addIds(chartData.movementWeek10.negative);
+    addIds(chartData.top10.games);
+    addIds(chartData.hotness);
 
+    getGameDetails(gameIds);
+    // console.log("gameIds:", gameIds);
 
     // put the basic hotness games in the right place
     chartData.games = {};
