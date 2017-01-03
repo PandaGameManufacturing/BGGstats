@@ -197,7 +197,6 @@ let formatCrawlData = lastRanked => {
     chartData.hotness = hotnessGames;
 
     // push up basic hotness chart data
-    console.log("chartData:", chartData);
     pushData(chartData, `/Charts/${today}.json`, "PATCH");
     console.log("::    - Basic hotness data pushed up");
 
@@ -218,69 +217,37 @@ let formatCrawlData = lastRanked => {
     }
 
     // collect all bggIDs for games the app wants details for
-    addIds(chartData.movementDay.positive);
-    addIds(chartData.movementDay.negative);
-    addIds(chartData.movementWeek.positive);
-    addIds(chartData.movementWeek.negative);
-    addIds(chartData.movementWeek10.positive);
-    addIds(chartData.movementWeek10.negative);
-    addIds(chartData.top10.games);
     addIds(chartData.hotness);
 
-    getGameDetails(gameIds);
-    // console.log("gameIds:", gameIds);
+    // current api wrapper only lets me get a few at a time
 
-    // put the basic hotness games in the right place
+    // addIds(chartData.movementDay.positive);
+    // addIds(chartData.movementDay.negative);
+    // addIds(chartData.movementWeek.positive);
+    // addIds(chartData.movementWeek.negative);
+    // addIds(chartData.movementWeek10.positive);
+    // addIds(chartData.movementWeek10.negative);
+    // addIds(chartData.top10.games);
+
+    // create place for games
     chartData.games = {};
 
+    // convert ids into game objects via BGG API
+    getGameDetails(gameIds).then(function(array) {
+
+      // loop over games and add each game object in Games under it's bggID
+      for (let i = 0; i < array.length; i++) {
+        chartData.games[array[i].bggID] = array[i];
+      }
+
+      // push up game details along with charts
+      pushData(chartData, `/Charts/${today}.json`, "PATCH");
+      console.log("::    - Detailed hotness data pushed up");
+
+    });
   });
 };
 
-
-
-
-//   }).then( data => {
-
-
-
-
-
-//     }).then( data => {
-
-//       return getData.hotness().then(function(value) {
-//         // parse, cut result to first 5
-//         let hotnessData = value.slice(0,5);
-//         let hotness = [];
-//         for (let i = 0; i < hotnessData.length; i++) {
-//           hotness.push(hotnessData[i].gameId);
-//         }
-//         // get game details for hotness games
-//         // getGameDetails(hotness);
-
-//         // concat all game ids
-//         let allGameIds = data.movement.concat(hotness, data.top10);
-
-
-//         // chartData.charts.hotness = hotness;
-//         //push all hotness data for now while api is crappy
-//         chartData.hotness = hotnessData;
-//         // store the last ranked game
-//         // chartData.totalRankedGames = lastRanked;
-
-//         // // add crawl times
-//         // getCrawlTimes(chartData);
-//         // // push up data to Charts collection under today's date
-//         // console.log("chartData:", chartData);
-//         // pushData(chartData, `/Charts/${today}.json`, "PATCH");
-//         // console.log(":: ✓ Chart data pushed up for the day");
-
-//         }, function(reason) {
-//           console.log("ERROR: Couldn't get hotness API data", reason);
-//       });
-
-//     });
-//   });
-// };
 
 // function that takes an array of ids and changes it to an array of game objects
 function getGameObjects(arrayOfIds) {
@@ -295,7 +262,6 @@ function getGameObjects(arrayOfIds) {
         // start looping back over when there is a match
         break;
       }
-
     }
   }
 }
