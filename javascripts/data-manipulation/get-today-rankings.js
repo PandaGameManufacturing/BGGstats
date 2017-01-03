@@ -15,7 +15,7 @@ let getTodayData = today => {
       if(isDataEmpty(data)) {
         console.log(`:: ERROR: There's no data available from Firebase for the day (${today})`);
       } else {
-        console.log(`:: ✓ Database has rankings data from today (${today})`);
+        console.log(`::    - Database has rankings data from today (${today})`);
         resolve(data);
       }
     });

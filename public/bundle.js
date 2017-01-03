@@ -120,7 +120,7 @@
 	      "Biggest Movers in Top 10%", // chart title
 	      data, // pushes all data
 	      "week10", // code word for switch to know where to go in data
-	      "slot1" // slot in the app to show this chart
+	      "slot2" // slot in the app to show this chart
 	    );
 	  }
 
@@ -130,7 +130,7 @@
 	      "This Week's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "week", // code word for switch to know where to go in data
-	      "slot2" // slot in the app to show this chart
+	      "slot3" // slot in the app to show this chart
 	    );
 	  }
 
@@ -140,7 +140,7 @@
 	      "Today's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "day", // code word for switch to know where to go in data
-	      "slot3" // slot in the app to show this chart
+	      "slot4" // slot in the app to show this chart
 	    );
 	  }
 

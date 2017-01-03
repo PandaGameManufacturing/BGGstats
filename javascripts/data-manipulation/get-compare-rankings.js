@@ -21,7 +21,7 @@ let getCompareData = (compareString, compareDate, fallbackString, fallbackDate) 
             if(isDataEmpty(fallbackObject)) {
               console.log(`:: ERROR: Database doesn't have rankings data from ${fallbackString} (${fallbackDate})`);
             } else {
-              console.log(`:: ✓ Database has rankings data from ${fallbackString} (${fallbackDate})`);
+              console.log(`::    - Database has rankings data from ${fallbackString} (${fallbackDate})`);
               // return fallback data
               resolve(fallbackObject);
             }
@@ -29,7 +29,7 @@ let getCompareData = (compareString, compareDate, fallbackString, fallbackDate) 
         });
       // success, there is data from a week ago
       } else {
-        console.log(`:: ✓ Database has rankings data from ${compareString} (${compareDate})`);
+        console.log(`::    - Database has rankings data from ${compareString} (${compareDate})`);
         // return compare data
         resolve(compareObject);
       }

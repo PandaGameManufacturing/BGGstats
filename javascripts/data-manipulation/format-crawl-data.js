@@ -7,8 +7,10 @@ let getDateMinus = require("../assets/get-date"),
     calculateMovement = require("./calculate-movement"),
     getGameDetails = require("./get-game-details"),
     getData = require("../get-data/get-data-loader"),
+    getTop10 = require("./get-top10"),
     pushData = require("../push-data/push-data-serverside"),
-    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
+    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter"),
+    isDataEmpty = require("../assets/empty-data-checker");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -29,28 +31,8 @@ let todayGames = [],
     weekGames = [],
     todayMovement = [],
     weekMovement = [],
-    weekMovement10 = [];
-
-//create structure for compiled data
-let chartData = {
-  hotness: [],
-  top10: {
-   games: [],
-   data: [],
-  },
-  movementDay: {
-    positive: [],
-    negative: []
-  },
-  movementWeek: {
-    positive: [],
-    negative: []
-  },
-  movementWeek10: {
-    positive: [],
-    negative: []
-  }
-};
+    weekMovement10 = [],
+    chartData = {};
 
 // add crawl times
 getCrawlTimes(chartData);
@@ -64,13 +46,11 @@ let formatCrawlData = lastRanked => {
 
   chartData.totalRankedGames = lastRanked;   // add last ranked game
 
-  // get today
+  // get today, yestday, and last week's rankings
+  console.log(":: ✓ Checking for data");
   let dataTodayPromise = getTodayData(today);
-  // get yesterday
   let dataYesterdayPromise = getCompareData(yesterdayString, yesterdayDate, yesterdayFallbackString, yesterdayFallbackDate);
-  // get a week ago
   let dataWeekPromise = getCompareData(weekString, weekDate, weekFallbackString, weekFallbackDate);
-
 
   // pull down the data the app needs to draw movement charts first
   Promise.all([dataTodayPromise, dataYesterdayPromise, dataWeekPromise]).then(data => {
@@ -81,7 +61,7 @@ let formatCrawlData = lastRanked => {
     weekGames      = data[2];
 
     console.log(`::`);
-    console.log(":: ✓ Data retrieved");
+    console.log(":: ✓ Data parsed");
     console.log("::    - Data from today has", Object.keys(todayGames).length, "rankings");
     console.log("::    - Data from yesterday has", Object.keys(yesterdayGames).length, "rankings");
     console.log("::    - Data from a week ago has", Object.keys(weekGames).length, "rankings");
@@ -130,6 +110,22 @@ let formatCrawlData = lastRanked => {
     getGameObjects(data.weekMovement);
     getGameObjects(data.weekMovement10);
 
+    //create structure for compiled data
+    chartData.movementDay = {
+      positive: [],
+      negative: []
+    };
+
+    chartData.movementWeek = {
+      positive: [],
+      negative: []
+    };
+
+    chartData.movementWeek10 = {
+      positive: [],
+      negative: []
+    };
+
     // put today movement data in correct place
     for (let i = 0; i < 10; i++) {
       chartData.movementDay.positive.push(data.todayMovement[i]);
@@ -154,67 +150,89 @@ let formatCrawlData = lastRanked => {
       chartData.movementWeek10.negative.push(data.weekMovement10[i]);
     }
 
-    // push up movement chart data to Charts collection under today's date
+    // push up movement chart data
+    // pushData(chartData, `/Charts/${today}.json`, "PATCH");
+    console.log(":: ✓ Data pushed up to database");
+    console.log("::    - Movement data pushed up");
+
+  }).then( data => {
+
+    // get top 10 data
+    getTop10.then( gameIds => {
+
+      // convert ids of movement games to game objects
+      getGameObjects(gameIds);
+
+      // TO DO: calculate top10.data arrays here
+
+      // create structure for compiled data
+      chartData.top10 = { games: gameIds, data: []};
+
+      // push up top10 chart data
+      pushData(chartData, `/Charts/${today}.json`, "PATCH");
+      console.log("::    - Top10 data pushed up");
+
+    });
+
+  }).then( data => {
+
+    // get hotness data
+    return getData.hotness().then(function(data) {
+
+    // pull top 5
+    let hotnessData = data.slice(0,5);
+    let hotnessGames = [];
+
+    // remap keys
+    for (let i = 0; i < hotnessData.length; i++) {
+      hotnessGames.push({
+        bggID: hotnessData[i].gameId,
+        thumbnail: hotnessData[i].thumbnail,
+        yearPublished: hotnessData[i].yearPublished,
+        name: hotnessData[i].name
+      });
+    }
+
+    // put the basic hotness games in the right place
+    chartData.hotness = hotnessGames;
+
+    // push up basic hotness chart data
     console.log("chartData:", chartData);
     pushData(chartData, `/Charts/${today}.json`, "PATCH");
-    console.log(":: ✓ Movement data pushed up");
+    console.log("::    - Basic hotness data pushed up");
+
+    return hotnessGames;
+
+    });
+
+  }).then( basicGameInfo => {
+
+    // create an array of all bggIDs
+
+    // chartData.movementDay.positive
+    // chartData.movementDay.negative
+    // chartData.movementWeek.positive
+    // chartData.movementWeek.negative
+    // chartData.movementWeek10.positive
+    // chartData.movementWeek10.negative
+    // chartData.top10.games
+    // chartData.hotness
+
+
+
+    // put the basic hotness games in the right place
+    chartData.games = {};
 
   });
-
 };
+
+
 
 
 //   }).then( data => {
 
 
 
-//     let movementData = data;
-
-//     // get top 10 games
-//     getData.top10().then(function(top10data) {
-
-//       let unsorted = [],
-//           top10Duplicates =[],
-//           top10 = [],
-//           movement = [];
-
-//       // pull out id and rank for top10 data
-//       for (let prop in top10data) {
-//         unsorted.push({
-//           "bggID": top10data[prop].bggID,
-//           "rank": top10data[prop].rank
-//         });
-//       }
-
-//       // sort top 10 by rank
-//       sortByKey(unsorted, "rank");
-
-//       // push sorted to top10 array
-//       for (let i = 0; i < unsorted.length; i++) {
-//         top10Duplicates.push(unsorted[i].bggID);
-//       }
-
-//       // remove duplicates
-//       top10 = top10Duplicates.filter(function(item, pos) {
-//           return top10Duplicates.indexOf(item) == pos;
-//       });
-
-//       // pust top 10  game details object into array
-//       for (let prop in top10data) {
-//         for (let i = 0; i < top10.length; i++) {
-//           if (top10data[prop].bggID === top10[i]) {
-//             // set array to the whole game object
-//             top10[i] = top10data[prop];
-//             // console.log(`details for game ${i+1}:`, top10data[prop]);
-//             break;
-//           }
-//         }
-//       }
-
-//       chartData.top10.games = data.top10;
-
-//       // return two game arrays I'll need to build out the charts
-//       return {top10, movement};
 
 
 //     }).then( data => {
@@ -254,31 +272,25 @@ let formatCrawlData = lastRanked => {
 //   });
 // };
 
-function sortByKey(array, key) {
-  return array.sort(function(a, b) {
-    let x = a[key]; let y = b[key];
-    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-  });
-}
-
 // function that takes an array of ids and changes it to an array of game objects
 function getGameObjects(arrayOfIds) {
   // iterate over all of the games from today
   for (let prop in todayGames) {
     // iterate over game ids in an array
     for (let i = 0; i < arrayOfIds.length; i++) {
-      // if the bggid matches...
+      // if the bggId or gameId matches...
       if (todayGames[prop].bggID === arrayOfIds[i]) {
         // set that array index to the whole game object
         arrayOfIds[i] = todayGames[prop];
         // start looping back over when there is a match
         break;
       }
+
     }
   }
 }
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 module.exports = formatCrawlData;
