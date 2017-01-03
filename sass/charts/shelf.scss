@@ -94,7 +94,11 @@ $shadow: #888;
 
 // Shelf Image Spacing
 
-.shelf-img, .shelf-shadowed, .shelf-shadowed::before{
+.shelf-img {
+  margin: 0 5px 0 5px;
+}
+
+.shelf-shadowed, .shelf-shadowed::before{
   margin: 0 5px -5px 5px;
 }
 
@@ -104,23 +108,5 @@ $shadow: #888;
   max-width: 125px;
   max-height: 140px;
   box-shadow: -8px 15px 20px #bbb;
-  margin-bottom: 0;
 }
 
-
-// Shelf on mobile
-@media screen and (max-width: 900px) {
-  .shelf-img, .shelf-shadowed, .shelf-shadowed::before {
-  margin: 0 8px -5px 8px;
-  }
-  .shelf-bottom, .shelf-left, .shelf-right, .shelf-table, .shelf-shadowed::before, {
-    visibility: hidden;
-  }
-  .shelf-img {
-  box-shadow: none;
-  max-width: 110px;
-  max-height: 110px;
-  margin: 10px;
-  text-align: left;
-  }
-}

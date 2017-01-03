@@ -10690,7 +10690,18 @@
 
 	  // loop over top 10 titles
 	  for (let i = 0; i < 10; i++) {
-	    top10html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.positive[i].bggID}/">${chartData.positive[i].name}<a/></div></li>`;
+	    top10html += `
+	      <li>
+	        <div class="truncate">
+	          <a href="http://boardgamegeek.com/boardgame/${chartData.positive[i].bggID}/">
+	            ${chartData.positive[i].name}
+	          <a/>
+	        </div>
+	        <div class="hidden-md hidden-lg movementSmallDetails">
+	        <span class="hidden-md hidden-lg up">Up ${chartData.positive[i].movement} spots</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.positive[i].rank)}</span>
+	        </div>
+	      </li>`;
 	  }
 
 	  // loop over positive ranks
@@ -10718,7 +10729,18 @@
 
 	  // loop over bottom 5 titles
 	  for (let i = 0; i < 5; i++) {
-	    bottom5html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.negative[i].bggID}/">${chartData.negative[i].name}</a></div></li>`;  }
+	    bottom5html += `
+	      <li>
+	        <div class="truncate">
+	          <a href="http://boardgamegeek.com/boardgame/${chartData.negative[i].bggID}/">${chartData.negative[i].name}
+	          </a>
+	        </div>
+	        <div class="hidden-md hidden-lg movementSmallDetails">
+	        <span class="hidden-md hidden-lg down">Down ${chartData.negative[i].movement} spots</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.negative[i].rank)}</span>
+	        </div>
+	      </li>
+	    `;  }
 
 	  // loop over bottom 5 status bars
 	  for (let i = 0; i < 5; i++) {
@@ -10746,6 +10768,69 @@
 	  //   </td>
 	  // </tr>
 
+
+	  let allGame1Details = `
+	        <!-- Details About Biggest Mover -->
+	        <div class="col-md-3 rankChart">
+
+	          <div class="row hidden-xs hidden-sm">
+	            ${biggestMover}
+	          </div>
+
+	          <div class="row">
+
+	            <div class="col-xs-12 text-center">
+
+	                <div class="shelf-shadowed">
+	                  <a href="https://boardgamegeek.com/boardgame/${game1.bggID}/">
+	                    <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${game1.thumbnail}">
+	                  </a>
+	                </div>
+
+	                <div class="shelf-bottom">
+	                  <div class="shelf-left">
+	                    <div class="shelf-right"></div>
+	                  </div>
+	                </div>
+
+	            </div>
+
+
+	          <div class="row">
+	          </div>
+	            <span class="text-center">
+	            <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
+	            <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	            </span>
+	          <div class="row">
+
+	            <table class="table table-hover">
+
+	                <tr>
+	                  <td>
+	                    Ranked <strong>${numberWithCommas(game1.rank)}</strong>
+	                  </td>
+	                  <td>Published <strong>${game1.yearPublished}</strong></td>
+	                </tr>
+	                <tr>
+	                  <td>In Top <strong>${game1.percentile}%</td>
+	                  <td>Up <strong>${percentChange}%</strong></td>
+	                </tr>
+	                <tr>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+	                </tr>
+
+
+	                ${apiDetails}
+	            </table>
+
+	          </div>
+
+	        </div>
+
+	    </div>
+	  `;
+
 	  let snippets = `
 	<!-- Rank Chart  -->
 	  <div class="row">
@@ -10763,15 +10848,17 @@
 
 
 	              <!-- Movement Chart -->
-	              <div class="col-lg-9 rankChart">
+	              <div class="col-md-9 rankChart">
 
 	                  <div class="row">
 
-	                      <div class="col-sm-2 bottom-wrapper">
+	                      <div class="col-sm-2 bottom-wrapper hidden-sm hidden-xs">
 	                        ${bottom5status}
 	                      </div>
 
-	                      <div class="col-sm-4">
+	                      <span class="hidden-md hidden-lg">${allGame1Details}</span>
+
+	                      <div class="col-xs-12 col-md-4">
 	                        <ol>
 	                          ${top10html}
 	                       </ol>
@@ -10780,7 +10867,7 @@
 	                       </ol>
 	                      </div>
 
-	                      <div class="col-sm-1" id="rankColumn">
+	                      <div class="col-sm-1 col-xs-2 hidden-xs" id="rankColumn">
 	                        <ul>
 	                          <li class="pull-right"><strong>Rank</strong></li>
 	                          ${ranksPositive}
@@ -10792,7 +10879,7 @@
 
 	                      </div>
 
-	                      <div class="col-sm-5 top-wrapper">
+	                      <div class="col-sm-5 top-wrapper hidden-sm hidden-xs">
 	                        ${top10status}
 	                      </div>
 
@@ -10800,65 +10887,7 @@
 
 	              </div>
 
-	              <!-- Details About Biggest Mover -->
-	              <div class="col-lg-3 rankChart">
-
-	                <div class="row">
-	                  ${biggestMover}
-	                </div>
-
-	                <div class="row">
-
-	                  <div class="col-sm-12">
-
-	                      <div class="shelf-shadowed">
-	                        <a href="https://boardgamegeek.com/boardgame/${game1.bggID}/">
-	                          <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${game1.thumbnail}">
-	                        </a>
-	                      </div>
-
-	                      <div class="shelf-bottom">
-	                        <div class="shelf-left">
-	                          <div class="shelf-right"></div>
-	                        </div>
-	                      </div>
-
-	                  </div>
-
-
-	                <div class="row">
-	                </div>
-	                  <span class="text-center">
-	                  <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-	                  <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
-	                  </span>
-	                <div class="row">
-
-	                  <table class="table table-hover">
-
-	                      <tr>
-	                        <td>
-	                          Ranked <strong>${numberWithCommas(game1.rank)}</strong>
-	                        </td>
-	                        <td>Published <strong>${game1.yearPublished}</strong></td>
-	                      </tr>
-	                      <tr>
-	                        <td>In Top <strong>${game1.percentile}%</td>
-	                        <td>Up <strong>${percentChange}%</strong></td>
-	                      </tr>
-	                      <tr>
-	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
-	                      </tr>
-
-
-	                      ${apiDetails}
-	                  </table>
-
-	                </div>
-
-	              </div>
-
-	          </div>
+	              <span class="hidden-sm hidden-xs">${allGame1Details}</span>
 
 	        </div>
 	      </div>

@@ -22,12 +22,8 @@
 }
 
 .rankChart img {
-  // max-width: 100px;
-  max-width: 175px;
+  max-width: none;
   max-height: none;
-  margin-left: 30px;
-  // padding: 0 0 20px 0;
-  // margin-left: -20px;
 }
 
 .rankChart li {
@@ -111,3 +107,22 @@
 #rankColumnNegative {
   height: 20px;
 }
+
+.movementSmallDetails {
+  padding: 8px 0 3px 0;
+}
+
+.up {
+  color: #26BB5D;
+}
+
+.down {
+  color: #D9274B;
+}
+
+
+.rank {
+  color: grey;
+  padding-left: 10px;
+}
+
