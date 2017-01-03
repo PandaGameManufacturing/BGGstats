@@ -172,10 +172,10 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
           <div class="row">
           </div>
-            <span class="text-center">
+
             <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
             <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
-            </span>
+
           <div class="row">
 
             <table class="table table-hover">
