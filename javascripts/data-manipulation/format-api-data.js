@@ -3,7 +3,7 @@
 // requires
 let xml2js = require("xml2js");
 
-let formatAPIData = xmlArray => {
+let xml = xmlArray => {
 
   let gameDataArray = [];
 
@@ -45,9 +45,46 @@ let formatAPIData = xmlArray => {
   }
 
   // return formatted games array
-  console.log("games array:", games);
   return games;
 
 };
 
-module.exports = formatAPIData;
+let azure = array => {
+
+  // array of game data
+  let games = [];
+
+  for (let i = 0; i < array.length; i++) {
+
+    let game = {};
+
+    // map data
+    game.name          = array[i].name;
+    game.bggID         = array[i].gameId;
+    game.description   = array[i].description;
+    game.image         = array[i].image;
+    game.thumbnail     = array[i].thumbnail;
+    game.minPlayers    = array[i].minPlayers;
+    game.maxPlayers    = array[i].maxPlayers;
+    game.minPlayTime   = array[i].playingTime;
+    game.maxPlayTime   = array[i].playingTime;
+    game.maxPlayTime   = array[i].playingTime;
+    game.mechanics     = array[i].mechanics;
+    game.ratingAverage = array[i].averageRating;
+    game.ratingGeek    = array[i].bggRating;
+    game.yearPublished = array[i].yearPublished;
+
+    // push formatted data to games array
+    games.push(game);
+
+  }
+
+  // return formatted games array
+  return games;
+
+};
+
+
+
+
+module.exports = {xml, azure};
