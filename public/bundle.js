@@ -112,11 +112,15 @@
 	getData.charts().then( unparsed => {
 	  // after there is data, parse it
 	  let data = JSON.parse(unparsed);
-	  console.log("data:", data);
+
+	  // Most Viewed Shelf
+	  if (data.hotness) { // check that the data's there first
+	    createChart.shelf.hotness ("Most Viewed", data, "slot1");
+	  }
 
 	  // Top 10% Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "Biggest Movers in Top 10%", // chart title
 	      data, // pushes all data
 	      "week10", // code word for switch to know where to go in data
@@ -126,7 +130,7 @@
 
 	  // Week Movement Chart
 	  if (data.movementWeek) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "This Week's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "week", // code word for switch to know where to go in data
@@ -136,7 +140,7 @@
 
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "Today's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "day", // code word for switch to know where to go in data
@@ -144,9 +148,11 @@
 	    );
 	  }
 
+	  // Top 10  Chart
+	  if (data.top10) { // check that the data's there first
+	    createChart.top10("Top 10", data, "slot5");
+	  }
 
-	  // createChart.hotness.hotnessChart ("Most Viewed",            data, "slot2");
-	  // createChart.top10                ("Top 10",                 data, "slot3");
 	});
 
 /***/ },
@@ -202,15 +208,15 @@
 	'use strict';
 
 	// Requires
-	let hotness = __webpack_require__(6),
+	let shelf = __webpack_require__(6),
 	    published = __webpack_require__(8),
-	    rank = __webpack_require__(9),
+	    movement = __webpack_require__(9),
 	    top10 = __webpack_require__(10);
 
 	module.exports = {
-	  hotness,
+	  shelf,
 	  published,
-	  rank,
+	  movement,
 	  top10
 	};
 
@@ -227,13 +233,10 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotnessChart = (title, data, slot) => {
+	let hotness = (title, data, slot) => {
 
 	  // push game data for 5 hotest games to hotnessGames array
-	  let hotnessGames = [];
-	  for (let i = 0; i < data.charts.hotness.length; i++) {
-	    hotnessGames.push(data.games[data.charts.hotness[i]]);
-	  }
+	  let hotnessGames = data.hotness;
 
 	  // save data so other function can use it
 	  globalData = hotnessGames;
@@ -246,10 +249,12 @@
 
 	// create 5 descriptions so they can be swapped
 	for (let i = 0; i < 5; i++) {
+
+	  let bggAPI = data.games[hotnessGames[i].bggID];
 	   // item 1 description
 	  let truncateLength1 = 250,
 	      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
-	      descriptionData1 = String(hotnessGames[i].description).substring(0, truncateLength1),
+	      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
 	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
 	  // item 1 html
@@ -284,18 +289,23 @@
 
 	    // player count
 	    for (let i = 0; i < hotnessGames.length; i++) {
-	      let playerCountMin = hotnessGames[i].minPlayers,
-	          playerCountMax = hotnessGames[i].maxPlayers,
+
+	      let bggAPI = data.games[hotnessGames[i].bggID];
+
+	      let playerCountMin = bggAPI.minPlayers,
+	          playerCountMax = bggAPI.maxPlayers,
 	          playerCount = `${playerCountMin}-${playerCountMax} players`;
 	          gameDetails2 += `<td>${playerCount}</td>`;
 	    }
 
 	    // playing time
 	    for (let i = 0; i < hotnessGames.length; i++) {
-	      let time = "";
-	      let timeMin = hotnessGames[i].minPlayTime;
 
-	      let timeMax = hotnessGames[i].maxPlayTime;
+	      let bggAPI = data.games[hotnessGames[i].bggID];
+	      let time = "";
+	      let timeMin = bggAPI.minPlayTime;
+
+	      let timeMax = bggAPI.maxPlayTime;
 	          if (timeMin === timeMax) {
 	            time = `${timeMax} minutes`;
 	          } else {
@@ -372,7 +382,7 @@
 	};
 
 
-	module.exports = {hotnessChart, swapDescription};
+	module.exports = {hotness, swapDescription};
 
 /***/ },
 /* 7 */

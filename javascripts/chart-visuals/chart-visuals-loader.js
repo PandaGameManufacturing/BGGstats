@@ -1,14 +1,14 @@
 'use strict';
 
 // Requires
-let hotness = require("./hotness-chart"),
+let shelf = require("./hotness-chart"),
     published = require("./published-chart"),
-    rank = require("./rank-chart"),
+    movement = require("./rank-chart"),
     top10 = require("./top10-chart");
 
 module.exports = {
-  hotness,
+  shelf,
   published,
-  rank,
+  movement,
   top10
 };

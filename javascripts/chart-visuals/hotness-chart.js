@@ -7,13 +7,10 @@ let globalData;
 // Setting up variables
   let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-let hotnessChart = (title, data, slot) => {
+let hotness = (title, data, slot) => {
 
   // push game data for 5 hotest games to hotnessGames array
-  let hotnessGames = [];
-  for (let i = 0; i < data.charts.hotness.length; i++) {
-    hotnessGames.push(data.games[data.charts.hotness[i]]);
-  }
+  let hotnessGames = data.hotness;
 
   // save data so other function can use it
   globalData = hotnessGames;
@@ -26,10 +23,12 @@ let hotnessChart = (title, data, slot) => {
 
 // create 5 descriptions so they can be swapped
 for (let i = 0; i < 5; i++) {
+
+  let bggAPI = data.games[hotnessGames[i].bggID];
    // item 1 description
   let truncateLength1 = 250,
       item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
-      descriptionData1 = String(hotnessGames[i].description).substring(0, truncateLength1),
+      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
       description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
   // item 1 html
@@ -64,18 +63,23 @@ for (let i = 0; i < 5; i++) {
 
     // player count
     for (let i = 0; i < hotnessGames.length; i++) {
-      let playerCountMin = hotnessGames[i].minPlayers,
-          playerCountMax = hotnessGames[i].maxPlayers,
+
+      let bggAPI = data.games[hotnessGames[i].bggID];
+
+      let playerCountMin = bggAPI.minPlayers,
+          playerCountMax = bggAPI.maxPlayers,
           playerCount = `${playerCountMin}-${playerCountMax} players`;
           gameDetails2 += `<td>${playerCount}</td>`;
     }
 
     // playing time
     for (let i = 0; i < hotnessGames.length; i++) {
-      let time = "";
-      let timeMin = hotnessGames[i].minPlayTime;
 
-      let timeMax = hotnessGames[i].maxPlayTime;
+      let bggAPI = data.games[hotnessGames[i].bggID];
+      let time = "";
+      let timeMin = bggAPI.minPlayTime;
+
+      let timeMax = bggAPI.maxPlayTime;
           if (timeMin === timeMax) {
             time = `${timeMax} minutes`;
           } else {
@@ -152,4 +156,4 @@ let swapDescription = number => {
 };
 
 
-module.exports = {hotnessChart, swapDescription};
+module.exports = {hotness, swapDescription};
