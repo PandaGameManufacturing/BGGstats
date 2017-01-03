@@ -113,19 +113,19 @@
 	  // after there is data, parse it
 	  let data = JSON.parse(unparsed);
 
-	  // Most Viewed Shelf
-	  if (data.hotness) { // check that the data's there first
-	    createChart.shelf.hotness ("Most Viewed", data, "slot1");
-	  }
-
 	  // Top 10% Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
 	    createChart.movement(
 	      "Biggest Movers in Top 10%", // chart title
 	      data, // pushes all data
 	      "week10", // code word for switch to know where to go in data
-	      "slot2" // slot in the app to show this chart
+	      "slot1" // slot in the app to show this chart
 	    );
+	  }
+
+	  // Most Viewed Shelf
+	  if (data.hotness) { // check that the data's there first
+	    createChart.shelf.hotness ("Most Viewed", data, "slot2");
 	  }
 
 	  // Week Movement Chart
@@ -138,19 +138,19 @@
 	    );
 	  }
 
+	  // Top 10  Chart
+	  if (data.top10) { // check that the data's there first
+	    createChart.top10("Top 10", data, "slot4");
+	  }
+
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
 	    createChart.movement(
 	      "Today's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "day", // code word for switch to know where to go in data
-	      "slot4" // slot in the app to show this chart
+	      "slot5" // slot in the app to show this chart
 	    );
-	  }
-
-	  // Top 10  Chart
-	  if (data.top10) { // check that the data's there first
-	    createChart.top10("Top 10", data, "slot5");
 	  }
 
 	});
@@ -252,7 +252,7 @@
 
 	  let bggAPI = data.games[hotnessGames[i].bggID];
 	   // item 1 description
-	  let truncateLength1 = 250,
+	  let truncateLength1 = 300,
 	      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
 	      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
 	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
@@ -322,19 +322,23 @@
 
 	  shelf += `
 	   <div class='row'>
-	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox hotnessbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
+	    <div class="col-sm-12 col-md-12 col-lg-12">
+	      <div class="statbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
 	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
 	        </div>
-	          <ol id="hotness-inject">
-	            ${top5list[0]}
-	          </ol>
 	     </div>
 	    </div>
+	  </div>
+	  <div class='row'>
+	  <div class="col-sm-12 col-md-12 col-lg-3">
+	    <ol id="hotness-inject">
+	      ${top5list[0]}
+	    </ol>
+	  </div>
+	  <div class="col-sm-12 col-md-12 col-lg-9">
 
-	    <div class="col-sm-12 col-md-12 col-lg-9">
 	      <div class="statbox">
 	        <div class="shelf text-center">
 	        `;
@@ -10879,8 +10883,7 @@
 
 	let drawTop10List = (title, data, slot) => {
 
-	  console.log("data in top10:", data.charts.top10);
-	  let top10List = data.charts.top10;
+	  let top10List = data.top10.games;
 
 	    let // color scheme for line chart
 	    n1  = "#26BB5D",
@@ -10923,8 +10926,6 @@
 	        }
 	      };
 
-	      console.log("getData.historic:", getData.historic);
-
 	      // display chart in id "top10"
 	      let chart = new google.visualization.LineChart(document.getElementById('top10'));
 
@@ -10949,9 +10950,9 @@
 
 	  // loop over array of objects
 	  for (let i = 0; i < top10List.length; i++) {
-	    console.log("top10List[i]:", top10List[i]);
-	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i]}/">${data.games[top10List[i]].name}<a/></li>`;
+	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i].bggID}/">${top10List[i].name}</a></li>`;
 	  }
+
 
 	  let snippets = `
 	    <div class="row">

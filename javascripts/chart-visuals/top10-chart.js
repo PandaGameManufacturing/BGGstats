@@ -6,8 +6,7 @@ let $ = require("jquery"),
 
 let drawTop10List = (title, data, slot) => {
 
-  console.log("data in top10:", data.charts.top10);
-  let top10List = data.charts.top10;
+  let top10List = data.top10.games;
 
     let // color scheme for line chart
     n1  = "#26BB5D",
@@ -50,8 +49,6 @@ let drawTop10List = (title, data, slot) => {
         }
       };
 
-      console.log("getData.historic:", getData.historic);
-
       // display chart in id "top10"
       let chart = new google.visualization.LineChart(document.getElementById('top10'));
 
@@ -76,9 +73,9 @@ let drawTop10List = (title, data, slot) => {
 
   // loop over array of objects
   for (let i = 0; i < top10List.length; i++) {
-    console.log("top10List[i]:", top10List[i]);
-    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i]}/">${data.games[top10List[i]].name}<a/></li>`;
+    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i].bggID}/">${top10List[i].name}</a></li>`;
   }
+
 
   let snippets = `
     <div class="row">

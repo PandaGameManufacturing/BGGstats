@@ -26,7 +26,7 @@ for (let i = 0; i < 5; i++) {
 
   let bggAPI = data.games[hotnessGames[i].bggID];
    // item 1 description
-  let truncateLength1 = 250,
+  let truncateLength1 = 300,
       item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
       descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
       description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
@@ -96,19 +96,23 @@ for (let i = 0; i < 5; i++) {
 
   shelf += `
    <div class='row'>
-    <div class="col-sm-12 col-md-12 col-lg-3">
-      <div class="statbox hotnessbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="statbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
         <div class="label-title">
           <h2>${title}</h2>
           <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
         </div>
-          <ol id="hotness-inject">
-            ${top5list[0]}
-          </ol>
      </div>
     </div>
+  </div>
+  <div class='row'>
+  <div class="col-sm-12 col-md-12 col-lg-3">
+    <ol id="hotness-inject">
+      ${top5list[0]}
+    </ol>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-9">
 
-    <div class="col-sm-12 col-md-12 col-lg-9">
       <div class="statbox">
         <div class="shelf text-center">
         `;
