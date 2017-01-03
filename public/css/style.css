@@ -467,10 +467,11 @@ ol.color-list > li:nth-child(10):before {
     margin-top: -55px; } }
 
 .rankChart #rankDescription {
-  font-size: 1.1em;
+  font-size: 1.2em;
   color: grey;
   text-align: left;
-  padding: 0 0 10px 32px; }
+  padding-bottom: 20px;
+  margin: 0; }
 
 .rankChart #rankMovement {
   background: url("/images/icons/arrow-up.png") no-repeat top left;
@@ -480,13 +481,14 @@ ol.color-list > li:nth-child(10):before {
   font-size: 3em;
   font-weight: 300;
   padding: 0 0 0 50px;
-  margin: 10px 0 0 10px;
-  line-height: .9em; }
+  margin: 20px 0 0 0;
+  line-height: .9em;
+  text-align: left; }
 
 .rankChart img {
-  max-width: 100px;
-  padding: 0 0 20px 0;
-  margin-left: -20px; }
+  max-width: 175px;
+  max-height: none;
+  margin-left: 30px; }
 
 .rankChart li {
   list-style-type: none;
@@ -550,9 +552,6 @@ ol.color-list > li:nth-child(10):before {
 
 #rankColumnNegative {
   height: 20px; }
-
-.hotnessbox {
-  height: 300px; }
 
 /* ============================================================
    Project:

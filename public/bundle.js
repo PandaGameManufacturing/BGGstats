@@ -112,21 +112,25 @@
 	getData.charts().then( unparsed => {
 	  // after there is data, parse it
 	  let data = JSON.parse(unparsed);
-	  console.log("data:", data);
 
 	  // Top 10% Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "Biggest Movers in Top 10%", // chart title
 	      data, // pushes all data
 	      "week10", // code word for switch to know where to go in data
-	      "slot2" // slot in the app to show this chart
+	      "slot1" // slot in the app to show this chart
 	    );
+	  }
+
+	  // Most Viewed Shelf
+	  if (data.hotness) { // check that the data's there first
+	    createChart.shelf.hotness ("Most Viewed", data, "slot2");
 	  }
 
 	  // Week Movement Chart
 	  if (data.movementWeek) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "This Week's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "week", // code word for switch to know where to go in data
@@ -134,19 +138,21 @@
 	    );
 	  }
 
+	  // Top 10  Chart
+	  if (data.top10) { // check that the data's there first
+	    createChart.top10("Top 10", data, "slot4");
+	  }
+
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
-	    createChart.rank(
+	    createChart.movement(
 	      "Today's Biggest Movers", // chart title
 	      data, // pushes all data
 	      "day", // code word for switch to know where to go in data
-	      "slot4" // slot in the app to show this chart
+	      "slot5" // slot in the app to show this chart
 	    );
 	  }
 
-
-	  // createChart.hotness.hotnessChart ("Most Viewed",            data, "slot2");
-	  // createChart.top10                ("Top 10",                 data, "slot3");
 	});
 
 /***/ },
@@ -202,15 +208,15 @@
 	'use strict';
 
 	// Requires
-	let hotness = __webpack_require__(6),
+	let shelf = __webpack_require__(6),
 	    published = __webpack_require__(8),
-	    rank = __webpack_require__(9),
+	    movement = __webpack_require__(9),
 	    top10 = __webpack_require__(10);
 
 	module.exports = {
-	  hotness,
+	  shelf,
 	  published,
-	  rank,
+	  movement,
 	  top10
 	};
 
@@ -227,13 +233,10 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotnessChart = (title, data, slot) => {
+	let hotness = (title, data, slot) => {
 
 	  // push game data for 5 hotest games to hotnessGames array
-	  let hotnessGames = [];
-	  for (let i = 0; i < data.charts.hotness.length; i++) {
-	    hotnessGames.push(data.games[data.charts.hotness[i]]);
-	  }
+	  let hotnessGames = data.hotness;
 
 	  // save data so other function can use it
 	  globalData = hotnessGames;
@@ -246,10 +249,12 @@
 
 	// create 5 descriptions so they can be swapped
 	for (let i = 0; i < 5; i++) {
+
+	  let bggAPI = data.games[hotnessGames[i].bggID];
 	   // item 1 description
-	  let truncateLength1 = 250,
+	  let truncateLength1 = 300,
 	      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
-	      descriptionData1 = String(hotnessGames[i].description).substring(0, truncateLength1),
+	      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
 	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
 	  // item 1 html
@@ -284,18 +289,23 @@
 
 	    // player count
 	    for (let i = 0; i < hotnessGames.length; i++) {
-	      let playerCountMin = hotnessGames[i].minPlayers,
-	          playerCountMax = hotnessGames[i].maxPlayers,
+
+	      let bggAPI = data.games[hotnessGames[i].bggID];
+
+	      let playerCountMin = bggAPI.minPlayers,
+	          playerCountMax = bggAPI.maxPlayers,
 	          playerCount = `${playerCountMin}-${playerCountMax} players`;
 	          gameDetails2 += `<td>${playerCount}</td>`;
 	    }
 
 	    // playing time
 	    for (let i = 0; i < hotnessGames.length; i++) {
-	      let time = "";
-	      let timeMin = hotnessGames[i].minPlayTime;
 
-	      let timeMax = hotnessGames[i].maxPlayTime;
+	      let bggAPI = data.games[hotnessGames[i].bggID];
+	      let time = "";
+	      let timeMin = bggAPI.minPlayTime;
+
+	      let timeMax = bggAPI.maxPlayTime;
 	          if (timeMin === timeMax) {
 	            time = `${timeMax} minutes`;
 	          } else {
@@ -312,19 +322,23 @@
 
 	  shelf += `
 	   <div class='row'>
-	    <div class="col-sm-12 col-md-12 col-lg-3">
-	      <div class="statbox hotnessbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
+	    <div class="col-sm-12 col-md-12 col-lg-12">
+	      <div class="statbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
 	        <div class="label-title">
 	          <h2>${title}</h2>
 	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
 	        </div>
-	          <ol id="hotness-inject">
-	            ${top5list[0]}
-	          </ol>
 	     </div>
 	    </div>
+	  </div>
+	  <div class='row'>
+	  <div class="col-sm-12 col-md-12 col-lg-3">
+	    <ol id="hotness-inject">
+	      ${top5list[0]}
+	    </ol>
+	  </div>
+	  <div class="col-sm-12 col-md-12 col-lg-9">
 
-	    <div class="col-sm-12 col-md-12 col-lg-9">
 	      <div class="statbox">
 	        <div class="shelf text-center">
 	        `;
@@ -372,7 +386,7 @@
 	};
 
 
-	module.exports = {hotnessChart, swapDescription};
+	module.exports = {hotness, swapDescription};
 
 /***/ },
 /* 7 */
@@ -10795,40 +10809,47 @@
 
 	                <div class="row">
 
-	                  <div class="col-sm-4">
-	                      <a href="${item1Link}">
-	                        <img alt="${game1.name}" title="${game1.name}" src="${item1ImageURL}">
-	                      </a>
-	                  </div>
+	                  <div class="col-sm-12">
 
-	                  <div class="col-sm-8"s>
+	                      <div class="shelf-shadowed">
+	                        <a href="https://boardgamegeek.com/boardgame/${game1.bggID}/">
+	                          <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${game1.thumbnail}">
+	                        </a>
+	                      </div>
 
-	                    <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-	                    <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	                      <div class="shelf-bottom">
+	                        <div class="shelf-left">
+	                          <div class="shelf-right"></div>
+	                        </div>
+	                      </div>
 
 	                  </div>
 
 
 	                <div class="row">
 	                </div>
-
+	                  <span class="text-center">
+	                  <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
+	                  <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	                  </span>
 	                <div class="row">
 
 	                  <table class="table table-hover">
 
 	                      <tr>
-	                        <td>Ranked <strong>${numberWithCommas(game1.rank)}</strong></td>
+	                        <td>
+	                          Ranked <strong>${numberWithCommas(game1.rank)}</strong>
+	                        </td>
 	                        <td>Published <strong>${game1.yearPublished}</strong></td>
-
 	                      </tr>
 	                      <tr>
 	                        <td>In Top <strong>${game1.percentile}%</td>
 	                        <td>Up <strong>${percentChange}%</strong></td>
-
 	                      </tr>
 	                      <tr>
 	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
 	                      </tr>
+
 
 	                      ${apiDetails}
 	                  </table>
@@ -10869,8 +10890,7 @@
 
 	let drawTop10List = (title, data, slot) => {
 
-	  console.log("data in top10:", data.charts.top10);
-	  let top10List = data.charts.top10;
+	  let top10List = data.top10.games;
 
 	    let // color scheme for line chart
 	    n1  = "#26BB5D",
@@ -10913,8 +10933,6 @@
 	        }
 	      };
 
-	      console.log("getData.historic:", getData.historic);
-
 	      // display chart in id "top10"
 	      let chart = new google.visualization.LineChart(document.getElementById('top10'));
 
@@ -10939,9 +10957,9 @@
 
 	  // loop over array of objects
 	  for (let i = 0; i < top10List.length; i++) {
-	    console.log("top10List[i]:", top10List[i]);
-	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i]}/">${data.games[top10List[i]].name}<a/></li>`;
+	    top10html += `<li><a href="http://boardgamegeek.com/boardgame/${top10List[i].bggID}/">${top10List[i].name}</a></li>`;
 	  }
+
 
 	  let snippets = `
 	    <div class="row">

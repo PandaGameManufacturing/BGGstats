@@ -15,21 +15,25 @@ let assets = require("./assets/asset-loader"),
 getData.charts().then( unparsed => {
   // after there is data, parse it
   let data = JSON.parse(unparsed);
-  console.log("data:", data);
 
   // Top 10% Movement Chart
   if (data.movementWeek10) { // check that the data's there first
-    createChart.rank(
+    createChart.movement(
       "Biggest Movers in Top 10%", // chart title
       data, // pushes all data
       "week10", // code word for switch to know where to go in data
-      "slot2" // slot in the app to show this chart
+      "slot1" // slot in the app to show this chart
     );
+  }
+
+  // Most Viewed Shelf
+  if (data.hotness) { // check that the data's there first
+    createChart.shelf.hotness ("Most Viewed", data, "slot2");
   }
 
   // Week Movement Chart
   if (data.movementWeek) { // check that the data's there first
-    createChart.rank(
+    createChart.movement(
       "This Week's Biggest Movers", // chart title
       data, // pushes all data
       "week", // code word for switch to know where to go in data
@@ -37,17 +41,19 @@ getData.charts().then( unparsed => {
     );
   }
 
+  // Top 10  Chart
+  if (data.top10) { // check that the data's there first
+    createChart.top10("Top 10", data, "slot4");
+  }
+
   // Day Movement Chart
   if (data.movementDay) { // check that the data's there first
-    createChart.rank(
+    createChart.movement(
       "Today's Biggest Movers", // chart title
       data, // pushes all data
       "day", // code word for switch to know where to go in data
-      "slot4" // slot in the app to show this chart
+      "slot5" // slot in the app to show this chart
     );
   }
 
-
-  // createChart.hotness.hotnessChart ("Most Viewed",            data, "slot2");
-  // createChart.top10                ("Top 10",                 data, "slot3");
 });
