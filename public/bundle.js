@@ -252,14 +252,14 @@
 
 	  let bggAPI = data.games[hotnessGames[i].bggID];
 	   // item 1 description
-	  let truncateLength1 = 300,
+	  let truncateLength1 = 250,
 	      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
 	      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
 	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
 
 	  // item 1 html
 	  top5list[i] = `
-	    <li><a href="${item1Link1}/"><strong>About ${hotnessGames[i].name}</strong</a></li>
+	    <h3><a href="${item1Link1}/">${hotnessGames[i].name}</a></h3>
 	    <table class="table table-hover">
 	      <tr>
 	        <td><strong>${hotnessGames[i].yearPublished}</strong> - ${description1}</td>
@@ -275,7 +275,7 @@
 	  \**********************/
 
 	  // titles in list form
-	    gameDetails1 += `<ol>`;
+	    gameDetails1 += `<ol class="hidden-sm hidden-xs">`;
 	    for (let i = 0; i < hotnessGames.length; i++) {
 	      gameDetails1 += `
 	         <li>
@@ -332,6 +332,32 @@
 	    </div>
 	  </div>
 	  <div class='row'>
+
+	  <div class="col-xs-12 text-center hidden-md hidden-lg">
+
+	      <div class="shelf-shadowed">
+	        <a href="https://boardgamegeek.com/boardgame/${hotnessGames[0].bggID}/">
+	          <img class="shelf-img" alt="${hotnessGames[0].name}" title="${hotnessGames[0].name}" src="${hotnessGames[0].thumbnail}">
+	        </a>
+	      </div>
+
+	      <div class="shelf-bottom">
+	        <div class="shelf-left">
+	          <div class="shelf-right"></div>
+	        </div>
+	      </div>
+	      <table class="table shelf-table hidden-md hidden-lg">
+	        </thead>
+	        <tbody>
+	          <tr>
+	            <td>${data.games[hotnessGames[0].bggID].minPlayers}-${data.games[hotnessGames[0].bggID].maxPlayers} players</td>
+	            <td>${data.games[hotnessGames[0].bggID].maxPlayTime} minutes</td>
+	          </tr>
+	        </tbody>
+	      </table>
+	      <br/>
+	  </div>
+
 	  <div class="col-sm-12 col-md-12 col-lg-3">
 	    <ol id="hotness-inject">
 	      ${top5list[0]}
@@ -346,7 +372,7 @@
 	        // loop over shelf images
 	        for (let i = 0; i < hotnessGames.length; i++) {
 	          shelf += `
-	            <div class="shelf-shadowed">
+	            <div class="shelf-shadowed hidden-sm hidden-xs">
 	              <a href="https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}/">
 	                <img id="hotness-${i+1}" class="shelf-img" alt="${hotnessGames[i].name}" title="${hotnessGames[i].name}" src="${hotnessGames[i].thumbnail}">
 	              </a>
@@ -356,13 +382,13 @@
 
 	        // wooden shelf
 	        shelf += `
-	          <div class="shelf-bottom">
+	          <div class="shelf-bottom hidden-sm hidden-xs">
 	            <div class="shelf-left">
 	              <div class="shelf-right"></div>
 	            </div>
 	          </div>
 
-	          <table class="table shelf-table">
+	          <table class="table shelf-table hidden-sm hidden-xs">
 	            </thead>
 	            <tbody>
 	              <tr>${gameDetails1}</tr>
@@ -370,6 +396,80 @@
 	              <tr>${gameDetails3}</tr>
 	            </tbody>
 	          </table>
+
+	          <table class="table hidden-md hidden-lg">
+	              <tr>
+	                <td rowspan="2">
+	                  <a href="https://boardgamegeek.com/boardgame/${hotnessGames[1].bggID}/">
+	                    <img class="hotnessSmall" alt="${hotnessGames[1].name}" title="${hotnessGames[1].name}" src="${hotnessGames[1].thumbnail}">
+	                  </a>
+	                </td>
+	                <td>
+	                  <strong><a href="https://boardgamegeek.com/boardgame/${hotnessGames[1].bggID}/">2. ${hotnessGames[1].name}</a></strong>
+	                <td>
+	              </tr>
+	              <tr>
+
+	                <td>${data.games[hotnessGames[1].bggID].minPlayers}-${data.games[hotnessGames[1].bggID].maxPlayers} players</td>
+	                <td>${data.games[hotnessGames[1].bggID].maxPlayTime} minutes</td>
+	              </tr>
+	          </table>
+
+	          <table class="table hidden-md hidden-lg">
+	              <tr>
+	                <td rowspan="2">
+	                  <a href="https://boardgamegeek.com/boardgame/${hotnessGames[2].bggID}/">
+	                    <img class="hotnessSmall" alt="${hotnessGames[2].name}" title="${hotnessGames[2].name}" src="${hotnessGames[2].thumbnail}">
+	                  </a>
+	                </td>
+	                <td>
+	                  <strong><a href="https://boardgamegeek.com/boardgame/${hotnessGames[2].bggID}/">3. ${hotnessGames[2].name}</a></strong>
+	                <td>
+	              </tr>
+	              <tr>
+
+	                <td>${data.games[hotnessGames[2].bggID].minPlayers}-${data.games[hotnessGames[2].bggID].maxPlayers} players</td>
+	                <td>${data.games[hotnessGames[2].bggID].maxPlayTime} minutes</td>
+	              </tr>
+	          </table>
+
+	          <table class="table hidden-md hidden-lg">
+	              <tr>
+	                <td rowspan="2">
+	                  <a href="https://boardgamegeek.com/boardgame/${hotnessGames[3].bggID}/">
+	                    <img class="hotnessSmall" alt="${hotnessGames[3].name}" title="${hotnessGames[3].name}" src="${hotnessGames[3].thumbnail}">
+	                  </a>
+	                </td>
+	                <td>
+	                  <strong><a href="https://boardgamegeek.com/boardgame/${hotnessGames[3].bggID}/">4. ${hotnessGames[3].name}</a></strong>
+	                <td>
+	              </tr>
+	              <tr>
+
+	                <td>${data.games[hotnessGames[3].bggID].minPlayers}-${data.games[hotnessGames[3].bggID].maxPlayers} players</td>
+	                <td>${data.games[hotnessGames[3].bggID].maxPlayTime} minutes</td>
+	              </tr>
+	          </table>
+
+	          <table class="table hidden-md hidden-lg">
+	              <tr>
+	                <td rowspan="2">
+	                  <a href="https://boardgamegeek.com/boardgame/${hotnessGames[4].bggID}/">
+	                    <img class="hotnessSmall" alt="${hotnessGames[4].name}" title="${hotnessGames[4].name}" src="${hotnessGames[4].thumbnail}">
+	                  </a>
+	                </td>
+	                <td>
+	                  <strong><a href="https://boardgamegeek.com/boardgame/${hotnessGames[4].bggID}/">5. ${hotnessGames[4].name}</a></strong>
+	                <td>
+	              </tr>
+	              <tr>
+
+	                <td>${data.games[hotnessGames[4].bggID].minPlayers}-${data.games[hotnessGames[4].bggID].maxPlayers} players</td>
+	                <td>${data.games[hotnessGames[4].bggID].maxPlayTime} minutes</td>
+	              </tr>
+	          </table>
+
+
 
 	        </div>
 	      </div>
@@ -10690,7 +10790,18 @@
 
 	  // loop over top 10 titles
 	  for (let i = 0; i < 10; i++) {
-	    top10html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.positive[i].bggID}/">${chartData.positive[i].name}<a/></div></li>`;
+	    top10html += `
+	      <li>
+	        <div class="truncate">
+	          <a href="http://boardgamegeek.com/boardgame/${chartData.positive[i].bggID}/">
+	            ${chartData.positive[i].name}
+	          <a/>
+	        </div>
+	        <div class="hidden-md hidden-lg movementSmallDetails">
+	        <span class="hidden-md hidden-lg up">Up ${chartData.positive[i].movement} spots</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.positive[i].rank)}</span>
+	        </div>
+	      </li>`;
 	  }
 
 	  // loop over positive ranks
@@ -10718,7 +10829,18 @@
 
 	  // loop over bottom 5 titles
 	  for (let i = 0; i < 5; i++) {
-	    bottom5html += `<li><div class="truncate"><a href="http://boardgamegeek.com/boardgame/${chartData.negative[i].bggID}/">${chartData.negative[i].name}</a></div></li>`;  }
+	    bottom5html += `
+	      <li>
+	        <div class="truncate">
+	          <a href="http://boardgamegeek.com/boardgame/${chartData.negative[i].bggID}/">${chartData.negative[i].name}
+	          </a>
+	        </div>
+	        <div class="hidden-md hidden-lg movementSmallDetails">
+	        <span class="hidden-md hidden-lg down">Down ${chartData.negative[i].movement} spots</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.negative[i].rank)}</span>
+	        </div>
+	      </li>
+	    `;  }
 
 	  // loop over bottom 5 status bars
 	  for (let i = 0; i < 5; i++) {
@@ -10746,6 +10868,69 @@
 	  //   </td>
 	  // </tr>
 
+
+	  let allGame1Details = `
+	        <!-- Details About Biggest Mover -->
+	        <div class="col-md-3 rankChart">
+
+	          <div class="row hidden-xs hidden-sm">
+	            ${biggestMover}
+	          </div>
+
+	          <div class="row">
+
+	            <div class="col-xs-12 text-center">
+
+	                <div class="shelf-shadowed">
+	                  <a href="https://boardgamegeek.com/boardgame/${game1.bggID}/">
+	                    <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${game1.thumbnail}">
+	                  </a>
+	                </div>
+
+	                <div class="shelf-bottom">
+	                  <div class="shelf-left">
+	                    <div class="shelf-right"></div>
+	                  </div>
+	                </div>
+
+	            </div>
+
+
+	          <div class="row">
+	          </div>
+	            <span class="text-center">
+	            <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
+	            <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	            </span>
+	          <div class="row">
+
+	            <table class="table table-hover">
+
+	                <tr>
+	                  <td>
+	                    Ranked <strong>${numberWithCommas(game1.rank)}</strong>
+	                  </td>
+	                  <td>Published <strong>${game1.yearPublished}</strong></td>
+	                </tr>
+	                <tr>
+	                  <td>In Top <strong>${game1.percentile}%</td>
+	                  <td>Up <strong>${percentChange}%</strong></td>
+	                </tr>
+	                <tr>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+	                </tr>
+
+
+	                ${apiDetails}
+	            </table>
+
+	          </div>
+
+	        </div>
+
+	    </div>
+	  `;
+
 	  let snippets = `
 	<!-- Rank Chart  -->
 	  <div class="row">
@@ -10763,15 +10948,17 @@
 
 
 	              <!-- Movement Chart -->
-	              <div class="col-lg-9 rankChart">
+	              <div class="col-md-9 rankChart">
 
 	                  <div class="row">
 
-	                      <div class="col-sm-2 bottom-wrapper">
+	                      <div class="col-sm-2 bottom-wrapper hidden-sm hidden-xs">
 	                        ${bottom5status}
 	                      </div>
 
-	                      <div class="col-sm-4">
+	                      <span class="hidden-md hidden-lg">${allGame1Details}</span>
+
+	                      <div class="col-xs-12 col-md-4">
 	                        <ol>
 	                          ${top10html}
 	                       </ol>
@@ -10780,7 +10967,7 @@
 	                       </ol>
 	                      </div>
 
-	                      <div class="col-sm-1" id="rankColumn">
+	                      <div class="col-sm-1 col-xs-2 hidden-xs" id="rankColumn">
 	                        <ul>
 	                          <li class="pull-right"><strong>Rank</strong></li>
 	                          ${ranksPositive}
@@ -10792,7 +10979,7 @@
 
 	                      </div>
 
-	                      <div class="col-sm-5 top-wrapper">
+	                      <div class="col-sm-5 top-wrapper hidden-sm hidden-xs">
 	                        ${top10status}
 	                      </div>
 
@@ -10800,65 +10987,7 @@
 
 	              </div>
 
-	              <!-- Details About Biggest Mover -->
-	              <div class="col-lg-3 rankChart">
-
-	                <div class="row">
-	                  ${biggestMover}
-	                </div>
-
-	                <div class="row">
-
-	                  <div class="col-sm-12">
-
-	                      <div class="shelf-shadowed">
-	                        <a href="https://boardgamegeek.com/boardgame/${game1.bggID}/">
-	                          <img class="shelf-img" alt="${game1.name}" title="${game1.name}" src="${game1.thumbnail}">
-	                        </a>
-	                      </div>
-
-	                      <div class="shelf-bottom">
-	                        <div class="shelf-left">
-	                          <div class="shelf-right"></div>
-	                        </div>
-	                      </div>
-
-	                  </div>
-
-
-	                <div class="row">
-	                </div>
-	                  <span class="text-center">
-	                  <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-	                  <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
-	                  </span>
-	                <div class="row">
-
-	                  <table class="table table-hover">
-
-	                      <tr>
-	                        <td>
-	                          Ranked <strong>${numberWithCommas(game1.rank)}</strong>
-	                        </td>
-	                        <td>Published <strong>${game1.yearPublished}</strong></td>
-	                      </tr>
-	                      <tr>
-	                        <td>In Top <strong>${game1.percentile}%</td>
-	                        <td>Up <strong>${percentChange}%</strong></td>
-	                      </tr>
-	                      <tr>
-	                        <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
-	                      </tr>
-
-
-	                      ${apiDetails}
-	                  </table>
-
-	                </div>
-
-	              </div>
-
-	          </div>
+	              <span class="hidden-sm hidden-xs">${allGame1Details}</span>
 
 	        </div>
 	      </div>
