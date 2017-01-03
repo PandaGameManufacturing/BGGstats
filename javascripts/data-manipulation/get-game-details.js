@@ -11,34 +11,34 @@ let getGameDetails = array => {
 
   return new Promise( (resolve, reject) => {
 
-    // // make API calls for the array of games
-    // let promises = [];
-    // for (let i = 0; i < array.length; i++) {
+    // make API calls for the array of games
+    let promises = [];
+    for (let i = 0; i < array.length; i++) {
 
-    //   // set location of API calls and insert id
-    //   let host = `boardgamegeek.com`;
-    //   let path = `/xmlapi2/thing?id=${array[i]}&stats=1`;
-    //   let p = getXML(host, path);
-    //   promises.push(p);
-    // }
+      // set location of API calls and insert id
+      let host = `boardgamegeek.com`;
+      let path = `/xmlapi2/thing?id=${array[i]}&stats=1`;
+      let p = getXML(host, path);
+      promises.push(p);
+    }
 
-    // // once the API calls are done, push up game data
-    // Promise.all(promises).then(gameDataArray => {
-    //   // format games
-    //   let formattedGames = formatAPIdata(gameDataArray);
+    // once the API calls are done, push up game data
+    Promise.all(promises).then(gameDataArray => {
+      // format games
+      let formattedGames = formatAPIdata(gameDataArray);
 
-    //   // add game data to database in Games collection under the game's bggID
-    //   for (let i = 0; i < formattedGames.length; i++) {
-    //     console.log("formattedGames[i]:", formattedGames[i]);
-    //     console.log("formattedGames:", formattedGames[i]);
-    //     addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
-    //     // let data = JSON.stringify(formattedGames[i]); // convert from an object to JSON
-    //     pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");
-    //   }
+      // add game data to database in Games collection under the game's bggID
+      for (let i = 0; i < formattedGames.length; i++) {
+        console.log("formattedGames[i]:", formattedGames[i]);
+        console.log("formattedGames:", formattedGames[i]);
+        addCrawlTimes(formattedGames[i]); // add crawl times tied to pushing up game details
+        // let data = JSON.stringify(formattedGames[i]); // convert from an object to JSON
+        pushData(formattedGames[i], `/Games/${formattedGames[i].bggID}.json`, "PATCH");
+      }
 
-    //   resolve(formattedGames);
+      resolve(formattedGames);
 
-    // });
+    });
 
     resolve(2);
 

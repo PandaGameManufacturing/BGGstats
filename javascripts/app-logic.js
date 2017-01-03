@@ -17,13 +17,13 @@ getData.charts().then( unparsed => {
   let data = JSON.parse(unparsed);
   console.log("data:", data);
 
-  // Day Movement Chart
-  if (data.movementDay) { // check that the data's there first
+  // Top 10% Movement Chart
+  if (data.movementWeek10) { // check that the data's there first
     createChart.rank(
-      "Today's Biggest Movers", // chart title
+      "Biggest Movers in Top 10%", // chart title
       data, // pushes all data
-      "day", // code word for switch to know where to go in data
-      "slot1" // slot in the app to show this chart
+      "week10", // code word for switch to know where to go in data
+      "slot2" // slot in the app to show this chart
     );
   }
 
@@ -33,9 +33,20 @@ getData.charts().then( unparsed => {
       "This Week's Biggest Movers", // chart title
       data, // pushes all data
       "week", // code word for switch to know where to go in data
-      "slot2" // slot in the app to show this chart
+      "slot3" // slot in the app to show this chart
     );
   }
+
+  // Day Movement Chart
+  if (data.movementDay) { // check that the data's there first
+    createChart.rank(
+      "Today's Biggest Movers", // chart title
+      data, // pushes all data
+      "day", // code word for switch to know where to go in data
+      "slot4" // slot in the app to show this chart
+    );
+  }
+
 
   // createChart.hotness.hotnessChart ("Most Viewed",            data, "slot2");
   // createChart.top10                ("Top 10",                 data, "slot3");
