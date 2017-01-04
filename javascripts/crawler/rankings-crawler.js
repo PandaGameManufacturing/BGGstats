@@ -8,7 +8,7 @@ let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
 
 //////////////////////////////////
                                //
-   let crawlStartPage = 80;
+   let crawlStartPage = 1;
                              //
 //////////////////////////////
 
