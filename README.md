@@ -1,13 +1,13 @@
-![BGGstats](http://www.bggstats.com/images/BGGstats-medium.png "BGGstats")
+![Tabletop Tracker](http://www.tabletoptracker.com/images/tabletop-tracker-large.png "Table Top Tracker")
 
-[BGGstats.com](http://bggstats.com/) tracks which new board games deserve your attention among the thousands of games that are published each year. Board game rankings are sourced from [BoardGameGeek.com](http://boardgamegeek.com/).
+[TabletopTracker.com](http://www.tabletoptracker.com/) tracks which new board games deserve your attention among the thousands of games that are published each year.
 
-BoardGameGeek tracks the ranking of each board game based on user submitted ratings. The BGGstats crawler checks the current ranking of each ranked board game daily and displays board game information based on crawled data and data from the BoardGameGeek API.
+Rankings are based on the number and quality of user ratings on [BoardGameGeek.com](http://boardgamegeek.com/). Data is calculated daily. Hover over the title of a chart for more details.
 
-BGGstats was created and is maintained by [Nathan T. Baker](http://nathantbaker.com/). Subscribe to the [BGGstats email list](http://eepurl.com/ctZUa5) to learn when new charts and features are added.
+Tabletop Tracker was created and is maintained by [Nathan T. Baker](http://nathantbaker.com/). Subscribe to the [Tabletop Tracker email list](http://eepurl.com/ctZUa5) to learn when new charts and features are added.
 
 ### Server-Side Logic
-BGGstats is deployed on Heroku where the BGGstats node.js crawler runs daily. After crawling data, the app makes API calls, manipulates data, and pushes up data to a database. When a user visits the website all board game data can be pulled down with one call since all relevent data is cached daily.
+BGGstats is deployed on Heroku where the Tabletop Tracker node.js crawler runs daily. After crawling data, the app makes API calls, manipulates data, and pushes up data to a database. When a user visits the website all board game data can be pulled down with one call since all relevent data is cached daily.
 
 ## Local Development
 
