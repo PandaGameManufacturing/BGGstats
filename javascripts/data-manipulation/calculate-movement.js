@@ -70,6 +70,7 @@ let calculateMovement = (dataToday, dataCompare, percentileFilter) => {
       // exclude games that became unranked
       if (comparerank !== undefined) {
         // if a game's rank has changed, track it
+
         if (todayrank !== comparerank) {
           // push change in movement to the movement array
           let object = {};

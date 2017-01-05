@@ -72,6 +72,7 @@ let formatCrawlData = lastRanked => {
     }).then( day => {
 
     todayMovement = day; // set returned promise
+
     return calculateMovement(todayGames, weekGames); // setup another promise;
 
     }).then( week => {
@@ -269,6 +270,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  formatCrawlData();
+  // formatCrawlData();
 
 module.exports = formatCrawlData;
