@@ -26,10 +26,10 @@ getData.charts().then( unparsed => {
     );
   }
 
-  // Most Viewed Shelf
-  if (data.hotness) { // check that the data's there first
-    createChart.shelf.hotness ("Most Viewed", data, "slot2");
-  }
+  // // Most Viewed Shelf
+  // if (data.hotness) { // check that the data's there first
+  //   createChart.shelf.hotness ("Most Viewed", data, "slot2");
+  // }
 
   // Week Movement Chart
   if (data.movementWeek) { // check that the data's there first
