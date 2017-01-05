@@ -35364,7 +35364,7 @@
 	    backup        = getToday(1); // today minus 1 day
 
 	let getCharts = () => {
-	  if (isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
+	  if (!isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
 	    // if today's data is there return today's data
 	    let today = getData(`${baseURL}${collection}/${subcollection}.json`);
 	    return today;
