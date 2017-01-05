@@ -123,10 +123,10 @@
 	    );
 	  }
 
-	  // // Most Viewed Shelf
-	  // if (data.hotness) { // check that the data's there first
-	  //   createChart.shelf.hotness ("Most Viewed", data, "slot2");
-	  // }
+	  // Most Viewed Shelf
+	  if (data.hotness) { // check that the data's there first
+	    createChart.shelf.hotness ("Most Viewed", data, "slot2");
+	  }
 
 	  // Week Movement Chart
 	  if (data.movementWeek) { // check that the data's there first
@@ -138,10 +138,10 @@
 	    );
 	  }
 
-	  // Top 10  Chart
-	  if (data.top10) { // check that the data's there first
-	    createChart.top10("Top 10", data, "slot4");
-	  }
+	  // // Top 10  Chart
+	  // if (data.top10) { // check that the data's there first
+	  //   createChart.top10("Top 10", data, "slot4");
+	  // }
 
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
