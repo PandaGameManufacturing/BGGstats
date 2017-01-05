@@ -138,7 +138,7 @@
 	    );
 	  }
 
-	  // // Top 10  Chart
+	  // // Top 10 Chart
 	  // if (data.top10) { // check that the data's there first
 	  //   createChart.top10("Top 10", data, "slot4");
 	  // }
