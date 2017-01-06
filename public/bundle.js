@@ -40021,6 +40021,7 @@
 
 	"use strict";
 
+	// function takes crawl time in milliseconds and return hours since last crawl
 	let timeElapsed = crawlTime => {
 	  let lastCrawlTime = crawlTime;
 	  let today = new Date();
