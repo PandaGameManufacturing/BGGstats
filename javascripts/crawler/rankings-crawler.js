@@ -3,7 +3,7 @@
 // requires
 let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
     getData = require("../get-data/get-data-loader"),
-    assets = require("../assets/asset-loader");
+    addCommas = require("../assets/add-commas");
 
 // config options
 
@@ -71,7 +71,7 @@ console.log("");
 
 // logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
-  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${assets.addCommas(gameEnd-99)} - ${assets.addCommas(gameEnd)}`)
+  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${addCommas(gameEnd-99)} - ${addCommas(gameEnd)}`)
   ;
   crawlStartPage++;
   // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);

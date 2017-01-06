@@ -10734,7 +10734,7 @@
 	"use strict";
 
 	let $ = __webpack_require__(7),
-	    assets = __webpack_require__(2);
+	    addCommas = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../assets/addCommas\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
@@ -10760,7 +10760,7 @@
 	    case "week10":
 	      chartData = data.movementWeek10;
 	      descriptionCompareDate = "a week ago";
-	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
 	      break;
 	    default:     chartData = data.movementDay;
 	  }
@@ -10807,19 +10807,19 @@
 	        </div>
 	        <div class="hidden-md hidden-lg movementSmallDetails">
 	        <span class="hidden-md hidden-lg up">Up ${chartData.positive[i].movement} spots</span>
-	        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.positive[i].rank)}</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${addCommas(chartData.positive[i].rank)}</span>
 	        </div>
 	      </li>`;
 	  }
 
 	  // loop over positive ranks
 	  for (let i = 0; i < 10; i++) {
-	    ranksPositive += `<li class="pull-right">${assets.addCommas(chartData.positive[i].rank)}</li>`;
+	    ranksPositive += `<li class="pull-right">${addCommas(chartData.positive[i].rank)}</li>`;
 	  }
 
 	  // loop over negative ranks
 	  for (let i = 0; i < 5; i++) {
-	    ranksNegative += `<li class="pull-right">${assets.addCommas(chartData.negative[i].rank)}</li>`;
+	    ranksNegative += `<li class="pull-right">${addCommas(chartData.negative[i].rank)}</li>`;
 	  }
 
 
@@ -10845,7 +10845,7 @@
 	        </div>
 	        <div class="hidden-md hidden-lg movementSmallDetails">
 	        <span class="hidden-md hidden-lg down">Down ${chartData.negative[i].movement} spots</span>
-	        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.negative[i].rank)}</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${addCommas(chartData.negative[i].rank)}</span>
 	        </div>
 	      </li>
 	    `;  }
@@ -10907,8 +10907,8 @@
 	          <div class="row">
 	          </div>
 
-	            <div id="rankMovement">${assets.addCommas(item1Rank)}</div>
-	            <p id="rankDescription">Up ${assets.addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	            <div id="rankMovement">${addCommas(item1Rank)}</div>
+	            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
 
 	          <div class="row">
 
@@ -10916,7 +10916,7 @@
 
 	                <tr>
 	                  <td>
-	                    Ranked <strong>${assets.addCommas(game1.rank)}</strong>
+	                    Ranked <strong>${addCommas(game1.rank)}</strong>
 	                  </td>
 	                  <td>Published <strong>${game1.yearPublished}</strong></td>
 	                </tr>
@@ -10925,7 +10925,7 @@
 	                  <td>Up <strong>${percentChange}%</strong></td>
 	                </tr>
 	                <tr>
-	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${assets.addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
 	                </tr>
 
 

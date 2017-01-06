@@ -1,7 +1,7 @@
 "use strict";
 
 let $ = require("jquery"),
-    assets = require("../assets/asset-loader");
+    addCommas = require("../assets/addCommas");
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
@@ -27,7 +27,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
     case "week10":
       chartData = data.movementWeek10;
       descriptionCompareDate = "a week ago";
-      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
       break;
     default:     chartData = data.movementDay;
   }
@@ -74,19 +74,19 @@ let drawRankChart = (title, data, dataLocation, slot) => {
         </div>
         <div class="hidden-md hidden-lg movementSmallDetails">
         <span class="hidden-md hidden-lg up">Up ${chartData.positive[i].movement} spots</span>
-        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.positive[i].rank)}</span>
+        <span class="hidden-md hidden-lg rank">Ranked ${addCommas(chartData.positive[i].rank)}</span>
         </div>
       </li>`;
   }
 
   // loop over positive ranks
   for (let i = 0; i < 10; i++) {
-    ranksPositive += `<li class="pull-right">${assets.addCommas(chartData.positive[i].rank)}</li>`;
+    ranksPositive += `<li class="pull-right">${addCommas(chartData.positive[i].rank)}</li>`;
   }
 
   // loop over negative ranks
   for (let i = 0; i < 5; i++) {
-    ranksNegative += `<li class="pull-right">${assets.addCommas(chartData.negative[i].rank)}</li>`;
+    ranksNegative += `<li class="pull-right">${addCommas(chartData.negative[i].rank)}</li>`;
   }
 
 
@@ -112,7 +112,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
         </div>
         <div class="hidden-md hidden-lg movementSmallDetails">
         <span class="hidden-md hidden-lg down">Down ${chartData.negative[i].movement} spots</span>
-        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.negative[i].rank)}</span>
+        <span class="hidden-md hidden-lg rank">Ranked ${addCommas(chartData.negative[i].rank)}</span>
         </div>
       </li>
     `;  }
@@ -174,8 +174,8 @@ let drawRankChart = (title, data, dataLocation, slot) => {
           <div class="row">
           </div>
 
-            <div id="rankMovement">${assets.addCommas(item1Rank)}</div>
-            <p id="rankDescription">Up ${assets.addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+            <div id="rankMovement">${addCommas(item1Rank)}</div>
+            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
 
           <div class="row">
 
@@ -183,7 +183,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
 
                 <tr>
                   <td>
-                    Ranked <strong>${assets.addCommas(game1.rank)}</strong>
+                    Ranked <strong>${addCommas(game1.rank)}</strong>
                   </td>
                   <td>Published <strong>${game1.yearPublished}</strong></td>
                 </tr>
@@ -192,7 +192,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
                   <td>Up <strong>${percentChange}%</strong></td>
                 </tr>
                 <tr>
-                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${assets.addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
                 </tr>
 
 

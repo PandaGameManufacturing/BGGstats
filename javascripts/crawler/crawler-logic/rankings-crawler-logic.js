@@ -11,7 +11,7 @@ let database = require("../../database-settings/database-settings"),
     moment = require("moment"),
     t = require("exectimer"),
     manipulateData = require("../../data-manipulation/data-manipulation-loader"),
-    assets = require("../../assets/asset-loader");
+    addCommas = require("../../assets/add-commas");
 
 // start timer for total crawl time
 var tick = new t.Tick("TIMER");
@@ -82,12 +82,12 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
             gamesPerSec = Math.round(lastRanked/seconds * 10) / 10;
 
         //console log that everything has completed
-        console.log(`:: ✓ Crawled page ${currentPage}     games ${assets.addCommas(gameStart)} - ${assets.addCommas(lastRanked)}`);
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${addCommas(gameStart)} - ${addCommas(lastRanked)}`);
         console.log("");
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log(`:: ✓ The Crawler stopped`);
         console.log(`::`);
-        console.log(`::   Total Games Crawled   ${assets.addCommas(lastRanked)}`);
+        console.log(`::   Total Games Crawled   ${addCommas(lastRanked)}`);
         console.log(`::   Crawl Duration        ${minutes} minutes`);
         console.log(`::   Avg. Processing Time  ${avgTime} seconds`);
         console.log(`::   Games Per Second      ${gamesPerSec} games/second`);
