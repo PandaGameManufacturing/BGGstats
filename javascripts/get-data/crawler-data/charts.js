@@ -12,16 +12,25 @@ let baseURL       = "https://bggstats-2de27.firebaseio.com",
     backup        = getToday(1); // today minus 1 day
 
 let getCharts = () => {
-  if (!isDataEmpty(getData(`${baseURL}${collection}/${subcollection}.json`))) {
-    // if today's data is there return today's data
-    let today = getData(`${baseURL}${collection}/${subcollection}.json`);
-    return today;
-  } else {
-    // if it doesn't exist, return yesterday's data
-    let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
-    console.log("data from today not found. serving data from yesterday");
-    return yesterday;
-  }
+
+  let today = getData(`${baseURL}${collection}/${subcollection}.json`);
+
+  return today.then( todayRawData => {
+    let todayData = JSON.parse(todayRawData);
+    let doesTodayHaveData = !isDataEmpty(todayData);
+    console.log("today have data?", doesTodayHaveData);
+    if (doesTodayHaveData) {
+      // if today's data is there return today's data
+      return todayData;
+    } else {
+      // if it doesn't exist, return yesterday's data
+      let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
+      return yesterday.then( yesterdayRawData => {
+        console.log("Crawl data from today not found. Serving data from yesterday.");
+        return JSON.parse(yesterdayRawData);
+      });
+    }
+  });
 };
 
 module.exports = getCharts;
