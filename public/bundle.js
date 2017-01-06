@@ -102,14 +102,19 @@
 	    createChart = __webpack_require__(5),
 	    getData = __webpack_require__(12);
 
-	// Show charts in this order
-	// -Most Viewed
-	// -Biggest Movers in Top 10%
-	// -Today's Biggest Movers
-	// -This Week's Biggest Movers
-
 	// get data for the day (or fallback to yesterday's data)
 	getData.charts().then( data => {
+
+	  // inject total number of games in footer
+	  let targetEl = document.getElementById("totalGames");
+	  targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+
+	  // inject last crawl time in footer
+	  let targetEl2 = document.getElementById("time");
+	  let hours = assets.timeElapsed(data.timeMilliseconds);
+	  targetEl2.innerHTML = `${hours} hours ago`;
+
+	  // SHOW CHARTS
 
 	  // Top 10% Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
@@ -161,6 +166,10 @@
 
 	__webpack_require__(3);
 	__webpack_require__(4);
+	let addCommas = __webpack_require__(261);
+	let timeElapsed = __webpack_require__(262);
+
+	module.exports = {addCommas, timeElapsed};
 
 /***/ },
 /* 3 */
@@ -35308,8 +35317,7 @@
 	"use strict";
 
 	// requires
-	let getData = __webpack_require__(16),
-	    getToday = __webpack_require__(79);
+	let getData = __webpack_require__(16);
 
 	// URL config
 	let baseURL      = "bggstats-2de27.firebaseio.com",
@@ -35368,7 +35376,6 @@
 	  return today.then( todayRawData => {
 	    let todayData = JSON.parse(todayRawData);
 	    let doesTodayHaveData = !isDataEmpty(todayData);
-	    console.log("today have data?", doesTodayHaveData);
 	    if (doesTodayHaveData) {
 	      // if today's data is there return today's data
 	      return todayData;
@@ -35376,7 +35383,6 @@
 	      // if it doesn't exist, return yesterday's data
 	      let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
 	      return yesterday.then( yesterdayRawData => {
-	        console.log("Crawl data from today not found. Serving data from yesterday.");
 	        return JSON.parse(yesterdayRawData);
 	      });
 	    }
@@ -39995,6 +40001,37 @@
 	    return comparison === 0 || comparison & DOCUMENT_POSITION_CONTAINED_BY
 	}
 
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	  // function to add commas to large numbers
+	  function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	  }
+
+	module.exports = numberWithCommas;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	let timeElapsed = crawlTime => {
+	  let lastCrawlTime = crawlTime;
+	  let today = new Date();
+	  let nowMilliseconds = today.getTime();
+	  let differenceMilliseconds =  nowMilliseconds - lastCrawlTime;
+	                                    // milli  sec  min
+	  let hours = differenceMilliseconds / 1000 / 60 / 60;
+	  return Math.ceil(hours);
+	};
+
+	module.exports = timeElapsed;
 
 /***/ }
 /******/ ]);
