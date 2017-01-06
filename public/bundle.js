@@ -102,14 +102,19 @@
 	    createChart = __webpack_require__(5),
 	    getData = __webpack_require__(12);
 
-	// Show charts in this order
-	// -Most Viewed
-	// -Biggest Movers in Top 10%
-	// -Today's Biggest Movers
-	// -This Week's Biggest Movers
-
 	// get data for the day (or fallback to yesterday's data)
 	getData.charts().then( data => {
+
+	  // inject total number of games in footer
+	  let targetEl = document.getElementById("totalGames");
+	  targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+
+	  // inject last crawl time in footer
+	  let targetEl2 = document.getElementById("time");
+	  let hours = assets.timeElapsed(data.timeMilliseconds);
+	  targetEl2.innerHTML = `${hours} hours ago`;
+
+	  // SHOW CHARTS
 
 	  // Top 10% Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
@@ -161,6 +166,10 @@
 
 	__webpack_require__(3);
 	__webpack_require__(4);
+	let addCommas = __webpack_require__(261);
+	let timeElapsed = __webpack_require__(262);
+
+	module.exports = {addCommas, timeElapsed};
 
 /***/ },
 /* 3 */
@@ -10724,7 +10733,8 @@
 
 	"use strict";
 
-	let $ = __webpack_require__(7);
+	let $ = __webpack_require__(7),
+	    assets = __webpack_require__(2);
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
@@ -10750,7 +10760,7 @@
 	    case "week10":
 	      chartData = data.movementWeek10;
 	      descriptionCompareDate = "a week ago";
-	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${numberWithCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
 	      break;
 	    default:     chartData = data.movementDay;
 	  }
@@ -10797,19 +10807,19 @@
 	        </div>
 	        <div class="hidden-md hidden-lg movementSmallDetails">
 	        <span class="hidden-md hidden-lg up">Up ${chartData.positive[i].movement} spots</span>
-	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.positive[i].rank)}</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.positive[i].rank)}</span>
 	        </div>
 	      </li>`;
 	  }
 
 	  // loop over positive ranks
 	  for (let i = 0; i < 10; i++) {
-	    ranksPositive += `<li class="pull-right">${numberWithCommas(chartData.positive[i].rank)}</li>`;
+	    ranksPositive += `<li class="pull-right">${assets.addCommas(chartData.positive[i].rank)}</li>`;
 	  }
 
 	  // loop over negative ranks
 	  for (let i = 0; i < 5; i++) {
-	    ranksNegative += `<li class="pull-right">${numberWithCommas(chartData.negative[i].rank)}</li>`;
+	    ranksNegative += `<li class="pull-right">${assets.addCommas(chartData.negative[i].rank)}</li>`;
 	  }
 
 
@@ -10835,7 +10845,7 @@
 	        </div>
 	        <div class="hidden-md hidden-lg movementSmallDetails">
 	        <span class="hidden-md hidden-lg down">Down ${chartData.negative[i].movement} spots</span>
-	        <span class="hidden-md hidden-lg rank">Ranked ${numberWithCommas(chartData.negative[i].rank)}</span>
+	        <span class="hidden-md hidden-lg rank">Ranked ${assets.addCommas(chartData.negative[i].rank)}</span>
 	        </div>
 	      </li>
 	    `;  }
@@ -10897,8 +10907,8 @@
 	          <div class="row">
 	          </div>
 
-	            <div id="rankMovement">${numberWithCommas(item1Rank)}</div>
-	            <p id="rankDescription">Up ${numberWithCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	            <div id="rankMovement">${assets.addCommas(item1Rank)}</div>
+	            <p id="rankDescription">Up ${assets.addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
 
 	          <div class="row">
 
@@ -10906,7 +10916,7 @@
 
 	                <tr>
 	                  <td>
-	                    Ranked <strong>${numberWithCommas(game1.rank)}</strong>
+	                    Ranked <strong>${assets.addCommas(game1.rank)}</strong>
 	                  </td>
 	                  <td>Published <strong>${game1.yearPublished}</strong></td>
 	                </tr>
@@ -10915,7 +10925,7 @@
 	                  <td>Up <strong>${percentChange}%</strong></td>
 	                </tr>
 	                <tr>
-	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${numberWithCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${assets.addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
 	                </tr>
 
 
@@ -10994,11 +11004,6 @@
 	  $(`#${slot}`).html(snippets);
 
 	};
-
-	// function to add commas to large numbers
-	function numberWithCommas(x) {
-	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
 
 	module.exports = drawRankChart;
 
@@ -35308,8 +35313,7 @@
 	"use strict";
 
 	// requires
-	let getData = __webpack_require__(16),
-	    getToday = __webpack_require__(79);
+	let getData = __webpack_require__(16);
 
 	// URL config
 	let baseURL      = "bggstats-2de27.firebaseio.com",
@@ -35368,7 +35372,6 @@
 	  return today.then( todayRawData => {
 	    let todayData = JSON.parse(todayRawData);
 	    let doesTodayHaveData = !isDataEmpty(todayData);
-	    console.log("today have data?", doesTodayHaveData);
 	    if (doesTodayHaveData) {
 	      // if today's data is there return today's data
 	      return todayData;
@@ -35376,7 +35379,6 @@
 	      // if it doesn't exist, return yesterday's data
 	      let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
 	      return yesterday.then( yesterdayRawData => {
-	        console.log("Crawl data from today not found. Serving data from yesterday.");
 	        return JSON.parse(yesterdayRawData);
 	      });
 	    }
@@ -39995,6 +39997,38 @@
 	    return comparison === 0 || comparison & DOCUMENT_POSITION_CONTAINED_BY
 	}
 
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	  // function to add commas to large numbers
+	  function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	  }
+
+	module.exports = numberWithCommas;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// function takes crawl time in milliseconds and return hours since last crawl
+	let timeElapsed = crawlTime => {
+	  let lastCrawlTime = crawlTime;
+	  let today = new Date();
+	  let nowMilliseconds = today.getTime();
+	  let differenceMilliseconds =  nowMilliseconds - lastCrawlTime;
+	                                    // milli  sec  min
+	  let hours = differenceMilliseconds / 1000 / 60 / 60;
+	  return Math.ceil(hours);
+	};
+
+	module.exports = timeElapsed;
 
 /***/ }
 /******/ ]);

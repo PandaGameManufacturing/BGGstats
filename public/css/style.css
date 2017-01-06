@@ -463,8 +463,7 @@ ol.color-list > li:nth-child(10):before {
 /* === GLOBAL === */
 body {
   background-color: white;
-  margin: 0;
-  min-width: 400px; }
+  margin: 0; }
 
 h1 {
   font-size: 1.4em;
@@ -509,6 +508,9 @@ header {
   margin: 0px;
   width: 100%; }
 
+.pre-footer p, .pre-footer2 p {
+  padding-bottom: 15px; }
+
 .pre-footer {
   background-color: #dee8ef;
   padding: 20px 0; }
@@ -516,6 +518,12 @@ header {
 .pre-footer2 {
   background-color: #cbced3;
   padding: 20px 0 5px 0; }
+
+.pre-footer ul, .pre-footer2 ul {
+  padding: 8px 0 0 20px; }
+
+.pre-footer li, .pre-footer2 li {
+  padding: 0 0 8px 0; }
 
 h2 {
   padding: 0;

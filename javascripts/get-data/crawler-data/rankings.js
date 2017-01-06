@@ -1,8 +1,7 @@
 "use strict";
 
 // requires
-let getData = require("../get-data-serverside"),
-    getToday = require("../../assets/get-date");
+let getData = require("../get-data-serverside");
 
 // URL config
 let baseURL      = "bggstats-2de27.firebaseio.com",

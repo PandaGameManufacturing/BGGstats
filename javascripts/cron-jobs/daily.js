@@ -1,9 +1,5 @@
 "use strict";
 
-// a cron job triggers this file at 00:05 every day. it runs:
+// a cron job configured with heroku triggers this file at 10:00 UTC (4:00 am central) every day.
+
 require("../crawler/rankings-crawler");
-
-//   manually run it with:
-//   `heroku run "node javascripts/cron-jobs/daily.js" --app bggstats`
-
-// heroku run "node javascripts/crawler/rankings-crawler2.js" --app bggstats

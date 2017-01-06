@@ -10,7 +10,8 @@ let database = require("../../database-settings/database-settings"),
     cheerio = require("cheerio"),
     moment = require("moment"),
     t = require("exectimer"),
-    manipulateData = require("../../data-manipulation/data-manipulation-loader");
+    manipulateData = require("../../data-manipulation/data-manipulation-loader"),
+    assets = require("../../assets/asset-loader");
 
 // start timer for total crawl time
 var tick = new t.Tick("TIMER");
@@ -81,12 +82,12 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
             gamesPerSec = Math.round(lastRanked/seconds * 10) / 10;
 
         //console log that everything has completed
-        console.log(`:: ✓ Crawled page ${currentPage}     games ${numberWithCommas(gameStart)} - ${numberWithCommas(lastRanked)}`);
+        console.log(`:: ✓ Crawled page ${currentPage}     games ${assets.addCommas(gameStart)} - ${assets.addCommas(lastRanked)}`);
         console.log("");
         console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
         console.log(`:: ✓ The Crawler stopped`);
         console.log(`::`);
-        console.log(`::   Total Games Crawled   ${numberWithCommas(lastRanked)}`);
+        console.log(`::   Total Games Crawled   ${assets.addCommas(lastRanked)}`);
         console.log(`::   Crawl Duration        ${minutes} minutes`);
         console.log(`::   Avg. Processing Time  ${avgTime} seconds`);
         console.log(`::   Games Per Second      ${gamesPerSec} games/second`);
@@ -163,12 +164,6 @@ let rankingsCrawlerLogic = function(url, gameStart, currentPage, totalRanked, ca
     let dirtyData = $(`.js-tablist`).eq(5).find('ul').find('li').eq(0).text();
     return dirtyData.replace(/\D+/g, ''); // remove everything execpt digits
   };
-
-  // function to add commas to large numbers
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
 
   // start crawl
   crawl.start();

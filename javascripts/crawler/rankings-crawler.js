@@ -2,13 +2,14 @@
 
 // requires
 let rankingsCrawler = require("./crawler-logic/rankings-crawler-logic"),
-    getData = require("../get-data/get-data-loader");
+    getData = require("../get-data/get-data-loader"),
+    assets = require("../assets/asset-loader");
 
 // config options
 
 //////////////////////////////////
                                //
-   let crawlStartPage = 1;
+   let crawlStartPage = 57;
                              //
 //////////////////////////////
 
@@ -70,7 +71,7 @@ console.log("");
 
 // logic for crawling another page if it's required
 let startNextCrawl = (gameEnd, totalRanked) => {
-  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${numberWithCommas(gameEnd-99)} - ${numberWithCommas(gameEnd)}`)
+  console.log(`:: ✓ Crawled page ${crawlStartPage}     games ${assets.addCommas(gameEnd-99)} - ${assets.addCommas(gameEnd)}`)
   ;
   crawlStartPage++;
   // rankingsCrawler(gameEnd+1, `${baseURL}/page/${crawlStartPage}`, totalRanked, startNextCrawl);
@@ -84,8 +85,3 @@ let startNextCrawl = (gameEnd, totalRanked) => {
     startNextCrawl // callback
   );
 };
-
-// function to add commas to large numbers
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}

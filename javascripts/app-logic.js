@@ -5,14 +5,19 @@ let assets = require("./assets/asset-loader"),
     createChart = require("./chart-visuals/chart-visuals-loader"),
     getData = require("./get-data/get-data-loader");
 
-// Show charts in this order
-// -Most Viewed
-// -Biggest Movers in Top 10%
-// -Today's Biggest Movers
-// -This Week's Biggest Movers
-
 // get data for the day (or fallback to yesterday's data)
 getData.charts().then( data => {
+
+  // inject total number of games in footer
+  let targetEl = document.getElementById("totalGames");
+  targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+
+  // inject last crawl time in footer
+  let targetEl2 = document.getElementById("time");
+  let hours = assets.timeElapsed(data.timeMilliseconds);
+  targetEl2.innerHTML = `${hours} hours ago`;
+
+  // SHOW CHARTS
 
   // Top 10% Movement Chart
   if (data.movementWeek10) { // check that the data's there first

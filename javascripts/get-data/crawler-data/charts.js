@@ -18,7 +18,6 @@ let getCharts = () => {
   return today.then( todayRawData => {
     let todayData = JSON.parse(todayRawData);
     let doesTodayHaveData = !isDataEmpty(todayData);
-    console.log("today have data?", doesTodayHaveData);
     if (doesTodayHaveData) {
       // if today's data is there return today's data
       return todayData;
@@ -26,7 +25,6 @@ let getCharts = () => {
       // if it doesn't exist, return yesterday's data
       let yesterday = getData(`${baseURL}${collection}/${backup}.json`);
       return yesterday.then( yesterdayRawData => {
-        console.log("Crawl data from today not found. Serving data from yesterday.");
         return JSON.parse(yesterdayRawData);
       });
     }

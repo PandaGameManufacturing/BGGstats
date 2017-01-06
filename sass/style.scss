@@ -83,6 +83,10 @@ header {
   width: 100%;
 }
 
+.pre-footer p, .pre-footer2 p {
+  padding-bottom: 15px;
+}
+
 .pre-footer {
   background-color: #dee8ef;
   padding: 20px 0;
@@ -92,6 +96,15 @@ header {
   background-color: #cbced3;
   padding: 20px 0 5px 0;
 }
+
+.pre-footer ul, .pre-footer2 ul {
+  padding: 8px 0 0 20px;
+}
+
+.pre-footer li, .pre-footer2 li {
+  padding: 0 0 8px 0;
+}
+
 
 h2 {
   padding: 0;
