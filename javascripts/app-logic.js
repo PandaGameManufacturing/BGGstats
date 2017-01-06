@@ -12,9 +12,7 @@ let assets = require("./assets/asset-loader"),
 // -This Week's Biggest Movers
 
 // get data for the day (or fallback to yesterday's data)
-getData.charts().then( unparsed => {
-  // after there is data, parse it
-  let data = JSON.parse(unparsed);
+getData.charts().then( data => {
 
   // Top 10% Movement Chart
   if (data.movementWeek10) { // check that the data's there first
