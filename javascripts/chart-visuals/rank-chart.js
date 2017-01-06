@@ -1,7 +1,7 @@
 "use strict";
 
 let $ = require("jquery"),
-    addCommas = require("../assets/addCommas");
+    addCommas = require("../assets/add-commas");
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
