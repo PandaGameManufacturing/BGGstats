@@ -1,4 +1,4 @@
-// a cron job configured with heroku triggers this file at 10:30 UTC (4:30 am central) every day, 30 minutes after waking up the daily crawler.
+// a cron job configured with heroku triggers this file at 20:30 UTC (2:30pm central) every day, 30 minutes after waking up the daily crawler.
 
 // this file checks if rankings are being pushed up to the database yet. If not, the crawler is triggered again in case the first attempt failed.
 

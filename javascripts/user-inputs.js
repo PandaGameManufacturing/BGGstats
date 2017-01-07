@@ -25,40 +25,36 @@ $(window).on('load', function(){
   });
 
   // hide all  day views by default
-  // $('#slot1-day').hide();
-  // $('#slot2-day').hide();
-  // $('#slot3-day').hide();
-  // $('#slot4-day').hide();
-  // $('#slot5-day').hide();
+
+  // $('#1000-day').hide();
+  // $('#all-day').hide();
 
   // toggle between views
-  $('#week10-week').click( () => {
+
+  // 1,000 view
+  $('#1000-day-weekbutton').click( () => {
+    $('#1000-day').hide();
+    $('#1000-week').show();
   });
-  $('#week10-day').click( () => {
-  });
-  $('#weekall-week').click( () => {
-    $('#slot1-day').hide();
-    $('#slot1-week').show();
-    console.log("you clicked week week");
-  });
-  $('#weekall-day').click( () => {
-    $('#slot3-week').hide();
-    $('#slot3-day').show();
-    console.log("you clicked week day");
-  });
-  $('#dayall-week').click( () => {
-    $('#slot3-day').hide();
-    $('#slot3-week').show();
-    console.log("you clicked day week");
-  });
-  $('#dayall-day').click( () => {
-    console.log("you clicked day day");
+  $('#1000-week-daybutton').click( () => {
+    $('#1000-week').hide();
+    $('#1000-day').show();
   });
 
+  // all games view
+  $('#all-day-weekbutton').click( function() {
+    console.log("hi");
+    $('#all-day').hide();
+    $('#all-week').show();
+
+  });
+  $('#all-week-daybutton').click( function() {
+    console.log("you clicked day");
+    $('#all-week').hide();
+    $('#all-day').show();
+  });
 
 });
-
-
 
 
 hotness.swapDescription();

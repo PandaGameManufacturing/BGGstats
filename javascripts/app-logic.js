@@ -18,10 +18,9 @@ getData.charts().then( data => {
   // Top 1000 Movement Chart
   if (data.movementWeek10) { // check that the data's there first
     createChart.movement(
-      "<strong>Top 10%:</strong> Biggest movers in the last week", // chart titletitle
-      `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+      "<strong>Top 1,000:</strong> Biggest movers in the last week", // chart titletitle
+      `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text
       "7 days ago",
-      "slot1", // slot in the app to show this chart
       data, // pushes all data
       "week", // date range
       "1000" // filter
@@ -34,7 +33,6 @@ getData.charts().then( data => {
   //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
   //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
   //     "7 days ago",
-  //     "slot1", // slot in the app to show this chart
   //     data, // pushes all data
   //     "day", // date range
   //     "1000" // filter
@@ -46,7 +44,6 @@ getData.charts().then( data => {
     createChart.shelf.hotness (
       "<strong>The Hotness</strong>: The most viewed games",
       "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
-      "slot2",
       data
     );
   }
@@ -57,7 +54,6 @@ getData.charts().then( data => {
       "<strong>All Games:</strong> Biggest movers in the last week", // chart title
       "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
       "7 days ago",
-      "slot3", // slot in the app to show this chart
       data, // pushes all data
       "week", // data range
       "all" // filter
@@ -75,7 +71,6 @@ getData.charts().then( data => {
       "<strong>All Games:</strong> Biggest movers in the last day", // chart title
       "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
       "yesterday",
-      "slot3", // slot in the app to show this chart
       data, // pushes all data
       "day", // date range
       "all" // filter
