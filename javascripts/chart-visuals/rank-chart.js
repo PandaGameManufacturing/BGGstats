@@ -5,38 +5,32 @@ let $ = require("jquery"),
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = (title, data, dataLocation, slot) => {
+let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
 
+  let chartData = null;
+  let weekbutton = null;
+  let daybutton = null;
 
-  let chartData = null,
-      descriptionCompareDate = null,
-      descriptionTooltip = null;
-
-  // pull data from right place based on the codeword given and configure each chart's description
-  switch(dataLocation) {
-    case "day":
+  // pull data from right place based on date range and any filtering
+  switch(dateRange+dataFilter) {
+    case "dayall":
       chartData = data.movementDay;
-      descriptionCompareDate = "yesterday";
-      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
-    case "week":
+    case "weekall":
       chartData = data.movementWeek;
-      descriptionCompareDate = "a week ago";
-      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
       break;
-    case "week10":
+    case "week1000":
       chartData = data.movementWeek10;
-      descriptionCompareDate = "a week ago";
-      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
       break;
-    default:     chartData = data.movementDay;
   }
 
-  descriptionTooltip += " Rankings are based on the number and quality of user ratings on BoardGameGeek. Data is calculated daily.";
-
   let game1 = chartData.positive[0];
-
-  // console.log("data:", data);
   let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
   let item1Rank = game1.movement;
   let item1ImageURL = game1.thumbnail;
@@ -45,8 +39,6 @@ let drawRankChart = (title, data, dataLocation, slot) => {
   let percentChangeNumber = Math.round((game1.rank-game1.movement)/data.totalRankedGames*100);
 
   let ranksPositive = "", ranksNegative = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
-
-
 
   // player count
   let playerCountMin = game1.minPlayers,
@@ -88,7 +80,6 @@ let drawRankChart = (title, data, dataLocation, slot) => {
   for (let i = 0; i < 5; i++) {
     ranksNegative += `<li class="pull-right">${addCommas(chartData.negative[i].rank)}</li>`;
   }
-
 
   // loop over top 10 status bars
   for (let i = 0; i < 10; i++) {
@@ -211,11 +202,17 @@ let drawRankChart = (title, data, dataLocation, slot) => {
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
 
-        <div class="statbox" data-tooltip="${descriptionTooltip}">
+        <div class="statbox">
 
           <div class="label-title">
             <h2>${title}</h2>
-            <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+            <!--
+            <div class="btn-group" role="group" aria-label="...">
+              ${weekbutton}
+              ${daybutton}
+            </div>
+            -->
+            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
           </div>
           <br/>
 
@@ -268,7 +265,7 @@ let drawRankChart = (title, data, dataLocation, slot) => {
       </div>
   `;
 
-  $(`#${slot}`).html(snippets);
+  $(`#${slot}-${dateRange}`).html(snippets);
 
 };
 

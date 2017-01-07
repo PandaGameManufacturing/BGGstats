@@ -51,40 +51,74 @@
 	let $ = __webpack_require__(9);
 	let hotness = __webpack_require__(8);
 
-
-	// change game description on hotness list on hover
 	$(window).on('load', function(){
-	  $('#hotness-1').hover(function () {
+
+	  // change game description on hotness list on hover
+	  $('#hotness-1').hover( () => {
 	    hotness.swapDescription(0);
 	  });
-	  $('#hotness-2').hover(function () {
+	  $('#hotness-2').hover( () => {
 	    hotness.swapDescription(1);
 	  });
-	  $('#hotness-3').hover(function () {
+	  $('#hotness-3').hover( () => {
 	     hotness.swapDescription(2);
 	  });
-	  $('#hotness-4').hover(function () {
+	  $('#hotness-4').hover( () => {
 	     hotness.swapDescription(3);
 	  });
-	  $('#hotness-5').hover(function () {
+	  $('#hotness-5').hover( () => {
 	     hotness.swapDescription(4);
 	  });
+
+	  // hide all  day views by default
+	  // $('#slot1-day').hide();
+	  // $('#slot2-day').hide();
+	  // $('#slot3-day').hide();
+	  // $('#slot4-day').hide();
+	  // $('#slot5-day').hide();
+
+	  // toggle between views
+	  $('#week10-week').click( () => {
+	  });
+	  $('#week10-day').click( () => {
+	  });
+	  $('#weekall-week').click( () => {
+	    $('#slot1-day').hide();
+	    $('#slot1-week').show();
+	    console.log("you clicked week week");
+	  });
+	  $('#weekall-day').click( () => {
+	    $('#slot3-week').hide();
+	    $('#slot3-day').show();
+	    console.log("you clicked week day");
+	  });
+	  $('#dayall-week').click( () => {
+	    $('#slot3-day').hide();
+	    $('#slot3-week').show();
+	    console.log("you clicked day week");
+	  });
+	  $('#dayall-day').click( () => {
+	    console.log("you clicked day day");
+	  });
+
+
 	});
+
+
 
 
 	hotness.swapDescription();
 
 	// tooltip config
-	let tooltip = __webpack_require__(202);
+	let tooltip = __webpack_require__(203);
 	let config  = {
 	  showDelay: 0,
 	  style: {
 	    'padding': '10 10 10 15',
-	    'margin': '15px 0 0 0',
 	    'background-color': '#444',
 	    'color': 'white',
 	    'font-size': '1.1em',
-	    'max-width': '500px',
+	    'max-width': '400px',
 	    'border-radius': '10px'
 	  }
 	};
@@ -105,54 +139,77 @@
 	// get data for the day (or fallback to yesterday's data)
 	getData.charts().then( data => {
 
-	  // inject total number of games in footer
-	  let targetEl = document.getElementById("totalGames");
-	  targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
-
-	  // inject last crawl time in footer
-	  let targetEl2 = document.getElementById("time");
-	  let hours = assets.timeElapsed(data.timeMilliseconds);
-	  targetEl2.innerHTML = `${hours} hours ago`;
+	  // inject total games and last crawl time in footer
+	  createChart.footer(data);
 
 	  // SHOW CHARTS
 
-	  // Top 10% Movement Chart
+	  let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
+
+	  // Top 1000 Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
 	    createChart.movement(
-	      "Biggest Movers in Top 10%", // chart title
+	      "<strong>Top 10%:</strong> Biggest movers in the last week", // chart titletitle
+	      `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	      "7 days ago",
+	      "slot1", // slot in the app to show this chart
 	      data, // pushes all data
-	      "week10", // code word for switch to know where to go in data
-	      "slot1" // slot in the app to show this chart
+	      "week", // date range
+	      "1000" // filter
 	    );
 	  }
 
+	  // // Top 1000 Movement Chart
+	  // if (data.movementToday1000) { // check that the data's there first
+	  //   createChart.movement(
+	  //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
+	  //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	  //     "7 days ago",
+	  //     "slot1", // slot in the app to show this chart
+	  //     data, // pushes all data
+	  //     "day", // date range
+	  //     "1000" // filter
+	  //   );
+	  // }
+
 	  // Most Viewed Shelf
 	  if (data.hotness) { // check that the data's there first
-	    createChart.shelf.hotness ("Most Viewed", data, "slot2");
+	    createChart.shelf.hotness (
+	      "<strong>The Hotness</strong>: The most viewed games",
+	      "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
+	      "slot2",
+	      data
+	    );
 	  }
 
 	  // Week Movement Chart
 	  if (data.movementWeek) { // check that the data's there first
 	    createChart.movement(
-	      "This Week's Biggest Movers", // chart title
+	      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
+	      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
+	      "7 days ago",
+	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
-	      "week", // code word for switch to know where to go in data
-	      "slot3" // slot in the app to show this chart
+	      "week", // data range
+	      "all" // filter
 	    );
 	  }
 
 	  // // Top 10 Chart
 	  // if (data.top10) { // check that the data's there first
-	  //   createChart.top10("Top 10", data, "slot4");
+	  //   createChart.top10("Top 10", "slot5", data);
 	  // }
 
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
 	    createChart.movement(
-	      "Today's Biggest Movers", // chart title
+	      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
+	      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
+	      "yesterday",
+	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
-	      "day", // code word for switch to know where to go in data
-	      "slot5" // slot in the app to show this chart
+	      "day", // date range
+	      "all" // filter
 	    );
 	  }
 
@@ -250,13 +307,15 @@
 	let shelf = __webpack_require__(8),
 	    published = __webpack_require__(10),
 	    movement = __webpack_require__(11),
-	    top10 = __webpack_require__(12);
+	    top10 = __webpack_require__(12),
+	    footer = __webpack_require__(202);
 
 	module.exports = {
 	  shelf,
 	  published,
 	  movement,
-	  top10
+	  top10,
+	  footer
 	};
 
 /***/ },
@@ -272,7 +331,7 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotness = (title, data, slot) => {
+	let hotness = (title, helpText, slot, data) => {
 
 	  // push game data for 5 hotest games to hotnessGames array
 	  let hotnessGames = data.hotness;
@@ -362,10 +421,10 @@
 	  shelf += `
 	   <div class='row'>
 	    <div class="col-sm-12 col-md-12 col-lg-12">
-	      <div class="statbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
+	      <div class="statbox">
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+	          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	        </div>
 	     </div>
 	    </div>
@@ -516,7 +575,7 @@
 
 	      `;
 
-	  $(`#${slot}`).html(shelf);
+	  $(`#${slot}-day`).html(shelf);
 
 	};
 
@@ -10770,38 +10829,32 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, data, dataLocation, slot) => {
+	let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
 
+	  let chartData = null;
+	  let weekbutton = null;
+	  let daybutton = null;
 
-	  let chartData = null,
-	      descriptionCompareDate = null,
-	      descriptionTooltip = null;
-
-	  // pull data from right place based on the codeword given and configure each chart's description
-	  switch(dataLocation) {
-	    case "day":
+	  // pull data from right place based on date range and any filtering
+	  switch(dateRange+dataFilter) {
+	    case "dayall":
 	      chartData = data.movementDay;
-	      descriptionCompareDate = "yesterday";
-	      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
-	    case "week":
+	    case "weekall":
 	      chartData = data.movementWeek;
-	      descriptionCompareDate = "a week ago";
-	      descriptionTooltip = `This chart shows which ranked games moved the most since ${descriptionCompareDate}.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
 	      break;
-	    case "week10":
+	    case "week1000":
 	      chartData = data.movementWeek10;
-	      descriptionCompareDate = "a week ago";
-	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionCompareDate} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
 	      break;
-	    default:     chartData = data.movementDay;
 	  }
 
-	  descriptionTooltip += " Rankings are based on the number and quality of user ratings on BoardGameGeek. Data is calculated daily.";
-
 	  let game1 = chartData.positive[0];
-
-	  // console.log("data:", data);
 	  let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
 	  let item1Rank = game1.movement;
 	  let item1ImageURL = game1.thumbnail;
@@ -10810,8 +10863,6 @@
 	  let percentChangeNumber = Math.round((game1.rank-game1.movement)/data.totalRankedGames*100);
 
 	  let ranksPositive = "", ranksNegative = "", top10html = "", bottom5html = "", top10status = "", bottom5status = "";
-
-
 
 	  // player count
 	  let playerCountMin = game1.minPlayers,
@@ -10853,7 +10904,6 @@
 	  for (let i = 0; i < 5; i++) {
 	    ranksNegative += `<li class="pull-right">${addCommas(chartData.negative[i].rank)}</li>`;
 	  }
-
 
 	  // loop over top 10 status bars
 	  for (let i = 0; i < 10; i++) {
@@ -10976,11 +11026,17 @@
 	  <div class="row">
 	    <div class="col-sm-12 col-md-12 col-lg-12">
 
-	        <div class="statbox" data-tooltip="${descriptionTooltip}">
+	        <div class="statbox">
 
 	          <div class="label-title">
 	            <h2>${title}</h2>
-	            <a href="#"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"></a>
+	            <!--
+	            <div class="btn-group" role="group" aria-label="...">
+	              ${weekbutton}
+	              ${daybutton}
+	            </div>
+	            -->
+	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	          </div>
 	          <br/>
 
@@ -11033,7 +11089,7 @@
 	      </div>
 	  `;
 
-	  $(`#${slot}`).html(snippets);
+	  $(`#${slot}-${dateRange}`).html(snippets);
 
 	};
 
@@ -11052,7 +11108,7 @@
 	    chartLoader = __webpack_require__(13),
 	    getData = __webpack_require__(14);
 
-	let drawTop10List = (title, data, slot) => {
+	let drawTop10List = (title, helpText, data, slot) => {
 
 	  let top10List = data.top10.games;
 
@@ -11158,7 +11214,7 @@
 
 	  `;
 
-	  $(`#${slot}`).html(snippets);
+	  $(`#${slot}-day`).html(snippets);
 
 	};
 
@@ -35889,16 +35945,42 @@
 /* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	// requires
+
+	let assets = __webpack_require__(2);
+
+	// inject dynamic data into the footer
+	let footerData = data => {
+
+	    // inject total number of games in footer
+	    let targetEl = document.getElementById("totalGames");
+	    targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+
+	    // inject last crawl time in footer
+	    let targetEl2 = document.getElementById("time");
+	    let hours = assets.timeElapsed(data.timeMilliseconds);
+	    targetEl2.innerHTML = `${hours} hours ago`;
+
+	};
+
+	module.exports = footerData;
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var throttle  = __webpack_require__(203)
-	var targetFn  = __webpack_require__(204)
-	var configure = __webpack_require__(256)
+	var throttle  = __webpack_require__(204)
+	var targetFn  = __webpack_require__(205)
+	var configure = __webpack_require__(257)
 
-	var mouseenter = __webpack_require__(258)
-	var mouseleave = __webpack_require__(261)
+	var mouseenter = __webpack_require__(259)
+	var mouseleave = __webpack_require__(262)
 
-	var contains = __webpack_require__(262)
+	var contains = __webpack_require__(263)
 
 	var TOOLTIP = function(cfg){
 
@@ -35955,7 +36037,7 @@
 	module.exports = TOOLTIP
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35994,22 +36076,22 @@
 	}
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Region = __webpack_require__(205)
+	var Region = __webpack_require__(206)
 
-	var assign = __webpack_require__(219);
-	var escape = __webpack_require__(220)
+	var assign = __webpack_require__(220);
+	var escape = __webpack_require__(221)
 
-	var setStyle         = __webpack_require__(221)
-	var toOffset         = __webpack_require__(251)
-	var parseAsStyle     = __webpack_require__(252)
-	var tooltipElement   = __webpack_require__(253)
-	var preparePositions = __webpack_require__(254)
-	var mapObject        = __webpack_require__(255)
+	var setStyle         = __webpack_require__(222)
+	var toOffset         = __webpack_require__(252)
+	var parseAsStyle     = __webpack_require__(253)
+	var tooltipElement   = __webpack_require__(254)
+	var preparePositions = __webpack_require__(255)
+	var mapObject        = __webpack_require__(256)
 
 	function emptyObject(obj){
 	    return mapObject(obj, function(){
@@ -36167,17 +36249,17 @@
 	}
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Region = __webpack_require__(206)
+	var Region = __webpack_require__(207)
 
-	__webpack_require__(215)
 	__webpack_require__(216)
+	__webpack_require__(217)
 
-	var COMPUTE_ALIGN_REGION = __webpack_require__(217)
+	var COMPUTE_ALIGN_REGION = __webpack_require__(218)
 
 	/**
 	 * region-align module exposes methods for aligning {@link Element} and {@link Region} instances
@@ -36353,25 +36435,25 @@
 	module.exports = Region
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(207)
+	module.exports = __webpack_require__(208)
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var hasOwn    = __webpack_require__(208)
-	var newify    = __webpack_require__(209)
+	var hasOwn    = __webpack_require__(209)
+	var newify    = __webpack_require__(210)
 
-	var assign      = __webpack_require__(211);
+	var assign      = __webpack_require__(212);
 	var EventEmitter = __webpack_require__(23).EventEmitter
 
-	var inherits = __webpack_require__(212)
-	var VALIDATE = __webpack_require__(213)
+	var inherits = __webpack_require__(213)
+	var VALIDATE = __webpack_require__(214)
 
 	var objectToString = Object.prototype.toString
 
@@ -37410,12 +37492,12 @@
 	    }
 	})
 
-	__webpack_require__(214)(REGION)
+	__webpack_require__(215)(REGION)
 
 	module.exports = REGION
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -37458,17 +37540,17 @@
 	})
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getInstantiatorFunction = __webpack_require__(210)
+	var getInstantiatorFunction = __webpack_require__(211)
 
 	module.exports = function(fn, args){
 		return getInstantiatorFunction(args.length)(fn, args)
 	}
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports) {
 
 	module.exports = function(){
@@ -37501,7 +37583,7 @@
 	}()
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37533,7 +37615,7 @@
 
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37551,7 +37633,7 @@
 	}
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37583,13 +37665,13 @@
 	}
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var hasOwn   = __webpack_require__(208)
-	var VALIDATE = __webpack_require__(213)
+	var hasOwn   = __webpack_require__(209)
+	var VALIDATE = __webpack_require__(214)
 
 	module.exports = function(REGION){
 
@@ -37802,12 +37884,12 @@
 	}
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var Region = __webpack_require__(206)
+	var Region = __webpack_require__(207)
 
 	/**
 	 * @static
@@ -37923,12 +38005,12 @@
 	}
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Region = __webpack_require__(206)
+	var Region = __webpack_require__(207)
 
 	/**
 	 *
@@ -37965,14 +38047,14 @@
 	}
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var ALIGN_TO_NORMALIZED = __webpack_require__(218)
+	var ALIGN_TO_NORMALIZED = __webpack_require__(219)
 
-	var Region = __webpack_require__(206)
+	var Region = __webpack_require__(207)
 
 	/**
 	 * @localdoc Given source and target regions, and the given alignments required, returns a region that is the resulting allignment.
@@ -38046,12 +38128,12 @@
 	module.exports = COMPUTE_ALIGN_REGION
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var Region = __webpack_require__(206)
+	var Region = __webpack_require__(207)
 
 	/**
 	 *
@@ -38228,7 +38310,7 @@
 	module.exports = ALIGN_TO_NORMALIZED
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38273,7 +38355,7 @@
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	/*!
@@ -38357,14 +38439,14 @@
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var toStyleObject = __webpack_require__(222).object
-	var normalize     = __webpack_require__(239)
-	var assign = __webpack_require__(219)
+	var toStyleObject = __webpack_require__(223).object
+	var normalize     = __webpack_require__(240)
+	var assign = __webpack_require__(220)
 
 	function toStyle(style){
 		return toStyleObject(normalize(style))
@@ -38395,20 +38477,20 @@
 	}
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
 	module.exports = {
-	   prefixProperties: __webpack_require__(223) ,
-	   cssUnitless: __webpack_require__(224) ,
-	   object: __webpack_require__(225),
-	   string: __webpack_require__(238)
+	   prefixProperties: __webpack_require__(224) ,
+	   cssUnitless: __webpack_require__(225) ,
+	   object: __webpack_require__(226),
+	   string: __webpack_require__(239)
 	}
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -38438,7 +38520,7 @@
 	}
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	'use exports'
@@ -38465,19 +38547,19 @@
 	}
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var prefixInfo  = __webpack_require__(226)
-	var cssPrefixFn = __webpack_require__(228)
+	var prefixInfo  = __webpack_require__(227)
+	var cssPrefixFn = __webpack_require__(229)
 
-	var HYPHENATE   = __webpack_require__(232)
-	var CAMELIZE   = __webpack_require__(230)
-	var HAS_OWN     = __webpack_require__(235)
-	var IS_OBJECT   = __webpack_require__(236)
-	var IS_FUNCTION = __webpack_require__(237)
+	var HYPHENATE   = __webpack_require__(233)
+	var CAMELIZE   = __webpack_require__(231)
+	var HAS_OWN     = __webpack_require__(236)
+	var IS_OBJECT   = __webpack_require__(237)
+	var IS_FUNCTION = __webpack_require__(238)
 
 	var applyPrefix = function(target, property, value, normalizeFn){
 	    cssPrefixFn(property).forEach(function(p){
@@ -38502,7 +38584,7 @@
 	}
 
 	var CONFIG = {
-	    cssUnitless: __webpack_require__(224)
+	    cssUnitless: __webpack_require__(225)
 	}
 
 	/**
@@ -38695,12 +38777,12 @@
 	module.exports = TO_STYLE_OBJECT
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var toUpperFirst = __webpack_require__(227)
+	var toUpperFirst = __webpack_require__(228)
 
 	var re         = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/
 
@@ -38751,7 +38833,7 @@
 	module.exports = prefixInfo
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38763,24 +38845,24 @@
 	}
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(229)()
+	module.exports = __webpack_require__(230)()
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var camelize     = __webpack_require__(230)
-	var hyphenate    = __webpack_require__(232)
-	var toLowerFirst = __webpack_require__(234)
-	var toUpperFirst = __webpack_require__(227)
+	var camelize     = __webpack_require__(231)
+	var hyphenate    = __webpack_require__(233)
+	var toLowerFirst = __webpack_require__(235)
+	var toUpperFirst = __webpack_require__(228)
 
-	var prefixInfo = __webpack_require__(226)
-	var prefixProperties = __webpack_require__(223)
+	var prefixInfo = __webpack_require__(227)
+	var prefixProperties = __webpack_require__(224)
 
 	var docStyle = typeof document == 'undefined'?
 	                {}:
@@ -38854,7 +38936,7 @@
 	}
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -38863,7 +38945,7 @@
 	       return letter ? letter.toUpperCase(): ''
 	   }
 
-	var hyphenRe = __webpack_require__(231)
+	var hyphenRe = __webpack_require__(232)
 
 	module.exports = function(str){
 	   return str?
@@ -38872,25 +38954,25 @@
 	}
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports) {
 
 	module.exports = /[-\s]+(.)?/g
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var separate = __webpack_require__(233)
+	var separate = __webpack_require__(234)
 
 	module.exports = function(name){
 	   return separate(name).toLowerCase()
 	}
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38912,7 +38994,7 @@
 	}
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38924,7 +39006,7 @@
 	}
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38936,7 +39018,7 @@
 	}
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38950,7 +39032,7 @@
 
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -38963,13 +39045,13 @@
 
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 
-	var toStyleObject = __webpack_require__(225)
-	var hasOwn        = __webpack_require__(235)
+	var toStyleObject = __webpack_require__(226)
+	var hasOwn        = __webpack_require__(236)
 
 	/**
 	 * @ignore
@@ -38999,16 +39081,16 @@
 	}
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var hasOwn      = __webpack_require__(240)
-	var getPrefixed = __webpack_require__(241)
+	var hasOwn      = __webpack_require__(241)
+	var getPrefixed = __webpack_require__(242)
 
-	var map      = __webpack_require__(247)
-	var plugable = __webpack_require__(248)
+	var map      = __webpack_require__(248)
+	var plugable = __webpack_require__(249)
 
 	function plugins(key, value){
 
@@ -39069,7 +39151,7 @@
 	module.exports = plugable(RESULT)
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39080,13 +39162,13 @@
 
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getStylePrefixed = __webpack_require__(242)
-	var properties       = __webpack_require__(246)
+	var getStylePrefixed = __webpack_require__(243)
+	var properties       = __webpack_require__(247)
 
 	module.exports = function(key, value){
 
@@ -39098,14 +39180,14 @@
 	}
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var toUpperFirst = __webpack_require__(243)
-	var getPrefix    = __webpack_require__(244)
-	var el           = __webpack_require__(245)
+	var toUpperFirst = __webpack_require__(244)
+	var getPrefix    = __webpack_require__(245)
+	var el           = __webpack_require__(246)
 
 	var MEMORY = {}
 	var STYLE
@@ -39154,7 +39236,7 @@
 	}
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39166,15 +39248,15 @@
 	}
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var toUpperFirst = __webpack_require__(243)
+	var toUpperFirst = __webpack_require__(244)
 	var prefixes     = ["ms", "Moz", "Webkit", "O"]
 
-	var el = __webpack_require__(245)
+	var el = __webpack_require__(246)
 
 	var ELEMENT
 	var PREFIX
@@ -39205,7 +39287,7 @@
 	}
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -39227,7 +39309,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39275,7 +39357,7 @@
 
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39296,12 +39378,12 @@
 	}
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getCssPrefixedValue = __webpack_require__(249)
+	var getCssPrefixedValue = __webpack_require__(250)
 
 	module.exports = function(target){
 		target.plugins = target.plugins || [
@@ -39332,14 +39414,14 @@
 	}
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var getPrefix     = __webpack_require__(244)
-	var forcePrefixed = __webpack_require__(250)
-	var el            = __webpack_require__(245)
+	var getPrefix     = __webpack_require__(245)
+	var forcePrefixed = __webpack_require__(251)
+	var el            = __webpack_require__(246)
 
 	var MEMORY = {}
 	var STYLE
@@ -39386,14 +39468,14 @@
 	}
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var toUpperFirst = __webpack_require__(243)
-	var getPrefix    = __webpack_require__(244)
-	var properties   = __webpack_require__(246)
+	var toUpperFirst = __webpack_require__(244)
+	var getPrefix    = __webpack_require__(245)
+	var properties   = __webpack_require__(247)
 
 	/**
 	 * Returns the given key prefixed, if the property is found in the prefixProps map.
@@ -39415,7 +39497,7 @@
 	}
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39496,7 +39578,7 @@
 	}
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39517,12 +39599,12 @@
 	}
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var setStyle = __webpack_require__(221)
+	var setStyle = __webpack_require__(222)
 	var map      = {}
 
 	var result = function(config){
@@ -39556,7 +39638,7 @@
 	module.exports = result
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39591,7 +39673,7 @@
 	}
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39608,13 +39690,13 @@
 	}
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var assign = __webpack_require__(219)
-	var clone  = __webpack_require__(257)
+	var assign = __webpack_require__(220)
+	var clone  = __webpack_require__(258)
 
 	var DEFAULT = {
 	    attrName: 'data-tooltip',
@@ -39650,7 +39732,7 @@
 	    alignPositions: null
 	}
 
-	var preparePositions = __webpack_require__(254)
+	var preparePositions = __webpack_require__(255)
 
 	var id = 0
 
@@ -39678,7 +39760,7 @@
 	}
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -39845,12 +39927,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26).Buffer))
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var testEventMatches = __webpack_require__(259);
+	var testEventMatches = __webpack_require__(260);
 
 	function returnTrue(){
 	    return true
@@ -39895,12 +39977,12 @@
 
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var matches = __webpack_require__(260)
+	var matches = __webpack_require__(261)
 
 	module.exports = function(root, selector){
 
@@ -39924,7 +40006,7 @@
 	}
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39958,12 +40040,12 @@
 	}
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var testEventMatches = __webpack_require__(259);
+	var testEventMatches = __webpack_require__(260);
 
 	function returnTrue(){
 	    return true
@@ -40012,7 +40094,7 @@
 
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports) {
 
 	var DOCUMENT_POSITION_CONTAINED_BY = 16

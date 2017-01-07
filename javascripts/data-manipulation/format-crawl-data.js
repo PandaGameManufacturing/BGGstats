@@ -30,8 +30,9 @@ let todayGames = [],
     yesterdayGames = [],
     weekGames = [],
     todayMovement = [],
+    todayMovement1000 = [],
     weekMovement = [],
-    weekMovement10 = [],
+    weekMovement1000 = [],
     chartData = {};
 
 // add crawl times
@@ -78,11 +79,15 @@ let formatCrawlData = lastRanked => {
     }).then( week => {
 
     weekMovement = week;
-    return calculateMovement(todayGames, weekGames, 10); // pass percentile filter;
+    return calculateMovement(todayGames, weekGames, 1000); // pass rank filter;
 
-  }).then( week10 => {
+  }).then( week1000 => {
 
-    weekMovement10 = week10;
+    weekMovement1000 = week1000;
+    return calculateMovement(todayGames, yesterdayGames, 1000); // pass rank filter;
+
+    }).then( today1000 => {
+    todayMovement1000 = today1000;
 
     // today data
     console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
@@ -96,20 +101,27 @@ let formatCrawlData = lastRanked => {
     console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (bggID: ${weekMovement[14].bggID})`);
     console.log(`::`);
 
-    // week 10% data
-    console.log(`:: ✓ Week 10% Movement array calculated (${weekMovement10.length} games)`);
-    console.log(`::    - Biggest mover is up ${weekMovement10[0].movement} (bggID: ${weekMovement10[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${weekMovement10[14].movement} (bggID: ${weekMovement10[14].bggID})`);
+    // today top 1,000 data
+    console.log(`:: ✓ Today Top 1000 Movement array calculated (${todayMovement1000.length} games)`);
+    console.log(`::    - Biggest mover is up ${todayMovement1000[0].movement} (bggID: ${todayMovement1000[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${todayMovement1000[14].movement} (bggID: ${todayMovement1000[14].bggID})`);
     console.log(`::`);
 
-    return {todayMovement, weekMovement, weekMovement10};
+    // week top 1,000 data
+    console.log(`:: ✓ Week Top 1000 Movement array calculated (${weekMovement1000.length} games)`);
+    console.log(`::    - Biggest mover is up ${weekMovement1000[0].movement} (bggID: ${weekMovement1000[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${weekMovement1000[14].movement} (bggID: ${weekMovement1000[14].bggID})`);
+    console.log(`::`);
+
+    return {todayMovement, weekMovement, weekMovement1000, todayMovement1000};
 
   }).then( data => {
 
     // convert ids of movement games to game objects
     getGameObjects(data.todayMovement);
     getGameObjects(data.weekMovement);
-    getGameObjects(data.weekMovement10);
+    getGameObjects(data.weekMovement1000);
+    getGameObjects(data.todayMovement1000);
 
     //create structure for compiled data
     chartData.movementDay = {
@@ -122,7 +134,12 @@ let formatCrawlData = lastRanked => {
       negative: []
     };
 
-    chartData.movementWeek10 = {
+    chartData.movementWeek1000 = {
+      positive: [],
+      negative: []
+    };
+
+    chartData.movementToday1000 = {
       positive: [],
       negative: []
     };
@@ -143,12 +160,20 @@ let formatCrawlData = lastRanked => {
       chartData.movementWeek.negative.push(data.weekMovement[i]);
     }
 
-    // put week 10% movement data in correct place
+    // put day 1,000 movement data in correct place
     for (let i = 0; i < 10; i++) {
-      chartData.movementWeek10.positive.push(data.weekMovement10[i]);
+      chartData.movementToday1000.positive.push(data.todayMovement1000[i]);
     }
     for (let i = 10; i < 15; i++) {
-      chartData.movementWeek10.negative.push(data.weekMovement10[i]);
+      chartData.movementToday1000.negative.push(data.todayMovement1000[i]);
+    }
+
+    // put week 1,000 movement data in correct place
+    for (let i = 0; i < 10; i++) {
+      chartData.movementWeek1000.positive.push(data.weekMovement1000[i]);
+    }
+    for (let i = 10; i < 15; i++) {
+      chartData.movementWeek1000.negative.push(data.weekMovement1000[i]);
     }
 
     // push up movement chart data
@@ -168,7 +193,6 @@ let formatCrawlData = lastRanked => {
 
       // create structure for compiled data
       chartData.top10 = { games: gameIds, data: []};
-      console.log("chartData after top10:", chartData);
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");
@@ -270,6 +294,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 module.exports = formatCrawlData;

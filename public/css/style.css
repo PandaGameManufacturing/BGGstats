@@ -14,10 +14,12 @@
     margin-top: 10px; } }
 
 .help {
-  opacity: .7;
+  opacity: .4;
   filter: alpha(opacity=30);
   /* For IE8 and earlier */
-  height: 20px; }
+  height: 25px;
+  padding: 0 5px;
+  margin: 4px 0 0 0; }
 
 .arrow-up {
   width: 20px;
@@ -31,8 +33,9 @@
 /* === Stat: Titles === */
 .label-title {
   font-family: verdana, sans-serif;
-  font-size: 1.3em;
-  margin: 15px 0;
+  font-size: 1.2em;
+  margin: 25px 0 15px 0;
+  vertical-align: center;
   color: black;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
@@ -526,7 +529,7 @@ header {
   padding: 0 0 8px 0; }
 
 h2 {
-  padding: 0;
+  padding: 8px 0;
   margin: 0;
   display: inline-block;
   font-size: 1em;
@@ -608,7 +611,14 @@ h2 {
   .btn-secondary {
     border-radius: 0 0 8px 8px;
     font-size: 1.2em;
-    font-weight: 500; } }
+    font-weight: 500; }
+  .btn {
+    margin: 5px 0; }
+  h2 {
+    text-align: center; }
+  .help {
+    height: 28px;
+    padding: 0; } }
 
 .nav-link {
   background-color: #ccc;
@@ -667,3 +677,14 @@ ol {
   padding: 0 10px 0 0;
   margin: 0;
   height: 35px; }
+
+.btn {
+  height: auto; }
+
+.btn-group {
+  padding: 0 5px; }
+
+.help-link {
+  color: grey;
+  font-size: .8em;
+  line-height: 2.4em; }
