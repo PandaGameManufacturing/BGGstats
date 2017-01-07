@@ -77,7 +77,7 @@ let startCrawler = startPage => {
       `${baseCrawlURL}/page/${crawlStartPage}`, // crawl next page
       gameEnd+1, // start at game with rank of
       crawlStartPage, // current page
-      totalRanked, // last ranked game from yesterday to calculate percentile
+      totalRanked, // last ranketoud game from yesterday to calculate percentile
       startNextCrawl // callback
     );
   };
