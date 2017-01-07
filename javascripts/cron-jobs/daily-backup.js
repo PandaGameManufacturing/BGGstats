@@ -4,10 +4,12 @@
 
 "use strict";
 
+
 // requires
 let getData = require("../get-data/get-data-loader"),
     getToday = require("../assets/get-date"),
-    isDataEmpty = require("../assets/empty-data-checker");
+    isDataEmpty = require("../assets/empty-data-checker"),
+    startCrawler = require("../crawler/rankings-crawler");
 
 let today = getToday();
 
@@ -21,6 +23,9 @@ getData.rankings(today).then( rankingsToday => {
       console.log(`:: `);
       console.log(`:: ERROR: Crawler didn't start after first cron job. Rebooting...`);
       console.log(`:: `);
-      require("../crawler/rankings-crawler");
+
+      // restart crawler
+      startCrawler(1); // start at page 1
+
     }
 });

@@ -294,6 +294,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  formatCrawlData();
+  // formatCrawlData();
 
 module.exports = formatCrawlData;
