@@ -14,10 +14,12 @@
     margin-top: 10px; } }
 
 .help {
-  opacity: .7;
+  opacity: .4;
   filter: alpha(opacity=30);
   /* For IE8 and earlier */
-  height: 20px; }
+  height: 25px;
+  padding: 0 5px;
+  margin: 4px 0 0 0; }
 
 .arrow-up {
   width: 20px;
@@ -31,8 +33,9 @@
 /* === Stat: Titles === */
 .label-title {
   font-family: verdana, sans-serif;
-  font-size: 1.3em;
-  margin: 15px 0;
+  font-size: 1.2em;
+  margin: 25px 0 15px 0;
+  vertical-align: center;
   color: black;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
@@ -42,7 +45,8 @@
   text-align: left;
   z-index: 4;
   position: relative;
-  opacity: .8; }
+  opacity: .8;
+  min-height: 2.9em; }
 
 .label-title strong {
   font-weight: 600;
@@ -531,7 +535,8 @@ h2 {
   display: inline-block;
   font-size: 1em;
   color: #444;
-  font-family: helvetica, arial; }
+  font-family: helvetica, arial;
+  vertical-align: middle; }
 
 .pre-footer h2 {
   padding: 10px 0;
@@ -667,3 +672,14 @@ ol {
   padding: 0 10px 0 0;
   margin: 0;
   height: 35px; }
+
+.btn {
+  height: auto; }
+
+.btn-group {
+  padding: 0 5px; }
+
+.help-link {
+  color: grey;
+  font-size: .8em;
+  line-height: 2.4em; }

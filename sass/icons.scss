@@ -22,9 +22,11 @@ $bgborder: #dddddd;
 
 
 .help {
-  opacity: .7;
+  opacity: .4;
   filter: alpha(opacity=30); /* For IE8 and earlier */
-  height: 20px;
+  height: 25px;
+  padding: 0 5px;
+  margin: 4px 0 0 0;
 }
 
 .arrow-up {

@@ -168,7 +168,6 @@ let formatCrawlData = lastRanked => {
 
       // create structure for compiled data
       chartData.top10 = { games: gameIds, data: []};
-      console.log("chartData after top10:", chartData);
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");

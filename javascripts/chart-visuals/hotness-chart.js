@@ -7,7 +7,7 @@ let globalData;
 // Setting up variables
   let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-let hotness = (title, data, slot) => {
+let hotness = (title, helpText, slot, data) => {
 
   // push game data for 5 hotest games to hotnessGames array
   let hotnessGames = data.hotness;
@@ -97,10 +97,10 @@ for (let i = 0; i < 5; i++) {
   shelf += `
    <div class='row'>
     <div class="col-sm-12 col-md-12 col-lg-12">
-      <div class="statbox" data-tooltip="This top 5 list is based on BoardGameGeek's &#34;The Hotness&#34; list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.">
+      <div class="statbox">
         <div class="label-title">
           <h2>${title}</h2>
-          <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Hotness Stat?"></a>
+          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?">About This Chart</a>
         </div>
      </div>
     </div>
@@ -251,7 +251,7 @@ for (let i = 0; i < 5; i++) {
 
       `;
 
-  $(`#${slot}`).html(shelf);
+  $(`#${slot}-day`).html(shelf);
 
 };
 

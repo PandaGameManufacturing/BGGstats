@@ -14,8 +14,9 @@ $n10: #D9274B;
 
 .label-title {
   font-family: verdana, sans-serif;
-  font-size: 1.3em;
-  margin: 15px 0;
+  font-size: 1.2em;
+  margin: 25px 0 15px 0;
+  vertical-align: center;
   color: black;
   padding: 7px 7px 7px 12px;
   border-radius: 8px;
@@ -26,6 +27,7 @@ $n10: #D9274B;
   z-index: 4;
   position: relative;
   opacity: .8;
+  min-height: 2.9em;
 }
 
 .label-title strong {

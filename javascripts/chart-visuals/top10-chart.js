@@ -4,7 +4,7 @@ let $ = require("jquery"),
     chartLoader = require("../assets/google-charts-loader"),
     getData = require("../get-data/get-data-loader");
 
-let drawTop10List = (title, data, slot) => {
+let drawTop10List = (title, helpText, data, slot) => {
 
   let top10List = data.top10.games;
 
@@ -110,7 +110,7 @@ let drawTop10List = (title, data, slot) => {
 
   `;
 
-  $(`#${slot}`).html(snippets);
+  $(`#${slot}-day`).html(snippets);
 
 };
 

@@ -113,6 +113,7 @@ h2 {
   font-size: 1em;
   color: #444;
   font-family: helvetica, arial;
+  vertical-align: middle;
 }
 
 .pre-footer h2 {
@@ -282,7 +283,6 @@ h2 {
 
 .btn {
   height: 50px;
-
 }
 
 .btn-secondary {
@@ -291,14 +291,6 @@ h2 {
 
 
 /* === Login Button === */
-
-.g-signin2 {
-
-}
-
-.login {
-
-}
 
 .abcRioButton {
   width: 100% !important;
@@ -322,3 +314,16 @@ li {
   height: 35px;
 }
 
+.btn {
+  height: auto;
+}
+
+.btn-group {
+  padding: 0 5px;
+}
+
+.help-link {
+  color: grey;
+  font-size: .8em;
+  line-height: 2.4em;
+}
