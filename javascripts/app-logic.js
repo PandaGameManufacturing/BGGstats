@@ -18,7 +18,7 @@ getData.charts().then( data => {
   // Top 1000 Movement Chart
   if (data.movementWeek10) { // check that the data's there first
     createChart.movement(
-      "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
+      "<strong>Top 10%:</strong> Biggest movers in the last week", // chart titletitle
       `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
       "7 days ago",
       "slot1", // slot in the app to show this chart
@@ -44,7 +44,7 @@ getData.charts().then( data => {
   // Most Viewed Shelf
   if (data.hotness) { // check that the data's there first
     createChart.shelf.hotness (
-      "<strong>Most Viewed</strong>",
+      "<strong>The Hotness</strong>: The most viewed games",
       "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
       "slot2",
       data
@@ -54,7 +54,7 @@ getData.charts().then( data => {
   // Week Movement Chart
   if (data.movementWeek) { // check that the data's there first
     createChart.movement(
-      "<strong>All Games:</strong> The biggest movers over the last", // chart title
+      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
       "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
       "7 days ago",
       "slot3", // slot in the app to show this chart
@@ -72,7 +72,7 @@ getData.charts().then( data => {
   // Day Movement Chart
   if (data.movementDay) { // check that the data's there first
     createChart.movement(
-      "<strong>All Games:</strong> The biggest movers over the last", // chart title
+      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
       "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
       "yesterday",
       "slot3", // slot in the app to show this chart

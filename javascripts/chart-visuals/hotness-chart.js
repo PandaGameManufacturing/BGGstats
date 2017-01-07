@@ -100,7 +100,7 @@ for (let i = 0; i < 5; i++) {
       <div class="statbox">
         <div class="label-title">
           <h2>${title}</h2>
-          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?">About This Chart</a>
+          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
         </div>
      </div>
     </div>

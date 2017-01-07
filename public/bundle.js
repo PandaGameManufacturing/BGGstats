@@ -73,7 +73,7 @@
 	  // hide all  day views by default
 	  // $('#slot1-day').hide();
 	  // $('#slot2-day').hide();
-	  $('#slot3-day').hide();
+	  // $('#slot3-day').hide();
 	  // $('#slot4-day').hide();
 	  // $('#slot5-day').hide();
 
@@ -149,7 +149,7 @@
 	  // Top 1000 Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
+	      "<strong>Top 10%:</strong> Biggest movers in the last week", // chart titletitle
 	      `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
 	      "7 days ago",
 	      "slot1", // slot in the app to show this chart
@@ -175,7 +175,7 @@
 	  // Most Viewed Shelf
 	  if (data.hotness) { // check that the data's there first
 	    createChart.shelf.hotness (
-	      "<strong>Most Viewed</strong>",
+	      "<strong>The Hotness</strong>: The most viewed games",
 	      "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
 	      "slot2",
 	      data
@@ -185,7 +185,7 @@
 	  // Week Movement Chart
 	  if (data.movementWeek) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>All Games:</strong> The biggest movers over the last", // chart title
+	      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
 	      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
 	      "7 days ago",
 	      "slot3", // slot in the app to show this chart
@@ -203,7 +203,7 @@
 	  // Day Movement Chart
 	  if (data.movementDay) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>All Games:</strong> The biggest movers over the last", // chart title
+	      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
 	      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
 	      "yesterday",
 	      "slot3", // slot in the app to show this chart
@@ -424,7 +424,7 @@
 	      <div class="statbox">
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?">About This Chart</a>
+	          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	        </div>
 	     </div>
 	    </div>
@@ -11030,11 +11030,13 @@
 
 	          <div class="label-title">
 	            <h2>${title}</h2>
+	            <!--
 	            <div class="btn-group" role="group" aria-label="...">
-	            ${weekbutton}
-	            ${daybutton}
-	          </div>
-	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?">About This Chart</a>
+	              ${weekbutton}
+	              ${daybutton}
+	            </div>
+	            -->
+	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	          </div>
 	          <br/>
 

@@ -34,7 +34,7 @@
 .label-title {
   font-family: verdana, sans-serif;
   font-size: 1.2em;
-  margin: 25px 0;
+  margin: 25px 0 15px 0;
   vertical-align: center;
   color: black;
   padding: 7px 7px 7px 12px;
@@ -45,8 +45,7 @@
   text-align: left;
   z-index: 4;
   position: relative;
-  opacity: .8;
-  min-height: 2.9em; }
+  opacity: .8; }
 
 .label-title strong {
   font-weight: 600;
@@ -530,7 +529,7 @@ header {
   padding: 0 0 8px 0; }
 
 h2 {
-  padding: 0;
+  padding: 8px 0;
   margin: 0;
   display: inline-block;
   font-size: 1em;
@@ -613,8 +612,13 @@ h2 {
     border-radius: 0 0 8px 8px;
     font-size: 1.2em;
     font-weight: 500; }
+  .btn {
+    margin: 5px 0; }
   h2 {
-    padding: 10px 0 20px 0; } }
+    text-align: center; }
+  .help {
+    height: 28px;
+    padding: 0; } }
 
 .nav-link {
   background-color: #ccc;

@@ -206,11 +206,13 @@ let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRa
 
           <div class="label-title">
             <h2>${title}</h2>
+            <!--
             <div class="btn-group" role="group" aria-label="...">
-            ${weekbutton}
-            ${daybutton}
-          </div>
-            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?">About This Chart</a>
+              ${weekbutton}
+              ${daybutton}
+            </div>
+            -->
+            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
           </div>
           <br/>
 

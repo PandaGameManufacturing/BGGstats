@@ -27,7 +27,7 @@ $(window).on('load', function(){
   // hide all  day views by default
   // $('#slot1-day').hide();
   // $('#slot2-day').hide();
-  $('#slot3-day').hide();
+  // $('#slot3-day').hide();
   // $('#slot4-day').hide();
   // $('#slot5-day').hide();
 
