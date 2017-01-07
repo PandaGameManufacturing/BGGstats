@@ -4,26 +4,26 @@
 let pushData = require("../push-data/push-data-serverside"),
     addCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
-let calculateMovement = (dataToday, dataCompare, percentileFilter) => {
+let calculateMovement = (dataToday, dataCompare, filter) => {
 
   return new Promise( (resolve, reject) => {
 
     // if there's a percentile filter, only compare top 10% games, etc
-    if (percentileFilter) {
+    if (filter) {
 
         // new arry to hold filtered data
-        let dataPercentile = [];
+        let filteredData = [];
 
         // loop over today's data
         for (let prop in dataToday) {
           // e.g if games is <= top 10% of games, keep it for comparision
-          if (dataToday[prop].percentile <= percentileFilter) {
-            dataPercentile.push(dataToday[prop]);
+          if (dataToday[prop].rank <= filter) {
+            filteredData.push(dataToday[prop]);
           }
         }
 
       // reset today data to only include data on the correct percentile
-      dataToday = dataPercentile;
+      dataToday = filteredData;
 
     }
 

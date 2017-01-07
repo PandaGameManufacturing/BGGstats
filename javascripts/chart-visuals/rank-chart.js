@@ -5,41 +5,30 @@ let $ = require("jquery"),
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = (title, helpText, slot, data, dateRange, dataFilter) => {
+let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
 
-  let chartData = null,
-      descriptionWeek = "a week ago",
-      descriptionDay = "yesterday",
-      descriptionTooltip = null,
-      descriptionCompareDate = null;
+  let chartData = null;
+  let weekbutton = null;
+  let daybutton = null;
 
-  if (dateRange === "week") {
-    descriptionCompareDate = descriptionWeek;
-  } else if (dateRange === "day"){
-    descriptionCompareDate = descriptionDay;
-  }
-
-  // pull data from right place based on the codeword given and configure each chart's description
+  // pull data from right place based on date range and any filtering
   switch(dateRange+dataFilter) {
-    case "day":
+    case "dayall":
       chartData = data.movementDay;
-      descriptionCompareDate = "yesterday";
-      descriptionTooltip = `This chart shows which ranked games moved the most since yesterday.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
-    case "week":
+    case "weekall":
       chartData = data.movementWeek;
-      descriptionCompareDate = "7 days ago";
-      descriptionTooltip = `This chart shows which ranked games moved the most since a week ago.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
       break;
-    case "week10":
+    case "week1000":
       chartData = data.movementWeek10;
-      descriptionCompareDate = "7 days ago";
-      descriptionTooltip = `This chart shows which games moved the most since ${descriptionWeek} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
       break;
-    default:     chartData = data.movementDay;
   }
-
-  descriptionTooltip += ` Rankings are based on the number and quality of user ratings on BoardGameGeek. Data is calculated daily.`;
 
   let game1 = chartData.positive[0];
   let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
@@ -218,8 +207,8 @@ let drawRankChart = (title, helpText, slot, data, dateRange, dataFilter) => {
           <div class="label-title">
             <h2>${title}</h2>
             <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">Week</button>
-            <button type="button" class="btn btn-default">Day</button>
+            ${weekbutton}
+            ${daybutton}
           </div>
             <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?">About This Chart</a>
           </div>

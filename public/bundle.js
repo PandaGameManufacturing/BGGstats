@@ -51,25 +51,60 @@
 	let $ = __webpack_require__(9);
 	let hotness = __webpack_require__(8);
 
-
-	// change game description on hotness list on hover
 	$(window).on('load', function(){
-	  $('#hotness-1').hover(function () {
+
+	  // change game description on hotness list on hover
+	  $('#hotness-1').hover( () => {
 	    hotness.swapDescription(0);
 	  });
-	  $('#hotness-2').hover(function () {
+	  $('#hotness-2').hover( () => {
 	    hotness.swapDescription(1);
 	  });
-	  $('#hotness-3').hover(function () {
+	  $('#hotness-3').hover( () => {
 	     hotness.swapDescription(2);
 	  });
-	  $('#hotness-4').hover(function () {
+	  $('#hotness-4').hover( () => {
 	     hotness.swapDescription(3);
 	  });
-	  $('#hotness-5').hover(function () {
+	  $('#hotness-5').hover( () => {
 	     hotness.swapDescription(4);
 	  });
+
+	  // hide all  day views by default
+	  // $('#slot1-day').hide();
+	  // $('#slot2-day').hide();
+	  $('#slot3-day').hide();
+	  // $('#slot4-day').hide();
+	  // $('#slot5-day').hide();
+
+	  // toggle between views
+	  $('#week10-week').click( () => {
+	  });
+	  $('#week10-day').click( () => {
+	  });
+	  $('#weekall-week').click( () => {
+	    $('#slot1-day').hide();
+	    $('#slot1-week').show();
+	    console.log("you clicked week week");
+	  });
+	  $('#weekall-day').click( () => {
+	    $('#slot3-week').hide();
+	    $('#slot3-day').show();
+	    console.log("you clicked week day");
+	  });
+	  $('#dayall-week').click( () => {
+	    $('#slot3-day').hide();
+	    $('#slot3-week').show();
+	    console.log("you clicked day week");
+	  });
+	  $('#dayall-day').click( () => {
+	    console.log("you clicked day day");
+	  });
+
+
 	});
+
+
 
 
 	hotness.swapDescription();
@@ -111,17 +146,31 @@
 
 	  let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
 
-	  // Top 10% Movement Chart
+	  // Top 1000 Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>Top 10%:</strong> The biggest movers over the last", // chart titletitle
-	      `This chart shows which games moved the most since 7 days ago among the top 10% of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	      "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
+	      `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	      "7 days ago",
 	      "slot1", // slot in the app to show this chart
 	      data, // pushes all data
 	      "week", // date range
-	      "10" // filter
+	      "1000" // filter
 	    );
 	  }
+
+	  // // Top 1000 Movement Chart
+	  // if (data.movementToday1000) { // check that the data's there first
+	  //   createChart.movement(
+	  //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
+	  //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	  //     "7 days ago",
+	  //     "slot1", // slot in the app to show this chart
+	  //     data, // pushes all data
+	  //     "day", // date range
+	  //     "1000" // filter
+	  //   );
+	  // }
 
 	  // Most Viewed Shelf
 	  if (data.hotness) { // check that the data's there first
@@ -138,15 +187,17 @@
 	    createChart.movement(
 	      "<strong>All Games:</strong> The biggest movers over the last", // chart title
 	      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
+	      "7 days ago",
 	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
-	      "week" // data range
+	      "week", // data range
+	      "all" // filter
 	    );
 	  }
 
 	  // // Top 10 Chart
 	  // if (data.top10) { // check that the data's there first
-	  //   createChart.top10("Top 10", "slot4", data);
+	  //   createChart.top10("Top 10", "slot5", data);
 	  // }
 
 	  // Day Movement Chart
@@ -154,9 +205,11 @@
 	    createChart.movement(
 	      "<strong>All Games:</strong> The biggest movers over the last", // chart title
 	      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
-	      "slot5", // slot in the app to show this chart
+	      "yesterday",
+	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
-	      "day" // date range
+	      "day", // date range
+	      "all" // filter
 	    );
 	  }
 
@@ -10776,41 +10829,30 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, helpText, slot, data, dateRange, dataFilter) => {
+	let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
 
-	  let chartData = null,
-	      descriptionWeek = "a week ago",
-	      descriptionDay = "yesterday",
-	      descriptionTooltip = null,
-	      descriptionCompareDate = null;
+	  let chartData = null;
+	  let weekbutton = null;
+	  let daybutton = null;
 
-	  if (dateRange === "week") {
-	    descriptionCompareDate = descriptionWeek;
-	  } else if (dateRange === "day"){
-	    descriptionCompareDate = descriptionDay;
-	  }
-
-	  // pull data from right place based on the codeword given and configure each chart's description
+	  // pull data from right place based on date range and any filtering
 	  switch(dateRange+dataFilter) {
-	    case "day":
+	    case "dayall":
 	      chartData = data.movementDay;
-	      descriptionCompareDate = "yesterday";
-	      descriptionTooltip = `This chart shows which ranked games moved the most since yesterday.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
-	    case "week":
+	    case "weekall":
 	      chartData = data.movementWeek;
-	      descriptionCompareDate = "7 days ago";
-	      descriptionTooltip = `This chart shows which ranked games moved the most since a week ago.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
 	      break;
-	    case "week10":
+	    case "week1000":
 	      chartData = data.movementWeek10;
-	      descriptionCompareDate = "7 days ago";
-	      descriptionTooltip = `This chart shows which games moved the most since ${descriptionWeek} among the top 10% of ranked games. There are currently ${addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.`;
+	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
 	      break;
-	    default:     chartData = data.movementDay;
 	  }
-
-	  descriptionTooltip += ` Rankings are based on the number and quality of user ratings on BoardGameGeek. Data is calculated daily.`;
 
 	  let game1 = chartData.positive[0];
 	  let item1Link = `https://boardgamegeek.com/boardgame/${game1.bggID}`;
@@ -10989,8 +11031,8 @@
 	          <div class="label-title">
 	            <h2>${title}</h2>
 	            <div class="btn-group" role="group" aria-label="...">
-	            <button type="button" class="btn btn-default">Week</button>
-	            <button type="button" class="btn btn-default">Day</button>
+	            ${weekbutton}
+	            ${daybutton}
 	          </div>
 	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?">About This Chart</a>
 	          </div>
