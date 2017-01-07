@@ -7,7 +7,7 @@ let globalData;
 // Setting up variables
   let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-let hotness = (title, helpText, slot, data) => {
+let hotness = (title, helpText, data) => {
 
   // push game data for 5 hotest games to hotnessGames array
   let hotnessGames = data.hotness;
@@ -251,7 +251,7 @@ for (let i = 0; i < 5; i++) {
 
       `;
 
-  $(`#${slot}-day`).html(shelf);
+  $(`#hotness`).html(shelf);
 
 };
 

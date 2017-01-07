@@ -5,7 +5,7 @@ let $ = require("jquery"),
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
+let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, dataFilter) => {
 
   let chartData = null;
   let weekbutton = null;
@@ -15,18 +15,18 @@ let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRa
   switch(dateRange+dataFilter) {
     case "dayall":
       chartData = data.movementDay;
-      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
-      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
+      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
     case "weekall":
       chartData = data.movementWeek;
-      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
-      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
+      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
     case "week1000":
       chartData = data.movementWeek10;
-      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
-      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
+      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
   }
 
@@ -265,7 +265,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRa
       </div>
   `;
 
-  $(`#${slot}-${dateRange}`).html(snippets);
+  $(`#${dataFilter}-${dateRange}`).html(snippets);
 
 };
 

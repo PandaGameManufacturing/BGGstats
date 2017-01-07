@@ -71,40 +71,36 @@
 	  });
 
 	  // hide all  day views by default
-	  // $('#slot1-day').hide();
-	  // $('#slot2-day').hide();
-	  // $('#slot3-day').hide();
-	  // $('#slot4-day').hide();
-	  // $('#slot5-day').hide();
+
+	  // $('#1000-day').hide();
+	  // $('#all-day').hide();
 
 	  // toggle between views
-	  $('#week10-week').click( () => {
+
+	  // 1,000 view
+	  $('#1000-day-weekbutton').click( () => {
+	    $('#1000-day').hide();
+	    $('#1000-week').show();
 	  });
-	  $('#week10-day').click( () => {
-	  });
-	  $('#weekall-week').click( () => {
-	    $('#slot1-day').hide();
-	    $('#slot1-week').show();
-	    console.log("you clicked week week");
-	  });
-	  $('#weekall-day').click( () => {
-	    $('#slot3-week').hide();
-	    $('#slot3-day').show();
-	    console.log("you clicked week day");
-	  });
-	  $('#dayall-week').click( () => {
-	    $('#slot3-day').hide();
-	    $('#slot3-week').show();
-	    console.log("you clicked day week");
-	  });
-	  $('#dayall-day').click( () => {
-	    console.log("you clicked day day");
+	  $('#1000-week-daybutton').click( () => {
+	    $('#1000-week').hide();
+	    $('#1000-day').show();
 	  });
 
+	  // all games view
+	  $('#all-day-weekbutton').click( function() {
+	    console.log("hi");
+	    $('#all-day').hide();
+	    $('#all-week').show();
+
+	  });
+	  $('#all-week-daybutton').click( function() {
+	    console.log("you clicked day");
+	    $('#all-week').hide();
+	    $('#all-day').show();
+	  });
 
 	});
-
-
 
 
 	hotness.swapDescription();
@@ -149,10 +145,9 @@
 	  // Top 1000 Movement Chart
 	  if (data.movementWeek10) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>Top 10%:</strong> Biggest movers in the last week", // chart titletitle
-	      `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	      "<strong>Top 1,000:</strong> Biggest movers in the last week", // chart titletitle
+	      `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text
 	      "7 days ago",
-	      "slot1", // slot in the app to show this chart
 	      data, // pushes all data
 	      "week", // date range
 	      "1000" // filter
@@ -165,7 +160,6 @@
 	  //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
 	  //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
 	  //     "7 days ago",
-	  //     "slot1", // slot in the app to show this chart
 	  //     data, // pushes all data
 	  //     "day", // date range
 	  //     "1000" // filter
@@ -177,7 +171,6 @@
 	    createChart.shelf.hotness (
 	      "<strong>The Hotness</strong>: The most viewed games",
 	      "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
-	      "slot2",
 	      data
 	    );
 	  }
@@ -188,7 +181,6 @@
 	      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
 	      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
 	      "7 days ago",
-	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
 	      "week", // data range
 	      "all" // filter
@@ -206,7 +198,6 @@
 	      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
 	      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
 	      "yesterday",
-	      "slot3", // slot in the app to show this chart
 	      data, // pushes all data
 	      "day", // date range
 	      "all" // filter
@@ -331,7 +322,7 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotness = (title, helpText, slot, data) => {
+	let hotness = (title, helpText, data) => {
 
 	  // push game data for 5 hotest games to hotnessGames array
 	  let hotnessGames = data.hotness;
@@ -575,7 +566,7 @@
 
 	      `;
 
-	  $(`#${slot}-day`).html(shelf);
+	  $(`#hotness`).html(shelf);
 
 	};
 
@@ -10829,7 +10820,7 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, helpText, descriptionCompareDate, slot, data, dateRange, dataFilter) => {
+	let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, dataFilter) => {
 
 	  let chartData = null;
 	  let weekbutton = null;
@@ -10839,18 +10830,18 @@
 	  switch(dateRange+dataFilter) {
 	    case "dayall":
 	      chartData = data.movementDay;
-	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn-primary btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
 	    case "weekall":
 	      chartData = data.movementWeek;
-	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
 	      break;
 	    case "week1000":
 	      chartData = data.movementWeek10;
-	      weekbutton = `<button id="${dateRange}${dataFilter}-week" type="button" class="btn-primary btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dateRange}${dataFilter}-day" type="button" class="btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
 	      break;
 	  }
 
@@ -11089,7 +11080,7 @@
 	      </div>
 	  `;
 
-	  $(`#${slot}-${dateRange}`).html(snippets);
+	  $(`#${dataFilter}-${dateRange}`).html(snippets);
 
 	};
 
