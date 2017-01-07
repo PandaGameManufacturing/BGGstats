@@ -103,6 +103,7 @@ let calculateMovement = (dataToday, dataCompare, filter) => {
 
     // combine top 10 and bottom 5 into 1 array
     let prettyArray = top10.concat(bottom5);
+    console.log("prettyArray:", prettyArray);
 
     // add game data to database in Games collection under the game's bggID
     for (let i = 0; i < prettyArray.length; i++) {
