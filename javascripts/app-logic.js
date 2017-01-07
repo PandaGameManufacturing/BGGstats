@@ -7,6 +7,7 @@ let assets = require("./assets/asset-loader"),
 
 // get data for the day (or fallback to yesterday's data)
 getData.charts().then( data => {
+  console.log("data:", data);
 
   // inject total games and last crawl time in footer
   createChart.footer(data);
@@ -16,7 +17,7 @@ getData.charts().then( data => {
   let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
 
   // Top 1000 Movement Chart
-  if (data.movementWeek10) { // check that the data's there first
+  if (data.movementWeek1000) { // check that the data's there first
     createChart.movement(
       "<strong>Top 1,000:</strong> Biggest movers in the last week", // chart titletitle
       `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text

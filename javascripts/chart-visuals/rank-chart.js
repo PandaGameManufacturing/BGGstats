@@ -24,7 +24,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
       daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
     case "week1000":
-      chartData = data.movementWeek10;
+      chartData = data.movementWeek1000;
       weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
       daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
