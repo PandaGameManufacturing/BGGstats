@@ -16,10 +16,10 @@ getData.charts().then( data => {
 
   let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
 
-  // Top 1000 Movement Chart
+  // Top 1000 - Week
   if (data.movementWeek1000) { // check that the data's there first
     createChart.movement(
-      "<strong>Top 1,000:</strong> Biggest movers in the last week", // chart titletitle
+      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
       `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text
       "7 days ago",
       data, // pushes all data
@@ -28,17 +28,17 @@ getData.charts().then( data => {
     );
   }
 
-  // // Top 1000 Movement Chart
-  // if (data.movementToday1000) { // check that the data's there first
-  //   createChart.movement(
-  //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
-  //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
-  //     "7 days ago",
-  //     data, // pushes all data
-  //     "day", // date range
-  //     "1000" // filter
-  //   );
-  // }
+  // Top 1000 - Day
+  if (data.movementToday1000) { // check that the data's there first
+    createChart.movement(
+      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
+      `This chart shows which games moved the most since yesterday ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+      "7 days ago",
+      data, // pushes all data
+      "day", // date range
+      "1000" // filter
+    );
+  }
 
   // Most Viewed Shelf
   if (data.hotness) { // check that the data's there first
@@ -49,11 +49,11 @@ getData.charts().then( data => {
     );
   }
 
-  // Week Movement Chart
+  // Week Movement
   if (data.movementWeek) { // check that the data's there first
     createChart.movement(
-      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
-      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
+      "<strong>All Games:</strong> Biggest movers in the last", // chart title
+      `This chart shows which ranked games moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
       "7 days ago",
       data, // pushes all data
       "week", // data range
@@ -66,11 +66,11 @@ getData.charts().then( data => {
   //   createChart.top10("Top 10", "slot5", data);
   // }
 
-  // Day Movement Chart
+  // Day Movement
   if (data.movementDay) { // check that the data's there first
     createChart.movement(
-      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
-      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
+      "<strong>All Games:</strong> Biggest movers in the last", // chart title
+      `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
       "yesterday",
       data, // pushes all data
       "day", // date range

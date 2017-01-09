@@ -26,7 +26,7 @@ for (let i = 0; i < 5; i++) {
 
   let bggAPI = data.games[hotnessGames[i].bggID];
    // item 1 description
-  let truncateLength1 = 250,
+  let truncateLength1 = 200,
       item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
       descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
       description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
@@ -170,6 +170,7 @@ for (let i = 0; i < 5; i++) {
               <tr>${gameDetails3}</tr>
             </tbody>
           </table>
+
 
           <table class="table hidden-md hidden-lg">
               <tr>

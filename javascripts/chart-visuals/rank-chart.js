@@ -18,6 +18,11 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
       weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
       daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
+    case "day1000":
+      chartData = data.movementToday1000;
+      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+      break;
     case "weekall":
       chartData = data.movementWeek;
       weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
@@ -183,7 +188,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
                   <td>Up <strong>${percentChange}%</strong></td>
                 </tr>
                 <tr>
-                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
                 </tr>
 
 
@@ -206,13 +211,13 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
 
           <div class="label-title">
             <h2>${title}</h2>
-            <!--
+
             <div class="btn-group" role="group" aria-label="...">
               ${weekbutton}
               ${daybutton}
             </div>
-            -->
-            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
+
+            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
           </div>
           <br/>
 
@@ -237,6 +242,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
                        <ol class="negative">
                          ${bottom5html}
                        </ol>
+                       <br/>
                       </div>
 
                       <div class="col-sm-1 col-xs-2 hidden-xs" id="rankColumn">

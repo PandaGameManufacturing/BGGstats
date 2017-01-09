@@ -26,8 +26,8 @@ $(window).on('load', function(){
 
   // hide all  day views by default
 
-  // $('#1000-day').hide();
-  // $('#all-day').hide();
+  $('#1000-day').hide();
+  $('#all-day').hide();
 
   // toggle between views
 

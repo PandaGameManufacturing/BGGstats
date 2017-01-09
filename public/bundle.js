@@ -72,8 +72,8 @@
 
 	  // hide all  day views by default
 
-	  // $('#1000-day').hide();
-	  // $('#all-day').hide();
+	  $('#1000-day').hide();
+	  $('#all-day').hide();
 
 	  // toggle between views
 
@@ -143,10 +143,10 @@
 
 	  let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
 
-	  // Top 1000 Movement Chart
+	  // Top 1000 - Week
 	  if (data.movementWeek1000) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>Top 1,000:</strong> Biggest movers in the last week", // chart titletitle
+	      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
 	      `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text
 	      "7 days ago",
 	      data, // pushes all data
@@ -155,17 +155,17 @@
 	    );
 	  }
 
-	  // // Top 1000 Movement Chart
-	  // if (data.movementToday1000) { // check that the data's there first
-	  //   createChart.movement(
-	  //     "<strong>Top 1,000:</strong> The biggest movers over the last", // chart titletitle
-	  //     `This chart shows which games moved the most since 7 days ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
-	  //     "7 days ago",
-	  //     data, // pushes all data
-	  //     "day", // date range
-	  //     "1000" // filter
-	  //   );
-	  // }
+	  // Top 1000 - Day
+	  if (data.movementToday1000) { // check that the data's there first
+	    createChart.movement(
+	      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
+	      `This chart shows which games moved the most since yesterday ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
+	      "7 days ago",
+	      data, // pushes all data
+	      "day", // date range
+	      "1000" // filter
+	    );
+	  }
 
 	  // Most Viewed Shelf
 	  if (data.hotness) { // check that the data's there first
@@ -176,11 +176,11 @@
 	    );
 	  }
 
-	  // Week Movement Chart
+	  // Week Movement
 	  if (data.movementWeek) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>All Games:</strong> Biggest movers in the last week", // chart title
-	      "This chart shows which ranked games moved the most since 7 days ago." + helpTextEnding, // help text
+	      "<strong>All Games:</strong> Biggest movers in the last", // chart title
+	      `This chart shows which ranked games moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
 	      "7 days ago",
 	      data, // pushes all data
 	      "week", // data range
@@ -193,11 +193,11 @@
 	  //   createChart.top10("Top 10", "slot5", data);
 	  // }
 
-	  // Day Movement Chart
+	  // Day Movement
 	  if (data.movementDay) { // check that the data's there first
 	    createChart.movement(
-	      "<strong>All Games:</strong> Biggest movers in the last day", // chart title
-	      "This chart shows which ranked games moved the most since yesterday." + helpTextEnding, // help text
+	      "<strong>All Games:</strong> Biggest movers in the last", // chart title
+	      `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
 	      "yesterday",
 	      data, // pushes all data
 	      "day", // date range
@@ -342,7 +342,7 @@
 
 	  let bggAPI = data.games[hotnessGames[i].bggID];
 	   // item 1 description
-	  let truncateLength1 = 250,
+	  let truncateLength1 = 200,
 	      item1Link1 = `https://boardgamegeek.com/boardgame/${hotnessGames[i].bggID}`,
 	      descriptionData1 = String(bggAPI.description).substring(0, truncateLength1),
 	      description1 = `<a href="${item1Link1}">${descriptionData1}...</a>`;
@@ -486,6 +486,7 @@
 	              <tr>${gameDetails3}</tr>
 	            </tbody>
 	          </table>
+
 
 	          <table class="table hidden-md hidden-lg">
 	              <tr>
@@ -10834,6 +10835,11 @@
 	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
 	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
+	    case "day1000":
+	      chartData = data.movementToday1000;
+	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+	      break;
 	    case "weekall":
 	      chartData = data.movementWeek;
 	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
@@ -10999,7 +11005,7 @@
 	                  <td>Up <strong>${percentChange}%</strong></td>
 	                </tr>
 	                <tr>
-	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.<br/><br/></td>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
 	                </tr>
 
 
@@ -11022,13 +11028,13 @@
 
 	          <div class="label-title">
 	            <h2>${title}</h2>
-	            <!--
+
 	            <div class="btn-group" role="group" aria-label="...">
 	              ${weekbutton}
 	              ${daybutton}
 	            </div>
-	            -->
-	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
+
+	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
 	          </div>
 	          <br/>
 
@@ -11053,6 +11059,7 @@
 	                       <ol class="negative">
 	                         ${bottom5html}
 	                       </ol>
+	                       <br/>
 	                      </div>
 
 	                      <div class="col-sm-1 col-xs-2 hidden-xs" id="rankColumn">
