@@ -7,7 +7,6 @@ let assets = require("./assets/asset-loader"),
 
 // get data for the day (or fallback to yesterday's data)
 getData.charts().then( data => {
-  console.log("data:", data);
 
   // inject total games and last crawl time in footer
   createChart.footer(data);
