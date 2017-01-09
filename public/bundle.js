@@ -487,6 +487,7 @@
 	            </tbody>
 	          </table>
 
+
 	          <table class="table hidden-md hidden-lg">
 	              <tr>
 	                <td rowspan="2">
