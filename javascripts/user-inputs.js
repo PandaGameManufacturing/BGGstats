@@ -43,13 +43,11 @@ $(window).on('load', function(){
 
   // all games view
   $('#all-day-weekbutton').click( function() {
-    console.log("hi");
     $('#all-day').hide();
     $('#all-week').show();
 
   });
   $('#all-week-daybutton').click( function() {
-    console.log("you clicked day");
     $('#all-week').hide();
     $('#all-day').show();
   });

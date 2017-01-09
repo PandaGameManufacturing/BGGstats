@@ -89,13 +89,11 @@
 
 	  // all games view
 	  $('#all-day-weekbutton').click( function() {
-	    console.log("hi");
 	    $('#all-day').hide();
 	    $('#all-week').show();
 
 	  });
 	  $('#all-week-daybutton').click( function() {
-	    console.log("you clicked day");
 	    $('#all-week').hide();
 	    $('#all-day').show();
 	  });
@@ -134,7 +132,6 @@
 
 	// get data for the day (or fallback to yesterday's data)
 	getData.charts().then( data => {
-	  console.log("data:", data);
 
 	  // inject total games and last crawl time in footer
 	  createChart.footer(data);
