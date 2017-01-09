@@ -68,11 +68,11 @@ let formatCrawlData = lastRanked => {
     console.log("::    - Data from a week ago has", Object.keys(weekGames).length, "rankings");
     console.log(`::`);
 
-    // return calculateMovement(todayGames, yesterdayGames);
+    return calculateMovement(todayGames, yesterdayGames);
 
-    // }).then( day => {
+    }).then( day => {
 
-    // todayMovement = day; // set returned promise
+    todayMovement = day; // set returned promise
 
     return calculateMovement(todayGames, weekGames); // setup another promise;
 
@@ -84,16 +84,16 @@ let formatCrawlData = lastRanked => {
   }).then( week1000 => {
 
     weekMovement1000 = week1000;
-    // return calculateMovement(todayGames, yesterdayGames, 1000); // pass rank filter;
+    return calculateMovement(todayGames, yesterdayGames, 1000); // pass rank filter;
 
-    // }).then( today1000 => {
-    // todayMovement1000 = today1000;
+    }).then( today1000 => {
+    todayMovement1000 = today1000;
 
-    // // today data
-    // console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
-    // console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
-    // console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (bggID: ${todayMovement[14].bggID})`);
-    // console.log(`::`);
+    // today data
+    console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
+    console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (bggID: ${todayMovement[14].bggID})`);
+    console.log(`::`);
 
     // week data
     console.log(`:: ✓ Week Movement array calculated (${weekMovement.length} games)`);
@@ -101,11 +101,11 @@ let formatCrawlData = lastRanked => {
     console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (bggID: ${weekMovement[14].bggID})`);
     console.log(`::`);
 
-    // // today top 1,000 data
-    // console.log(`:: ✓ Today Top 1000 Movement array calculated (${todayMovement1000.length} games)`);
-    // console.log(`::    - Biggest mover is up ${todayMovement1000[0].movement} (bggID: ${todayMovement1000[0].bggID})`);
-    // console.log(`::    - Lowest mover is down ${todayMovement1000[14].movement} (bggID: ${todayMovement1000[14].bggID})`);
-    // console.log(`::`);
+    // today top 1,000 data
+    console.log(`:: ✓ Today Top 1000 Movement array calculated (${todayMovement1000.length} games)`);
+    console.log(`::    - Biggest mover is up ${todayMovement1000[0].movement} (bggID: ${todayMovement1000[0].bggID})`);
+    console.log(`::    - Lowest mover is down ${todayMovement1000[14].movement} (bggID: ${todayMovement1000[14].bggID})`);
+    console.log(`::`);
 
     // week top 1,000 data
     console.log(`:: ✓ Week Top 1000 Movement array calculated (${weekMovement1000.length} games)`);
@@ -114,21 +114,21 @@ let formatCrawlData = lastRanked => {
     console.log(`::`);
 
     return {weekMovement, weekMovement1000};
-    // return {todayMovement, weekMovement, weekMovement1000, todayMovement1000};
+    return {todayMovement, weekMovement, weekMovement1000, todayMovement1000};
 
   }).then( data => {
 
     // convert ids of movement games to game objects
-    // getGameObjects(data.todayMovement);
+    getGameObjects(data.todayMovement);
     getGameObjects(data.weekMovement);
     getGameObjects(data.weekMovement1000);
-    // getGameObjects(data.todayMovement1000);
+    getGameObjects(data.todayMovement1000);
 
-    //create structure for compiled data
-    // chartData.movementDay = {
-    //   positive: [],
-    //   negative: []
-    // };
+    // create structure for compiled data
+    chartData.movementDay = {
+      positive: [],
+      negative: []
+    };
 
     chartData.movementWeek = {
       positive: [],
@@ -140,18 +140,18 @@ let formatCrawlData = lastRanked => {
       negative: []
     };
 
-    // chartData.movementToday1000 = {
-    //   positive: [],
-    //   negative: []
-    // };
+    chartData.movementToday1000 = {
+      positive: [],
+      negative: []
+    };
 
     // put today movement data in correct place
-    // for (let i = 0; i < 10; i++) {
-    //   chartData.movementDay.positive.push(data.todayMovement[i]);
-    // }
-    // for (let i = 10; i < 15; i++) {
-    //   chartData.movementDay.negative.push(data.todayMovement[i]);
-    // }
+    for (let i = 0; i < 10; i++) {
+      chartData.movementDay.positive.push(data.todayMovement[i]);
+    }
+    for (let i = 10; i < 15; i++) {
+      chartData.movementDay.negative.push(data.todayMovement[i]);
+    }
 
     // put week movement data in correct place
     for (let i = 0; i < 10; i++) {
@@ -162,12 +162,12 @@ let formatCrawlData = lastRanked => {
     }
 
     // put day 1,000 movement data in correct place
-    // for (let i = 0; i < 10; i++) {
-    //   chartData.movementToday1000.positive.push(data.todayMovement1000[i]);
-    // }
-    // for (let i = 10; i < 15; i++) {
-    //   chartData.movementToday1000.negative.push(data.todayMovement1000[i]);
-    // }
+    for (let i = 0; i < 10; i++) {
+      chartData.movementToday1000.positive.push(data.todayMovement1000[i]);
+    }
+    for (let i = 10; i < 15; i++) {
+      chartData.movementToday1000.negative.push(data.todayMovement1000[i]);
+    }
 
     // put week 1,000 movement data in correct place
     for (let i = 0; i < 10; i++) {
@@ -295,6 +295,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 module.exports = formatCrawlData;
