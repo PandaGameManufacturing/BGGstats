@@ -113,7 +113,7 @@ let formatCrawlData = lastRanked => {
     console.log(`::    - Lowest mover is down ${weekMovement1000[14].movement} (bggID: ${weekMovement1000[14].bggID})`);
     console.log(`::`);
 
-    return {weekMovement, weekMovement1000};
+    // return {weekMovement, weekMovement1000};
     return {todayMovement, weekMovement, weekMovement1000, todayMovement1000};
 
   }).then( data => {
