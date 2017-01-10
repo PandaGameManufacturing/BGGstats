@@ -70,6 +70,9 @@
 	     hotness.swapDescription(4);
 	  });
 
+	  // hide loading div
+	  $('#loading').hide();
+
 	  // hide all  day views by default
 
 	  $('#1000-day').hide();
@@ -132,24 +135,7 @@
 	    getData = __webpack_require__(14),
 	    settings = __webpack_require__(264);
 
-	let startApp = eventListenersCallback => {
-
-	  // get data for the day (or fallback to yesterday's data)
-	  getData.charts().then( data => {
-
-	    // inject total games and last crawl time in footer
-	    createChart.footer(data);
-
-	    // check that the data's there first, then draw charts
-	    loadCharts(data);
-
-	    eventListenersCallback();
-
-	  });
-	};
-
 	let loadCharts = data => {
-	  console.log("data:", data);
 
 	  // Top 1000 Views
 	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
@@ -167,7 +153,22 @@
 
 	};
 
-	module.exports = startApp;
+	let bootUpApp = eventListenersCallback => {
+
+	  // get data for the day (or fallback to yesterday's data)
+	  getData.charts().then( data => {
+
+	    // inject total games and last crawl time in footer
+	    createChart.footer(data);
+	    // check that the data's there first, then draw charts
+	    loadCharts(data);
+	    // add event listeners once all content is drawn
+	    eventListenersCallback();
+
+	  });
+	};
+
+	module.exports = bootUpApp;
 
 /***/ },
 /* 2 */
@@ -246,7 +247,7 @@
 	  let differenceMilliseconds =  nowMilliseconds - lastCrawlTime;
 	                                    // milli  sec  min
 	  let hours = differenceMilliseconds / 1000 / 60 / 60;
-	  return Math.ceil(hours);
+	  return Math.floor(hours);
 	};
 
 	module.exports = timeElapsed;
@@ -35931,13 +35932,16 @@
 
 	    // inject total number of games in footer
 	    let targetEl = document.getElementById("totalGames");
-	    targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+	    targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} ranked games`;
 
 	    // inject last crawl time in footer
 	    let targetEl2 = document.getElementById("time");
 	    let hours = assets.timeElapsed(data.timeMilliseconds);
-	    targetEl2.innerHTML = `${hours} hours ago`;
-
+	    if (hours < 2) {
+	      targetEl2.innerHTML = `an hour ago`;
+	    } else {
+	      targetEl2.innerHTML = `${hours} hours ago`;
+	    }
 	};
 
 	module.exports = footerData;

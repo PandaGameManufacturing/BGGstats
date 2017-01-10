@@ -6,24 +6,7 @@ let assets = require("./assets/asset-loader"),
     getData = require("./get-data/get-data-loader"),
     settings = require("./chart-settings/chart-settings-loader");
 
-let startApp = eventListenersCallback => {
-
-  // get data for the day (or fallback to yesterday's data)
-  getData.charts().then( data => {
-
-    // inject total games and last crawl time in footer
-    createChart.footer(data);
-
-    // check that the data's there first, then draw charts
-    loadCharts(data);
-
-    eventListenersCallback();
-
-  });
-};
-
 let loadCharts = data => {
-  console.log("data:", data);
 
   // Top 1000 Views
   if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
@@ -41,4 +24,19 @@ let loadCharts = data => {
 
 };
 
-module.exports = startApp;
+let bootUpApp = eventListenersCallback => {
+
+  // get data for the day (or fallback to yesterday's data)
+  getData.charts().then( data => {
+
+    // inject total games and last crawl time in footer
+    createChart.footer(data);
+    // check that the data's there first, then draw charts
+    loadCharts(data);
+    // add event listeners once all content is drawn
+    eventListenersCallback();
+
+  });
+};
+
+module.exports = bootUpApp;
