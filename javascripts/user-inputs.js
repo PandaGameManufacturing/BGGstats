@@ -1,12 +1,11 @@
 'use strict';
 
 // Requires
-require("./app-logic");
+let loadCharts = require("./app-logic");
 let $ = require("jquery");
 let hotness = require("./chart-visuals/hotness-chart");
 
-$(window).on('load', () => {
-  console.log("loading event listeners");
+let addEventListeners = () => {
 
   // change game description on hotness list on hover
   $('#hotness-1').hover( () => {
@@ -53,25 +52,24 @@ $(window).on('load', () => {
     $('#all-day').show();
   });
 
-});
+  hotness.swapDescription();
 
+  // tooltip config
+  let tooltip = require('tooltip');
+  let config  = {
+    showDelay: 0,
+    style: {
+      'padding': '10 10 10 15',
+      'background-color': '#444',
+      'color': 'white',
+      'font-size': '1.1em',
+      'max-width': '400px',
+      'border-radius': '10px'
+    }
+  };
 
-hotness.swapDescription();
+  tooltip(config);
 
-// tooltip config
-let tooltip = require('tooltip');
-let config  = {
-  showDelay: 0,
-  style: {
-    'padding': '10 10 10 15',
-    'background-color': '#444',
-    'color': 'white',
-    'font-size': '1.1em',
-    'max-width': '400px',
-    'border-radius': '10px'
-  }
 };
 
-tooltip(config);
-
-module.exports = ""
+loadCharts(addEventListeners);
