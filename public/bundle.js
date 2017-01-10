@@ -10886,7 +10886,7 @@
 	  }
 
 	  // loop over bottom 5 titles
-	  for (let i = 0; i < 5; i++) {
+	  for (let i = 4; i > -1; i--) {
 	    bottom5html += `
 	      <li>
 	        <div class="truncate">
