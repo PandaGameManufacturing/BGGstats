@@ -5,33 +5,34 @@ let $ = require("jquery"),
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, dataFilter) => {
+let drawRankChart = settings => {
 
+  let data = settings.dataSource;
   let chartData = null;
   let weekbutton = null;
   let daybutton = null;
 
   // pull data from right place based on date range and any filtering
-  switch(dateRange+dataFilter) {
+  switch(settings.dateRange + settings.dataFilter) {
     case "dayall":
       chartData = data.movementDay;
-      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
-      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
     case "day1000":
       chartData = data.movementToday1000;
-      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
-      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
       break;
     case "weekall":
       chartData = data.movementWeek;
-      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
-      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
+      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
     case "week1000":
       chartData = data.movementWeek1000;
-      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
-      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
+      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
       break;
   }
 
@@ -171,7 +172,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
           </div>
 
             <div id="rankMovement">${addCommas(item1Rank)}</div>
-            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${settings.dateString}</p>
 
           <div class="row">
 
@@ -188,7 +189,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
                   <td>Up <strong>${percentChange}%</strong></td>
                 </tr>
                 <tr>
-                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
+                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${settings.dateString}.</td>
                 </tr>
 
 
@@ -210,14 +211,14 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
         <div class="statbox">
 
           <div class="label-title">
-            <h2>${title}</h2>
+            <h2>${settings.chartTitle}</h2>
 
             <div class="btn-group" role="group" aria-label="...">
               ${weekbutton}
               ${daybutton}
             </div>
 
-            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
+            <a data-tooltip="${settings.helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
           </div>
           <br/>
 
@@ -271,7 +272,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
       </div>
   `;
 
-  $(`#${dataFilter}-${dateRange}`).html(snippets);
+  $(`#${settings.dataFilter}-${settings.dateRange}`).html(snippets);
 
 };
 

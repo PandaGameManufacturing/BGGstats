@@ -47,11 +47,11 @@
 	'use strict';
 
 	// Requires
-	__webpack_require__(1);
+	let loadCharts = __webpack_require__(1);
 	let $ = __webpack_require__(9);
 	let hotness = __webpack_require__(8);
 
-	$(window).on('load', function(){
+	let addEventListeners = () => {
 
 	  // change game description on hotness list on hover
 	  $('#hotness-1').hover( () => {
@@ -98,26 +98,27 @@
 	    $('#all-day').show();
 	  });
 
-	});
+	  hotness.swapDescription();
 
+	  // tooltip config
+	  let tooltip = __webpack_require__(203);
+	  let config  = {
+	    showDelay: 0,
+	    style: {
+	      'padding': '10 10 10 15',
+	      'background-color': '#444',
+	      'color': 'white',
+	      'font-size': '1.1em',
+	      'max-width': '400px',
+	      'border-radius': '10px'
+	    }
+	  };
 
-	hotness.swapDescription();
+	  tooltip(config);
 
-	// tooltip config
-	let tooltip = __webpack_require__(203);
-	let config  = {
-	  showDelay: 0,
-	  style: {
-	    'padding': '10 10 10 15',
-	    'background-color': '#444',
-	    'color': 'white',
-	    'font-size': '1.1em',
-	    'max-width': '400px',
-	    'border-radius': '10px'
-	  }
 	};
 
-	tooltip(config);
+	loadCharts(addEventListeners);
 
 /***/ },
 /* 1 */
@@ -128,81 +129,49 @@
 	// requires
 	let assets = __webpack_require__(2),
 	    createChart = __webpack_require__(7),
-	    getData = __webpack_require__(14);
+	    getData = __webpack_require__(14),
+	    settings = __webpack_require__(264);
 
-	// get data for the day (or fallback to yesterday's data)
-	getData.charts().then( data => {
+	let startApp = eventListenersCallback => {
 
-	  // inject total games and last crawl time in footer
-	  createChart.footer(data);
+	  // get data for the day (or fallback to yesterday's data)
+	  getData.charts().then( data => {
 
-	  // SHOW CHARTS
+	    // inject total games and last crawl time in footer
+	    createChart.footer(data);
 
-	  let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
+	    // check that the data's there first, then draw charts
+	    loadCharts(data);
 
-	  // Top 1000 - Week
-	  if (data.movementWeek1000) { // check that the data's there first
-	    createChart.movement(
-	      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
-	      `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games.` +helpTextEnding, // help text
-	      "7 days ago",
-	      data, // pushes all data
-	      "week", // date range
-	      "1000" // filter
-	    );
-	  }
+	    eventListenersCallback();
 
+	    // setup event listeners
+	    console.log("setup event listeners");
+
+	  });
+	};
+
+	let loadCharts = data => {
+	    console.log("load charts");
+	    // Top 1000 - Week
+	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data)); }
 	  // Top 1000 - Day
-	  if (data.movementToday1000) { // check that the data's there first
-	    createChart.movement(
-	      "<strong>Top 1,000:</strong> Biggest movers in the last", // chart titletitle
-	      `This chart shows which games moved the most since yesterday ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${helpTextEnding}`, // help text
-	      "7 days ago",
-	      data, // pushes all data
-	      "day", // date range
-	      "1000" // filter
-	    );
-	  }
-
+	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data));  }
 	  // Most Viewed Shelf
-	  if (data.hotness) { // check that the data's there first
-	    createChart.shelf.hotness (
-	      "<strong>The Hotness</strong>: The most viewed games",
-	      "This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.",
-	      data
-	    );
-	  }
+	  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data));  }
+	  // All Games - Week
+	  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data));  }
+	  // All Games - Day
+	  if (data.movementDay)       { createChart.movement      (settings.dayAll(data));   }
 
-	  // Week Movement
-	  if (data.movementWeek) { // check that the data's there first
-	    createChart.movement(
-	      "<strong>All Games:</strong> Biggest movers in the last", // chart title
-	      `This chart shows which ranked games moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
-	      "7 days ago",
-	      data, // pushes all data
-	      "week", // data range
-	      "all" // filter
-	    );
-	  }
+	  // // // Top 10 Chart
+	  // // if (data.top10) { // check that the data's there first
+	  // //   createChart.top10("Top 10", "slot5", data);
+	  // // }
 
-	  // // Top 10 Chart
-	  // if (data.top10) { // check that the data's there first
-	  //   createChart.top10("Top 10", "slot5", data);
-	  // }
+	};
 
-	  // Day Movement
-	  if (data.movementDay) { // check that the data's there first
-	    createChart.movement(
-	      "<strong>All Games:</strong> Biggest movers in the last", // chart title
-	      `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
-	      "yesterday",
-	      data, // pushes all data
-	      "day", // date range
-	      "all" // filter
-	    );
-	  }
-
-	});
+	module.exports = startApp;
 
 /***/ },
 /* 2 */
@@ -320,7 +289,10 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotness = (title, helpText, data) => {
+	let hotness = settings => {
+
+	  let data = settings.dataSource;
+
 
 	  // push game data for 5 hotest games to hotnessGames array
 	  let hotnessGames = data.hotness;
@@ -412,8 +384,8 @@
 	    <div class="col-sm-12 col-md-12 col-lg-12">
 	      <div class="statbox">
 	        <div class="label-title">
-	          <h2>${title}</h2>
-	          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
+	          <h2>${settings.chartTitle}</h2>
+	          <a data-tooltip="${settings.helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	        </div>
 	     </div>
 	    </div>
@@ -10819,33 +10791,34 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, dataFilter) => {
+	let drawRankChart = settings => {
 
+	  let data = settings.dataSource;
 	  let chartData = null;
 	  let weekbutton = null;
 	  let daybutton = null;
 
 	  // pull data from right place based on date range and any filtering
-	  switch(dateRange+dataFilter) {
+	  switch(settings.dateRange + settings.dataFilter) {
 	    case "dayall":
 	      chartData = data.movementDay;
-	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
 	    case "day1000":
 	      chartData = data.movementToday1000;
-	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn btn-default">Week</button>`;
+	      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn-primary btn btn-default">Day</button>`;
 	      break;
 	    case "weekall":
 	      chartData = data.movementWeek;
-	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
 	      break;
 	    case "week1000":
 	      chartData = data.movementWeek1000;
-	      weekbutton = `<button id="${dataFilter}-${dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
-	      daybutton = `<button id="${dataFilter}-${dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
+	      weekbutton = `<button id="${settings.dataFilter}-${settings.dateRange}-weekbutton" type="button" class="btn-primary btn btn-default">Week</button>`;
+	      daybutton = `<button id="${settings.dataFilter}-${settings.dateRange}-daybutton" type="button" class="btn btn-default">Day</button>`;
 	      break;
 	  }
 
@@ -10985,7 +10958,7 @@
 	          </div>
 
 	            <div id="rankMovement">${addCommas(item1Rank)}</div>
-	            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${descriptionCompareDate}</p>
+	            <p id="rankDescription">Up ${addCommas(item1Rank)} spots from ${settings.dateString}</p>
 
 	          <div class="row">
 
@@ -11002,7 +10975,7 @@
 	                  <td>Up <strong>${percentChange}%</strong></td>
 	                </tr>
 	                <tr>
-	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${descriptionCompareDate}.</td>
+	                  <td colspan="2"><a href="${item1Link}">${game1.name}</a> is ranked in the top ${game1.percentile}% of all ranked board games (currently ${addCommas(data.totalRankedGames)}). It was in the top ${game1.percentile+percentChange}% ${settings.dateString}.</td>
 	                </tr>
 
 
@@ -11024,14 +10997,14 @@
 	        <div class="statbox">
 
 	          <div class="label-title">
-	            <h2>${title}</h2>
+	            <h2>${settings.chartTitle}</h2>
 
 	            <div class="btn-group" role="group" aria-label="...">
 	              ${weekbutton}
 	              ${daybutton}
 	            </div>
 
-	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
+	            <a data-tooltip="${settings.helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
 	          </div>
 	          <br/>
 
@@ -11085,7 +11058,7 @@
 	      </div>
 	  `;
 
-	  $(`#${dataFilter}-${dateRange}`).html(snippets);
+	  $(`#${settings.dataFilter}-${settings.dateRange}`).html(snippets);
 
 	};
 
@@ -40107,6 +40080,207 @@
 	    return comparison === 0 || comparison & DOCUMENT_POSITION_CONTAINED_BY
 	}
 
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	// requires
+	let dayAll = __webpack_require__(265),
+	    day1000 = __webpack_require__(267),
+
+	    weekAll = __webpack_require__(268),
+	    week1000 = __webpack_require__(269),
+
+	    monthAll = __webpack_require__(270),
+	    month1000 = __webpack_require__(271),
+
+	    hotness = __webpack_require__(272);
+
+	module.exports = {
+	  dayAll,
+	  day1000,
+	  weekAll,
+	  week1000,
+	  monthAll,
+	  month1000,
+	  hotness
+	};
+
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>All Games:</strong> Biggest movers in the last`,
+	    // help text
+	    helpText:
+	      `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${help.helpTextEnding}`,
+	    // data filter
+	    dataFilter: "all",
+	    dataSource: data, // all data is wrapped up in a single data object
+	    // date range
+	    dateRange:  "day",
+	    dateString: "yesterday"
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	  let helpTextEnding =  " Rankings are based on BoardGameGeek's Geek Rating. Data is calculated daily.";
+
+	  module.exports = {helpTextEnding};
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>Top 1,000:</strong> Biggest movers in the last`,
+	    // help text
+	    helpText:
+	      `This chart shows which games moved the most since yesterday ago among the top 1,000 of ranked games. There are currently ${assets.addCommas(Math.round(data.totalRankedGames/10))} games in the top 10%.${help.helpTextEnding}`,
+	    // data filter
+	    dataFilter: "1000",
+	    dataSource: data, // all data is wrapped up in a single data object
+	    // date range
+	    dateRange:  "day",
+	    dateString: "yesterday"
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>All Games:</strong> Biggest movers in the last`,
+	    // help text
+	    helpText:
+	      `This chart shows which ranked games moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${help.helpTextEnding}`,
+	    // data filter
+	    dataFilter: "all",
+	    dataSource: data, // all data is wrapped up in a single data object
+	    // date range
+	    dateRange:  "week",
+	    dateString: "7 days ago"
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>Top 1,000:</strong> Biggest movers in the last`,
+	    // help text
+	    helpText:
+	      `This chart shows which games among the top 1,000 moved the most since 7 days ago. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${help.helpTextEnding}`,
+	    // data filter
+	    dataFilter: "1000",
+	    dataSource: data, // all data is wrapped up in a single data object
+	    // date range
+	    dateRange:  "week",
+	    dateString: "7 days ago"
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 271 */
+/***/ function(module, exports) {
+
+	
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>The Hotness</strong>: The most viewed games`,
+	    // help text
+	    helpText:
+	      `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily}`,
+	    dataSource: data, // all data is wrapped up in a single data object
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
 
 /***/ }
 /******/ ]);

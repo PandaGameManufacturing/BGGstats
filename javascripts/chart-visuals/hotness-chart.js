@@ -7,7 +7,10 @@ let globalData;
 // Setting up variables
   let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-let hotness = (title, helpText, data) => {
+let hotness = settings => {
+
+  let data = settings.dataSource;
+
 
   // push game data for 5 hotest games to hotnessGames array
   let hotnessGames = data.hotness;
@@ -99,8 +102,8 @@ for (let i = 0; i < 5; i++) {
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div class="statbox">
         <div class="label-title">
-          <h2>${title}</h2>
-          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
+          <h2>${settings.chartTitle}</h2>
+          <a data-tooltip="${settings.helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
         </div>
      </div>
     </div>
