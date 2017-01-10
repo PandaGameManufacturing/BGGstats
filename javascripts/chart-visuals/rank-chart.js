@@ -5,7 +5,7 @@ let $ = require("jquery"),
 
 // http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-let drawRankChart = settings => {
+let drawRankChart = (settings, slot) => {
 
   let data = settings.dataSource;
   let chartData = null;
@@ -272,8 +272,10 @@ let drawRankChart = settings => {
       </div>
   `;
 
-  $(`#${settings.dataFilter}-${settings.dateRange}`).html(snippets);
-
+  // add this chart data as a div in the correct slot
+  $(`#${slot}`).append(`<div class="container" id="${settings.dataFilter}-${settings.dateRange}">
+      ${snippets}
+    </div>`);
 };
 
 module.exports = drawRankChart;

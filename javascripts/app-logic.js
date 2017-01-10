@@ -19,29 +19,25 @@ let startApp = eventListenersCallback => {
 
     eventListenersCallback();
 
-    // setup event listeners
-    console.log("setup event listeners");
-
   });
 };
 
 let loadCharts = data => {
-    console.log("load charts");
-    // Top 1000 - Week
-  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data)); }
-  // Top 1000 - Day
-  if (data.movementToday1000) { createChart.movement      (settings.day1000(data));  }
-  // Most Viewed Shelf
-  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data));  }
-  // All Games - Week
-  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data));  }
-  // All Games - Day
-  if (data.movementDay)       { createChart.movement      (settings.dayAll(data));   }
+  console.log("data:", data);
 
-  // // // Top 10 Chart
-  // // if (data.top10) { // check that the data's there first
-  // //   createChart.top10("Top 10", "slot5", data);
-  // // }
+  // Top 1000 Views
+  if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
+  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data), "slot1"); }
+
+  // Most Viewed Shelf
+  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data),  "slot2");  }
+
+  // All Games View
+  if (data.movementDay)       { createChart.movement      (settings.dayAll(data),   "slot3");  }
+  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data),  "slot3");  }
+
+  // Top 10 Chart
+  if (data.top10)             { createChart.top10         (settings.top10(data),    "slot4");  }
 
 };
 

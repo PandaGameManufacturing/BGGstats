@@ -145,29 +145,25 @@
 
 	    eventListenersCallback();
 
-	    // setup event listeners
-	    console.log("setup event listeners");
-
 	  });
 	};
 
 	let loadCharts = data => {
-	    console.log("load charts");
-	    // Top 1000 - Week
-	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data)); }
-	  // Top 1000 - Day
-	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data));  }
-	  // Most Viewed Shelf
-	  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data));  }
-	  // All Games - Week
-	  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data));  }
-	  // All Games - Day
-	  if (data.movementDay)       { createChart.movement      (settings.dayAll(data));   }
+	  console.log("data:", data);
 
-	  // // // Top 10 Chart
-	  // // if (data.top10) { // check that the data's there first
-	  // //   createChart.top10("Top 10", "slot5", data);
-	  // // }
+	  // Top 1000 Views
+	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
+	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data), "slot1"); }
+
+	  // Most Viewed Shelf
+	  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data),  "slot2");  }
+
+	  // All Games View
+	  if (data.movementDay)       { createChart.movement      (settings.dayAll(data),   "slot3");  }
+	  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data),  "slot3");  }
+
+	  // Top 10 Chart
+	  if (data.top10)             { createChart.top10         (settings.top10(data),    "slot4");  }
 
 	};
 
@@ -289,7 +285,7 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotness = settings => {
+	let hotness = (settings, slot) => {
 
 	  let data = settings.dataSource;
 
@@ -537,7 +533,10 @@
 
 	      `;
 
-	  $(`#hotness`).html(shelf);
+	  // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="#hotness">
+	      ${shelf}
+	    </div>`);
 
 	};
 
@@ -10791,7 +10790,7 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = settings => {
+	let drawRankChart = (settings, slot) => {
 
 	  let data = settings.dataSource;
 	  let chartData = null;
@@ -11058,8 +11057,10 @@
 	      </div>
 	  `;
 
-	  $(`#${settings.dataFilter}-${settings.dateRange}`).html(snippets);
-
+	  // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="${settings.dataFilter}-${settings.dateRange}">
+	      ${snippets}
+	    </div>`);
 	};
 
 	module.exports = drawRankChart;
@@ -11077,7 +11078,9 @@
 	    chartLoader = __webpack_require__(13),
 	    getData = __webpack_require__(14);
 
-	let drawTop10List = (title, helpText, data, slot) => {
+	let drawTop10List = (settings, slot) => {
+
+	  let data = settings.dataSource;
 
 	  let top10List = data.top10.games;
 
@@ -11155,9 +11158,9 @@
 	          <!-- Top 10  -->
 	          <div class="col-sm-12 col-md-12 col-lg-12">
 
-	          <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
+	          <div class="statbox" data-tooltip="${settings.helpText}">
 	            <div class="label-title">
-	              <h2>${title}</h2>
+	              <h2>${settings.chartTitle}</h2>
 	              <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	            </div>
 	          </div>
@@ -11183,7 +11186,10 @@
 
 	  `;
 
-	  $(`#${slot}-day`).html(snippets);
+	    // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="#top10">
+	      ${snippets}
+	    </div>`);
 
 	};
 
@@ -40097,7 +40103,9 @@
 	    monthAll = __webpack_require__(270),
 	    month1000 = __webpack_require__(271),
 
-	    hotness = __webpack_require__(272);
+	    hotness = __webpack_require__(272),
+
+	    top10 = __webpack_require__(273);
 
 	module.exports = {
 	  dayAll,
@@ -40106,7 +40114,8 @@
 	  week1000,
 	  monthAll,
 	  month1000,
-	  hotness
+	  hotness,
+	  top10
 	};
 
 
@@ -40272,7 +40281,33 @@
 	    chartTitle: `<strong>The Hotness</strong>: The most viewed games`,
 	    // help text
 	    helpText:
-	      `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily}`,
+	      `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.`,
+	    dataSource: data, // all data is wrapped up in a single data object
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>Top 10</strong>: Over the years`,
+	    // help text
+	    helpText:
+	      `The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.`,
 	    dataSource: data, // all data is wrapped up in a single data object
 	  };
 
