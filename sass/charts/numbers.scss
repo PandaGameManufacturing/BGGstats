@@ -139,8 +139,20 @@ ol.color-list > li:nth-child(10):before { background-color: $n10; }
   white-space: nowrap;
 }
 
-.rankChart ol.negative > li:nth-child(1):before { background-color: #888; }
+// reverse order of negative numbers in ranking listings
+.rankChart ol.negative {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.rankChart ol.negative > li {
+  -moz-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+
+.rankChart ol.negative > li:nth-child(1):before { background-color: $n10; }
 .rankChart ol.negative > li:nth-child(2):before { background-color: #888; }
 .rankChart ol.negative > li:nth-child(3):before { background-color: #888; }
 .rankChart ol.negative > li:nth-child(4):before { background-color: #888; }
-.rankChart ol.negative > li:nth-child(5):before { background-color: $n10; }
+.rankChart ol.negative > li:nth-child(5):before { background-color: #888; }

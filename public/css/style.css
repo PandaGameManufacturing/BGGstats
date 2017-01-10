@@ -195,8 +195,18 @@ ol.color-list > li:nth-child(10):before {
   list-style: none;
   white-space: nowrap; }
 
+.rankChart ol.negative {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
+.rankChart ol.negative > li {
+  -moz-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  transform: rotate(-180deg); }
+
 .rankChart ol.negative > li:nth-child(1):before {
-  background-color: #888; }
+  background-color: #D9274B; }
 
 .rankChart ol.negative > li:nth-child(2):before {
   background-color: #888; }
@@ -208,7 +218,7 @@ ol.color-list > li:nth-child(10):before {
   background-color: #888; }
 
 .rankChart ol.negative > li:nth-child(5):before {
-  background-color: #D9274B; }
+  background-color: #888; }
 
 /* === Stats: Shelf === */
 .shelf-table {
@@ -420,7 +430,7 @@ ol.color-list > li:nth-child(10):before {
   padding-top: 2px; }
 
 .bottom-wrapper {
-  padding-top: 334px; }
+  padding-top: 338px; }
 
 .rankChart ol {
   padding: 10px 0; }
