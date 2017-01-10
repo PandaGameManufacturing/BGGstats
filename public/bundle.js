@@ -51,7 +51,8 @@
 	let $ = __webpack_require__(9);
 	let hotness = __webpack_require__(8);
 
-	$(window).on('load', function(){
+	$(window).on('load', () => {
+	  console.log("loading event listeners");
 
 	  // change game description on hotness list on hover
 	  $('#hotness-1').hover( () => {
@@ -118,6 +119,8 @@
 	};
 
 	tooltip(config);
+
+	module.exports = ""
 
 /***/ },
 /* 1 */
@@ -192,6 +195,7 @@
 
 	  // Day Movement
 	  if (data.movementDay) { // check that the data's there first
+	    console.log("loading chart");
 	    createChart.movement(
 	      "<strong>All Games:</strong> Biggest movers in the last", // chart title
 	      `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text
@@ -413,7 +417,7 @@
 	      <div class="statbox">
 	        <div class="label-title">
 	          <h2>${title}</h2>
-	          <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
+	          <a data-tooltip="${helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is Most Viewed Chart?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	        </div>
 	     </div>
 	    </div>
@@ -11031,7 +11035,7 @@
 	              ${daybutton}
 	            </div>
 
-	            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
+	            <a data-tooltip="${helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
 	          </div>
 	          <br/>
 

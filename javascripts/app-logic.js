@@ -67,6 +67,7 @@ getData.charts().then( data => {
 
   // Day Movement
   if (data.movementDay) { // check that the data's there first
+    console.log("loading chart");
     createChart.movement(
       "<strong>All Games:</strong> Biggest movers in the last", // chart title
       `This chart shows which ranked games moved the most since yesterday. There are currently ${assets.addCommas(Math.round(data.totalRankedGames))} ranked games. ${helpTextEnding}`, // help text

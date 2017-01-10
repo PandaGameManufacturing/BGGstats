@@ -217,7 +217,7 @@ let drawRankChart = (title, helpText, descriptionCompareDate, data, dateRange, d
               ${daybutton}
             </div>
 
-            <a data-tooltip="${helpText}" href="#" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
+            <a data-tooltip="${helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Biggest Movers Chart?"><span class="hidden-sm hidden-xs">About This View</span></a>
           </div>
           <br/>
 

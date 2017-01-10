@@ -5,7 +5,8 @@ require("./app-logic");
 let $ = require("jquery");
 let hotness = require("./chart-visuals/hotness-chart");
 
-$(window).on('load', function(){
+$(window).on('load', () => {
+  console.log("loading event listeners");
 
   // change game description on hotness list on hover
   $('#hotness-1').hover( () => {
@@ -72,3 +73,5 @@ let config  = {
 };
 
 tooltip(config);
+
+module.exports = ""
