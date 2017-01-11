@@ -1,301 +1,143 @@
 "use strict";
 
-let chartData = {
-  31260: {
-    bggID: 31260,
-    name: "Agricola",
-    2009: 1,
-    2010: 1,
-    2011: 3,
-    2012: 2,
-    2013: 3,
-    2014: 3,
-    2015: 4,
-    2016: 11,
-    2017: 11
-  },
-  3076: {
-    bggID: 3076,
-    name: "Puerto Rico",
-    2009: 2,
-    2010: 2,
-    2011: 2,
-    2012: 3,
-    2013: 4,
-    2014: 4,
-    2015: 5,
-    2016: 9,
-    2017: 11
-  },
-  2651: {
-    bggID: 2651,
-    name: "Power Grid",
-    2009: 3,
-    2010: 3,
-    2011: 5,
-    2012: 5,
-    2013: 6,
-    2014: 8,
-    2015: 10,
-    2016: 11,
-    2017: 11
-  },
-  12333: {
-    bggID: 12333,
-    name: "Twilight Struggle",
-    2009: 4,
-    2010: 4,
-    2011: 1,
-    2012: 1,
-    2013: 1,
-    2014: 1,
-    2015: 1,
-    2016: 3,
-    2017: 11
-  },
-  42: {
-    bggID: 42,
-    name: "Tigris & Euphrates",
-    2009: 5,
-    2010: 8,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  36218: {
-    bggID: 36218,
-    name: "Dominion",
-    2009: 6,
-    2010: 6,
-    2011: 8,
-    2012: 9,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  25613: {
-    bggID: 25613,
-    name: "Through the Ages: A Story of Civilization",
-    2009: 7,
-    2010: 5,
-    2011: 4,
-    2012: 4,
-    2013: 2,
-    2014: 2,
-    2015: 3,
-    2016: 11,
-    2017: 11
-  },  93: {
-    bggID: 93,
-    name: "El Grande",
-    2009: 8,
-    2010: 9,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  18602: {
-    bggID: 18602,
-    name: "Caylus",
-    2009: 9,
-    2010: 10,
-    2011: 10,
-    2012: 10,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  28143: {
-    bggID: 28143,
-    name: "Race for the Galaxy",
-    2009: 10,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  35677: {
-    bggID: 35677,
-    name: "Le Havre",
-    2009: 11,
-    2010: 7,
-    2011: 6,
-    2012: 6,
-    2013: 7,
-    2014: 10,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  40834: {
-    bggID: 40834,
-    name: "Dominion: Intrigue",
-    2009: 11,
-    2010: 11,
-    2011: 7,
-    2012: 8,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  28720: {
-    bggID: 28720,
-    name: "Brass",
-    2009: 11,
-    2010: 11,
-    2011: 9,
-    2012: 7,
-    2013: 10,
-    2014: 11,
-    2015: 11,
-    2016: 11,
-    2017: 11
-  },  72125: {
-    bggID: 72125,
-    name: "Eclipse",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 5,
-    2014: 7,
-    2015: 8,
-    2016: 11,
-    2017: 11
-  },  124742: {
-    bggID: 124742,
-    name: "Android: Netrunner",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 8,
-    2014: 5,
-    2015: 7,
-    2016: 11,
-    2017: 11
-  },  96848: {
-    bggID: 96848,
-    name: "Mage Knight Board Game",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 9,
-    2014: 9,
-    2015: 9,
-    2016: 11,
-    2017: 11
-  },  120677: {
-    bggID: 120677,
-    name: "Terra Mystica",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 6,
-    2015: 2,
-    2016: 4,
-    2017: 11
-  },  102794: {
-    bggID: 102794,
-    name: "Caverna: The Cave Farmers",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 6,
-    2016: 7,
-    2017: 11
-  },  161936: {
-    bggID: 161936,
-    name: "Pandemic Legacy: Season 1",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 1,
-    2017: 11
-  },  84876: {
-    bggID: 84876,
-    name: "The Castles of Burgundy",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 10,
-    2017: 11
-  },
-  182028: {
-    bggID: 182028,
-    name: "Through the Ages: A New Story of Civilization",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 2,
-    2017: 11
-  },
-  187645: {
-    bggID: 187645,
-    name: "Star Wars: Rebellion",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 5,
-    2017: 11
-  },
-  169786: {
-    bggID: 169786,
-    name: "Scythe",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 6,
-    2017: 11
-  },
-  173346: {
-    bggID: 173346,
-    name: "7 Wonders Duel",
-    2009: 11,
-    2010: 11,
-    2011: 11,
-    2012: 11,
-    2013: 11,
-    2014: 11,
-    2015: 11,
-    2016: 8,
-    2017: 11
+// requires
+let getData = require("../get-data/get-data-loader"),
+    isDataEmpty = require("../assets/empty-data-checker");
+
+let buildArray = topTenArray => {
+
+  let gameData = getData.historic;
+
+  // loop over topTen and inject current rank into 2017
+  for (let i = 0; i < topTenArray.length; i++) {
+    let targetID = topTenArray[i].bggID;
+
+    // if the game is in the records already, add to it
+    if (!isDataEmpty(gameData[targetID])) {
+      gameData[targetID][2017] = topTenArray[i].rank;
+    } else { // create a new entry
+      gameData[targetID] = {
+          bggID: targetID,
+          name: topTenArray[i].name,
+          2009: 11,
+          2010: 11,
+          2011: 11,
+          2012: 11,
+          2013: 11,
+          2014: 11,
+          2015: 11,
+          2016: 11,
+          2017: topTenArray[i].rank
+        };
+      }
+    }
+
+  // convert object into array with correct order
+  let sortedGames = [];
+
+  // loop over top ten first
+  for (let i = 0; i < topTenArray.length; i++) {
+    let targetID = topTenArray[i].bggID;
+    sortedGames.push(gameData[targetID]);
   }
+
+  // now push games not in the top 10 in any order
+  for (let prop in gameData) {
+    if (gameData[prop][2017] > 10 ) {
+      sortedGames.push(gameData[prop]);
+    }
+  }
+
+//    Google Charts wants an array of arrays like so...
+//
+//    [
+//      ['year', 'game1', 'game2'],
+//      ['2009',       2,       6],
+//      ['2010',       1,       7]
+//    ]
+
+  // build out array of arrays
+  let arrayOfArrays = [];
+
+  // build first row
+  let array1 = ["year"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    array1.push(sortedGames[i].name);
+  }
+  arrayOfArrays.push(array1);
+
+  // build 2009
+  let row2009 = ["2009"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2009.push(sortedGames[i][2009]);
+  }
+  arrayOfArrays.push(row2009);
+
+  // build 2010
+  let row2010 = ["2010"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2010.push(sortedGames[i][2010]);
+  }
+  arrayOfArrays.push(row2010);
+
+  // build 2011
+  let row2011 = ["2011"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2011.push(sortedGames[i][2011]);
+  }
+  arrayOfArrays.push(row2011);
+
+  // build 2012
+  let row2012 = ["2012"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2012.push(sortedGames[i][2012]);
+  }
+  arrayOfArrays.push(row2012);
+
+  // build 2013
+  let row2013 = ["2013"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2013.push(sortedGames[i][2013]);
+  }
+  arrayOfArrays.push(row2013);
+
+  // build 2014
+  let row2014 = ["2014"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2014.push(sortedGames[i][2014]);
+  }
+  arrayOfArrays.push(row2014);
+
+  // build 2015
+  let row2015 = ["2015"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2015.push(sortedGames[i][2015]);
+  }
+  arrayOfArrays.push(row2015);
+
+  // build 2016
+  let row2016 = ["2016"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2016.push(sortedGames[i][2016]);
+  }
+  arrayOfArrays.push(row2016);
+
+  // build 2017
+  let row2017 = ["2017"];
+  for (let i = 0; i < sortedGames.length; i++) {
+    row2017.push(sortedGames[i][2017]);
+  }
+  arrayOfArrays.push(row2017);
+
+  // build last dummy row that's a duplicate of 2017 without the year title to extend chart
+  let lastRow = [""];
+  for (let i = 0; i < sortedGames.length; i++) {
+    lastRow.push(sortedGames[i][2017]);
+  }
+  arrayOfArrays.push(lastRow);
+
+  return arrayOfArrays;
+
 };
+
+module.exports = buildArray;

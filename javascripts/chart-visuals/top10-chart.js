@@ -1,8 +1,7 @@
 "use strict";
 
 let $ = require("jquery"),
-    chartLoader = require("../assets/google-charts-loader"),
-    getData = require("../get-data/get-data-loader");
+    chartLoader = require("../assets/google-charts-loader");
 
 let drawTop10List = (settings, slot) => {
 
@@ -29,7 +28,7 @@ let drawTop10List = (settings, slot) => {
 
     function drawChart() {
 
-      let chartData = google.visualization.arrayToDataTable(getData.historic);
+      let chartData = google.visualization.arrayToDataTable(data.top10.data);
 
       let options = {
         colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
