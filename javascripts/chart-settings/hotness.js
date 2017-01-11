@@ -7,7 +7,7 @@ let getSettings = data => {
 
   let settings = {
     // chart title
-    chartTitle: `<strong>The Hotness</strong>: The most viewed games`,
+    chartTitle: `<strong>The Hotness</strong>: Most viewed games`,
     // help text
     helpText:
       `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.`,
