@@ -10,7 +10,9 @@ let dayAll = require("./all-day"),
     monthAll = require("./all-month"),
     month1000 = require("./1000-month"),
 
-    hotness = require("./hotness");
+    hotness = require("./hotness"),
+
+    top10 = require("./top10");
 
 module.exports = {
   dayAll,
@@ -19,5 +21,6 @@ module.exports = {
   week1000,
   monthAll,
   month1000,
-  hotness
+  hotness,
+  top10
 };

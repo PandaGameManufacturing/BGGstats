@@ -1,10 +1,11 @@
 "use strict";
 
 let $ = require("jquery"),
-    chartLoader = require("../assets/google-charts-loader"),
-    getData = require("../get-data/get-data-loader");
+    chartLoader = require("../assets/google-charts-loader");
 
-let drawTop10List = (title, helpText, data, slot) => {
+let drawTop10List = (settings, slot) => {
+
+  let data = settings.dataSource;
 
   let top10List = data.top10.games;
 
@@ -27,7 +28,7 @@ let drawTop10List = (title, helpText, data, slot) => {
 
     function drawChart() {
 
-      let chartData = google.visualization.arrayToDataTable(getData.historic);
+      let chartData = google.visualization.arrayToDataTable(data.top10.data);
 
       let options = {
         colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
@@ -82,9 +83,9 @@ let drawTop10List = (title, helpText, data, slot) => {
           <!-- Top 10  -->
           <div class="col-sm-12 col-md-12 col-lg-12">
 
-          <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
+          <div class="statbox" data-tooltip="${settings.helpText}">
             <div class="label-title">
-              <h2>${title}</h2>
+              <h2>${settings.chartTitle}</h2>
               <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
             </div>
           </div>
@@ -110,7 +111,10 @@ let drawTop10List = (title, helpText, data, slot) => {
 
   `;
 
-  $(`#${slot}-day`).html(snippets);
+    // add this chart data as a div in the correct slot
+  $(`#${slot}`).append(`<div class="container" id="#top10">
+      ${snippets}
+    </div>`);
 
 };
 

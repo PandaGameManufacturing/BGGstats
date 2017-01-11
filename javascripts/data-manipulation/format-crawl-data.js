@@ -8,6 +8,7 @@ let getDateMinus = require("../assets/get-date"),
     getGameDetails = require("./get-game-details"),
     getData = require("../get-data/get-data-loader"),
     getTop10 = require("./get-top10"),
+    buildTop10 = require("./create-top-10-chart-data"),
     pushData = require("../push-data/push-data-serverside"),
     getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter"),
     isDataEmpty = require("../assets/empty-data-checker");
@@ -192,8 +193,10 @@ let formatCrawlData = lastRanked => {
 
       // TO DO: calculate top10.data arrays here
 
+      let top10Chart = buildTop10(gameIds);
+
       // create structure for compiled data
-      chartData.top10 = { games: gameIds, data: []};
+      chartData.top10 = { games: gameIds, data: top10Chart};
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");

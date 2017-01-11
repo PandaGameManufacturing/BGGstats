@@ -24,6 +24,9 @@ let addEventListeners = () => {
      hotness.swapDescription(4);
   });
 
+  // hide loading div
+  $('#loading').hide();
+
   // hide all  day views by default
 
   $('#1000-day').hide();

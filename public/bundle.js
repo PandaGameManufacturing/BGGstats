@@ -70,6 +70,9 @@
 	     hotness.swapDescription(4);
 	  });
 
+	  // hide loading div
+	  $('#loading').hide();
+
 	  // hide all  day views by default
 
 	  $('#1000-day').hide();
@@ -132,46 +135,40 @@
 	    getData = __webpack_require__(14),
 	    settings = __webpack_require__(264);
 
-	let startApp = eventListenersCallback => {
+	let loadCharts = data => {
+
+	  // Top 1000 Views
+	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
+	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data), "slot1"); }
+
+	  // Most Viewed Shelf
+	  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data),  "slot2");  }
+
+	  // All Games View
+	  if (data.movementDay)       { createChart.movement      (settings.dayAll(data),   "slot3");  }
+	  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data),  "slot3");  }
+
+	  // Top 10 Chart
+	  if (data.top10)             { createChart.top10         (settings.top10(data),    "slot4");  }
+
+	};
+
+	let bootUpApp = eventListenersCallback => {
 
 	  // get data for the day (or fallback to yesterday's data)
 	  getData.charts().then( data => {
 
 	    // inject total games and last crawl time in footer
 	    createChart.footer(data);
-
 	    // check that the data's there first, then draw charts
 	    loadCharts(data);
-
+	    // add event listeners once all content is drawn
 	    eventListenersCallback();
-
-	    // setup event listeners
-	    console.log("setup event listeners");
 
 	  });
 	};
 
-	let loadCharts = data => {
-	    console.log("load charts");
-	    // Top 1000 - Week
-	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data)); }
-	  // Top 1000 - Day
-	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data));  }
-	  // Most Viewed Shelf
-	  if (data.hotness)           { createChart.shelf.hotness (settings.hotness(data));  }
-	  // All Games - Week
-	  if (data.movementWeek)      { createChart.movement      (settings.weekAll(data));  }
-	  // All Games - Day
-	  if (data.movementDay)       { createChart.movement      (settings.dayAll(data));   }
-
-	  // // // Top 10 Chart
-	  // // if (data.top10) { // check that the data's there first
-	  // //   createChart.top10("Top 10", "slot5", data);
-	  // // }
-
-	};
-
-	module.exports = startApp;
+	module.exports = bootUpApp;
 
 /***/ },
 /* 2 */
@@ -250,7 +247,7 @@
 	  let differenceMilliseconds =  nowMilliseconds - lastCrawlTime;
 	                                    // milli  sec  min
 	  let hours = differenceMilliseconds / 1000 / 60 / 60;
-	  return Math.ceil(hours);
+	  return Math.floor(hours);
 	};
 
 	module.exports = timeElapsed;
@@ -289,7 +286,7 @@
 	// Setting up variables
 	  let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-	let hotness = settings => {
+	let hotness = (settings, slot) => {
 
 	  let data = settings.dataSource;
 
@@ -537,7 +534,10 @@
 
 	      `;
 
-	  $(`#hotness`).html(shelf);
+	  // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="#hotness">
+	      ${shelf}
+	    </div>`);
 
 	};
 
@@ -10791,7 +10791,7 @@
 
 	// http://jsfiddle.net/ZaLiTHkA/87rmhkr3/
 
-	let drawRankChart = settings => {
+	let drawRankChart = (settings, slot) => {
 
 	  let data = settings.dataSource;
 	  let chartData = null;
@@ -11058,8 +11058,10 @@
 	      </div>
 	  `;
 
-	  $(`#${settings.dataFilter}-${settings.dateRange}`).html(snippets);
-
+	  // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="${settings.dataFilter}-${settings.dateRange}">
+	      ${snippets}
+	    </div>`);
 	};
 
 	module.exports = drawRankChart;
@@ -11074,10 +11076,11 @@
 	"use strict";
 
 	let $ = __webpack_require__(9),
-	    chartLoader = __webpack_require__(13),
-	    getData = __webpack_require__(14);
+	    chartLoader = __webpack_require__(13);
 
-	let drawTop10List = (title, helpText, data, slot) => {
+	let drawTop10List = (settings, slot) => {
+
+	  let data = settings.dataSource;
 
 	  let top10List = data.top10.games;
 
@@ -11100,7 +11103,7 @@
 
 	    function drawChart() {
 
-	      let chartData = google.visualization.arrayToDataTable(getData.historic);
+	      let chartData = google.visualization.arrayToDataTable(data.top10.data);
 
 	      let options = {
 	        colors: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2, x1, x2],
@@ -11155,9 +11158,9 @@
 	          <!-- Top 10  -->
 	          <div class="col-sm-12 col-md-12 col-lg-12">
 
-	          <div class="statbox" data-tooltip="The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.">
+	          <div class="statbox" data-tooltip="${settings.helpText}">
 	            <div class="label-title">
-	              <h2>${title}</h2>
+	              <h2>${settings.chartTitle}</h2>
 	              <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
 	            </div>
 	          </div>
@@ -11183,7 +11186,10 @@
 
 	  `;
 
-	  $(`#${slot}-day`).html(snippets);
+	    // add this chart data as a div in the correct slot
+	  $(`#${slot}`).append(`<div class="container" id="#top10">
+	      ${snippets}
+	    </div>`);
 
 	};
 
@@ -35467,55 +35473,307 @@
 
 	"use strict";
 
-	 // chartData is an array of arrays. Example:
+	let historicData = {
 
-	          //    [
-	          //      ['year', 'game1', 'game2'],
-	          //      ['2015',       2,       6],
-	          //      ['2016',       1,       7]
-	          //    ]
+	  31260: {
+	    bggID: 31260,
+	    name: "Agricola",
+	    2009: 1,
+	    2010: 1,
+	    2011: 3,
+	    2012: 2,
+	    2013: 3,
+	    2014: 3,
+	    2015: 4,
+	    2016: 11,
+	    2017: 11
+	  },
+	  3076: {
+	    bggID: 3076,
+	    name: "Puerto Rico",
+	    2009: 2,
+	    2010: 2,
+	    2011: 2,
+	    2012: 3,
+	    2013: 4,
+	    2014: 4,
+	    2015: 5,
+	    2016: 9,
+	    2017: 11
+	  },
+	  2651: {
+	    bggID: 2651,
+	    name: "Power Grid",
+	    2009: 3,
+	    2010: 3,
+	    2011: 5,
+	    2012: 5,
+	    2013: 6,
+	    2014: 8,
+	    2015: 10,
+	    2016: 11,
+	    2017: 11
+	  },
+	  12333: {
+	    bggID: 12333,
+	    name: "Twilight Struggle",
+	    2009: 4,
+	    2010: 4,
+	    2011: 1,
+	    2012: 1,
+	    2013: 1,
+	    2014: 1,
+	    2015: 1,
+	    2016: 3,
+	    2017: 11
+	  },
+	  42: {
+	    bggID: 42,
+	    name: "Tigris & Euphrates",
+	    2009: 5,
+	    2010: 8,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  36218: {
+	    bggID: 36218,
+	    name: "Dominion",
+	    2009: 6,
+	    2010: 6,
+	    2011: 8,
+	    2012: 9,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  25613: {
+	    bggID: 25613,
+	    name: "Through the Ages: A Story of Civilization",
+	    2009: 7,
+	    2010: 5,
+	    2011: 4,
+	    2012: 4,
+	    2013: 2,
+	    2014: 2,
+	    2015: 3,
+	    2016: 11,
+	    2017: 11
+	  },  93: {
+	    bggID: 93,
+	    name: "El Grande",
+	    2009: 8,
+	    2010: 9,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  18602: {
+	    bggID: 18602,
+	    name: "Caylus",
+	    2009: 9,
+	    2010: 10,
+	    2011: 10,
+	    2012: 10,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  28143: {
+	    bggID: 28143,
+	    name: "Race for the Galaxy",
+	    2009: 10,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  35677: {
+	    bggID: 35677,
+	    name: "Le Havre",
+	    2009: 11,
+	    2010: 7,
+	    2011: 6,
+	    2012: 6,
+	    2013: 7,
+	    2014: 10,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  40834: {
+	    bggID: 40834,
+	    name: "Dominion: Intrigue",
+	    2009: 11,
+	    2010: 11,
+	    2011: 7,
+	    2012: 8,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  28720: {
+	    bggID: 28720,
+	    name: "Brass",
+	    2009: 11,
+	    2010: 11,
+	    2011: 9,
+	    2012: 7,
+	    2013: 10,
+	    2014: 11,
+	    2015: 11,
+	    2016: 11,
+	    2017: 11
+	  },  72125: {
+	    bggID: 72125,
+	    name: "Eclipse",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 5,
+	    2014: 7,
+	    2015: 8,
+	    2016: 11,
+	    2017: 11
+	  },  124742: {
+	    bggID: 124742,
+	    name: "Android: Netrunner",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 8,
+	    2014: 5,
+	    2015: 7,
+	    2016: 11,
+	    2017: 11
+	  },  96848: {
+	    bggID: 96848,
+	    name: "Mage Knight Board Game",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 9,
+	    2014: 9,
+	    2015: 9,
+	    2016: 11,
+	    2017: 11
+	  },  120677: {
+	    bggID: 120677,
+	    name: "Terra Mystica",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 6,
+	    2015: 2,
+	    2016: 4,
+	    2017: 11
+	  },  102794: {
+	    bggID: 102794,
+	    name: "Caverna: The Cave Farmers",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 6,
+	    2016: 7,
+	    2017: 11
+	  },  161936: {
+	    bggID: 161936,
+	    name: "Pandemic Legacy: Season 1",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 1,
+	    2017: 11
+	  },  84876: {
+	    bggID: 84876,
+	    name: "The Castles of Burgundy",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 10,
+	    2017: 11
+	  },
+	  182028: {
+	    bggID: 182028,
+	    name: "Through the Ages: A New Story of Civilization",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 2,
+	    2017: 11
+	  },
+	  187645: {
+	    bggID: 187645,
+	    name: "Star Wars: Rebellion",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 5,
+	    2017: 11
+	  },
+	  169786: {
+	    bggID: 169786,
+	    name: "Scythe",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 6,
+	    2017: 11
+	  },
+	  173346: {
+	    bggID: 173346,
+	    name: "7 Wonders Duel",
+	    2009: 11,
+	    2010: 11,
+	    2011: 11,
+	    2012: 11,
+	    2013: 11,
+	    2014: 11,
+	    2015: 11,
+	    2016: 8,
+	    2017: 11
+	  }
 
-	let historicData = [
-
-	        // These titles are for building graph and what appears on hovers.
-	        // HTML list loaded via chart-visuals/top10-chart.js
-
-	  ['Year', 'Pandemic Legacy: Season 1',                     // 1
-	           'Through the Ages: A New Story of Civilization', // 2
-	           'Twilight Struggle',                             // 3
-	           'Terra Mystica',                                 // 4
-	           'Caverna: The Cave Farmers',                     // 5
-	           'Star Wars: Rebellion',                          // 6
-	           'Puerto Rico',                                   // 7
-	           '7 Wonders Duel',                                // 8
-	           'The Castles of Burgundy',                       // 9
-	           'Agricola',                                     // 10
-
-	           'Power Grid',                                   // 11
-	           'Tigris & Euphrates',                           // 12
-	           'Dominion',                                     // 13
-	           'El Grande',                                    // 14
-	           'Caylus',                                       // 15
-	           'Race for the Galaxy',                          // 16
-	           'Le Havre',                                     // 17
-	           'Dominion: Intrigue',                           // 18
-	           'Brass',                                        // 19
-	           'Eclipse',                                      // 20
-	           'Android: Netrunner',                           // 21
-	           'Mage Knight Board Game',                       // 22
-	           'Through the Ages: A Story of Civilization'     // 23
-	  ],
-	   //       1   2  3   4   5   6   7   8   9  10    11  12  13  14  15  16  17  18  19  20  21  22  23
-	  ['2009', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  5,  6,  8,  9, 10, 11, 11, 11, 11, 11, 11,  7],
-	  ['2010', 11, 11, 4, 11, 11, 11,  2, 11, 11,  1,    3,  8,  6,  9, 10, 11,  7, 11, 11, 11, 11, 11,  5],
-	  ['2011', 11, 11, 1, 11, 11, 11,  2, 11, 11,  3,    5, 11,  8, 11, 10, 11,  6,  7,  9, 11, 11, 11,  4],
-	  ['2012', 11, 11, 1, 11, 11, 11,  3, 11, 11,  2,    5, 11,  9, 11, 10, 11,  6,  8,  7, 11, 11, 11,  4],
-	  ['2013', 11, 11, 1, 11, 11, 11,  4, 11, 11,  3,    6, 11, 11, 11, 11, 11,  7, 11, 10,  5,  8,  9,  2],
-	  ['2014', 11, 11, 1,  6, 11, 11,  4, 11, 11,  3,    8, 11, 11, 11, 11, 11, 10, 11, 11,  7,  5,  9,  2],
-	  ['2015', 11, 11, 1,  2,  6, 11,  5, 11, 11,  4,   10, 11, 11, 11, 11, 11, 11, 11, 11,  8,  7,  9,  3],
-	  ['2016',  1,  2, 3,  4,  5,  6,  7, 11,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  9, 11],
-	  ['',      1,  2, 3,  4,  5,  6,  7,  8,  9, 10,   11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]
-	];
+	};
 
 	module.exports = historicData;
 
@@ -35925,13 +36183,16 @@
 
 	    // inject total number of games in footer
 	    let targetEl = document.getElementById("totalGames");
-	    targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} games`;
+	    targetEl.innerHTML = `${assets.addCommas(data.totalRankedGames)} ranked games`;
 
 	    // inject last crawl time in footer
 	    let targetEl2 = document.getElementById("time");
 	    let hours = assets.timeElapsed(data.timeMilliseconds);
-	    targetEl2.innerHTML = `${hours} hours ago`;
-
+	    if (hours < 2) {
+	      targetEl2.innerHTML = `an hour ago`;
+	    } else {
+	      targetEl2.innerHTML = `${hours} hours ago`;
+	    }
 	};
 
 	module.exports = footerData;
@@ -40097,7 +40358,9 @@
 	    monthAll = __webpack_require__(270),
 	    month1000 = __webpack_require__(271),
 
-	    hotness = __webpack_require__(272);
+	    hotness = __webpack_require__(272),
+
+	    top10 = __webpack_require__(273);
 
 	module.exports = {
 	  dayAll,
@@ -40106,7 +40369,8 @@
 	  week1000,
 	  monthAll,
 	  month1000,
-	  hotness
+	  hotness,
+	  top10
 	};
 
 
@@ -40272,7 +40536,33 @@
 	    chartTitle: `<strong>The Hotness</strong>: The most viewed games`,
 	    // help text
 	    helpText:
-	      `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily}`,
+	      `This top 5 list is based on BoardGameGeeks The Hotness list, which reflects the dynamic popularity of board games based on recent views on BoardGameGeek.com. Data is refreshed daily.`,
+	    dataSource: data, // all data is wrapped up in a single data object
+	  };
+
+	  return settings;
+
+	};
+
+	module.exports = getSettings;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	let help = __webpack_require__(266),
+	    assets = __webpack_require__(2);
+
+	let getSettings = data => {
+
+	  let settings = {
+	    // chart title
+	    chartTitle: `<strong>Top 10</strong>: Over the years`,
+	    // help text
+	    helpText:
+	      `The current top 10 board games according to BoardGameGeek, as well as the historical top 10 for the last several years. The current top 10 is refreshed daily.`,
 	    dataSource: data, // all data is wrapped up in a single data object
 	  };
 

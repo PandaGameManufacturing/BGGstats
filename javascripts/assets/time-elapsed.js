@@ -8,7 +8,7 @@ let timeElapsed = crawlTime => {
   let differenceMilliseconds =  nowMilliseconds - lastCrawlTime;
                                     // milli  sec  min
   let hours = differenceMilliseconds / 1000 / 60 / 60;
-  return Math.ceil(hours);
+  return Math.floor(hours);
 };
 
 module.exports = timeElapsed;

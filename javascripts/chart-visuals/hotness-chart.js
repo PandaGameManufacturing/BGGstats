@@ -7,7 +7,7 @@ let globalData;
 // Setting up variables
   let shelf = "", top5list = [], gameDetails1 = "", gameDetails2 = "", gameDetails3 = "";
 
-let hotness = settings => {
+let hotness = (settings, slot) => {
 
   let data = settings.dataSource;
 
@@ -255,7 +255,10 @@ for (let i = 0; i < 5; i++) {
 
       `;
 
-  $(`#hotness`).html(shelf);
+  // add this chart data as a div in the correct slot
+  $(`#${slot}`).append(`<div class="container" id="#hotness">
+      ${shelf}
+    </div>`);
 
 };
 
