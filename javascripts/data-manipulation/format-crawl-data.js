@@ -191,12 +191,13 @@ let formatCrawlData = lastRanked => {
       // convert ids of movement games to game objects
       getGameObjects(gameIds);
 
-      // TO DO: calculate top10.data arrays here
-
+      // calculate array of arrays for top 10 line chart
       let top10Chart = buildTop10(gameIds);
 
       // create structure for compiled data
-      chartData.top10 = { games: gameIds, data: top10Chart};
+      chartData.top10 = {};
+      chartData.top10.data = top10Chart;
+      chartData.top10.games = gameIds;
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");
