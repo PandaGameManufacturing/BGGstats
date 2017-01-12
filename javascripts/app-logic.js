@@ -20,7 +20,8 @@ let loadCharts = data => {
   if (data.movementWeek)      { createChart.movement      (settings.weekAll(data),  "slot3");  }
 
   // Top 10 Chart
-  // if (data.top10)             { createChart.top10         (settings.top10(data),    "slot4");  }
+  if (data.top10.data &&
+      data.top10.games)       { createChart.top10         (settings.top10(data),    "slot4");  }
 
 };
 
