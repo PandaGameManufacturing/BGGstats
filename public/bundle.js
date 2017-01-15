@@ -11159,10 +11159,10 @@
 	          <!-- Top 10  -->
 	          <div class="col-sm-12 col-md-12 col-lg-12">
 
-	          <div class="statbox" data-tooltip="${settings.helpText}">
+	          <div class="statbox">
 	            <div class="label-title">
 	              <h2>${settings.chartTitle}</h2>
-	              <a><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"></a>
+	              <a data-tooltip="${settings.helpText}" class="help-link pull-right"><img class="help pull-right" src="/images/icons/help.svg" alt="What is The Top 10 Stat?"><span class="hidden-sm hidden-xs">About This Chart</span></a>
 	            </div>
 	          </div>
 
