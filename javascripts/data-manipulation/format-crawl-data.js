@@ -10,8 +10,7 @@ let getDateMinus = require("../assets/get-date"),
     getTop10 = require("./get-top10"),
     buildTop10 = require("./create-top-10-chart-data"),
     pushData = require("../push-data/push-data-serverside"),
-    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter"),
-    isDataEmpty = require("../assets/empty-data-checker");
+    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -191,21 +190,32 @@ let formatCrawlData = lastRanked => {
       // convert ids of movement games to game objects
       getGameObjects(gameIds);
 
-      // calculate array of arrays for top 10 line chart
-      let top10Chart = buildTop10(gameIds);
-
       // create structure for compiled data
       chartData.top10 = {};
-      chartData.top10.data = top10Chart;
       chartData.top10.games = gameIds;
+
+      // push up top10 chart data
+      pushData(chartData, `/Charts/${today}.json`, "PATCH");
+      console.log("::    - Top10 games pushed up");
+
+      return gameIds;
+
+    });
+
+
+  }).then( GameObjects => {
+
+      // calculate array of arrays for top 10 line chart
+      let top10Chart = buildTop10(GameObjects);
+
+      // create structure for compiled data
+      chartData.top10.data = top10Chart;
 
       // push up top10 chart data
       pushData(chartData, `/Charts/${today}.json`, "PATCH");
       console.log("::    - Top10 data pushed up");
 
-      return gameIds;
-
-    });
+      return GameObjects;
 
   }).then( data => {
 
