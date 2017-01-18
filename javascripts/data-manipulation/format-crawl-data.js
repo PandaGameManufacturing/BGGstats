@@ -10,7 +10,8 @@ let getDateMinus = require("../assets/get-date"),
     getTop10 = require("./get-top10"),
     buildTop10 = require("./create-top-10-chart-data"),
     pushData = require("../push-data/push-data-serverside"),
-    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter");
+    getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter"),
+    printLogs = require("./format-crawl-data-console-logs");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -40,10 +41,7 @@ getCrawlTimes(chartData);
 
 let formatCrawlData = lastRanked => {
 
-  console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
-  console.log("::           Manipulating Crawl Data            ::");
-  console.log("::::::::::::::::::::::::::::::::::::::::::::::::::");
-  console.log("");
+  printLogs.start();
 
   chartData.totalRankedGames = lastRanked;   // add last ranked game
 
@@ -61,12 +59,7 @@ let formatCrawlData = lastRanked => {
     yesterdayGames = data[1];
     weekGames      = data[2];
 
-    console.log(`::`);
-    console.log(":: ✓ Data parsed");
-    console.log("::    - Data from today has", Object.keys(todayGames).length, "rankings");
-    console.log("::    - Data from yesterday has", Object.keys(yesterdayGames).length, "rankings");
-    console.log("::    - Data from a week ago has", Object.keys(weekGames).length, "rankings");
-    console.log(`::`);
+    printLogs.parsed(todayGames, yesterdayGames, weekGames);
 
     return calculateMovement(todayGames, yesterdayGames);
 
@@ -89,29 +82,7 @@ let formatCrawlData = lastRanked => {
     }).then( today1000 => {
     todayMovement1000 = today1000;
 
-    // today data
-    console.log(`:: ✓ Day Movement array calculated (${todayMovement.length} games)`);
-    console.log(`::    - Biggest mover is up ${todayMovement[0].movement} (bggID: ${todayMovement[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${todayMovement[14].movement} (bggID: ${todayMovement[14].bggID})`);
-    console.log(`::`);
-
-    // week data
-    console.log(`:: ✓ Week Movement array calculated (${weekMovement.length} games)`);
-    console.log(`::    - Biggest mover is up ${weekMovement[0].movement} (bggID: ${weekMovement[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${weekMovement[14].movement} (bggID: ${weekMovement[14].bggID})`);
-    console.log(`::`);
-
-    // today top 1,000 data
-    console.log(`:: ✓ Today Top 1000 Movement array calculated (${todayMovement1000.length} games)`);
-    console.log(`::    - Biggest mover is up ${todayMovement1000[0].movement} (bggID: ${todayMovement1000[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${todayMovement1000[14].movement} (bggID: ${todayMovement1000[14].bggID})`);
-    console.log(`::`);
-
-    // week top 1,000 data
-    console.log(`:: ✓ Week Top 1000 Movement array calculated (${weekMovement1000.length} games)`);
-    console.log(`::    - Biggest mover is up ${weekMovement1000[0].movement} (bggID: ${weekMovement1000[0].bggID})`);
-    console.log(`::    - Lowest mover is down ${weekMovement1000[14].movement} (bggID: ${weekMovement1000[14].bggID})`);
-    console.log(`::`);
+    printLogs.movementCalculated(todayMovement, todayMovement1000, weekMovement, weekMovement1000);
 
     // return {weekMovement, weekMovement1000};
     return {todayMovement, weekMovement, weekMovement1000, todayMovement1000};
@@ -309,6 +280,6 @@ function getGameObjects(arrayOfIds) {
 }
 
 // invoking function when testing file directly
-  // formatCrawlData();
+  formatCrawlData();
 
 module.exports = formatCrawlData;
