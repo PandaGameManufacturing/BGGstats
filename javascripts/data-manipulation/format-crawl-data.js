@@ -11,7 +11,8 @@ let getDateMinus = require("../assets/get-date"),
     buildTop10 = require("./create-top-10-chart-data"),
     pushData = require("../push-data/push-data-serverside"),
     getCrawlTimes = require("../crawler/crawler-logic/crawl-time-formatter"),
-    printLogs = require("./format-crawl-data-console-logs");
+    printLogs = require("./format-crawl-data-console-logs"),
+    pushUpMovement = require("./push-up-movement-data");
 
 // configuration options
 let today          = getDateMinus(0),
@@ -89,69 +90,8 @@ let formatCrawlData = lastRanked => {
 
   }).then( data => {
 
-    // convert ids of movement games to game objects
-    getGameObjects(data.todayMovement);
-    getGameObjects(data.weekMovement);
-    getGameObjects(data.weekMovement1000);
-    getGameObjects(data.todayMovement1000);
+    pushUpMovement(data, today, todayGames);
 
-    // create structure for compiled data
-    chartData.movementDay = {
-      positive: [],
-      negative: []
-    };
-
-    chartData.movementWeek = {
-      positive: [],
-      negative: []
-    };
-
-    chartData.movementWeek1000 = {
-      positive: [],
-      negative: []
-    };
-
-    chartData.movementToday1000 = {
-      positive: [],
-      negative: []
-    };
-
-    // put today movement data in correct place
-    for (let i = 0; i < 10; i++) {
-      chartData.movementDay.positive.push(data.todayMovement[i]);
-    }
-    for (let i = 10; i < 15; i++) {
-      chartData.movementDay.negative.push(data.todayMovement[i]);
-    }
-
-    // put week movement data in correct place
-    for (let i = 0; i < 10; i++) {
-      chartData.movementWeek.positive.push(data.weekMovement[i]);
-    }
-    for (let i = 10; i < 15; i++) {
-      chartData.movementWeek.negative.push(data.weekMovement[i]);
-    }
-
-    // put day 1,000 movement data in correct place
-    for (let i = 0; i < 10; i++) {
-      chartData.movementToday1000.positive.push(data.todayMovement1000[i]);
-    }
-    for (let i = 10; i < 15; i++) {
-      chartData.movementToday1000.negative.push(data.todayMovement1000[i]);
-    }
-
-    // put week 1,000 movement data in correct place
-    for (let i = 0; i < 10; i++) {
-      chartData.movementWeek1000.positive.push(data.weekMovement1000[i]);
-    }
-    for (let i = 10; i < 15; i++) {
-      chartData.movementWeek1000.negative.push(data.weekMovement1000[i]);
-    }
-
-    // push up movement chart data
-    pushData(chartData, `/Charts/${today}.json`, "PATCH");
-    console.log(":: ✓ Data pushed up to database");
-    console.log("::    - Movement data pushed up");
 
   }).then( data => {
 
