@@ -696,3 +696,6 @@ ol {
   color: grey;
   font-size: .8em;
   line-height: 2.4em; }
+
+span.at_flat_counter {
+  height: 32px; }
