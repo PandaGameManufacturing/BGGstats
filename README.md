@@ -7,7 +7,7 @@ Rankings are based on the number and quality of user ratings on [BoardGameGeek.c
 Tabletop Tracker was created and is maintained by [Nathan T. Baker](http://nathantbaker.com/). Subscribe to the [Tabletop Tracker email list](http://eepurl.com/ctZUa5) to learn when new charts and features are added.
 
 ### Server-Side Logic
-BGGstats is deployed on Heroku where the Tabletop Tracker node.js crawler runs daily. After crawling data, the app makes API calls, manipulates data, and pushes up data to a database. When a user visits the website all board game data can be pulled down with one call since all relevent data is cached daily.
+Tabletop Tracker is deployed on Heroku where the Tabletop Tracker node.js crawler runs daily. After crawling data, the app makes API calls, manipulates data, and pushes up data to a database. When a user visits the website all board game data can be pulled down with one call since all relevent data is cached daily.
 
 ## Local Development
 
