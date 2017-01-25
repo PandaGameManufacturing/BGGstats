@@ -55,16 +55,16 @@ let drawTop10List = (settings, slot) => {
       // draw google chart
       chart.draw(chartData, options);
 
-      // resize line chart if user changes width of page
-      let chart1 = "done";
-      $(window).resize(function() {
-        if(chart1=="done") {
-        chart1 = "waiting";
-      setTimeout( ()=> {
-        drawChart();chart1 = "done";
-      },500); // delay in milliseconds
-      }
-      });
+      // // resize line chart if user changes width of page
+      // let chart1 = "done";
+      // $(window).resize(function() {
+      //   if(chart1=="done") {
+      //   chart1 = "waiting";
+      // setTimeout( ()=> {
+      //   drawChart();chart1 = "done";
+      // },500); // delay in milliseconds
+      // }
+      // });
 
     }
 
