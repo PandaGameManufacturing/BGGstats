@@ -137,6 +137,8 @@
 
 	let loadCharts = data => {
 
+	  console.log("data:", data);
+
 	  // Top 1000 Views
 	  if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
 	  if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data), "slot1"); }
@@ -11131,16 +11133,16 @@
 	      // draw google chart
 	      chart.draw(chartData, options);
 
-	      // resize line chart if user changes width of page
-	      let chart1 = "done";
-	      $(window).resize(function() {
-	        if(chart1=="done") {
-	        chart1 = "waiting";
-	      setTimeout( ()=> {
-	        drawChart();chart1 = "done";
-	      },500); // delay in milliseconds
-	      }
-	      });
+	      // // resize line chart if user changes width of page
+	      // let chart1 = "done";
+	      // $(window).resize(function() {
+	      //   if(chart1=="done") {
+	      //   chart1 = "waiting";
+	      // setTimeout( ()=> {
+	      //   drawChart();chart1 = "done";
+	      // },500); // delay in milliseconds
+	      // }
+	      // });
 
 	    }
 

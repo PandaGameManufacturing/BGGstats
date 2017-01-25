@@ -8,6 +8,8 @@ let assets = require("./assets/asset-loader"),
 
 let loadCharts = data => {
 
+  console.log("data:", data);
+
   // Top 1000 Views
   if (data.movementToday1000) { createChart.movement      (settings.day1000(data),  "slot1"); }
   if (data.movementWeek1000)  { createChart.movement      (settings.week1000(data), "slot1"); }
